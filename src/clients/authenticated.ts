@@ -1,25 +1,26 @@
-const PublicClient = require('./public');
+import PublicClient from './public';
 
-class AuthenticatedClient extends PublicClient {
+export default class AuthenticatedClient extends PublicClient {
+    private authToken: string;
+
     constructor(rpcUrl: string, authToken: string) {
-        this.rpcUrl = rpcUrl;
+        super(rpcUrl);
         this.authToken = rpcUrl;
     }
 
-    authenticate () {
+    public authenticate(): void {
+        return;
     }
 
-    createTakerOrder () {
+    public createTakerOrder(): void {
+        return;
     }
 
-    createMakerOrder () {
+    public createMakerOrder(): void {
+        return;
     }
 
-    unlockOutpoint () {
-
+    public unlockOutpoint(): void {
+        return;
     }
-
 }
-
-
-export default AuthenticatedClient

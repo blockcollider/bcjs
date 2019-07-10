@@ -1,13 +1,15 @@
-class PublicClient {
+export default class PublicClient {
+    private rpcUrl: URL;
+
     constructor(rpcUrl: string) {
-        this.rpcUrl = rpcUrl;
+        this.rpcUrl = new URL(rpcUrl);
     }
 
-    getOpenOrders () {
+    public getOpenOrders() {
+        return 'b';
     }
 
-    getLatestBlock() {
+    public getLatestBlock() {
+        return 'a';
     }
 }
-
-export default PublicClient;
