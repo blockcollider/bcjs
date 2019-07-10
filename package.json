@@ -1,6 +1,6 @@
 {
   "name": "bc-sdk",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "SDK to connect to BlockCollider",
   "main": "dist/index.js",
   "scripts": {
