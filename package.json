@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
-    "node": ">=8.12.0"
+    "node": ">=10.16.0"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +17,7 @@
     "axios": "^0.19.0"
   },
   "devDependencies": {
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.2"
+    "tslint": "5.18.0",
+    "typescript": "3.5.2"
   }
 }
