@@ -10,7 +10,6 @@ import {
     GetBalanceRequest
 } from '../src/protos/bc_pb';
 
-if (typeof pr
 const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3000'
 const scookie = process.env.BC_RPC_SCOOKIE
 
