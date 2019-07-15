@@ -5,6 +5,17 @@ var grpc = require('grpc');
 var bc_pb = require('./bc_pb.js');
 var core_pb = require('./core_pb.js');
 
+function serialize_bc_BcBlock(arg) {
+  if (!(arg instanceof core_pb.BcBlock)) {
+    throw new Error('Expected argument of type bc.BcBlock');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_BcBlock(buffer_arg) {
+  return core_pb.BcBlock.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bc_Block(arg) {
   if (!(arg instanceof core_pb.Block)) {
     throw new Error('Expected argument of type bc.Block');
@@ -113,17 +124,6 @@ function serialize_bc_GetBlockHeightRequest(arg) {
 
 function deserialize_bc_GetBlockHeightRequest(buffer_arg) {
   return bc_pb.GetBlockHeightRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_bc_GetBlockResponse(arg) {
-  if (!(arg instanceof bc_pb.GetBlockResponse)) {
-    throw new Error('Expected argument of type bc.GetBlockResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bc_GetBlockResponse(buffer_arg) {
-  return bc_pb.GetBlockResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bc_GetBlocksRequest(arg) {
@@ -463,22 +463,22 @@ var BcService = exports.BcService = {
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetBlockHashRequest,
-    responseType: bc_pb.GetBlockResponse,
+    responseType: core_pb.BcBlock,
     requestSerialize: serialize_bc_GetBlockHashRequest,
     requestDeserialize: deserialize_bc_GetBlockHashRequest,
-    responseSerialize: serialize_bc_GetBlockResponse,
-    responseDeserialize: deserialize_bc_GetBlockResponse,
+    responseSerialize: serialize_bc_BcBlock,
+    responseDeserialize: deserialize_bc_BcBlock,
   },
   getBlockHeight: {
     path: '/bc.Bc/GetBlockHeight',
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetBlockHeightRequest,
-    responseType: bc_pb.GetBlockResponse,
+    responseType: core_pb.BcBlock,
     requestSerialize: serialize_bc_GetBlockHeightRequest,
     requestDeserialize: deserialize_bc_GetBlockHeightRequest,
-    responseSerialize: serialize_bc_GetBlockResponse,
-    responseDeserialize: deserialize_bc_GetBlockResponse,
+    responseSerialize: serialize_bc_BcBlock,
+    responseDeserialize: deserialize_bc_BcBlock,
   },
   getBlocks: {
     path: '/bc.Bc/GetBlocks',
@@ -496,11 +496,11 @@ var BcService = exports.BcService = {
     requestStream: false,
     responseStream: false,
     requestType: core_pb.Null,
-    responseType: bc_pb.GetBlockResponse,
+    responseType: core_pb.BcBlock,
     requestSerialize: serialize_bc_Null,
     requestDeserialize: deserialize_bc_Null,
-    responseSerialize: serialize_bc_GetBlockResponse,
-    responseDeserialize: deserialize_bc_GetBlockResponse,
+    responseSerialize: serialize_bc_BcBlock,
+    responseDeserialize: deserialize_bc_BcBlock,
   },
   getTx: {
     path: '/bc.Bc/GetTx',

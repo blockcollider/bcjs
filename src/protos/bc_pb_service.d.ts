@@ -47,7 +47,7 @@ type BcGetBlockHash = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetBlockHashRequest;
-  readonly responseType: typeof bc_pb.GetBlockResponse;
+  readonly responseType: typeof core_pb.BcBlock;
 };
 
 type BcGetBlockHeight = {
@@ -56,7 +56,7 @@ type BcGetBlockHeight = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetBlockHeightRequest;
-  readonly responseType: typeof bc_pb.GetBlockResponse;
+  readonly responseType: typeof core_pb.BcBlock;
 };
 
 type BcGetBlocks = {
@@ -74,7 +74,7 @@ type BcGetLatestBlock = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof core_pb.Null;
-  readonly responseType: typeof bc_pb.GetBlockResponse;
+  readonly responseType: typeof core_pb.BcBlock;
 };
 
 type BcGetTx = {
@@ -330,20 +330,20 @@ export class BcClient {
   getBlockHash(
     requestMessage: bc_pb.GetBlockHashRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
   getBlockHash(
     requestMessage: bc_pb.GetBlockHashRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
   getBlockHeight(
     requestMessage: bc_pb.GetBlockHeightRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
   getBlockHeight(
     requestMessage: bc_pb.GetBlockHeightRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
   getBlocks(
     requestMessage: bc_pb.GetBlocksRequest,
@@ -357,11 +357,11 @@ export class BcClient {
   getLatestBlock(
     requestMessage: core_pb.Null,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
   getLatestBlock(
     requestMessage: core_pb.Null,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
   getTx(
     requestMessage: bc_pb.GetTxRequest,

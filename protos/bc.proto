@@ -203,10 +203,6 @@ message GetBlockHeightRequest {
     uint32 height = 1;
 }
 
-message GetBlockResponse {
-    BcBlock block = 1;
-}
-
 message GetBlocksRequest {
     uint32 start_height = 1;
     uint32 end_height = 2;
@@ -243,10 +239,10 @@ service Bc {
     rpc GetRoveredBlocks(GetRoveredBlocksRequest) returns (GetRoveredBlocksResponse) {}
     rpc GetLatestRoveredBlocks(Null) returns (GetRoveredBlocksResponse) {}
 
-    rpc GetBlockHash(GetBlockHashRequest) returns (GetBlockResponse) {}
-    rpc GetBlockHeight(GetBlockHeightRequest) returns (GetBlockResponse) {}
+    rpc GetBlockHash(GetBlockHashRequest) returns (BcBlock) {}
+    rpc GetBlockHeight(GetBlockHeightRequest) returns (BcBlock) {}
     rpc GetBlocks(GetBlocksRequest) returns (GetBlocksResponse) {}
-    rpc GetLatestBlock(Null) returns (GetBlockResponse) {}
+    rpc GetLatestBlock(Null) returns (BcBlock) {}
 
     rpc GetTx(GetTxRequest) returns (Transaction) {}
     rpc GetMarkedTx(GetMarkedTxRequest) returns (MarkedTransaction) {}

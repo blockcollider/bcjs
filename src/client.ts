@@ -175,24 +175,24 @@ export default class RpcClient {
         return result as bc.GetRoveredBlocksResponse.AsObject
     }
 
-    public async getBlockHash(request: bc.GetBlockHashRequest): Promise<bc.GetBlockResponse.AsObject> {
+    public async getBlockHash(request: bc.GetBlockHashRequest): Promise<core.BcBlock.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlockHash, request.toArray())
-        return result as bc.GetBlockResponse.AsObject
+        return result as core.BcBlock.AsObject
     }
 
-    public async getBlockHeight(request: bc.GetBlockHeightRequest): Promise<bc.GetBlockResponse.AsObject> {
+    public async getBlockHeight(request: bc.GetBlockHeightRequest): Promise<core.BcBlock.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlockHeight, request.toArray())
-        return result as bc.GetBlockResponse.AsObject
+        return result as core.BcBlock.AsObject
     }
 
-    public async getBlocks(request: bc.GetBlocksRequest): Promise<bc.GetBlocksResponse.AsObject> {
+    public async getBlocks(request: bc.GetBlocksRequest): Promise<bc.GetBlocksResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlocks, request.toArray())
         return result as bc.GetBlocksResponse.AsObject
     }
 
-    public async getLatestBlock(): Promise<bc.GetBlockResponse.AsObject|Error> {
+    public async getLatestBlock(): Promise<core.BcBlock.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestBlock)
-        return result as bc.GetBlockResponse.AsObject
+        return result as core.BcBlock.AsObject
     }
 
     public async getTx(request: bc.GetTxRequest): Promise<core.Transaction.AsObject|Error> {

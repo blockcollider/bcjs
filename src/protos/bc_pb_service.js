@@ -53,7 +53,7 @@ Bc.GetBlockHash = {
   requestStream: false,
   responseStream: false,
   requestType: bc_pb.GetBlockHashRequest,
-  responseType: bc_pb.GetBlockResponse
+  responseType: core_pb.BcBlock
 };
 
 Bc.GetBlockHeight = {
@@ -62,7 +62,7 @@ Bc.GetBlockHeight = {
   requestStream: false,
   responseStream: false,
   requestType: bc_pb.GetBlockHeightRequest,
-  responseType: bc_pb.GetBlockResponse
+  responseType: core_pb.BcBlock
 };
 
 Bc.GetBlocks = {
@@ -80,7 +80,7 @@ Bc.GetLatestBlock = {
   requestStream: false,
   responseStream: false,
   requestType: core_pb.Null,
-  responseType: bc_pb.GetBlockResponse
+  responseType: core_pb.BcBlock
 };
 
 Bc.GetTx = {

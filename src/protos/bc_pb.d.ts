@@ -906,28 +906,6 @@ export namespace GetBlockHeightRequest {
   }
 }
 
-export class GetBlockResponse extends jspb.Message {
-  hasBlock(): boolean;
-  clearBlock(): void;
-  getBlock(): core_pb.BcBlock | undefined;
-  setBlock(value?: core_pb.BcBlock): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetBlockResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GetBlockResponse): GetBlockResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetBlockResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetBlockResponse;
-  static deserializeBinaryFromReader(message: GetBlockResponse, reader: jspb.BinaryReader): GetBlockResponse;
-}
-
-export namespace GetBlockResponse {
-  export type AsObject = {
-    block?: core_pb.BcBlock.AsObject,
-  }
-}
-
 export class GetBlocksRequest extends jspb.Message {
   getStartHeight(): number;
   setStartHeight(value: number): void;
