@@ -82,15 +82,81 @@ function deserialize_bc_GetBlake2blResponse(buffer_arg) {
   return bc_pb.GetBlake2blResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bc_GetLatestBlocksResponse(arg) {
-  if (!(arg instanceof bc_pb.GetLatestBlocksResponse)) {
-    throw new Error('Expected argument of type bc.GetLatestBlocksResponse');
+function serialize_bc_GetBlockHashRequest(arg) {
+  if (!(arg instanceof bc_pb.GetBlockHashRequest)) {
+    throw new Error('Expected argument of type bc.GetBlockHashRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_bc_GetLatestBlocksResponse(buffer_arg) {
-  return bc_pb.GetLatestBlocksResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_bc_GetBlockHashRequest(buffer_arg) {
+  return bc_pb.GetBlockHashRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetBlockHeightRequest(arg) {
+  if (!(arg instanceof bc_pb.GetBlockHeightRequest)) {
+    throw new Error('Expected argument of type bc.GetBlockHeightRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetBlockHeightRequest(buffer_arg) {
+  return bc_pb.GetBlockHeightRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetBlockResponse(arg) {
+  if (!(arg instanceof bc_pb.GetBlockResponse)) {
+    throw new Error('Expected argument of type bc.GetBlockResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetBlockResponse(buffer_arg) {
+  return bc_pb.GetBlockResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetBlocksRequest(arg) {
+  if (!(arg instanceof bc_pb.GetBlocksRequest)) {
+    throw new Error('Expected argument of type bc.GetBlocksRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetBlocksRequest(buffer_arg) {
+  return bc_pb.GetBlocksRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetBlocksResponse(arg) {
+  if (!(arg instanceof bc_pb.GetBlocksResponse)) {
+    throw new Error('Expected argument of type bc.GetBlocksResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetBlocksResponse(buffer_arg) {
+  return bc_pb.GetBlocksResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetMarkedTxRequest(arg) {
+  if (!(arg instanceof bc_pb.GetMarkedTxRequest)) {
+    throw new Error('Expected argument of type bc.GetMarkedTxRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetMarkedTxRequest(buffer_arg) {
+  return bc_pb.GetMarkedTxRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetMarkedTxResponse(arg) {
+  if (!(arg instanceof bc_pb.GetMarkedTxResponse)) {
+    throw new Error('Expected argument of type bc.GetMarkedTxResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetMarkedTxResponse(buffer_arg) {
+  return bc_pb.GetMarkedTxResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bc_GetMatchedOrdersRequest(arg) {
@@ -126,6 +192,61 @@ function deserialize_bc_GetOpenOrdersResponse(buffer_arg) {
   return bc_pb.GetOpenOrdersResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bc_GetRoveredBlockHashRequest(arg) {
+  if (!(arg instanceof bc_pb.GetRoveredBlockHashRequest)) {
+    throw new Error('Expected argument of type bc.GetRoveredBlockHashRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetRoveredBlockHashRequest(buffer_arg) {
+  return bc_pb.GetRoveredBlockHashRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetRoveredBlockHeightRequest(arg) {
+  if (!(arg instanceof bc_pb.GetRoveredBlockHeightRequest)) {
+    throw new Error('Expected argument of type bc.GetRoveredBlockHeightRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetRoveredBlockHeightRequest(buffer_arg) {
+  return bc_pb.GetRoveredBlockHeightRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetRoveredBlockResponse(arg) {
+  if (!(arg instanceof bc_pb.GetRoveredBlockResponse)) {
+    throw new Error('Expected argument of type bc.GetRoveredBlockResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetRoveredBlockResponse(buffer_arg) {
+  return bc_pb.GetRoveredBlockResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetRoveredBlocksRequest(arg) {
+  if (!(arg instanceof bc_pb.GetRoveredBlocksRequest)) {
+    throw new Error('Expected argument of type bc.GetRoveredBlocksRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetRoveredBlocksRequest(buffer_arg) {
+  return bc_pb.GetRoveredBlocksRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetRoveredBlocksResponse(arg) {
+  if (!(arg instanceof bc_pb.GetRoveredBlocksResponse)) {
+    throw new Error('Expected argument of type bc.GetRoveredBlocksResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetRoveredBlocksResponse(buffer_arg) {
+  return bc_pb.GetRoveredBlocksResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bc_GetSpendableCollateralRequest(arg) {
   if (!(arg instanceof bc_pb.GetSpendableCollateralRequest)) {
     throw new Error('Expected argument of type bc.GetSpendableCollateralRequest');
@@ -146,6 +267,28 @@ function serialize_bc_GetSpendableCollateralResponse(arg) {
 
 function deserialize_bc_GetSpendableCollateralResponse(buffer_arg) {
   return bc_pb.GetSpendableCollateralResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetTxRequest(arg) {
+  if (!(arg instanceof bc_pb.GetTxRequest)) {
+    throw new Error('Expected argument of type bc.GetTxRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetTxRequest(buffer_arg) {
+  return bc_pb.GetTxRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetTxResponse(arg) {
+  if (!(arg instanceof bc_pb.GetTxResponse)) {
+    throw new Error('Expected argument of type bc.GetTxResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetTxResponse(buffer_arg) {
+  return bc_pb.GetTxResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bc_HelpResponse(arg) {
@@ -271,16 +414,115 @@ function deserialize_bc_VanityConvertResponse(buffer_arg) {
 
 
 var BcService = exports.BcService = {
-  getLatestBlocks: {
-    path: '/bc.Bc/GetLatestBlocks',
+  getRoveredBlockHash: {
+    path: '/bc.Bc/GetRoveredBlockHash',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetRoveredBlockHashRequest,
+    responseType: bc_pb.GetRoveredBlockResponse,
+    requestSerialize: serialize_bc_GetRoveredBlockHashRequest,
+    requestDeserialize: deserialize_bc_GetRoveredBlockHashRequest,
+    responseSerialize: serialize_bc_GetRoveredBlockResponse,
+    responseDeserialize: deserialize_bc_GetRoveredBlockResponse,
+  },
+  getRoveredBlockHeight: {
+    path: '/bc.Bc/GetRoveredBlockHeight',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetRoveredBlockHeightRequest,
+    responseType: bc_pb.GetRoveredBlockResponse,
+    requestSerialize: serialize_bc_GetRoveredBlockHeightRequest,
+    requestDeserialize: deserialize_bc_GetRoveredBlockHeightRequest,
+    responseSerialize: serialize_bc_GetRoveredBlockResponse,
+    responseDeserialize: deserialize_bc_GetRoveredBlockResponse,
+  },
+  getRoveredBlocks: {
+    path: '/bc.Bc/GetRoveredBlocks',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetRoveredBlocksRequest,
+    responseType: bc_pb.GetRoveredBlocksResponse,
+    requestSerialize: serialize_bc_GetRoveredBlocksRequest,
+    requestDeserialize: deserialize_bc_GetRoveredBlocksRequest,
+    responseSerialize: serialize_bc_GetRoveredBlocksResponse,
+    responseDeserialize: deserialize_bc_GetRoveredBlocksResponse,
+  },
+  getLatestRoveredBlocks: {
+    path: '/bc.Bc/GetLatestRoveredBlocks',
     requestStream: false,
     responseStream: false,
     requestType: core_pb.Null,
-    responseType: bc_pb.GetLatestBlocksResponse,
+    responseType: bc_pb.GetRoveredBlocksResponse,
     requestSerialize: serialize_bc_Null,
     requestDeserialize: deserialize_bc_Null,
-    responseSerialize: serialize_bc_GetLatestBlocksResponse,
-    responseDeserialize: deserialize_bc_GetLatestBlocksResponse,
+    responseSerialize: serialize_bc_GetRoveredBlocksResponse,
+    responseDeserialize: deserialize_bc_GetRoveredBlocksResponse,
+  },
+  getBlockHash: {
+    path: '/bc.Bc/GetBlockHash',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBlockHashRequest,
+    responseType: bc_pb.GetBlockResponse,
+    requestSerialize: serialize_bc_GetBlockHashRequest,
+    requestDeserialize: deserialize_bc_GetBlockHashRequest,
+    responseSerialize: serialize_bc_GetBlockResponse,
+    responseDeserialize: deserialize_bc_GetBlockResponse,
+  },
+  getBlockHeight: {
+    path: '/bc.Bc/GetBlockHeight',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBlockHeightRequest,
+    responseType: bc_pb.GetBlockResponse,
+    requestSerialize: serialize_bc_GetBlockHeightRequest,
+    requestDeserialize: deserialize_bc_GetBlockHeightRequest,
+    responseSerialize: serialize_bc_GetBlockResponse,
+    responseDeserialize: deserialize_bc_GetBlockResponse,
+  },
+  getBlocks: {
+    path: '/bc.Bc/GetBlocks',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBlocksRequest,
+    responseType: bc_pb.GetBlocksResponse,
+    requestSerialize: serialize_bc_GetBlocksRequest,
+    requestDeserialize: deserialize_bc_GetBlocksRequest,
+    responseSerialize: serialize_bc_GetBlocksResponse,
+    responseDeserialize: deserialize_bc_GetBlocksResponse,
+  },
+  getLatestBlock: {
+    path: '/bc.Bc/GetLatestBlock',
+    requestStream: false,
+    responseStream: false,
+    requestType: core_pb.Null,
+    responseType: bc_pb.GetBlockResponse,
+    requestSerialize: serialize_bc_Null,
+    requestDeserialize: deserialize_bc_Null,
+    responseSerialize: serialize_bc_GetBlockResponse,
+    responseDeserialize: deserialize_bc_GetBlockResponse,
+  },
+  getTx: {
+    path: '/bc.Bc/GetTx',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetTxRequest,
+    responseType: bc_pb.GetTxResponse,
+    requestSerialize: serialize_bc_GetTxRequest,
+    requestDeserialize: deserialize_bc_GetTxRequest,
+    responseSerialize: serialize_bc_GetTxResponse,
+    responseDeserialize: deserialize_bc_GetTxResponse,
+  },
+  getMarkedTx: {
+    path: '/bc.Bc/GetMarkedTx',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetMarkedTxRequest,
+    responseType: bc_pb.GetMarkedTxResponse,
+    requestSerialize: serialize_bc_GetMarkedTxRequest,
+    requestDeserialize: deserialize_bc_GetMarkedTxRequest,
+    responseSerialize: serialize_bc_GetMarkedTxResponse,
+    responseDeserialize: deserialize_bc_GetMarkedTxResponse,
   },
   help: {
     path: '/bc.Bc/Help',

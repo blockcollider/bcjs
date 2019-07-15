@@ -4,28 +4,6 @@
 import * as jspb from "google-protobuf";
 import * as core_pb from "./core_pb";
 
-export class GetLatestBlocksResponse extends jspb.Message {
-  clearBlocksList(): void;
-  getBlocksList(): Array<core_pb.Block>;
-  setBlocksList(value: Array<core_pb.Block>): void;
-  addBlocks(value?: core_pb.Block, index?: number): core_pb.Block;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetLatestBlocksResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GetLatestBlocksResponse): GetLatestBlocksResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetLatestBlocksResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetLatestBlocksResponse;
-  static deserializeBinaryFromReader(message: GetLatestBlocksResponse, reader: jspb.BinaryReader): GetLatestBlocksResponse;
-}
-
-export namespace GetLatestBlocksResponse {
-  export type AsObject = {
-    blocksList: Array<core_pb.Block.AsObject>,
-  }
-}
-
 export class HelpResponse extends jspb.Message {
   getHelpText(): string;
   setHelpText(value: string): void;
@@ -837,6 +815,322 @@ export namespace VanityConvertResponse {
   export type AsObject = {
     bcAddress: string,
     error: string,
+  }
+}
+
+export class GetRoveredBlockHashRequest extends jspb.Message {
+  getBlockchain(): string;
+  setBlockchain(value: string): void;
+
+  getHash(): string;
+  setHash(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetRoveredBlockHashRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetRoveredBlockHashRequest): GetRoveredBlockHashRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetRoveredBlockHashRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetRoveredBlockHashRequest;
+  static deserializeBinaryFromReader(message: GetRoveredBlockHashRequest, reader: jspb.BinaryReader): GetRoveredBlockHashRequest;
+}
+
+export namespace GetRoveredBlockHashRequest {
+  export type AsObject = {
+    blockchain: string,
+    hash: string,
+  }
+}
+
+export class GetRoveredBlockHeightRequest extends jspb.Message {
+  getBlockchain(): string;
+  setBlockchain(value: string): void;
+
+  getHeight(): number;
+  setHeight(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetRoveredBlockHeightRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetRoveredBlockHeightRequest): GetRoveredBlockHeightRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetRoveredBlockHeightRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetRoveredBlockHeightRequest;
+  static deserializeBinaryFromReader(message: GetRoveredBlockHeightRequest, reader: jspb.BinaryReader): GetRoveredBlockHeightRequest;
+}
+
+export namespace GetRoveredBlockHeightRequest {
+  export type AsObject = {
+    blockchain: string,
+    height: number,
+  }
+}
+
+export class GetBlockHashRequest extends jspb.Message {
+  getHash(): string;
+  setHash(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetBlockHashRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetBlockHashRequest): GetBlockHashRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetBlockHashRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetBlockHashRequest;
+  static deserializeBinaryFromReader(message: GetBlockHashRequest, reader: jspb.BinaryReader): GetBlockHashRequest;
+}
+
+export namespace GetBlockHashRequest {
+  export type AsObject = {
+    hash: string,
+  }
+}
+
+export class GetBlockHeightRequest extends jspb.Message {
+  getHeight(): number;
+  setHeight(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetBlockHeightRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetBlockHeightRequest): GetBlockHeightRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetBlockHeightRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetBlockHeightRequest;
+  static deserializeBinaryFromReader(message: GetBlockHeightRequest, reader: jspb.BinaryReader): GetBlockHeightRequest;
+}
+
+export namespace GetBlockHeightRequest {
+  export type AsObject = {
+    height: number,
+  }
+}
+
+export class GetBlockResponse extends jspb.Message {
+  hasBlock(): boolean;
+  clearBlock(): void;
+  getBlock(): core_pb.BcBlock | undefined;
+  setBlock(value?: core_pb.BcBlock): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetBlockResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetBlockResponse): GetBlockResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetBlockResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetBlockResponse;
+  static deserializeBinaryFromReader(message: GetBlockResponse, reader: jspb.BinaryReader): GetBlockResponse;
+}
+
+export namespace GetBlockResponse {
+  export type AsObject = {
+    block?: core_pb.BcBlock.AsObject,
+  }
+}
+
+export class GetBlocksRequest extends jspb.Message {
+  getStartHeight(): number;
+  setStartHeight(value: number): void;
+
+  getEndHeight(): number;
+  setEndHeight(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetBlocksRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetBlocksRequest): GetBlocksRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetBlocksRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetBlocksRequest;
+  static deserializeBinaryFromReader(message: GetBlocksRequest, reader: jspb.BinaryReader): GetBlocksRequest;
+}
+
+export namespace GetBlocksRequest {
+  export type AsObject = {
+    startHeight: number,
+    endHeight: number,
+  }
+}
+
+export class GetBlocksResponse extends jspb.Message {
+  clearBlocksList(): void;
+  getBlocksList(): Array<core_pb.BcBlock>;
+  setBlocksList(value: Array<core_pb.BcBlock>): void;
+  addBlocks(value?: core_pb.BcBlock, index?: number): core_pb.BcBlock;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetBlocksResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetBlocksResponse): GetBlocksResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetBlocksResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetBlocksResponse;
+  static deserializeBinaryFromReader(message: GetBlocksResponse, reader: jspb.BinaryReader): GetBlocksResponse;
+}
+
+export namespace GetBlocksResponse {
+  export type AsObject = {
+    blocksList: Array<core_pb.BcBlock.AsObject>,
+  }
+}
+
+export class GetRoveredBlockResponse extends jspb.Message {
+  hasBlock(): boolean;
+  clearBlock(): void;
+  getBlock(): core_pb.Block | undefined;
+  setBlock(value?: core_pb.Block): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetRoveredBlockResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetRoveredBlockResponse): GetRoveredBlockResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetRoveredBlockResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetRoveredBlockResponse;
+  static deserializeBinaryFromReader(message: GetRoveredBlockResponse, reader: jspb.BinaryReader): GetRoveredBlockResponse;
+}
+
+export namespace GetRoveredBlockResponse {
+  export type AsObject = {
+    block?: core_pb.Block.AsObject,
+  }
+}
+
+export class GetRoveredBlocksRequest extends jspb.Message {
+  getBlockchain(): string;
+  setBlockchain(value: string): void;
+
+  getStartHeight(): number;
+  setStartHeight(value: number): void;
+
+  getEndHeight(): number;
+  setEndHeight(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetRoveredBlocksRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetRoveredBlocksRequest): GetRoveredBlocksRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetRoveredBlocksRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetRoveredBlocksRequest;
+  static deserializeBinaryFromReader(message: GetRoveredBlocksRequest, reader: jspb.BinaryReader): GetRoveredBlocksRequest;
+}
+
+export namespace GetRoveredBlocksRequest {
+  export type AsObject = {
+    blockchain: string,
+    startHeight: number,
+    endHeight: number,
+  }
+}
+
+export class GetRoveredBlocksResponse extends jspb.Message {
+  clearBlocksList(): void;
+  getBlocksList(): Array<core_pb.Block>;
+  setBlocksList(value: Array<core_pb.Block>): void;
+  addBlocks(value?: core_pb.Block, index?: number): core_pb.Block;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetRoveredBlocksResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetRoveredBlocksResponse): GetRoveredBlocksResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetRoveredBlocksResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetRoveredBlocksResponse;
+  static deserializeBinaryFromReader(message: GetRoveredBlocksResponse, reader: jspb.BinaryReader): GetRoveredBlocksResponse;
+}
+
+export namespace GetRoveredBlocksResponse {
+  export type AsObject = {
+    blocksList: Array<core_pb.Block.AsObject>,
+  }
+}
+
+export class GetTxRequest extends jspb.Message {
+  getHash(): string;
+  setHash(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetTxRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetTxRequest): GetTxRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetTxRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetTxRequest;
+  static deserializeBinaryFromReader(message: GetTxRequest, reader: jspb.BinaryReader): GetTxRequest;
+}
+
+export namespace GetTxRequest {
+  export type AsObject = {
+    hash: string,
+  }
+}
+
+export class GetTxResponse extends jspb.Message {
+  hasTx(): boolean;
+  clearTx(): void;
+  getTx(): core_pb.Transaction | undefined;
+  setTx(value?: core_pb.Transaction): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetTxResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetTxResponse): GetTxResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetTxResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetTxResponse;
+  static deserializeBinaryFromReader(message: GetTxResponse, reader: jspb.BinaryReader): GetTxResponse;
+}
+
+export namespace GetTxResponse {
+  export type AsObject = {
+    tx?: core_pb.Transaction.AsObject,
+  }
+}
+
+export class GetMarkedTxRequest extends jspb.Message {
+  getBlockchain(): string;
+  setBlockchain(value: string): void;
+
+  getHash(): string;
+  setHash(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarkedTxRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarkedTxRequest): GetMarkedTxRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetMarkedTxRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarkedTxRequest;
+  static deserializeBinaryFromReader(message: GetMarkedTxRequest, reader: jspb.BinaryReader): GetMarkedTxRequest;
+}
+
+export namespace GetMarkedTxRequest {
+  export type AsObject = {
+    blockchain: string,
+    hash: string,
+  }
+}
+
+export class GetMarkedTxResponse extends jspb.Message {
+  hasTx(): boolean;
+  clearTx(): void;
+  getTx(): core_pb.MarkedTransaction | undefined;
+  setTx(value?: core_pb.MarkedTransaction): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarkedTxResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarkedTxResponse): GetMarkedTxResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetMarkedTxResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarkedTxResponse;
+  static deserializeBinaryFromReader(message: GetMarkedTxResponse, reader: jspb.BinaryReader): GetMarkedTxResponse;
+}
+
+export namespace GetMarkedTxResponse {
+  export type AsObject = {
+    tx?: core_pb.MarkedTransaction.AsObject,
   }
 }
 

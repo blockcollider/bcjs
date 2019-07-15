@@ -38,8 +38,8 @@ export class Block extends jspb.Message {
   getMerkleRoot(): string;
   setMerkleRoot(value: string): void;
 
-  getMarkedtxCount(): number;
-  setMarkedtxCount(value: number): void;
+  getMarkedTxCount(): number;
+  setMarkedTxCount(value: number): void;
 
   clearMarkedTxsList(): void;
   getMarkedTxsList(): Array<MarkedTransaction>;
@@ -64,7 +64,7 @@ export namespace Block {
     timestamp: number,
     height: number,
     merkleRoot: string,
-    markedtxCount: number,
+    markedTxCount: number,
     markedTxsList: Array<MarkedTransaction.AsObject>,
   }
 }

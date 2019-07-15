@@ -11,13 +11,94 @@ var Bc = (function () {
   return Bc;
 }());
 
-Bc.GetLatestBlocks = {
-  methodName: "GetLatestBlocks",
+Bc.GetRoveredBlockHash = {
+  methodName: "GetRoveredBlockHash",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetRoveredBlockHashRequest,
+  responseType: bc_pb.GetRoveredBlockResponse
+};
+
+Bc.GetRoveredBlockHeight = {
+  methodName: "GetRoveredBlockHeight",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetRoveredBlockHeightRequest,
+  responseType: bc_pb.GetRoveredBlockResponse
+};
+
+Bc.GetRoveredBlocks = {
+  methodName: "GetRoveredBlocks",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetRoveredBlocksRequest,
+  responseType: bc_pb.GetRoveredBlocksResponse
+};
+
+Bc.GetLatestRoveredBlocks = {
+  methodName: "GetLatestRoveredBlocks",
   service: Bc,
   requestStream: false,
   responseStream: false,
   requestType: core_pb.Null,
-  responseType: bc_pb.GetLatestBlocksResponse
+  responseType: bc_pb.GetRoveredBlocksResponse
+};
+
+Bc.GetBlockHash = {
+  methodName: "GetBlockHash",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetBlockHashRequest,
+  responseType: bc_pb.GetBlockResponse
+};
+
+Bc.GetBlockHeight = {
+  methodName: "GetBlockHeight",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetBlockHeightRequest,
+  responseType: bc_pb.GetBlockResponse
+};
+
+Bc.GetBlocks = {
+  methodName: "GetBlocks",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetBlocksRequest,
+  responseType: bc_pb.GetBlocksResponse
+};
+
+Bc.GetLatestBlock = {
+  methodName: "GetLatestBlock",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: bc_pb.GetBlockResponse
+};
+
+Bc.GetTx = {
+  methodName: "GetTx",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetTxRequest,
+  responseType: bc_pb.GetTxResponse
+};
+
+Bc.GetMarkedTx = {
+  methodName: "GetMarkedTx",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetMarkedTxRequest,
+  responseType: bc_pb.GetMarkedTxResponse
 };
 
 Bc.Help = {
@@ -162,11 +243,290 @@ function BcClient(serviceHost, options) {
   this.options = options || {};
 }
 
-BcClient.prototype.getLatestBlocks = function getLatestBlocks(requestMessage, metadata, callback) {
+BcClient.prototype.getRoveredBlockHash = function getRoveredBlockHash(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Bc.GetLatestBlocks, {
+  var client = grpc.unary(Bc.GetRoveredBlockHash, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getRoveredBlockHeight = function getRoveredBlockHeight(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetRoveredBlockHeight, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getRoveredBlocks = function getRoveredBlocks(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetRoveredBlocks, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getLatestRoveredBlocks = function getLatestRoveredBlocks(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetLatestRoveredBlocks, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getBlockHash = function getBlockHash(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetBlockHash, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getBlockHeight = function getBlockHeight(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetBlockHeight, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getBlocks = function getBlocks(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetBlocks, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getLatestBlock = function getLatestBlock(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetLatestBlock, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getTx = function getTx(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetTx, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getMarkedTx = function getMarkedTx(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetMarkedTx, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

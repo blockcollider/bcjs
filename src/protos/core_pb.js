@@ -205,7 +205,7 @@ proto.bc.Block.toObject = function(includeInstance, msg) {
     timestamp: jspb.Message.getFieldWithDefault(msg, 4, 0),
     height: jspb.Message.getFieldWithDefault(msg, 5, 0),
     merkleRoot: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    markedtxCount: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    markedTxCount: jspb.Message.getFieldWithDefault(msg, 7, 0),
     markedTxsList: jspb.Message.toObjectList(msg.getMarkedTxsList(),
     proto.bc.MarkedTransaction.toObject, includeInstance)
   };
@@ -270,7 +270,7 @@ proto.bc.Block.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 7:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setMarkedtxCount(value);
+      msg.setMarkedTxCount(value);
       break;
     case 8:
       var value = new proto.bc.MarkedTransaction;
@@ -348,7 +348,7 @@ proto.bc.Block.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getMarkedtxCount();
+  f = message.getMarkedTxCount();
   if (f !== 0) {
     writer.writeUint64(
       7,
@@ -457,16 +457,16 @@ proto.bc.Block.prototype.setMerkleRoot = function(value) {
 
 
 /**
- * optional uint64 markedtx_count = 7;
+ * optional uint64 marked_tx_count = 7;
  * @return {number}
  */
-proto.bc.Block.prototype.getMarkedtxCount = function() {
+proto.bc.Block.prototype.getMarkedTxCount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.Block.prototype.setMarkedtxCount = function(value) {
+proto.bc.Block.prototype.setMarkedTxCount = function(value) {
   jspb.Message.setProto3IntField(this, 7, value);
 };
 

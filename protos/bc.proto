@@ -4,10 +4,6 @@ package bc;
 
 import "core.proto";
 
-message GetLatestBlocksResponse {
-    repeated Block blocks = 1;
-}
-
 message HelpResponse {
     string help_text = 1;
 }
@@ -189,8 +185,84 @@ message VanityConvertResponse {
     string error = 2;
 }
 
+message GetRoveredBlockHashRequest {
+    string blockchain = 1;
+    string hash = 2;
+}
+
+message GetRoveredBlockHeightRequest {
+    string blockchain = 1;
+    uint32 height = 2;
+}
+
+message GetBlockHashRequest {
+    string hash = 1;
+}
+
+message GetBlockHeightRequest {
+    uint32 height = 1;
+}
+
+message GetBlockResponse {
+    BcBlock block = 1;
+}
+
+message GetBlocksRequest {
+    uint32 start_height = 1;
+    uint32 end_height = 2;
+}
+
+message GetBlocksResponse {
+    repeated BcBlock blocks = 1;
+}
+
+message GetRoveredBlockResponse {
+    Block block = 1;
+}
+
+message GetRoveredBlocksRequest {
+    string blockchain = 1;
+    uint32 start_height = 2;
+    uint32 end_height = 3;
+}
+
+
+message GetRoveredBlocksResponse {
+    repeated Block blocks = 1;
+}
+
+message GetTxRequest {
+    string hash = 1;
+}
+
+message GetTxResponse {
+    Transaction tx = 1;
+}
+
+message GetMarkedTxRequest {
+    string blockchain = 1;
+    string hash = 2;
+}
+
+message GetMarkedTxResponse {
+    MarkedTransaction tx = 1;
+}
+
 service Bc {
-    rpc GetLatestBlocks(Null) returns (GetLatestBlocksResponse) {}
+
+    rpc GetRoveredBlockHash(GetRoveredBlockHashRequest) returns (GetRoveredBlockResponse) {}
+    rpc GetRoveredBlockHeight(GetRoveredBlockHeightRequest) returns (GetRoveredBlockResponse) {}
+    rpc GetRoveredBlocks(GetRoveredBlocksRequest) returns (GetRoveredBlocksResponse) {}
+    rpc GetLatestRoveredBlocks(Null) returns (GetRoveredBlocksResponse) {}
+
+    rpc GetBlockHash(GetBlockHashRequest) returns (GetBlockResponse) {}
+    rpc GetBlockHeight(GetBlockHeightRequest) returns (GetBlockResponse) {}
+    rpc GetBlocks(GetBlocksRequest) returns (GetBlocksResponse) {}
+    rpc GetLatestBlock(Null) returns (GetBlockResponse) {}
+
+    rpc GetTx(GetTxRequest) returns (GetTxResponse) {}
+    rpc GetMarkedTx(GetMarkedTxRequest) returns (GetMarkedTxResponse) {}
+
     rpc Help (Null) returns (HelpResponse) {}
     rpc Stats (Null) returns (StatsResponse) {}
     rpc NewTx (RpcTransaction) returns (RpcTransactionResponse) {}
@@ -209,6 +281,7 @@ service Bc {
 
     rpc GetOpenOrders (Null) returns (GetOpenOrdersResponse) {}
     rpc GetMatchedOrders (GetMatchedOrdersRequest) returns (GetMatchedOrdersResponse) {}
+
     rpc GetBlake2bl (GetBlake2blRequest) returns (GetBlake2blResponse) {}
     rpc GetBcAddressViaVanity (VanityConvertRequest) returns (VanityConvertResponse) {}
 }
