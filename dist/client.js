@@ -14,9 +14,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const node_fetch_1 = __importDefault(require("node-fetch"));
 var BcRpcMethod;
 (function (BcRpcMethod) {
-    BcRpcMethod["GetLatestBlocks"] = "getLatestBlock";
-    BcRpcMethod["Help"] = "help";
-    BcRpcMethod["Stats"] = "stats";
+    // Help  = "help",
+    // Stats  = "stats",
     BcRpcMethod["NewTx"] = "newTx";
     BcRpcMethod["GetBalance"] = "getBalance";
     BcRpcMethod["GetSpendableCollateral"] = "getSpendableCollateral";
@@ -30,6 +29,16 @@ var BcRpcMethod;
     BcRpcMethod["GetMatchedOrders"] = "getMatchedOrders";
     BcRpcMethod["GetBlake2bl"] = "getBlake2bl";
     BcRpcMethod["GetBcAddressViaVanity"] = "getBcAddressViaVanity";
+    BcRpcMethod["GetLatestBlock"] = "getLatestBlock";
+    BcRpcMethod["GetLatestRoveredBlocks"] = "getLatestRoveredBlocks";
+    BcRpcMethod["GetBlockHeight"] = "getBlockHeight";
+    BcRpcMethod["GetBlockHash"] = "getBlockHash";
+    BcRpcMethod["GetRoveredBlockHeight"] = "getRoveredBlockHeight";
+    BcRpcMethod["GetRoveredBlockHash"] = "getRoveredBlockHash";
+    BcRpcMethod["GetBlocks"] = "getBlocks";
+    BcRpcMethod["GetRoveredBlocks"] = "getRoveredBlocks";
+    BcRpcMethod["GetTx"] = "getTx";
+    BcRpcMethod["GetMarkedTx"] = "getMarkedTx";
 })(BcRpcMethod || (BcRpcMethod = {}));
 function btoa(str) {
     var buffer;
@@ -57,7 +66,7 @@ class RpcClient {
             this.rpcUrl = new URL(`${this.rpcUrl.origin}:3000`);
         }
     }
-    makeJsonRpcRequest(method, rpcParams) {
+    makeJsonRpcRequest(method, rpcParams = []) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = Math.abs(Math.random() * 1e6 | 0);
             const rpcBody = {
@@ -99,9 +108,87 @@ class RpcClient {
             return jsonResult.result;
         });
     }
-    getBlake2Bl(request) {
+    getRoveredBlockHash(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBlake2bl, request.toArray());
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetRoveredBlockHash, request.toArray());
+            return result;
+        });
+    }
+    getRoveredBlockHeight(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetRoveredBlockHeight, request.toArray());
+            return result;
+        });
+    }
+    getRoveredBlocks(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks, request.toArray());
+            return result;
+        });
+    }
+    getLatestRoveredBlock() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks);
+            return result;
+        });
+    }
+    getBlockHash(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBlockHash, request.toArray());
+            return result;
+        });
+    }
+    getBlockHeight(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBlockHeight, request.toArray());
+            return result;
+        });
+    }
+    getBlocks(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBlocks, request.toArray());
+            return result;
+        });
+    }
+    getLatestBlock() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetLatestBlock);
+            return result;
+        });
+    }
+    getTx(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetTx, request.toArray());
+            return result;
+        });
+    }
+    getMarkedTx(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetMarkedTx, request.toArray());
+            return result;
+        });
+    }
+    newTx(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.NewTx, request.toArray());
+            return result;
+        });
+    }
+    getBalance(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBalance, request.toArray());
+            return result;
+        });
+    }
+    getSpendableCollateral(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetSpendableCollateral, request.toArray());
+            return result;
+        });
+    }
+    unlockCollateral(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.UnlockCollateral, request.toArray());
             return result;
         });
     }
@@ -111,9 +198,51 @@ class RpcClient {
             return result;
         });
     }
-    getBalance(request) {
+    createTakeOrder(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBalance, request.toArray());
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.PlaceTakerOrder, request.toArray());
+            return result;
+        });
+    }
+    createTakerOrders(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.PlaceTakerOrders, request.toArray());
+            return result;
+        });
+    }
+    calculateMakerFee(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.CalculateMakerFee, request.toArray());
+            return result;
+        });
+    }
+    calculateTakerFee(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.CalculateTakerFee, request.toArray());
+            return result;
+        });
+    }
+    getOpenOrders() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders);
+            return result;
+        });
+    }
+    getMatchedOrders(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, request.toArray());
+            return result;
+        });
+    }
+    getBlake2Bl(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBlake2bl, request.toArray());
+            return result;
+        });
+    }
+    getBcAddressViaVanity(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBcAddressViaVanity, request.toArray());
             return result;
         });
     }

@@ -1,18 +1,14 @@
 import fetch from 'node-fetch';
 
-import {
-    PlaceMakerOrderRequest,
-    GetBalanceRequest,
-    GetBalanceResponse,
-    GetBlake2blRequest,
-    GetBlake2blResponse,
-    RpcTransactionResponse
-} from './protos/bc_pb';
+import * as bc from './protos/bc_pb';
 
 type BcRpcResponse =
-    GetBalanceResponse.AsObject |
-    RpcTransactionResponse.AsObject |
-    GetBlake2blResponse.AsObject
+    bc.GetBalanceResponse.AsObject |
+    bc.RpcTransactionResponse.AsObject |
+    bc.GetBlake2blResponse.AsObject |
+    bc.GetBlockResponse.AsObject |
+    bc.GetRoveredBlockResponse.AsObject |
+    bc.GetRoveredBlocksResponse.AsObject
 
 type JsonRpcParams = Array<string | number>
 type JsonRpcVersion = "2.0";
@@ -20,9 +16,8 @@ type JsonRpcReservedMethod = string;
 type JsonRpcId = number | string | void;
 
 enum BcRpcMethod {
-    GetLatestBlocks = "getLatestBlock",
-    Help  = "help",
-    Stats  = "stats",
+    // Help  = "help",
+    // Stats  = "stats",
     NewTx  = "newTx",
 
     GetBalance  = "getBalance",
@@ -41,6 +36,18 @@ enum BcRpcMethod {
     GetMatchedOrders  = "getMatchedOrders",
     GetBlake2bl  = "getBlake2bl",
     GetBcAddressViaVanity  = "getBcAddressViaVanity",
+
+    GetLatestBlock = "getLatestBlock",
+    GetLatestRoveredBlocks = "getLatestRoveredBlocks",
+    GetBlockHeight = "getBlockHeight",
+    GetBlockHash = "getBlockHash",
+    GetRoveredBlockHeight = "getRoveredBlockHeight",
+    GetRoveredBlockHash = "getRoveredBlockHash",
+    GetBlocks = "getBlocks",
+    GetRoveredBlocks = "getRoveredBlocks",
+    GetTx = "getTx",
+    GetMarkedTx = "getMarkedTx",
+
 }
 
 interface JsonRpcRequest<T> {
@@ -102,7 +109,7 @@ export default class RpcClient {
         }
     }
 
-    private async makeJsonRpcRequest(method: BcRpcMethod, rpcParams: JsonRpcParams): Promise<BcRpcResponse|JsonRpcError<BcRpcResponse>> {
+    private async makeJsonRpcRequest(method: BcRpcMethod, rpcParams: JsonRpcParams = []): Promise<BcRpcResponse|JsonRpcError<BcRpcResponse>> {
         const id = Math.abs(Math.random() * 1e6 | 0)
         const rpcBody: JsonRpcRequest<BcRpcMethod> = {
             id,
@@ -148,19 +155,119 @@ export default class RpcClient {
         return (jsonResult as JsonRpcSuccess<BcRpcResponse>).result
     }
 
-    public async getBlake2Bl(request: GetBlake2blRequest): Promise<GetBlake2blResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlake2bl, request.toArray())
-        return result as GetBlake2blResponse.AsObject
+    public async getRoveredBlockHash(request: bc.GetRoveredBlockHashRequest): Promise<bc.GetRoveredBlockResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetRoveredBlockHash, request.toArray())
+        return result as bc.GetRoveredBlockResponse.AsObject
     }
 
-    public async createMakerOrder(request: PlaceMakerOrderRequest): Promise<RpcTransactionResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.PlaceMakerOrder, request.toArray())
-        return result as RpcTransactionResponse.AsObject
+    public async getRoveredBlockHeight(request: bc.GetRoveredBlockHeightRequest): Promise<bc.GetRoveredBlockResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetRoveredBlockHeight, request.toArray())
+        return result as bc.GetRoveredBlockResponse.AsObject
     }
 
-    public async getBalance(request: GetBalanceRequest): Promise<GetBalanceResponse.AsObject|Error> {
+    public async getRoveredBlocks(request: bc.GetRoveredBlocksRequest): Promise<bc.GetRoveredBlocksResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks, request.toArray())
+        return result as bc.GetRoveredBlocksResponse.AsObject
+    }
+
+    public async getLatestRoveredBlock(): Promise<bc.GetRoveredBlocksResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks)
+        return result as bc.GetRoveredBlocksResponse.AsObject
+    }
+
+    public async getBlockHash(request: bc.GetBlockHashRequest): Promise<bc.GetBlockResponse.AsObject> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlockHash, request.toArray())
+        return result as bc.GetBlockResponse.AsObject
+    }
+
+    public async getBlockHeight(request: bc.GetBlockHeightRequest): Promise<bc.GetBlockResponse.AsObject> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlockHeight, request.toArray())
+        return result as bc.GetBlockResponse.AsObject
+    }
+
+    public async getBlocks(request: bc.GetBlocksRequest): Promise<bc.GetBlocksResponse.AsObject> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlocks, request.toArray())
+        return result as bc.GetBlocksResponse.AsObject
+    }
+
+    public async getLatestBlock(): Promise<bc.GetBlockResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestBlock)
+        return result as bc.GetBlockResponse.AsObject
+    }
+
+    public async getTx(request: bc.GetTxRequest): Promise<bc.GetTxResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetTx, request.toArray())
+        return result as bc.GetTxResponse.AsObject
+    }
+
+    public async getMarkedTx(request: bc.GetMarkedTxRequest): Promise<bc.GetMarkedTxResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetMarkedTx, request.toArray())
+        return result as bc.GetMarkedTxResponse.AsObject
+    }
+
+    public async newTx(request: bc.RpcTransaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.NewTx, request.toArray())
+        return result as bc.RpcTransactionResponse.AsObject
+    }
+
+    public async getBalance(request: bc.GetBalanceRequest): Promise<bc.GetBalanceResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBalance, request.toArray())
-        return result as GetBalanceResponse.AsObject
+        return result as bc.GetBalanceResponse.AsObject
+    }
+
+    public async getSpendableCollateral(request: bc.GetSpendableCollateralRequest): Promise<bc.GetSpendableCollateralResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetSpendableCollateral, request.toArray())
+        return result as bc.GetSpendableCollateralResponse.AsObject
+    }
+
+    public async unlockCollateral(request: bc.UnlockCollateralRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.UnlockCollateral, request.toArray())
+        return result as bc.RpcTransactionResponse.AsObject
+    }
+
+    public async createMakerOrder(request: bc.PlaceMakerOrderRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.PlaceMakerOrder, request.toArray())
+        return result as bc.RpcTransactionResponse.AsObject
+    }
+
+    public async createTakeOrder(request: bc.PlaceTakerOrderRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.PlaceTakerOrder, request.toArray())
+        return result as bc.RpcTransactionResponse.AsObject
+    }
+
+    public async createTakerOrders(request: bc.PlaceTakerOrdersRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.PlaceTakerOrders, request.toArray())
+        return result as bc.RpcTransactionResponse.AsObject
+    }
+
+    public async calculateMakerFee(request: bc.CalculateMakerFeeRequest): Promise<bc.FeeResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.CalculateMakerFee, request.toArray())
+        return result as bc.FeeResponse.AsObject
+    }
+
+    public async calculateTakerFee(request: bc.CalculateTakerFeeRequest): Promise<bc.FeeResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.CalculateTakerFee, request.toArray())
+        return result as bc.FeeResponse.AsObject
+    }
+
+    public async getOpenOrders(): Promise<bc.GetOpenOrdersResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders)
+        return result as bc.GetOpenOrdersResponse.AsObject
+    }
+
+    public async getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, request.toArray())
+        return result as bc.GetMatchedOrdersResponse.AsObject
+    }
+
+    public async getBlake2Bl(request: bc.GetBlake2blRequest): Promise<bc.GetBlake2blResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlake2bl, request.toArray())
+        return result as bc.GetBlake2blResponse.AsObject
+    }
+
+    public async getBcAddressViaVanity(request: bc.VanityConvertRequest): Promise<bc.VanityConvertResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBcAddressViaVanity, request.toArray())
+        return result as bc.VanityConvertResponse.AsObject
     }
 }
 
