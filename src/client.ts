@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 
+import * as core from './protos/core_pb';
 import * as bc from './protos/bc_pb';
 
 type BcRpcResponse =
@@ -7,7 +8,6 @@ type BcRpcResponse =
     bc.RpcTransactionResponse.AsObject |
     bc.GetBlake2blResponse.AsObject |
     bc.GetBlockResponse.AsObject |
-    bc.GetRoveredBlockResponse.AsObject |
     bc.GetRoveredBlocksResponse.AsObject
 
 type JsonRpcParams = Array<string | number>
@@ -155,14 +155,14 @@ export default class RpcClient {
         return (jsonResult as JsonRpcSuccess<BcRpcResponse>).result
     }
 
-    public async getRoveredBlockHash(request: bc.GetRoveredBlockHashRequest): Promise<bc.GetRoveredBlockResponse.AsObject|Error> {
+    public async getRoveredBlockHash(request: bc.GetRoveredBlockHashRequest): Promise<core.Block.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetRoveredBlockHash, request.toArray())
-        return result as bc.GetRoveredBlockResponse.AsObject
+        return result as core.Block.AsObject
     }
 
-    public async getRoveredBlockHeight(request: bc.GetRoveredBlockHeightRequest): Promise<bc.GetRoveredBlockResponse.AsObject|Error> {
+    public async getRoveredBlockHeight(request: bc.GetRoveredBlockHeightRequest): Promise<core.Block.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetRoveredBlockHeight, request.toArray())
-        return result as bc.GetRoveredBlockResponse.AsObject
+        return result as core.Block.AsObject
     }
 
     public async getRoveredBlocks(request: bc.GetRoveredBlocksRequest): Promise<bc.GetRoveredBlocksResponse.AsObject|Error> {
@@ -195,14 +195,14 @@ export default class RpcClient {
         return result as bc.GetBlockResponse.AsObject
     }
 
-    public async getTx(request: bc.GetTxRequest): Promise<bc.GetTxResponse.AsObject|Error> {
+    public async getTx(request: bc.GetTxRequest): Promise<core.Transaction.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetTx, request.toArray())
-        return result as bc.GetTxResponse.AsObject
+        return result as core.Transaction.AsObject
     }
 
-    public async getMarkedTx(request: bc.GetMarkedTxRequest): Promise<bc.GetMarkedTxResponse.AsObject|Error> {
+    public async getMarkedTx(request: bc.GetMarkedTxRequest): Promise<core.MarkedTransaction.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetMarkedTx, request.toArray())
-        return result as bc.GetMarkedTxResponse.AsObject
+        return result as core.MarkedTransaction.AsObject
     }
 
     public async newTx(request: bc.RpcTransaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
