@@ -216,10 +216,6 @@ message GetBlocksResponse {
     repeated BcBlock blocks = 1;
 }
 
-message GetRoveredBlockResponse {
-    Block block = 1;
-}
-
 message GetRoveredBlocksRequest {
     string blockchain = 1;
     uint32 start_height = 2;
@@ -235,23 +231,15 @@ message GetTxRequest {
     string hash = 1;
 }
 
-message GetTxResponse {
-    Transaction tx = 1;
-}
-
 message GetMarkedTxRequest {
     string blockchain = 1;
     string hash = 2;
 }
 
-message GetMarkedTxResponse {
-    MarkedTransaction tx = 1;
-}
-
 service Bc {
 
-    rpc GetRoveredBlockHash(GetRoveredBlockHashRequest) returns (GetRoveredBlockResponse) {}
-    rpc GetRoveredBlockHeight(GetRoveredBlockHeightRequest) returns (GetRoveredBlockResponse) {}
+    rpc GetRoveredBlockHash(GetRoveredBlockHashRequest) returns (Block) {}
+    rpc GetRoveredBlockHeight(GetRoveredBlockHeightRequest) returns (Block) {}
     rpc GetRoveredBlocks(GetRoveredBlocksRequest) returns (GetRoveredBlocksResponse) {}
     rpc GetLatestRoveredBlocks(Null) returns (GetRoveredBlocksResponse) {}
 
@@ -260,8 +248,8 @@ service Bc {
     rpc GetBlocks(GetBlocksRequest) returns (GetBlocksResponse) {}
     rpc GetLatestBlock(Null) returns (GetBlockResponse) {}
 
-    rpc GetTx(GetTxRequest) returns (GetTxResponse) {}
-    rpc GetMarkedTx(GetMarkedTxRequest) returns (GetMarkedTxResponse) {}
+    rpc GetTx(GetTxRequest) returns (Transaction) {}
+    rpc GetMarkedTx(GetMarkedTxRequest) returns (MarkedTransaction) {}
 
     rpc Help (Null) returns (HelpResponse) {}
     rpc Stats (Null) returns (StatsResponse) {}

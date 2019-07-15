@@ -5,6 +5,17 @@ var grpc = require('grpc');
 var bc_pb = require('./bc_pb.js');
 var core_pb = require('./core_pb.js');
 
+function serialize_bc_Block(arg) {
+  if (!(arg instanceof core_pb.Block)) {
+    throw new Error('Expected argument of type bc.Block');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_Block(buffer_arg) {
+  return core_pb.Block.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bc_CalculateMakerFeeRequest(arg) {
   if (!(arg instanceof bc_pb.CalculateMakerFeeRequest)) {
     throw new Error('Expected argument of type bc.CalculateMakerFeeRequest');
@@ -148,17 +159,6 @@ function deserialize_bc_GetMarkedTxRequest(buffer_arg) {
   return bc_pb.GetMarkedTxRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bc_GetMarkedTxResponse(arg) {
-  if (!(arg instanceof bc_pb.GetMarkedTxResponse)) {
-    throw new Error('Expected argument of type bc.GetMarkedTxResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bc_GetMarkedTxResponse(buffer_arg) {
-  return bc_pb.GetMarkedTxResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_bc_GetMatchedOrdersRequest(arg) {
   if (!(arg instanceof bc_pb.GetMatchedOrdersRequest)) {
     throw new Error('Expected argument of type bc.GetMatchedOrdersRequest');
@@ -212,17 +212,6 @@ function serialize_bc_GetRoveredBlockHeightRequest(arg) {
 
 function deserialize_bc_GetRoveredBlockHeightRequest(buffer_arg) {
   return bc_pb.GetRoveredBlockHeightRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_bc_GetRoveredBlockResponse(arg) {
-  if (!(arg instanceof bc_pb.GetRoveredBlockResponse)) {
-    throw new Error('Expected argument of type bc.GetRoveredBlockResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bc_GetRoveredBlockResponse(buffer_arg) {
-  return bc_pb.GetRoveredBlockResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bc_GetRoveredBlocksRequest(arg) {
@@ -280,17 +269,6 @@ function deserialize_bc_GetTxRequest(buffer_arg) {
   return bc_pb.GetTxRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bc_GetTxResponse(arg) {
-  if (!(arg instanceof bc_pb.GetTxResponse)) {
-    throw new Error('Expected argument of type bc.GetTxResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bc_GetTxResponse(buffer_arg) {
-  return bc_pb.GetTxResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_bc_HelpResponse(arg) {
   if (!(arg instanceof bc_pb.HelpResponse)) {
     throw new Error('Expected argument of type bc.HelpResponse');
@@ -300,6 +278,17 @@ function serialize_bc_HelpResponse(arg) {
 
 function deserialize_bc_HelpResponse(buffer_arg) {
   return bc_pb.HelpResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_MarkedTransaction(arg) {
+  if (!(arg instanceof core_pb.MarkedTransaction)) {
+    throw new Error('Expected argument of type bc.MarkedTransaction');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_MarkedTransaction(buffer_arg) {
+  return core_pb.MarkedTransaction.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bc_Null(arg) {
@@ -379,6 +368,17 @@ function deserialize_bc_StatsResponse(buffer_arg) {
   return bc_pb.StatsResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bc_Transaction(arg) {
+  if (!(arg instanceof core_pb.Transaction)) {
+    throw new Error('Expected argument of type bc.Transaction');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_Transaction(buffer_arg) {
+  return core_pb.Transaction.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bc_UnlockCollateralRequest(arg) {
   if (!(arg instanceof bc_pb.UnlockCollateralRequest)) {
     throw new Error('Expected argument of type bc.UnlockCollateralRequest');
@@ -419,22 +419,22 @@ var BcService = exports.BcService = {
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetRoveredBlockHashRequest,
-    responseType: bc_pb.GetRoveredBlockResponse,
+    responseType: core_pb.Block,
     requestSerialize: serialize_bc_GetRoveredBlockHashRequest,
     requestDeserialize: deserialize_bc_GetRoveredBlockHashRequest,
-    responseSerialize: serialize_bc_GetRoveredBlockResponse,
-    responseDeserialize: deserialize_bc_GetRoveredBlockResponse,
+    responseSerialize: serialize_bc_Block,
+    responseDeserialize: deserialize_bc_Block,
   },
   getRoveredBlockHeight: {
     path: '/bc.Bc/GetRoveredBlockHeight',
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetRoveredBlockHeightRequest,
-    responseType: bc_pb.GetRoveredBlockResponse,
+    responseType: core_pb.Block,
     requestSerialize: serialize_bc_GetRoveredBlockHeightRequest,
     requestDeserialize: deserialize_bc_GetRoveredBlockHeightRequest,
-    responseSerialize: serialize_bc_GetRoveredBlockResponse,
-    responseDeserialize: deserialize_bc_GetRoveredBlockResponse,
+    responseSerialize: serialize_bc_Block,
+    responseDeserialize: deserialize_bc_Block,
   },
   getRoveredBlocks: {
     path: '/bc.Bc/GetRoveredBlocks',
@@ -507,22 +507,22 @@ var BcService = exports.BcService = {
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetTxRequest,
-    responseType: bc_pb.GetTxResponse,
+    responseType: core_pb.Transaction,
     requestSerialize: serialize_bc_GetTxRequest,
     requestDeserialize: deserialize_bc_GetTxRequest,
-    responseSerialize: serialize_bc_GetTxResponse,
-    responseDeserialize: deserialize_bc_GetTxResponse,
+    responseSerialize: serialize_bc_Transaction,
+    responseDeserialize: deserialize_bc_Transaction,
   },
   getMarkedTx: {
     path: '/bc.Bc/GetMarkedTx',
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetMarkedTxRequest,
-    responseType: bc_pb.GetMarkedTxResponse,
+    responseType: core_pb.MarkedTransaction,
     requestSerialize: serialize_bc_GetMarkedTxRequest,
     requestDeserialize: deserialize_bc_GetMarkedTxRequest,
-    responseSerialize: serialize_bc_GetMarkedTxResponse,
-    responseDeserialize: deserialize_bc_GetMarkedTxResponse,
+    responseSerialize: serialize_bc_MarkedTransaction,
+    responseDeserialize: deserialize_bc_MarkedTransaction,
   },
   help: {
     path: '/bc.Bc/Help',

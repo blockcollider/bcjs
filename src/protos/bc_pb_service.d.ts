@@ -11,7 +11,7 @@ type BcGetRoveredBlockHash = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetRoveredBlockHashRequest;
-  readonly responseType: typeof bc_pb.GetRoveredBlockResponse;
+  readonly responseType: typeof core_pb.Block;
 };
 
 type BcGetRoveredBlockHeight = {
@@ -20,7 +20,7 @@ type BcGetRoveredBlockHeight = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetRoveredBlockHeightRequest;
-  readonly responseType: typeof bc_pb.GetRoveredBlockResponse;
+  readonly responseType: typeof core_pb.Block;
 };
 
 type BcGetRoveredBlocks = {
@@ -83,7 +83,7 @@ type BcGetTx = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetTxRequest;
-  readonly responseType: typeof bc_pb.GetTxResponse;
+  readonly responseType: typeof core_pb.Transaction;
 };
 
 type BcGetMarkedTx = {
@@ -92,7 +92,7 @@ type BcGetMarkedTx = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetMarkedTxRequest;
-  readonly responseType: typeof bc_pb.GetMarkedTxResponse;
+  readonly responseType: typeof core_pb.MarkedTransaction;
 };
 
 type BcHelp = {
@@ -294,20 +294,20 @@ export class BcClient {
   getRoveredBlockHash(
     requestMessage: bc_pb.GetRoveredBlockHashRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetRoveredBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.Block|null) => void
   ): UnaryResponse;
   getRoveredBlockHash(
     requestMessage: bc_pb.GetRoveredBlockHashRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetRoveredBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.Block|null) => void
   ): UnaryResponse;
   getRoveredBlockHeight(
     requestMessage: bc_pb.GetRoveredBlockHeightRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetRoveredBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.Block|null) => void
   ): UnaryResponse;
   getRoveredBlockHeight(
     requestMessage: bc_pb.GetRoveredBlockHeightRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetRoveredBlockResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.Block|null) => void
   ): UnaryResponse;
   getRoveredBlocks(
     requestMessage: bc_pb.GetRoveredBlocksRequest,
@@ -366,20 +366,20 @@ export class BcClient {
   getTx(
     requestMessage: bc_pb.GetTxRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetTxResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.Transaction|null) => void
   ): UnaryResponse;
   getTx(
     requestMessage: bc_pb.GetTxRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetTxResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.Transaction|null) => void
   ): UnaryResponse;
   getMarkedTx(
     requestMessage: bc_pb.GetMarkedTxRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMarkedTxResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.MarkedTransaction|null) => void
   ): UnaryResponse;
   getMarkedTx(
     requestMessage: bc_pb.GetMarkedTxRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMarkedTxResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: core_pb.MarkedTransaction|null) => void
   ): UnaryResponse;
   help(
     requestMessage: core_pb.Null,

@@ -974,28 +974,6 @@ export namespace GetBlocksResponse {
   }
 }
 
-export class GetRoveredBlockResponse extends jspb.Message {
-  hasBlock(): boolean;
-  clearBlock(): void;
-  getBlock(): core_pb.Block | undefined;
-  setBlock(value?: core_pb.Block): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetRoveredBlockResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GetRoveredBlockResponse): GetRoveredBlockResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetRoveredBlockResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetRoveredBlockResponse;
-  static deserializeBinaryFromReader(message: GetRoveredBlockResponse, reader: jspb.BinaryReader): GetRoveredBlockResponse;
-}
-
-export namespace GetRoveredBlockResponse {
-  export type AsObject = {
-    block?: core_pb.Block.AsObject,
-  }
-}
-
 export class GetRoveredBlocksRequest extends jspb.Message {
   getBlockchain(): string;
   setBlockchain(value: string): void;
@@ -1066,28 +1044,6 @@ export namespace GetTxRequest {
   }
 }
 
-export class GetTxResponse extends jspb.Message {
-  hasTx(): boolean;
-  clearTx(): void;
-  getTx(): core_pb.Transaction | undefined;
-  setTx(value?: core_pb.Transaction): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetTxResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GetTxResponse): GetTxResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetTxResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetTxResponse;
-  static deserializeBinaryFromReader(message: GetTxResponse, reader: jspb.BinaryReader): GetTxResponse;
-}
-
-export namespace GetTxResponse {
-  export type AsObject = {
-    tx?: core_pb.Transaction.AsObject,
-  }
-}
-
 export class GetMarkedTxRequest extends jspb.Message {
   getBlockchain(): string;
   setBlockchain(value: string): void;
@@ -1109,28 +1065,6 @@ export namespace GetMarkedTxRequest {
   export type AsObject = {
     blockchain: string,
     hash: string,
-  }
-}
-
-export class GetMarkedTxResponse extends jspb.Message {
-  hasTx(): boolean;
-  clearTx(): void;
-  getTx(): core_pb.MarkedTransaction | undefined;
-  setTx(value?: core_pb.MarkedTransaction): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetMarkedTxResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GetMarkedTxResponse): GetMarkedTxResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetMarkedTxResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetMarkedTxResponse;
-  static deserializeBinaryFromReader(message: GetMarkedTxResponse, reader: jspb.BinaryReader): GetMarkedTxResponse;
-}
-
-export namespace GetMarkedTxResponse {
-  export type AsObject = {
-    tx?: core_pb.MarkedTransaction.AsObject,
   }
 }
 

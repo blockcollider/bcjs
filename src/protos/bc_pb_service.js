@@ -17,7 +17,7 @@ Bc.GetRoveredBlockHash = {
   requestStream: false,
   responseStream: false,
   requestType: bc_pb.GetRoveredBlockHashRequest,
-  responseType: bc_pb.GetRoveredBlockResponse
+  responseType: core_pb.Block
 };
 
 Bc.GetRoveredBlockHeight = {
@@ -26,7 +26,7 @@ Bc.GetRoveredBlockHeight = {
   requestStream: false,
   responseStream: false,
   requestType: bc_pb.GetRoveredBlockHeightRequest,
-  responseType: bc_pb.GetRoveredBlockResponse
+  responseType: core_pb.Block
 };
 
 Bc.GetRoveredBlocks = {
@@ -89,7 +89,7 @@ Bc.GetTx = {
   requestStream: false,
   responseStream: false,
   requestType: bc_pb.GetTxRequest,
-  responseType: bc_pb.GetTxResponse
+  responseType: core_pb.Transaction
 };
 
 Bc.GetMarkedTx = {
@@ -98,7 +98,7 @@ Bc.GetMarkedTx = {
   requestStream: false,
   responseStream: false,
   requestType: bc_pb.GetMarkedTxRequest,
-  responseType: bc_pb.GetMarkedTxResponse
+  responseType: core_pb.MarkedTransaction
 };
 
 Bc.Help = {
