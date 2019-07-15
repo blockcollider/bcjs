@@ -4,11 +4,19 @@ import * as core from './protos/core_pb';
 import * as bc from './protos/bc_pb';
 
 type BcRpcResponse =
-    bc.GetBalanceResponse.AsObject |
+    core.Block.AsObject |
+    core.BcBlock.AsObject |
+    bc.GetRoveredBlocksResponse.AsObject |
+    bc.GetBlocksResponse.AsObject |
+    core.Transaction.AsObject |
+    core.MarkedTransaction.AsObject |
     bc.RpcTransactionResponse.AsObject |
+    bc.GetBalanceResponse.AsObject |
+    bc.GetSpendableCollateralResponse.AsObject |
+    bc.FeeResponse.AsObject |
+    bc.GetMatchedOrdersResponse.AsObject |
     bc.GetBlake2blResponse.AsObject |
-    bc.GetBlockResponse.AsObject |
-    bc.GetRoveredBlocksResponse.AsObject
+    bc.VanityConvertResponse.AsObject
 
 type JsonRpcParams = Array<string | number>
 type JsonRpcVersion = "2.0";
