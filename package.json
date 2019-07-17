@@ -7,7 +7,8 @@
     "compile": "tsc",
     "proto": "./node_modules/.bin/grpc_tools_node_protoc --plugin=./node_modules/.bin/protoc-gen-ts --proto_path=protos --js_out=import_style=commonjs,binary:src/protos protos/*.proto --grpc_out=src/protos --ts_out=\"service=true:src/protos\" --plugin=protoc-gen-grpc=./node_modules/grpc-tools/bin/grpc_node_plugin",
     "start": "tsc && node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "example": "NODE_TLS_REJECT_UNAUTHORIZED=0 BC_RPC_ADDRESS=https://localhost:3001 BC_RPC_SCOOKIE=trololo ts-node examples/get-balance.ts"
   },
   "engines": {
     "node": ">=10.16.0"
@@ -18,7 +19,9 @@
     "@improbable-eng/grpc-web": "^0.9.6",
     "@types/google-protobuf": "^3.7.1",
     "@types/node-fetch": "^2.3.7",
-    "node-fetch": "^2.6.0"
+    "avon": "^3.0.0",
+    "node-fetch": "^2.6.0",
+    "to-buffer": "^1.1.1"
   },
   "devDependencies": {
     "grpc-tools": "^1.8.0",

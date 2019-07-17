@@ -174,7 +174,7 @@ export default class RpcClient {
     }
 
     public async getRoveredBlocks(request: bc.GetRoveredBlocksRequest): Promise<bc.GetRoveredBlocksResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks, request.toArray())
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetRoveredBlocks, request.toArray())
         return result as bc.GetRoveredBlocksResponse.AsObject
     }
 
@@ -278,4 +278,3 @@ export default class RpcClient {
         return result as bc.VanityConvertResponse.AsObject
     }
 }
-
