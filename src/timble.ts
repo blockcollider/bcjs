@@ -1,20 +1,13 @@
-import fetch from 'node-fetch';
-import * as core from './protos/core_pb';
-import * as bc from './protos/bc_pb';
 const { blake2bl } = require('./utils');
 
 export default class TimbleScript {
 
-    //Global Variables
+    // Global Variables
     public NRG_TRANSFER = 'nrg_transfer';
     public MAKER_OUTPUT = 'maker_output';
     public TAKER_INPUT = 'taker_input';
     public TAKER_OUTPUT = 'taker_output';
     public TAKER_CALLBACK = 'taker_callback';
-
-    constructor() {
-
-    }
 
     public bufferToString(scriptBuffer: Uint8Array): string {
       return Buffer.from(scriptBuffer).toString('ascii')
