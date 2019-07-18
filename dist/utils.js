@@ -1,42 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_pb_1 = require("./protos/core_pb");
-function objectToStructure(obj) {
-    for (const key in obj) {
-        console.log(key);
-    }
-    return new core_pb_1.BcBlock();
-}
-let obj = { hash: '',
-    previousHash: '',
-    version: 0,
-    schemaVersion: 0,
-    height: 0,
-    miner: '',
-    difficulty: '',
-    timestamp: 0,
-    merkleRoot: '',
-    chainRoot: '',
-    distance: '',
-    totalDistance: '',
-    nonce: '',
-    nrgGrant: 0,
-    targetHash: '',
-    targetHeight: 0,
-    targetMiner: '',
-    targetSignature: '',
-    twn: 0,
-    twsList: [],
-    emblemWeight: 0,
-    emblemChainBlockHash: '',
-    emblemChainFingerprintRoot: '',
-    emblemChainAddress: '',
-    txCount: 0,
-    txsList: [],
-    txFeeBase: 0,
-    txDistanceSumLimit: 0,
-    blockchainHeadersCount: 0,
-    blockchainHeaders: undefined,
-    blockchainFingerprintsRoot: '' };
-objectToStructure(obj);
+const avon = require('avon');
+const toBuffer = require('to-buffer');
+/**
+ * Calculates blake2b hash
+ *
+ * @param input - string to be hashed
+ * @returns {String} hash
+ */
+exports.blake2b = (input) => {
+    return avon.sumBuffer(toBuffer(input), avon.ALGORITHMS.B).toString('hex');
+};
+/**
+ * Calculates blake2bl hash
+ *
+ * @param input - string to be hashed
+ * @returns {String} hash
+ */
+exports.blake2bl = (input) => {
+    return exports.blake2b(input).slice(64, 128);
+};
+/**
+ * Calculates blake2bls hash
+ *
+ * @param input - string to be hashed
+ * @returns {String} hash
+ */
+exports.blake2bls = (input) => {
+    return exports.blake2b(input).slice(88, 128);
+};
+/**
+ * Calculates blake2blc hash
+ *
+ * @param input - compressed address blake
+ * @returns {String} hash
+ */
+exports.blake2blc = (input) => {
+    const preimage = exports.blake2bl(input);
+    const compressed = exports.blake2bls(preimage);
+    return compressed;
+};
 //# sourceMappingURL=utils.js.map

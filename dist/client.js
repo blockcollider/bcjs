@@ -122,7 +122,7 @@ class RpcClient {
     }
     getRoveredBlocks(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks, request.toArray());
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetRoveredBlocks, request.toArray());
             return result;
         });
     }
