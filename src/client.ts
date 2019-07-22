@@ -55,6 +55,7 @@ enum BcRpcMethod {
     GetRoveredBlocks = "getRoveredBlocks",
     GetTx = "getTx",
     GetMarkedTx = "getMarkedTx",
+    SendTx = 'sendTx'
 
 }
 
@@ -261,6 +262,11 @@ export default class RpcClient {
     public async getOpenOrders(): Promise<bc.GetOpenOrdersResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders)
         return result as bc.GetOpenOrdersResponse.AsObject
+    }
+
+    public async sendTx(request: core.Transaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.SendTx, request.toArray())
+        return result as bc.RpcTransactionResponse.AsObject
     }
 
     public async getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject|Error> {
