@@ -980,6 +980,28 @@ export namespace GetRoveredBlocksRequest {
   }
 }
 
+export class GetRawMempoolResponse extends jspb.Message {
+  clearTransactionsList(): void;
+  getTransactionsList(): Array<core_pb.Transaction>;
+  setTransactionsList(value: Array<core_pb.Transaction>): void;
+  addTransactions(value?: core_pb.Transaction, index?: number): core_pb.Transaction;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetRawMempoolResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetRawMempoolResponse): GetRawMempoolResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetRawMempoolResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetRawMempoolResponse;
+  static deserializeBinaryFromReader(message: GetRawMempoolResponse, reader: jspb.BinaryReader): GetRawMempoolResponse;
+}
+
+export namespace GetRawMempoolResponse {
+  export type AsObject = {
+    transactionsList: Array<core_pb.Transaction.AsObject>,
+  }
+}
+
 export class GetRoveredBlocksResponse extends jspb.Message {
   clearBlocksList(): void;
   getBlocksList(): Array<core_pb.Block>;
@@ -1043,6 +1065,70 @@ export namespace GetMarkedTxRequest {
   export type AsObject = {
     blockchain: string,
     hash: string,
+  }
+}
+
+export class GetOutPointRequest extends jspb.Message {
+  getHash(): string;
+  setHash(value: string): void;
+
+  getIndex(): number;
+  setIndex(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetOutPointRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetOutPointRequest): GetOutPointRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetOutPointRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetOutPointRequest;
+  static deserializeBinaryFromReader(message: GetOutPointRequest, reader: jspb.BinaryReader): GetOutPointRequest;
+}
+
+export namespace GetOutPointRequest {
+  export type AsObject = {
+    hash: string,
+    index: number,
+  }
+}
+
+export class GetTradeStatusResponse extends jspb.Message {
+  getReceived(): boolean;
+  setReceived(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetTradeStatusResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetTradeStatusResponse): GetTradeStatusResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetTradeStatusResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetTradeStatusResponse;
+  static deserializeBinaryFromReader(message: GetTradeStatusResponse, reader: jspb.BinaryReader): GetTradeStatusResponse;
+}
+
+export namespace GetTradeStatusResponse {
+  export type AsObject = {
+    received: boolean,
+  }
+}
+
+export class GetOutPointStatusResponse extends jspb.Message {
+  getUnspent(): boolean;
+  setUnspent(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetOutPointStatusResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetOutPointStatusResponse): GetOutPointStatusResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetOutPointStatusResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetOutPointStatusResponse;
+  static deserializeBinaryFromReader(message: GetOutPointStatusResponse, reader: jspb.BinaryReader): GetOutPointStatusResponse;
+}
+
+export namespace GetOutPointStatusResponse {
+  export type AsObject = {
+    unspent: boolean,
   }
 }
 

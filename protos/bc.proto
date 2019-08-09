@@ -70,7 +70,7 @@ message MakerOrderInfo {
     string  collateralized_nrg = 10;
     string  nrg_unit = 11;
     string  tx_hash = 12;
-    uint64  tx_output_index = 13;
+    uint32  tx_output_index = 13;
     bool    is_settled = 14;
 }
 
@@ -80,7 +80,7 @@ message TakerOrderInfo {
     string  double_hashed_bc_address = 3;
     bool    is_settled = 4;
     string  tx_hash = 5;
-    uint64  tx_output_index = 6;
+    uint32  tx_output_index = 6;
     string  total_collateral = 7;
 }
 
@@ -218,6 +218,10 @@ message GetRoveredBlocksRequest {
     uint32 end_height = 3;
 }
 
+message GetRawMempoolResponse {
+    repeated Transaction transactions = 1;
+}
+
 
 message GetRoveredBlocksResponse {
     repeated Block blocks = 1;
@@ -230,6 +234,19 @@ message GetTxRequest {
 message GetMarkedTxRequest {
     string blockchain = 1;
     string hash = 2;
+}
+
+message GetOutPointRequest {
+    string hash = 1;
+    uint32 index = 2;
+}
+
+message GetTradeStatusResponse {
+    bool received = 1;
+}
+
+message GetOutPointStatusResponse {
+    bool unspent = 1;
 }
 
 service Bc {
@@ -247,9 +264,17 @@ service Bc {
     rpc GetTx(GetTxRequest) returns (Transaction) {}
     rpc GetMarkedTx(GetMarkedTxRequest) returns (MarkedTransaction) {}
 
+    rpc GetTradeStatus(GetOutPointRequest) returns (GetTradeStatusResponse) {}
+    rpc GetOutpointStatus(GetOutPointRequest) returns (GetOutPointStatusResponse) {}
+
+    rpc GetRawMempool(Null) returns (GetRawMempoolResponse) {}
+    rpc GetBlockForTx(GetTxRequest) returns (BcBlock) {}
+    rpc GetRoveredBlockForMarkedTx(GetMarkedTxRequest) returns (Block) {}
+
     rpc Help (Null) returns (HelpResponse) {}
     rpc Stats (Null) returns (StatsResponse) {}
     rpc NewTx (RpcTransaction) returns (RpcTransactionResponse) {}
+    rpc SendTx (Transaction) returns (RpcTransactionResponse) {}
 
     rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
     rpc GetSpendableCollateral (GetSpendableCollateralRequest) returns (GetSpendableCollateralResponse) {}

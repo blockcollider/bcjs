@@ -95,6 +95,51 @@ type BcGetMarkedTx = {
   readonly responseType: typeof core_pb.MarkedTransaction;
 };
 
+type BcGetTradeStatus = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetOutPointRequest;
+  readonly responseType: typeof bc_pb.GetTradeStatusResponse;
+};
+
+type BcGetOutpointStatus = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetOutPointRequest;
+  readonly responseType: typeof bc_pb.GetOutPointStatusResponse;
+};
+
+type BcGetRawMempool = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof bc_pb.GetRawMempoolResponse;
+};
+
+type BcGetBlockForTx = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetTxRequest;
+  readonly responseType: typeof core_pb.BcBlock;
+};
+
+type BcGetRoveredBlockForMarkedTx = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetMarkedTxRequest;
+  readonly responseType: typeof core_pb.Block;
+};
+
 type BcHelp = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -119,6 +164,15 @@ type BcNewTx = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.RpcTransaction;
+  readonly responseType: typeof bc_pb.RpcTransactionResponse;
+};
+
+type BcSendTx = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Transaction;
   readonly responseType: typeof bc_pb.RpcTransactionResponse;
 };
 
@@ -242,9 +296,15 @@ export class Bc {
   static readonly GetLatestBlock: BcGetLatestBlock;
   static readonly GetTx: BcGetTx;
   static readonly GetMarkedTx: BcGetMarkedTx;
+  static readonly GetTradeStatus: BcGetTradeStatus;
+  static readonly GetOutpointStatus: BcGetOutpointStatus;
+  static readonly GetRawMempool: BcGetRawMempool;
+  static readonly GetBlockForTx: BcGetBlockForTx;
+  static readonly GetRoveredBlockForMarkedTx: BcGetRoveredBlockForMarkedTx;
   static readonly Help: BcHelp;
   static readonly Stats: BcStats;
   static readonly NewTx: BcNewTx;
+  static readonly SendTx: BcSendTx;
   static readonly GetBalance: BcGetBalance;
   static readonly GetSpendableCollateral: BcGetSpendableCollateral;
   static readonly UnlockCollateral: BcUnlockCollateral;
@@ -381,6 +441,51 @@ export class BcClient {
     requestMessage: bc_pb.GetMarkedTxRequest,
     callback: (error: ServiceError|null, responseMessage: core_pb.MarkedTransaction|null) => void
   ): UnaryResponse;
+  getTradeStatus(
+    requestMessage: bc_pb.GetOutPointRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetTradeStatusResponse|null) => void
+  ): UnaryResponse;
+  getTradeStatus(
+    requestMessage: bc_pb.GetOutPointRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetTradeStatusResponse|null) => void
+  ): UnaryResponse;
+  getOutpointStatus(
+    requestMessage: bc_pb.GetOutPointRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetOutPointStatusResponse|null) => void
+  ): UnaryResponse;
+  getOutpointStatus(
+    requestMessage: bc_pb.GetOutPointRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetOutPointStatusResponse|null) => void
+  ): UnaryResponse;
+  getRawMempool(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetRawMempoolResponse|null) => void
+  ): UnaryResponse;
+  getRawMempool(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetRawMempoolResponse|null) => void
+  ): UnaryResponse;
+  getBlockForTx(
+    requestMessage: bc_pb.GetTxRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
+  ): UnaryResponse;
+  getBlockForTx(
+    requestMessage: bc_pb.GetTxRequest,
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
+  ): UnaryResponse;
+  getRoveredBlockForMarkedTx(
+    requestMessage: bc_pb.GetMarkedTxRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: core_pb.Block|null) => void
+  ): UnaryResponse;
+  getRoveredBlockForMarkedTx(
+    requestMessage: bc_pb.GetMarkedTxRequest,
+    callback: (error: ServiceError|null, responseMessage: core_pb.Block|null) => void
+  ): UnaryResponse;
   help(
     requestMessage: core_pb.Null,
     metadata: grpc.Metadata,
@@ -406,6 +511,15 @@ export class BcClient {
   ): UnaryResponse;
   newTx(
     requestMessage: bc_pb.RpcTransaction,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
+  ): UnaryResponse;
+  sendTx(
+    requestMessage: core_pb.Transaction,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
+  ): UnaryResponse;
+  sendTx(
+    requestMessage: core_pb.Transaction,
     callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
   ): UnaryResponse;
   getBalance(

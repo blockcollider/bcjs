@@ -101,6 +101,51 @@ Bc.GetMarkedTx = {
   responseType: core_pb.MarkedTransaction
 };
 
+Bc.GetTradeStatus = {
+  methodName: "GetTradeStatus",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetOutPointRequest,
+  responseType: bc_pb.GetTradeStatusResponse
+};
+
+Bc.GetOutpointStatus = {
+  methodName: "GetOutpointStatus",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetOutPointRequest,
+  responseType: bc_pb.GetOutPointStatusResponse
+};
+
+Bc.GetRawMempool = {
+  methodName: "GetRawMempool",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: bc_pb.GetRawMempoolResponse
+};
+
+Bc.GetBlockForTx = {
+  methodName: "GetBlockForTx",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetTxRequest,
+  responseType: core_pb.BcBlock
+};
+
+Bc.GetRoveredBlockForMarkedTx = {
+  methodName: "GetRoveredBlockForMarkedTx",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetMarkedTxRequest,
+  responseType: core_pb.Block
+};
+
 Bc.Help = {
   methodName: "Help",
   service: Bc,
@@ -125,6 +170,15 @@ Bc.NewTx = {
   requestStream: false,
   responseStream: false,
   requestType: bc_pb.RpcTransaction,
+  responseType: bc_pb.RpcTransactionResponse
+};
+
+Bc.SendTx = {
+  methodName: "SendTx",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Transaction,
   responseType: bc_pb.RpcTransactionResponse
 };
 
@@ -553,6 +607,161 @@ BcClient.prototype.getMarkedTx = function getMarkedTx(requestMessage, metadata, 
   };
 };
 
+BcClient.prototype.getTradeStatus = function getTradeStatus(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetTradeStatus, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getOutpointStatus = function getOutpointStatus(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetOutpointStatus, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getRawMempool = function getRawMempool(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetRawMempool, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getBlockForTx = function getBlockForTx(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetBlockForTx, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getRoveredBlockForMarkedTx = function getRoveredBlockForMarkedTx(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetRoveredBlockForMarkedTx, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
 BcClient.prototype.help = function help(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
@@ -620,6 +829,37 @@ BcClient.prototype.newTx = function newTx(requestMessage, metadata, callback) {
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.NewTx, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.sendTx = function sendTx(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.SendTx, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
