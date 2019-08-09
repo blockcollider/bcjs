@@ -39,6 +39,7 @@ var BcRpcMethod;
     BcRpcMethod["GetRoveredBlocks"] = "getRoveredBlocks";
     BcRpcMethod["GetTx"] = "getTx";
     BcRpcMethod["GetMarkedTx"] = "getMarkedTx";
+    BcRpcMethod["SendTx"] = "sendTx";
 })(BcRpcMethod || (BcRpcMethod = {}));
 function btoa(str) {
     var buffer;
@@ -225,6 +226,12 @@ class RpcClient {
     getOpenOrders() {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders);
+            return result;
+        });
+    }
+    sendTx(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.SendTx, request.toArray());
             return result;
         });
     }
