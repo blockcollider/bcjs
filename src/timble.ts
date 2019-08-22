@@ -1,4 +1,4 @@
-const { blake2bl } = require('./utils');
+const { blake2bl } = require('./utils/crypto');
 
 export default class TimbleScript {
 
