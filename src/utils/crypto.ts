@@ -22,6 +22,16 @@ export const blake2bl = (input: string | Buffer): string => {
 }
 
 /**
+ * Calculates blake2bl hash twice
+ *
+ * @param input - string to be hashed
+ * @returns {String} hash
+ */
+export const blake2blTwice = (input: string | Buffer): string => {
+  return blake2bl(blake2bl(input))
+}
+
+/**
  * Calculates blake2bls hash
  *
  * @param input - string to be hashed

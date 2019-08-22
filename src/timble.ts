@@ -1,4 +1,4 @@
-const { blake2bl } = require('./utils/crypto');
+const { blake2blTwice } = require('./utils/crypto');
 
 export default class TimbleScript {
 
@@ -21,7 +21,7 @@ export default class TimbleScript {
       address = address.toLowerCase()
       const script = [
         'OP_BLAKE2BL',
-        blake2bl(blake2bl(address)),
+        blake2blTwice(address),
         'OP_EQUALVERIFY',
         'OP_CHECKSIGVERIFY'
       ]
@@ -34,7 +34,7 @@ export default class TimbleScript {
       makerBCAddress: string) : string {
 
       makerBCAddress = makerBCAddress.toLowerCase()
-      let doubleHashedBcAddress = blake2bl(blake2bl(makerBCAddress))
+      let doubleHashedBcAddress = blake2blTwice(makerBCAddress)
 
       makerWantsAddress = makerWantsAddress.toLowerCase()
 
@@ -61,7 +61,7 @@ export default class TimbleScript {
 
     public createTakerOutput(makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string): string {
       takerBCAddress = takerBCAddress.toLowerCase()
-      const doubleHashedBcAddress = blake2bl(blake2bl(takerBCAddress))
+      const doubleHashedBcAddress = blake2blTwice(takerBCAddress)
       const script = [
         [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
         ['4', 'OP_IFEQ', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDIFEQ'],
