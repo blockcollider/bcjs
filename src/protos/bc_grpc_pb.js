@@ -456,6 +456,17 @@ function deserialize_bc_VanityConvertResponse(buffer_arg) {
   return bc_pb.VanityConvertResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bc_WalletData(arg) {
+  if (!(arg instanceof core_pb.WalletData)) {
+    throw new Error('Expected argument of type bc.WalletData');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_WalletData(buffer_arg) {
+  return core_pb.WalletData.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var BcService = exports.BcService = {
   getRoveredBlockHash: {
@@ -601,8 +612,8 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bc_GetRawMempoolResponse,
     responseDeserialize: deserialize_bc_GetRawMempoolResponse,
   },
-  getBlockForTx: {
-    path: '/bc.Bc/GetBlockForTx',
+  getBlockByTx: {
+    path: '/bc.Bc/GetBlockByTx',
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetTxRequest,
@@ -677,6 +688,17 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bc_GetBalanceRequest,
     responseSerialize: serialize_bc_GetBalanceResponse,
     responseDeserialize: deserialize_bc_GetBalanceResponse,
+  },
+  getWallet: {
+    path: '/bc.Bc/GetWallet',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBalanceRequest,
+    responseType: core_pb.WalletData,
+    requestSerialize: serialize_bc_GetBalanceRequest,
+    requestDeserialize: deserialize_bc_GetBalanceRequest,
+    responseSerialize: serialize_bc_WalletData,
+    responseDeserialize: deserialize_bc_WalletData,
   },
   getSpendableCollateral: {
     path: '/bc.Bc/GetSpendableCollateral',

@@ -128,8 +128,8 @@ Bc.GetRawMempool = {
   responseType: bc_pb.GetRawMempoolResponse
 };
 
-Bc.GetBlockForTx = {
-  methodName: "GetBlockForTx",
+Bc.GetBlockByTx = {
+  methodName: "GetBlockByTx",
   service: Bc,
   requestStream: false,
   responseStream: false,
@@ -189,6 +189,15 @@ Bc.GetBalance = {
   responseStream: false,
   requestType: bc_pb.GetBalanceRequest,
   responseType: bc_pb.GetBalanceResponse
+};
+
+Bc.GetWallet = {
+  methodName: "GetWallet",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetBalanceRequest,
+  responseType: core_pb.WalletData
 };
 
 Bc.GetSpendableCollateral = {
@@ -700,11 +709,11 @@ BcClient.prototype.getRawMempool = function getRawMempool(requestMessage, metada
   };
 };
 
-BcClient.prototype.getBlockForTx = function getBlockForTx(requestMessage, metadata, callback) {
+BcClient.prototype.getBlockByTx = function getBlockByTx(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Bc.GetBlockForTx, {
+  var client = grpc.unary(Bc.GetBlockByTx, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -891,6 +900,37 @@ BcClient.prototype.getBalance = function getBalance(requestMessage, metadata, ca
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetBalance, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getWallet = function getWallet(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetWallet, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

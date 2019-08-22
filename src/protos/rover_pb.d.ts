@@ -62,6 +62,11 @@ export class RoverMessage extends jspb.Message {
   getFetchBlock(): RoverMessage.FetchBlock | undefined;
   setFetchBlock(value?: RoverMessage.FetchBlock): void;
 
+  hasRoverBlockRange(): boolean;
+  clearRoverBlockRange(): void;
+  getRoverBlockRange(): RoverMessage.RoverBlockRange | undefined;
+  setRoverBlockRange(value?: RoverMessage.RoverBlockRange): void;
+
   getPayloadCase(): RoverMessage.PayloadCase;
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): RoverMessage.AsObject;
@@ -78,6 +83,7 @@ export namespace RoverMessage {
     type: RoverMessageTypeMap[keyof RoverMessageTypeMap],
     resync?: RoverMessage.Resync.AsObject,
     fetchBlock?: RoverMessage.FetchBlock.AsObject,
+    roverBlockRange?: RoverMessage.RoverBlockRange.AsObject,
   }
 
   export class FetchBlock extends jspb.Message {
@@ -105,6 +111,42 @@ export namespace RoverMessage {
     export type AsObject = {
       fromBlock?: core_pb.Block.AsObject,
       toBlock?: core_pb.Block.AsObject,
+    }
+  }
+
+  export class RoverBlockRange extends jspb.Message {
+    getRoverName(): string;
+    setRoverName(value: string): void;
+
+    getHighestHeight(): number;
+    setHighestHeight(value: number): void;
+
+    getLowestHeight(): number;
+    setLowestHeight(value: number): void;
+
+    getHighestHash(): string;
+    setHighestHash(value: string): void;
+
+    getLowestHash(): string;
+    setLowestHash(value: string): void;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): RoverBlockRange.AsObject;
+    static toObject(includeInstance: boolean, msg: RoverBlockRange): RoverBlockRange.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: RoverBlockRange, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): RoverBlockRange;
+    static deserializeBinaryFromReader(message: RoverBlockRange, reader: jspb.BinaryReader): RoverBlockRange;
+  }
+
+  export namespace RoverBlockRange {
+    export type AsObject = {
+      roverName: string,
+      highestHeight: number,
+      lowestHeight: number,
+      highestHash: string,
+      lowestHash: string,
     }
   }
 
@@ -168,6 +210,7 @@ export namespace RoverMessage {
     PAYLOAD_NOT_SET = 0,
     RESYNC = 2,
     FETCH_BLOCK = 3,
+    ROVER_BLOCK_RANGE = 4,
   }
 }
 
@@ -264,6 +307,7 @@ export namespace SettleTxCheckResponse {
 export interface RoverMessageTypeMap {
   FETCHBLOCK: 0;
   REQUESTRESYNC: 1;
+  ROVER_BLOCK_RANGE: 2;
 }
 
 export const RoverMessageType: RoverMessageTypeMap;

@@ -122,7 +122,7 @@ type BcGetRawMempool = {
   readonly responseType: typeof bc_pb.GetRawMempoolResponse;
 };
 
-type BcGetBlockForTx = {
+type BcGetBlockByTx = {
   readonly methodName: string;
   readonly service: typeof Bc;
   readonly requestStream: false;
@@ -183,6 +183,15 @@ type BcGetBalance = {
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetBalanceRequest;
   readonly responseType: typeof bc_pb.GetBalanceResponse;
+};
+
+type BcGetWallet = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly responseType: typeof core_pb.WalletData;
 };
 
 type BcGetSpendableCollateral = {
@@ -299,13 +308,14 @@ export class Bc {
   static readonly GetTradeStatus: BcGetTradeStatus;
   static readonly GetOutpointStatus: BcGetOutpointStatus;
   static readonly GetRawMempool: BcGetRawMempool;
-  static readonly GetBlockForTx: BcGetBlockForTx;
+  static readonly GetBlockByTx: BcGetBlockByTx;
   static readonly GetRoveredBlockForMarkedTx: BcGetRoveredBlockForMarkedTx;
   static readonly Help: BcHelp;
   static readonly Stats: BcStats;
   static readonly NewTx: BcNewTx;
   static readonly SendTx: BcSendTx;
   static readonly GetBalance: BcGetBalance;
+  static readonly GetWallet: BcGetWallet;
   static readonly GetSpendableCollateral: BcGetSpendableCollateral;
   static readonly UnlockCollateral: BcUnlockCollateral;
   static readonly PlaceMakerOrder: BcPlaceMakerOrder;
@@ -468,12 +478,12 @@ export class BcClient {
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetRawMempoolResponse|null) => void
   ): UnaryResponse;
-  getBlockForTx(
+  getBlockByTx(
     requestMessage: bc_pb.GetTxRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
-  getBlockForTx(
+  getBlockByTx(
     requestMessage: bc_pb.GetTxRequest,
     callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
@@ -530,6 +540,15 @@ export class BcClient {
   getBalance(
     requestMessage: bc_pb.GetBalanceRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetBalanceResponse|null) => void
+  ): UnaryResponse;
+  getWallet(
+    requestMessage: bc_pb.GetBalanceRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
+  ): UnaryResponse;
+  getWallet(
+    requestMessage: bc_pb.GetBalanceRequest,
+    callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
   ): UnaryResponse;
   getSpendableCollateral(
     requestMessage: bc_pb.GetSpendableCollateralRequest,

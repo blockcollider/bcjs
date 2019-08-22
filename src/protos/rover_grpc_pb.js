@@ -49,6 +49,17 @@ function deserialize_bc_RoverMessage(buffer_arg) {
   return rover_pb.RoverMessage.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bc_RoverMessage_RoverBlockRange(arg) {
+  if (!(arg instanceof rover_pb.RoverMessage.RoverBlockRange)) {
+    throw new Error('Expected argument of type bc.RoverMessage.RoverBlockRange');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_RoverMessage_RoverBlockRange(buffer_arg) {
+  return rover_pb.RoverMessage.RoverBlockRange.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bc_RoverSyncStatus(arg) {
   if (!(arg instanceof rover_pb.RoverSyncStatus)) {
     throw new Error('Expected argument of type bc.RoverSyncStatus');
@@ -117,6 +128,18 @@ var RoverService = exports.RoverService = {
     responseType: core_pb.Null,
     requestSerialize: serialize_bc_RoverSyncStatus,
     requestDeserialize: deserialize_bc_RoverSyncStatus,
+    responseSerialize: serialize_bc_Null,
+    responseDeserialize: deserialize_bc_Null,
+  },
+  // Rover submits block range
+  reportBlockRange: {
+    path: '/bc.Rover/ReportBlockRange',
+    requestStream: false,
+    responseStream: false,
+    requestType: rover_pb.RoverMessage.RoverBlockRange,
+    responseType: core_pb.Null,
+    requestSerialize: serialize_bc_RoverMessage_RoverBlockRange,
+    requestDeserialize: deserialize_bc_RoverMessage_RoverBlockRange,
     responseSerialize: serialize_bc_Null,
     responseDeserialize: deserialize_bc_Null,
   },

@@ -63,15 +63,16 @@ message MakerOrderInfo {
     uint64  settle_height = 3;
     string  pays_chain_id = 4;
     string  wants_chain_id = 5;
-    string  wants_address = 6;
-    string  wants_unit = 7;
+    string  pays_address = 6;
+    string  wants_address = 7;
     string  pays_unit = 8;
-    string  double_hashed_bc_address = 9;
-    string  collateralized_nrg = 10;
-    string  nrg_unit = 11;
-    string  tx_hash = 12;
-    uint32  tx_output_index = 13;
-    bool    is_settled = 14;
+    string  wants_unit = 9;
+    string  double_hashed_bc_address = 10;
+    string  collateralized_nrg = 11;
+    string  nrg_unit = 12;
+    string  tx_hash = 13;
+    uint32  tx_output_index = 14;
+    bool    is_settled = 15;
 }
 
 message TakerOrderInfo {
@@ -108,20 +109,24 @@ message PlaceMakerOrderRequest {
 
     string  pays_with_chain_id = 4;
     string  wants_chain_id = 5;
-    string  wants_chain_address = 6;
-    string  wants_unit = 7;
-    string  pays_unit = 8;
-    string  bc_address = 9;
-    string  bc_private_key_hex = 10;
 
-    string  collateralized_nrg = 11;
-    string  nrg_unit = 12;
-    string  tx_fee = 13;
+    string  pays_chain_address = 6;
+    string  wants_chain_address = 7;
+
+    string  pays_unit = 8;
+    string  wants_unit = 9;
+
+    string  bc_address = 10;
+    string  bc_private_key_hex = 11;
+
+    string  collateralized_nrg = 12;
+    string  nrg_unit = 13;
+    string  tx_fee = 14;
 }
 
 message PlaceTakerOrderRequest {
-    string  wants_chain_address = 1;
-    string  sends_chain_address = 2;
+    string  pays_chain_address = 1;
+    string  wants_chain_address = 2;
     string  maker_tx_hash = 3;
     uint32  maker_tx_output_index = 4;
     string  bc_address = 5;
@@ -242,7 +247,7 @@ message GetOutPointRequest {
 }
 
 message GetTradeStatusResponse {
-    bool received = 1;
+    bool sent = 1;
 }
 
 message GetOutPointStatusResponse {
@@ -268,7 +273,7 @@ service Bc {
     rpc GetOutpointStatus(GetOutPointRequest) returns (GetOutPointStatusResponse) {}
 
     rpc GetRawMempool(Null) returns (GetRawMempoolResponse) {}
-    rpc GetBlockForTx(GetTxRequest) returns (BcBlock) {}
+    rpc GetBlockByTx(GetTxRequest) returns (BcBlock) {}
     rpc GetRoveredBlockForMarkedTx(GetMarkedTxRequest) returns (Block) {}
 
     rpc Help (Null) returns (HelpResponse) {}
@@ -277,6 +282,8 @@ service Bc {
     rpc SendTx (Transaction) returns (RpcTransactionResponse) {}
 
     rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
+    rpc GetWallet (GetBalanceRequest) returns (WalletData) {}
+
     rpc GetSpendableCollateral (GetSpendableCollateralRequest) returns (GetSpendableCollateralResponse) {}
 
     rpc UnlockCollateral (UnlockCollateralRequest) returns (RpcTransactionResponse) {}

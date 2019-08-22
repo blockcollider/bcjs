@@ -32,6 +32,15 @@ type RoverReportSyncStatus = {
   readonly responseType: typeof core_pb.Null;
 };
 
+type RoverReportBlockRange = {
+  readonly methodName: string;
+  readonly service: typeof Rover;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof rover_pb.RoverMessage.RoverBlockRange;
+  readonly responseType: typeof core_pb.Null;
+};
+
 type RoverIsBeforeSettleHeight = {
   readonly methodName: string;
   readonly service: typeof Rover;
@@ -46,6 +55,7 @@ export class Rover {
   static readonly Join: RoverJoin;
   static readonly CollectBlock: RoverCollectBlock;
   static readonly ReportSyncStatus: RoverReportSyncStatus;
+  static readonly ReportBlockRange: RoverReportBlockRange;
   static readonly IsBeforeSettleHeight: RoverIsBeforeSettleHeight;
 }
 
@@ -90,6 +100,15 @@ export class RoverClient {
   ): UnaryResponse;
   reportSyncStatus(
     requestMessage: rover_pb.RoverSyncStatus,
+    callback: (error: ServiceError|null, responseMessage: core_pb.Null|null) => void
+  ): UnaryResponse;
+  reportBlockRange(
+    requestMessage: rover_pb.RoverMessage.RoverBlockRange,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: core_pb.Null|null) => void
+  ): UnaryResponse;
+  reportBlockRange(
+    requestMessage: rover_pb.RoverMessage.RoverBlockRange,
     callback: (error: ServiceError|null, responseMessage: core_pb.Null|null) => void
   ): UnaryResponse;
   isBeforeSettleHeight(

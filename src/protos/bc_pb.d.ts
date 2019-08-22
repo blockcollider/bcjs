@@ -252,14 +252,17 @@ export class MakerOrderInfo extends jspb.Message {
   getWantsChainId(): string;
   setWantsChainId(value: string): void;
 
+  getPaysAddress(): string;
+  setPaysAddress(value: string): void;
+
   getWantsAddress(): string;
   setWantsAddress(value: string): void;
 
-  getWantsUnit(): string;
-  setWantsUnit(value: string): void;
-
   getPaysUnit(): string;
   setPaysUnit(value: string): void;
+
+  getWantsUnit(): string;
+  setWantsUnit(value: string): void;
 
   getDoubleHashedBcAddress(): string;
   setDoubleHashedBcAddress(value: string): void;
@@ -296,9 +299,10 @@ export namespace MakerOrderInfo {
     settleHeight: number,
     paysChainId: string,
     wantsChainId: string,
+    paysAddress: string,
     wantsAddress: string,
-    wantsUnit: string,
     paysUnit: string,
+    wantsUnit: string,
     doubleHashedBcAddress: string,
     collateralizedNrg: string,
     nrgUnit: string,
@@ -460,14 +464,17 @@ export class PlaceMakerOrderRequest extends jspb.Message {
   getWantsChainId(): string;
   setWantsChainId(value: string): void;
 
+  getPaysChainAddress(): string;
+  setPaysChainAddress(value: string): void;
+
   getWantsChainAddress(): string;
   setWantsChainAddress(value: string): void;
 
-  getWantsUnit(): string;
-  setWantsUnit(value: string): void;
-
   getPaysUnit(): string;
   setPaysUnit(value: string): void;
+
+  getWantsUnit(): string;
+  setWantsUnit(value: string): void;
 
   getBcAddress(): string;
   setBcAddress(value: string): void;
@@ -501,9 +508,10 @@ export namespace PlaceMakerOrderRequest {
     settleEndsAt: number,
     paysWithChainId: string,
     wantsChainId: string,
+    paysChainAddress: string,
     wantsChainAddress: string,
-    wantsUnit: string,
     paysUnit: string,
+    wantsUnit: string,
     bcAddress: string,
     bcPrivateKeyHex: string,
     collateralizedNrg: string,
@@ -513,11 +521,11 @@ export namespace PlaceMakerOrderRequest {
 }
 
 export class PlaceTakerOrderRequest extends jspb.Message {
+  getPaysChainAddress(): string;
+  setPaysChainAddress(value: string): void;
+
   getWantsChainAddress(): string;
   setWantsChainAddress(value: string): void;
-
-  getSendsChainAddress(): string;
-  setSendsChainAddress(value: string): void;
 
   getMakerTxHash(): string;
   setMakerTxHash(value: string): void;
@@ -549,8 +557,8 @@ export class PlaceTakerOrderRequest extends jspb.Message {
 
 export namespace PlaceTakerOrderRequest {
   export type AsObject = {
+    paysChainAddress: string,
     wantsChainAddress: string,
-    sendsChainAddress: string,
     makerTxHash: string,
     makerTxOutputIndex: number,
     bcAddress: string,
@@ -1093,8 +1101,8 @@ export namespace GetOutPointRequest {
 }
 
 export class GetTradeStatusResponse extends jspb.Message {
-  getReceived(): boolean;
-  setReceived(value: boolean): void;
+  getSent(): boolean;
+  setSent(value: boolean): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetTradeStatusResponse.AsObject;
@@ -1108,7 +1116,7 @@ export class GetTradeStatusResponse extends jspb.Message {
 
 export namespace GetTradeStatusResponse {
   export type AsObject = {
-    received: boolean,
+    sent: boolean,
   }
 }
 
