@@ -4,18 +4,19 @@ import * as core from './protos/core_pb';
 import * as bc from './protos/bc_pb';
 
 type BcRpcResponse =
-    core.Block.AsObject |
     core.BcBlock.AsObject |
-    bc.GetRoveredBlocksResponse.AsObject |
-    bc.GetBlocksResponse.AsObject |
-    core.Transaction.AsObject |
+    core.Block.AsObject |
     core.MarkedTransaction.AsObject |
-    bc.RpcTransactionResponse.AsObject |
-    bc.GetBalanceResponse.AsObject |
-    bc.GetSpendableCollateralResponse.AsObject |
+    core.Transaction.AsObject |
+    core.WalletData.AsObject |
     bc.FeeResponse.AsObject |
-    bc.GetMatchedOrdersResponse.AsObject |
+    bc.GetBalanceResponse.AsObject |
     bc.GetBlake2blResponse.AsObject |
+    bc.GetBlocksResponse.AsObject |
+    bc.GetMatchedOrdersResponse.AsObject |
+    bc.GetRoveredBlocksResponse.AsObject |
+    bc.GetSpendableCollateralResponse.AsObject |
+    bc.RpcTransactionResponse.AsObject |
     bc.VanityConvertResponse.AsObject
 
 type JsonRpcParams = Array<string | number>
@@ -29,6 +30,7 @@ enum BcRpcMethod {
     NewTx  = "newTx",
 
     GetBalance  = "getBalance",
+    GetWallet  = "getWallet",
     GetSpendableCollateral  = "getSpendableCollateral",
 
     UnlockCollateral  = "unlockCollateral",
@@ -222,6 +224,11 @@ export default class RpcClient {
     public async getBalance(request: bc.GetBalanceRequest): Promise<bc.GetBalanceResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBalance, request.toArray())
         return result as bc.GetBalanceResponse.AsObject
+    }
+
+    public async getWallet(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetWallet, request.toArray())
+        return result as core.WalletData.AsObject
     }
 
     public async getSpendableCollateral(request: bc.GetSpendableCollateralRequest): Promise<bc.GetSpendableCollateralResponse.AsObject|Error> {

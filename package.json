@@ -20,10 +20,12 @@
     "@types/google-protobuf": "^3.7.1",
     "@types/node-fetch": "^2.3.7",
     "avon": "^3.0.0",
+    "bn.js": "^5.0.0",
     "node-fetch": "^2.6.0",
     "to-buffer": "^1.1.1"
   },
   "devDependencies": {
+    "@types/bn.js": "^4.11.5",
     "grpc-tools": "^1.8.0",
     "ts-protoc-gen": "^0.10.0",
     "tslint": "5.18.0",

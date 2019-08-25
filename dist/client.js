@@ -18,6 +18,7 @@ var BcRpcMethod;
     // Stats  = "stats",
     BcRpcMethod["NewTx"] = "newTx";
     BcRpcMethod["GetBalance"] = "getBalance";
+    BcRpcMethod["GetWallet"] = "getWallet";
     BcRpcMethod["GetSpendableCollateral"] = "getSpendableCollateral";
     BcRpcMethod["UnlockCollateral"] = "unlockCollateral";
     BcRpcMethod["PlaceMakerOrder"] = "placeMakerOrder";
@@ -178,6 +179,12 @@ class RpcClient {
     getBalance(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBalance, request.toArray());
+            return result;
+        });
+    }
+    getWallet(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetWallet, request.toArray());
             return result;
         });
     }

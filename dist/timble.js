@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const { blake2bl } = require('./utils');
+const { blake2blTwice } = require('./utils/crypto');
 class TimbleScript {
     constructor() {
         // Global Variables
@@ -16,29 +16,36 @@ class TimbleScript {
     stringToBuffer(scriptString) {
         return new Uint8Array(Buffer.from(scriptString, 'ascii'));
     }
-    createNRGTransfer(address) {
+    createNRGLockScript(address) {
         address = address.toLowerCase();
         const script = [
             'OP_BLAKE2BL',
-            blake2bl(blake2bl(address)),
+            blake2blTwice(address),
             'OP_EQUALVERIFY',
             'OP_CHECKSIGVERIFY'
         ];
         return script.join(' ');
     }
-    createMakerOutput(shiftLength, depositLength, settleLength, paysFromChainId, wantsToChainId, makerWantsAddress, makerWantsUnit, makerPaysUnit, makerBCAddress) {
-        makerBCAddress = makerBCAddress.toLowerCase();
-        let doubleHashedBcAddress = blake2bl(blake2bl(makerBCAddress));
-        makerWantsAddress = makerWantsAddress.toLowerCase();
+    parseNRGLockScript(script) {
+        if (typeof script != 'string')
+            script = this.bufferToString(script);
+        const doubleHashedBcAddress = script.split(' ')[1];
+        return {
+            doubleHashedBcAddress
+        };
+    }
+    createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress) {
+        bcAddress = bcAddress.toLowerCase();
+        let doubleHashedBcAddress = blake2blTwice(bcAddress);
         const script = [
-            ['OP_MONOID', shiftLength, depositLength, settleLength, 'OP_DEPSET'],
+            ['OP_MONOID', shiftMaker, shiftTaker, depositLength, settleLength, 'OP_DEPSET'],
             ['OP_0', 'OP_IFEQ',
                 'OP_RETURN', 'OP_ENDIFEQ'],
             ['OP_2', 'OP_IFEQ',
                 'OP_TAKERPAIR', '2', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
             ['OP_3', 'OP_IFEQ',
                 'OP_RETURN', 'OP_ENDIFEQ'],
-            ['OP_DROP', paysFromChainId, wantsToChainId, makerWantsAddress, makerWantsUnit, makerPaysUnit, 'OP_MAKERCOLL'],
+            ['OP_DROP', sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, 'OP_MAKERCOLL'],
             ['OP_3', 'OP_IFEQ',
                 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
             ['OP_2', 'OP_IFEQ',
@@ -46,12 +53,42 @@ class TimbleScript {
         ];
         return script.map(part => part.join(' ')).join(' ');
     }
-    createTakerInput(takerWantsAddress, takerSendsAddress) {
+    parseMakerLockScript(script) {
+        if (typeof script != 'string')
+            script = this.bufferToString(script);
+        const [shiftMaker, shiftTaker, deposit, settlement] = script.split(' OP_DEPSET ')[0].split(' ').slice(1);
+        const tradeInfo = script.split(' OP_MAKERCOLL ')[0].split(' ');
+        const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] = tradeInfo.slice(tradeInfo.length - 5);
+        const doubleHashedBcAddress = script.split(' OP_IFEQ OP_BLAKE2BL ')[1].split(' ')[0];
+        return {
+            shiftMaker: parseInt(shiftMaker, 10),
+            shiftTaker: parseInt(shiftTaker, 10),
+            deposit: parseInt(deposit, 10),
+            settlement: parseInt(settlement, 10),
+            sendsFromChain: sendsFromChain,
+            receivesToChain: receivesToChain,
+            sendsFromAddress: sendsFromAddress,
+            receivesToAddress: receivesToAddress,
+            sendsUnit: sendsUnit,
+            receivesUnit: receivesUnit,
+            doubleHashedBcAddress: doubleHashedBcAddress
+        };
+    }
+    createTakerUnlockScript(takerWantsAddress, takerSendsAddress) {
         return [takerWantsAddress, takerSendsAddress].join(' ');
     }
-    createTakerOutput(makerTxHash, makerTxOutputIndex, takerBCAddress) {
+    parseTakerUnlockScript(script) {
+        if (typeof script != 'string')
+            script = this.bufferToString(script);
+        const [takerWantsAddress, takerSendsAddress] = script.split(' ');
+        return {
+            takerWantsAddress,
+            takerSendsAddress
+        };
+    }
+    createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress) {
         takerBCAddress = takerBCAddress.toLowerCase();
-        const doubleHashedBcAddress = blake2bl(blake2bl(takerBCAddress));
+        const doubleHashedBcAddress = blake2blTwice(takerBCAddress);
         const script = [
             [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
             ['4', 'OP_IFEQ', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDIFEQ'],
@@ -59,8 +96,31 @@ class TimbleScript {
         ];
         return script.map(part => part.join(' ')).join(' ');
     }
-    createTakerCallbackOutputForMaker(makerTxHash, makerTxOutputIndex) {
+    parseTakerLockScript(script) {
+        if (typeof script != 'string')
+            script = this.bufferToString(script);
+        if (script.indexOf('OP_CALLBACK') === -1) {
+            throw new Error('Invalid taker outpout script');
+        }
+        const [makerTxHash, makerTxOutputIndex] = script.split(' OP_CALLBACK')[0].split(' ');
+        const doubleHashedBcAddress = script.split(' OP_BLAKE2BL ')[1].split(' ')[0];
+        return {
+            makerTxHash: makerTxHash,
+            makerTxOutputIndex: parseInt(makerTxOutputIndex, 10),
+            doubleHashedBcAddress: doubleHashedBcAddress
+        };
+    }
+    createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex) {
         return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ');
+    }
+    parseTakerCallbackLockScript(script) {
+        if (typeof script != 'string')
+            script = this.bufferToString(script);
+        const [makerTxHash, makerTxOutputIndex, OP_Callback] = script.split(' ');
+        return {
+            makerTxHash,
+            makerTxOutputIndex
+        };
     }
     getScriptType(script) {
         if (typeof script != 'string')
@@ -79,65 +139,6 @@ class TimbleScript {
         }
         else
             return this.TAKER_INPUT;
-    }
-    parseTakerOutput(script) {
-        if (typeof script != 'string')
-            script = this.bufferToString(script);
-        if (script.indexOf('OP_CALLBACK') === -1) {
-            throw new Error('Invalid taker outpout script');
-        }
-        const [makerTxHash, makerTxOutputIndex] = script.split(' OP_CALLBACK')[0].split(' ');
-        const doubleHashedBcAddress = script.split(' OP_BLAKE2BL ')[1].split(' ')[0];
-        return {
-            makerTxHash: makerTxHash,
-            makerTxOutputIndex: parseInt(makerTxOutputIndex, 10),
-            doubleHashedBcAddress: doubleHashedBcAddress
-        };
-    }
-    parseNRGTransfer(script) {
-        if (typeof script != 'string')
-            script = this.bufferToString(script);
-        const doubleHashedBcAddress = script.split(' ')[1];
-        return {
-            doubleHashedBcAddress
-        };
-    }
-    parseTakerInput(script) {
-        if (typeof script != 'string')
-            script = this.bufferToString(script);
-        const [takerWantsAddress, takerSendsAddress] = script.split(' ');
-        return {
-            takerWantsAddress,
-            takerSendsAddress
-        };
-    }
-    parseTakerCallback(script) {
-        if (typeof script != 'string')
-            script = this.bufferToString(script);
-        const [makerTxHash, makerTxOutputIndex, OP_Callback] = script.split(' ');
-        return {
-            makerTxHash,
-            makerTxOutputIndex
-        };
-    }
-    parseMakerOutput(script) {
-        if (typeof script != 'string')
-            script = this.bufferToString(script);
-        const [shiftStartsAt, depositEndsAt, settleEndsAt] = script.split(' OP_DEPSET ')[0].split(' ').slice(1);
-        const tradeInfo = script.split(' OP_MAKERCOLL ')[0].split(' ');
-        const [paysChainId, wantsChainId, wantsAddress, wantsUnit, paysUnit] = tradeInfo.slice(tradeInfo.length - 5);
-        const doubleHashedBcAddress = script.split(' OP_IFEQ OP_BLAKE2BL ')[1].split(' ')[0];
-        return {
-            shiftStartsAt: parseInt(shiftStartsAt, 10),
-            depositEndsAt: parseInt(depositEndsAt, 10),
-            settleEndsAt: parseInt(settleEndsAt, 10),
-            paysChainId: paysChainId,
-            wantsChainId: wantsChainId,
-            wantsAddress: wantsAddress,
-            wantsUnit: wantsUnit,
-            paysUnit: paysUnit,
-            doubleHashedBcAddress: doubleHashedBcAddress
-        };
     }
 }
 exports.default = TimbleScript;
