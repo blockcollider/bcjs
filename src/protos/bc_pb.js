@@ -1533,9 +1533,10 @@ proto.bc.UnlockCollateralRequest.prototype.toObject = function(opt_includeInstan
  */
 proto.bc.UnlockCollateralRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    outpoint: (f = msg.getOutpoint()) && core_pb.OutPoint.toObject(includeInstance, f),
-    bcAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    bcPrivateKeyHex: jspb.Message.getFieldWithDefault(msg, 3, "")
+    txHash: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    txOutputIndex: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    bcAddress: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    bcPrivateKeyHex: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -1573,15 +1574,18 @@ proto.bc.UnlockCollateralRequest.deserializeBinaryFromReader = function(msg, rea
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new core_pb.OutPoint;
-      reader.readMessage(value,core_pb.OutPoint.deserializeBinaryFromReader);
-      msg.setOutpoint(value);
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTxHash(value);
       break;
     case 2:
+      var value = /** @type {number} */ (reader.readUint32());
+      msg.setTxOutputIndex(value);
+      break;
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setBcAddress(value);
       break;
-    case 3:
+    case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setBcPrivateKeyHex(value);
       break;
@@ -1614,88 +1618,94 @@ proto.bc.UnlockCollateralRequest.prototype.serializeBinary = function() {
  */
 proto.bc.UnlockCollateralRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getOutpoint();
-  if (f != null) {
-    writer.writeMessage(
-      1,
-      f,
-      core_pb.OutPoint.serializeBinaryToWriter
-    );
-  }
-  f = message.getBcAddress();
+  f = message.getTxHash();
   if (f.length > 0) {
     writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getTxOutputIndex();
+  if (f !== 0) {
+    writer.writeUint32(
       2,
       f
     );
   }
-  f = message.getBcPrivateKeyHex();
+  f = message.getBcAddress();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
+  f = message.getBcPrivateKeyHex();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
 };
 
 
 /**
- * optional OutPoint outpoint = 1;
- * @return {?proto.bc.OutPoint}
- */
-proto.bc.UnlockCollateralRequest.prototype.getOutpoint = function() {
-  return /** @type{?proto.bc.OutPoint} */ (
-    jspb.Message.getWrapperField(this, core_pb.OutPoint, 1));
-};
-
-
-/** @param {?proto.bc.OutPoint|undefined} value */
-proto.bc.UnlockCollateralRequest.prototype.setOutpoint = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
-};
-
-
-proto.bc.UnlockCollateralRequest.prototype.clearOutpoint = function() {
-  this.setOutpoint(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.bc.UnlockCollateralRequest.prototype.hasOutpoint = function() {
-  return jspb.Message.getField(this, 1) != null;
-};
-
-
-/**
- * optional string bc_address = 2;
+ * optional string tx_hash = 1;
  * @return {string}
  */
-proto.bc.UnlockCollateralRequest.prototype.getBcAddress = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+proto.bc.UnlockCollateralRequest.prototype.getTxHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.UnlockCollateralRequest.prototype.setBcAddress = function(value) {
-  jspb.Message.setProto3StringField(this, 2, value);
+proto.bc.UnlockCollateralRequest.prototype.setTxHash = function(value) {
+  jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string bc_private_key_hex = 3;
+ * optional uint32 tx_output_index = 2;
+ * @return {number}
+ */
+proto.bc.UnlockCollateralRequest.prototype.getTxOutputIndex = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.bc.UnlockCollateralRequest.prototype.setTxOutputIndex = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional string bc_address = 3;
  * @return {string}
  */
-proto.bc.UnlockCollateralRequest.prototype.getBcPrivateKeyHex = function() {
+proto.bc.UnlockCollateralRequest.prototype.getBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.UnlockCollateralRequest.prototype.setBcPrivateKeyHex = function(value) {
+proto.bc.UnlockCollateralRequest.prototype.setBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional string bc_private_key_hex = 4;
+ * @return {string}
+ */
+proto.bc.UnlockCollateralRequest.prototype.getBcPrivateKeyHex = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.UnlockCollateralRequest.prototype.setBcPrivateKeyHex = function(value) {
+  jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
@@ -1747,20 +1757,22 @@ proto.bc.MakerOrderInfo.prototype.toObject = function(opt_includeInstance) {
 proto.bc.MakerOrderInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     tradeHeight: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    depositHeight: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    settleHeight: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    paysChainId: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    wantsChainId: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    paysAddress: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    wantsAddress: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    paysUnit: jspb.Message.getFieldWithDefault(msg, 8, ""),
-    wantsUnit: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    doubleHashedBcAddress: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    collateralizedNrg: jspb.Message.getFieldWithDefault(msg, 11, ""),
-    nrgUnit: jspb.Message.getFieldWithDefault(msg, 12, ""),
-    txHash: jspb.Message.getFieldWithDefault(msg, 13, ""),
-    txOutputIndex: jspb.Message.getFieldWithDefault(msg, 14, 0),
-    isSettled: jspb.Message.getFieldWithDefault(msg, 15, false)
+    deposit: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    settlement: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    shiftMaker: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    shiftTaker: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    sendsFromChain: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    receivesToChain: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    sendsFromAddress: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    receivesToAddress: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    sendsUnit: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    receivesUnit: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    doubleHashedBcAddress: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    collateralizedNrg: jspb.Message.getFieldWithDefault(msg, 13, ""),
+    nrgUnit: jspb.Message.getFieldWithDefault(msg, 14, ""),
+    txHash: jspb.Message.getFieldWithDefault(msg, 15, ""),
+    txOutputIndex: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    isSettled: jspb.Message.getFieldWithDefault(msg, 17, false)
   };
 
   if (includeInstance) {
@@ -1803,57 +1815,65 @@ proto.bc.MakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 2:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setDepositHeight(value);
+      msg.setDeposit(value);
       break;
     case 3:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setSettleHeight(value);
+      msg.setSettlement(value);
       break;
     case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setPaysChainId(value);
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setShiftMaker(value);
       break;
     case 5:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setWantsChainId(value);
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setShiftTaker(value);
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPaysAddress(value);
+      msg.setSendsFromChain(value);
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWantsAddress(value);
+      msg.setReceivesToChain(value);
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPaysUnit(value);
+      msg.setSendsFromAddress(value);
       break;
     case 9:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWantsUnit(value);
+      msg.setReceivesToAddress(value);
       break;
     case 10:
       var value = /** @type {string} */ (reader.readString());
-      msg.setDoubleHashedBcAddress(value);
+      msg.setSendsUnit(value);
       break;
     case 11:
       var value = /** @type {string} */ (reader.readString());
-      msg.setCollateralizedNrg(value);
+      msg.setReceivesUnit(value);
       break;
     case 12:
       var value = /** @type {string} */ (reader.readString());
-      msg.setNrgUnit(value);
+      msg.setDoubleHashedBcAddress(value);
       break;
     case 13:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTxHash(value);
+      msg.setCollateralizedNrg(value);
       break;
     case 14:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNrgUnit(value);
+      break;
+    case 15:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTxHash(value);
+      break;
+    case 16:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setTxOutputIndex(value);
       break;
-    case 15:
+    case 17:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsSettled(value);
       break;
@@ -1893,101 +1913,115 @@ proto.bc.MakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getDepositHeight();
+  f = message.getDeposit();
   if (f !== 0) {
     writer.writeUint64(
       2,
       f
     );
   }
-  f = message.getSettleHeight();
+  f = message.getSettlement();
   if (f !== 0) {
     writer.writeUint64(
       3,
       f
     );
   }
-  f = message.getPaysChainId();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getShiftMaker();
+  if (f !== 0) {
+    writer.writeUint64(
       4,
       f
     );
   }
-  f = message.getWantsChainId();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getShiftTaker();
+  if (f !== 0) {
+    writer.writeUint64(
       5,
       f
     );
   }
-  f = message.getPaysAddress();
+  f = message.getSendsFromChain();
   if (f.length > 0) {
     writer.writeString(
       6,
       f
     );
   }
-  f = message.getWantsAddress();
+  f = message.getReceivesToChain();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
-  f = message.getPaysUnit();
+  f = message.getSendsFromAddress();
   if (f.length > 0) {
     writer.writeString(
       8,
       f
     );
   }
-  f = message.getWantsUnit();
+  f = message.getReceivesToAddress();
   if (f.length > 0) {
     writer.writeString(
       9,
       f
     );
   }
-  f = message.getDoubleHashedBcAddress();
+  f = message.getSendsUnit();
   if (f.length > 0) {
     writer.writeString(
       10,
       f
     );
   }
-  f = message.getCollateralizedNrg();
+  f = message.getReceivesUnit();
   if (f.length > 0) {
     writer.writeString(
       11,
       f
     );
   }
-  f = message.getNrgUnit();
+  f = message.getDoubleHashedBcAddress();
   if (f.length > 0) {
     writer.writeString(
       12,
       f
     );
   }
-  f = message.getTxHash();
+  f = message.getCollateralizedNrg();
   if (f.length > 0) {
     writer.writeString(
       13,
       f
     );
   }
+  f = message.getNrgUnit();
+  if (f.length > 0) {
+    writer.writeString(
+      14,
+      f
+    );
+  }
+  f = message.getTxHash();
+  if (f.length > 0) {
+    writer.writeString(
+      15,
+      f
+    );
+  }
   f = message.getTxOutputIndex();
   if (f !== 0) {
     writer.writeUint32(
-      14,
+      16,
       f
     );
   }
   f = message.getIsSettled();
   if (f) {
     writer.writeBool(
-      15,
+      17,
       f
     );
   }
@@ -2010,214 +2044,244 @@ proto.bc.MakerOrderInfo.prototype.setTradeHeight = function(value) {
 
 
 /**
- * optional uint64 deposit_height = 2;
+ * optional uint64 deposit = 2;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getDepositHeight = function() {
+proto.bc.MakerOrderInfo.prototype.getDeposit = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setDepositHeight = function(value) {
+proto.bc.MakerOrderInfo.prototype.setDeposit = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
 /**
- * optional uint64 settle_height = 3;
+ * optional uint64 settlement = 3;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getSettleHeight = function() {
+proto.bc.MakerOrderInfo.prototype.getSettlement = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setSettleHeight = function(value) {
+proto.bc.MakerOrderInfo.prototype.setSettlement = function(value) {
   jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * optional string pays_chain_id = 4;
- * @return {string}
+ * optional uint64 shift_maker = 4;
+ * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getPaysChainId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+proto.bc.MakerOrderInfo.prototype.getShiftMaker = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
-/** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setPaysChainId = function(value) {
-  jspb.Message.setProto3StringField(this, 4, value);
+/** @param {number} value */
+proto.bc.MakerOrderInfo.prototype.setShiftMaker = function(value) {
+  jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
 /**
- * optional string wants_chain_id = 5;
- * @return {string}
+ * optional uint64 shift_taker = 5;
+ * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getWantsChainId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+proto.bc.MakerOrderInfo.prototype.getShiftTaker = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
-/** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setWantsChainId = function(value) {
-  jspb.Message.setProto3StringField(this, 5, value);
+/** @param {number} value */
+proto.bc.MakerOrderInfo.prototype.setShiftTaker = function(value) {
+  jspb.Message.setProto3IntField(this, 5, value);
 };
 
 
 /**
- * optional string pays_address = 6;
+ * optional string sends_from_chain = 6;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getPaysAddress = function() {
+proto.bc.MakerOrderInfo.prototype.getSendsFromChain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setPaysAddress = function(value) {
+proto.bc.MakerOrderInfo.prototype.setSendsFromChain = function(value) {
   jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
 /**
- * optional string wants_address = 7;
+ * optional string receives_to_chain = 7;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getWantsAddress = function() {
+proto.bc.MakerOrderInfo.prototype.getReceivesToChain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setWantsAddress = function(value) {
+proto.bc.MakerOrderInfo.prototype.setReceivesToChain = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
 /**
- * optional string pays_unit = 8;
+ * optional string sends_from_address = 8;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getPaysUnit = function() {
+proto.bc.MakerOrderInfo.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setPaysUnit = function(value) {
+proto.bc.MakerOrderInfo.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
 };
 
 
 /**
- * optional string wants_unit = 9;
+ * optional string receives_to_address = 9;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getWantsUnit = function() {
+proto.bc.MakerOrderInfo.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setWantsUnit = function(value) {
+proto.bc.MakerOrderInfo.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
 /**
- * optional string double_hashed_bc_address = 10;
+ * optional string sends_unit = 10;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getDoubleHashedBcAddress = function() {
+proto.bc.MakerOrderInfo.prototype.getSendsUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setDoubleHashedBcAddress = function(value) {
+proto.bc.MakerOrderInfo.prototype.setSendsUnit = function(value) {
   jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * optional string collateralized_nrg = 11;
+ * optional string receives_unit = 11;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getCollateralizedNrg = function() {
+proto.bc.MakerOrderInfo.prototype.getReceivesUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setCollateralizedNrg = function(value) {
+proto.bc.MakerOrderInfo.prototype.setReceivesUnit = function(value) {
   jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
 /**
- * optional string nrg_unit = 12;
+ * optional string double_hashed_bc_address = 12;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getNrgUnit = function() {
+proto.bc.MakerOrderInfo.prototype.getDoubleHashedBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setNrgUnit = function(value) {
+proto.bc.MakerOrderInfo.prototype.setDoubleHashedBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 12, value);
 };
 
 
 /**
- * optional string tx_hash = 13;
+ * optional string collateralized_nrg = 13;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getTxHash = function() {
+proto.bc.MakerOrderInfo.prototype.getCollateralizedNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setTxHash = function(value) {
+proto.bc.MakerOrderInfo.prototype.setCollateralizedNrg = function(value) {
   jspb.Message.setProto3StringField(this, 13, value);
 };
 
 
 /**
- * optional uint32 tx_output_index = 14;
+ * optional string nrg_unit = 14;
+ * @return {string}
+ */
+proto.bc.MakerOrderInfo.prototype.getNrgUnit = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.MakerOrderInfo.prototype.setNrgUnit = function(value) {
+  jspb.Message.setProto3StringField(this, 14, value);
+};
+
+
+/**
+ * optional string tx_hash = 15;
+ * @return {string}
+ */
+proto.bc.MakerOrderInfo.prototype.getTxHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.MakerOrderInfo.prototype.setTxHash = function(value) {
+  jspb.Message.setProto3StringField(this, 15, value);
+};
+
+
+/**
+ * optional uint32 tx_output_index = 16;
  * @return {number}
  */
 proto.bc.MakerOrderInfo.prototype.getTxOutputIndex = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
 };
 
 
 /** @param {number} value */
 proto.bc.MakerOrderInfo.prototype.setTxOutputIndex = function(value) {
-  jspb.Message.setProto3IntField(this, 14, value);
+  jspb.Message.setProto3IntField(this, 16, value);
 };
 
 
 /**
- * optional bool is_settled = 15;
+ * optional bool is_settled = 17;
  * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
 proto.bc.MakerOrderInfo.prototype.getIsSettled = function() {
-  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 15, false));
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 17, false));
 };
 
 
 /** @param {boolean} value */
 proto.bc.MakerOrderInfo.prototype.setIsSettled = function(value) {
-  jspb.Message.setProto3BooleanField(this, 15, value);
+  jspb.Message.setProto3BooleanField(this, 17, value);
 };
 
 
@@ -2268,8 +2332,8 @@ proto.bc.TakerOrderInfo.prototype.toObject = function(opt_includeInstance) {
  */
 proto.bc.TakerOrderInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    sendsAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    wantsAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    sendsFromAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    receivesToAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
     doubleHashedBcAddress: jspb.Message.getFieldWithDefault(msg, 3, ""),
     isSettled: jspb.Message.getFieldWithDefault(msg, 4, false),
     txHash: jspb.Message.getFieldWithDefault(msg, 5, ""),
@@ -2313,11 +2377,11 @@ proto.bc.TakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setSendsAddress(value);
+      msg.setSendsFromAddress(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWantsAddress(value);
+      msg.setReceivesToAddress(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -2368,14 +2432,14 @@ proto.bc.TakerOrderInfo.prototype.serializeBinary = function() {
  */
 proto.bc.TakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getSendsAddress();
+  f = message.getSendsFromAddress();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getWantsAddress();
+  f = message.getReceivesToAddress();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -2421,31 +2485,31 @@ proto.bc.TakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string sends_address = 1;
+ * optional string sends_from_address = 1;
  * @return {string}
  */
-proto.bc.TakerOrderInfo.prototype.getSendsAddress = function() {
+proto.bc.TakerOrderInfo.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrderInfo.prototype.setSendsAddress = function(value) {
+proto.bc.TakerOrderInfo.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string wants_address = 2;
+ * optional string receives_to_address = 2;
  * @return {string}
  */
-proto.bc.TakerOrderInfo.prototype.getWantsAddress = function() {
+proto.bc.TakerOrderInfo.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrderInfo.prototype.setWantsAddress = function(value) {
+proto.bc.TakerOrderInfo.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -3257,20 +3321,21 @@ proto.bc.PlaceMakerOrderRequest.prototype.toObject = function(opt_includeInstanc
  */
 proto.bc.PlaceMakerOrderRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    shiftStartsAt: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    depositEndsAt: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    settleEndsAt: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    paysWithChainId: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    wantsChainId: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    paysChainAddress: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    wantsChainAddress: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    paysUnit: jspb.Message.getFieldWithDefault(msg, 8, ""),
-    wantsUnit: jspb.Message.getFieldWithDefault(msg, 9, ""),
-    bcAddress: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    bcPrivateKeyHex: jspb.Message.getFieldWithDefault(msg, 11, ""),
-    collateralizedNrg: jspb.Message.getFieldWithDefault(msg, 12, ""),
-    nrgUnit: jspb.Message.getFieldWithDefault(msg, 13, ""),
-    txFee: jspb.Message.getFieldWithDefault(msg, 14, "")
+    shiftMaker: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    shiftTaker: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    depositLength: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    settlementLength: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    sendsFromChain: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    receivesToChain: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    sendsFromAddress: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    receivesToAddress: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    sendsUnit: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    receivesUnit: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    bcAddress: jspb.Message.getFieldWithDefault(msg, 11, ""),
+    bcPrivateKeyHex: jspb.Message.getFieldWithDefault(msg, 12, ""),
+    collateralizedNrg: jspb.Message.getFieldWithDefault(msg, 13, ""),
+    nrgUnit: jspb.Message.getFieldWithDefault(msg, 14, ""),
+    txFee: jspb.Message.getFieldWithDefault(msg, 15, "")
   };
 
   if (includeInstance) {
@@ -3309,57 +3374,61 @@ proto.bc.PlaceMakerOrderRequest.deserializeBinaryFromReader = function(msg, read
     switch (field) {
     case 1:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setShiftStartsAt(value);
+      msg.setShiftMaker(value);
       break;
     case 2:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setDepositEndsAt(value);
+      msg.setShiftTaker(value);
       break;
     case 3:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setSettleEndsAt(value);
+      msg.setDepositLength(value);
       break;
     case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setPaysWithChainId(value);
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setSettlementLength(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWantsChainId(value);
+      msg.setSendsFromChain(value);
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPaysChainAddress(value);
+      msg.setReceivesToChain(value);
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWantsChainAddress(value);
+      msg.setSendsFromAddress(value);
       break;
     case 8:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPaysUnit(value);
+      msg.setReceivesToAddress(value);
       break;
     case 9:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWantsUnit(value);
+      msg.setSendsUnit(value);
       break;
     case 10:
       var value = /** @type {string} */ (reader.readString());
-      msg.setBcAddress(value);
+      msg.setReceivesUnit(value);
       break;
     case 11:
       var value = /** @type {string} */ (reader.readString());
-      msg.setBcPrivateKeyHex(value);
+      msg.setBcAddress(value);
       break;
     case 12:
       var value = /** @type {string} */ (reader.readString());
-      msg.setCollateralizedNrg(value);
+      msg.setBcPrivateKeyHex(value);
       break;
     case 13:
       var value = /** @type {string} */ (reader.readString());
-      msg.setNrgUnit(value);
+      msg.setCollateralizedNrg(value);
       break;
     case 14:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setNrgUnit(value);
+      break;
+    case 15:
       var value = /** @type {string} */ (reader.readString());
       msg.setTxFee(value);
       break;
@@ -3392,101 +3461,108 @@ proto.bc.PlaceMakerOrderRequest.prototype.serializeBinary = function() {
  */
 proto.bc.PlaceMakerOrderRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getShiftStartsAt();
+  f = message.getShiftMaker();
   if (f !== 0) {
     writer.writeUint64(
       1,
       f
     );
   }
-  f = message.getDepositEndsAt();
+  f = message.getShiftTaker();
   if (f !== 0) {
     writer.writeUint64(
       2,
       f
     );
   }
-  f = message.getSettleEndsAt();
+  f = message.getDepositLength();
   if (f !== 0) {
     writer.writeUint64(
       3,
       f
     );
   }
-  f = message.getPaysWithChainId();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getSettlementLength();
+  if (f !== 0) {
+    writer.writeUint64(
       4,
       f
     );
   }
-  f = message.getWantsChainId();
+  f = message.getSendsFromChain();
   if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = message.getPaysChainAddress();
+  f = message.getReceivesToChain();
   if (f.length > 0) {
     writer.writeString(
       6,
       f
     );
   }
-  f = message.getWantsChainAddress();
+  f = message.getSendsFromAddress();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
-  f = message.getPaysUnit();
+  f = message.getReceivesToAddress();
   if (f.length > 0) {
     writer.writeString(
       8,
       f
     );
   }
-  f = message.getWantsUnit();
+  f = message.getSendsUnit();
   if (f.length > 0) {
     writer.writeString(
       9,
       f
     );
   }
-  f = message.getBcAddress();
+  f = message.getReceivesUnit();
   if (f.length > 0) {
     writer.writeString(
       10,
       f
     );
   }
-  f = message.getBcPrivateKeyHex();
+  f = message.getBcAddress();
   if (f.length > 0) {
     writer.writeString(
       11,
       f
     );
   }
-  f = message.getCollateralizedNrg();
+  f = message.getBcPrivateKeyHex();
   if (f.length > 0) {
     writer.writeString(
       12,
       f
     );
   }
-  f = message.getNrgUnit();
+  f = message.getCollateralizedNrg();
   if (f.length > 0) {
     writer.writeString(
       13,
       f
     );
   }
-  f = message.getTxFee();
+  f = message.getNrgUnit();
   if (f.length > 0) {
     writer.writeString(
       14,
+      f
+    );
+  }
+  f = message.getTxFee();
+  if (f.length > 0) {
+    writer.writeString(
+      15,
       f
     );
   }
@@ -3494,212 +3570,227 @@ proto.bc.PlaceMakerOrderRequest.serializeBinaryToWriter = function(message, writ
 
 
 /**
- * optional uint64 shift_starts_at = 1;
+ * optional uint64 shift_maker = 1;
  * @return {number}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getShiftStartsAt = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getShiftMaker = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setShiftStartsAt = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setShiftMaker = function(value) {
   jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
 /**
- * optional uint64 deposit_ends_at = 2;
+ * optional uint64 shift_taker = 2;
  * @return {number}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getDepositEndsAt = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getShiftTaker = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setDepositEndsAt = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setShiftTaker = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
 /**
- * optional uint64 settle_ends_at = 3;
+ * optional uint64 deposit_length = 3;
  * @return {number}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getSettleEndsAt = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getDepositLength = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setSettleEndsAt = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setDepositLength = function(value) {
   jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * optional string pays_with_chain_id = 4;
- * @return {string}
+ * optional uint64 settlement_length = 4;
+ * @return {number}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getPaysWithChainId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+proto.bc.PlaceMakerOrderRequest.prototype.getSettlementLength = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
-/** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setPaysWithChainId = function(value) {
-  jspb.Message.setProto3StringField(this, 4, value);
+/** @param {number} value */
+proto.bc.PlaceMakerOrderRequest.prototype.setSettlementLength = function(value) {
+  jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
 /**
- * optional string wants_chain_id = 5;
+ * optional string sends_from_chain = 5;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getWantsChainId = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getSendsFromChain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setWantsChainId = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setSendsFromChain = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional string pays_chain_address = 6;
+ * optional string receives_to_chain = 6;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getPaysChainAddress = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getReceivesToChain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setPaysChainAddress = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setReceivesToChain = function(value) {
   jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
 /**
- * optional string wants_chain_address = 7;
+ * optional string sends_from_address = 7;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getWantsChainAddress = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setWantsChainAddress = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
 /**
- * optional string pays_unit = 8;
+ * optional string receives_to_address = 8;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getPaysUnit = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setPaysUnit = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
 };
 
 
 /**
- * optional string wants_unit = 9;
+ * optional string sends_unit = 9;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getWantsUnit = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getSendsUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setWantsUnit = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setSendsUnit = function(value) {
   jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
 /**
- * optional string bc_address = 10;
+ * optional string receives_unit = 10;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getBcAddress = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getReceivesUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setBcAddress = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setReceivesUnit = function(value) {
   jspb.Message.setProto3StringField(this, 10, value);
 };
 
 
 /**
- * optional string bc_private_key_hex = 11;
+ * optional string bc_address = 11;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getBcPrivateKeyHex = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setBcPrivateKeyHex = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
 /**
- * optional string collateralized_nrg = 12;
+ * optional string bc_private_key_hex = 12;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getCollateralizedNrg = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getBcPrivateKeyHex = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setCollateralizedNrg = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setBcPrivateKeyHex = function(value) {
   jspb.Message.setProto3StringField(this, 12, value);
 };
 
 
 /**
- * optional string nrg_unit = 13;
+ * optional string collateralized_nrg = 13;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getNrgUnit = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getCollateralizedNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setNrgUnit = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setCollateralizedNrg = function(value) {
   jspb.Message.setProto3StringField(this, 13, value);
 };
 
 
 /**
- * optional string tx_fee = 14;
+ * optional string nrg_unit = 14;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getTxFee = function() {
+proto.bc.PlaceMakerOrderRequest.prototype.getNrgUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setTxFee = function(value) {
+proto.bc.PlaceMakerOrderRequest.prototype.setNrgUnit = function(value) {
   jspb.Message.setProto3StringField(this, 14, value);
+};
+
+
+/**
+ * optional string tx_fee = 15;
+ * @return {string}
+ */
+proto.bc.PlaceMakerOrderRequest.prototype.getTxFee = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.PlaceMakerOrderRequest.prototype.setTxFee = function(value) {
+  jspb.Message.setProto3StringField(this, 15, value);
 };
 
 
@@ -3750,8 +3841,8 @@ proto.bc.PlaceTakerOrderRequest.prototype.toObject = function(opt_includeInstanc
  */
 proto.bc.PlaceTakerOrderRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    paysChainAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    wantsChainAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    sendsFromAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    receivesToAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
     makerTxHash: jspb.Message.getFieldWithDefault(msg, 3, ""),
     makerTxOutputIndex: jspb.Message.getFieldWithDefault(msg, 4, 0),
     bcAddress: jspb.Message.getFieldWithDefault(msg, 5, ""),
@@ -3796,11 +3887,11 @@ proto.bc.PlaceTakerOrderRequest.deserializeBinaryFromReader = function(msg, read
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPaysChainAddress(value);
+      msg.setSendsFromAddress(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWantsChainAddress(value);
+      msg.setReceivesToAddress(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -3855,14 +3946,14 @@ proto.bc.PlaceTakerOrderRequest.prototype.serializeBinary = function() {
  */
 proto.bc.PlaceTakerOrderRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getPaysChainAddress();
+  f = message.getSendsFromAddress();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getWantsChainAddress();
+  f = message.getReceivesToAddress();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -3915,31 +4006,31 @@ proto.bc.PlaceTakerOrderRequest.serializeBinaryToWriter = function(message, writ
 
 
 /**
- * optional string pays_chain_address = 1;
+ * optional string sends_from_address = 1;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getPaysChainAddress = function() {
+proto.bc.PlaceTakerOrderRequest.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setPaysChainAddress = function(value) {
+proto.bc.PlaceTakerOrderRequest.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string wants_chain_address = 2;
+ * optional string receives_to_address = 2;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getWantsChainAddress = function() {
+proto.bc.PlaceTakerOrderRequest.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setWantsChainAddress = function(value) {
+proto.bc.PlaceTakerOrderRequest.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -4081,8 +4172,8 @@ proto.bc.TakerOrder.prototype.toObject = function(opt_includeInstance) {
  */
 proto.bc.TakerOrder.toObject = function(includeInstance, msg) {
   var f, obj = {
-    wantsChainAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    sendsChainAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    sendsFromAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    receivesToAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
     makerTxHash: jspb.Message.getFieldWithDefault(msg, 3, ""),
     makerTxOutputIndex: jspb.Message.getFieldWithDefault(msg, 4, 0),
     collateralizedNrg: jspb.Message.getFieldWithDefault(msg, 5, "")
@@ -4124,11 +4215,11 @@ proto.bc.TakerOrder.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setWantsChainAddress(value);
+      msg.setSendsFromAddress(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setSendsChainAddress(value);
+      msg.setReceivesToAddress(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -4171,14 +4262,14 @@ proto.bc.TakerOrder.prototype.serializeBinary = function() {
  */
 proto.bc.TakerOrder.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getWantsChainAddress();
+  f = message.getSendsFromAddress();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getSendsChainAddress();
+  f = message.getReceivesToAddress();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -4210,31 +4301,31 @@ proto.bc.TakerOrder.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string wants_chain_address = 1;
+ * optional string sends_from_address = 1;
  * @return {string}
  */
-proto.bc.TakerOrder.prototype.getWantsChainAddress = function() {
+proto.bc.TakerOrder.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrder.prototype.setWantsChainAddress = function(value) {
+proto.bc.TakerOrder.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string sends_chain_address = 2;
+ * optional string receives_to_address = 2;
  * @return {string}
  */
-proto.bc.TakerOrder.prototype.getSendsChainAddress = function() {
+proto.bc.TakerOrder.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrder.prototype.setSendsChainAddress = function(value) {
+proto.bc.TakerOrder.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
