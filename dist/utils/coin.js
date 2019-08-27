@@ -138,98 +138,100 @@ exports.CurrencyInfo = {
         WEI: 'wei',
         minUnit: 'wei',
         humanUnit: 'eth',
-        converter: function (val, from, to) {
-            const power = 18;
-            if (from === to) {
-                return val;
-            }
-            else if (from === 'eth' && to === 'wei') {
-                return calcStringMulPowerTen(val, power); // 1 ETH = 10^8 WEI
-            }
-            else if (from === 'wei' && to === 'eth') {
-                return calcStringDivPowerTen(val, power); // 1 ETH = 10^8 WEI
-            }
-            throw new Error('invalid unit');
-        },
     },
     btc: {
         BTC: 'btc',
         SATOSHI: 'satoshi',
         minUnit: 'satoshi',
         humanUnit: 'btc',
-        converter: function (val, from, to) {
-            const power = 8;
-            if (from === to) {
-                return val;
-            }
-            else if (from === 'btc' && to === 'satoshi') {
-                return calcStringMulPowerTen(val, power);
-            }
-            else if (from === 'satoshi' && to === 'btc') {
-                return calcStringDivPowerTen(val, power);
-            }
-            throw new Error('invalid unit');
-        },
     },
     neo: {
         NEO: 'neo',
         minUnit: 'neo',
         humanUnit: 'neo',
-        converter: function (val, from, to) {
-            if (val.includes('.')) {
-                throw new Error('invalid value, NEO is indivisible');
-            }
-            return val;
-        },
     },
     lsk: {
         LSK: 'lsk',
         minLsk: 'mwav',
         minUnit: 'mlsk',
         humanUnit: 'lsk',
-        converter: function (val, from, to) {
-            const power = 8;
-            if (from === to) {
-                return val;
-            }
-            else if (from === 'lsk' && to === 'mlsk') {
-                return calcStringMulPowerTen(val, power);
-            }
-            else if (from === 'mlsk' && to === 'lsk') {
-                return calcStringDivPowerTen(val, power);
-            }
-            throw new Error('invalid unit');
-        },
     },
     wav: {
         WAV: 'wav',
         minWav: 'mwav',
         minUnit: 'mwav',
         humanUnit: 'wav',
-        converter: function (val, from, to) {
-            const power = 8;
-            if (from === to) {
-                return val;
-            }
-            else if (from === 'wav' && to === 'mwav') {
-                return calcStringMulPowerTen(val, power);
-            }
-            else if (from === 'mwav' && to === 'wav') {
-                return calcStringDivPowerTen(val, power);
-            }
-            throw new Error('invalid unit');
-        },
+    },
+};
+exports.CurrencyConverter = {
+    eth: function (val, from, to) {
+        const power = 18;
+        if (from === to) {
+            return val;
+        }
+        else if (from === 'eth' && to === 'wei') {
+            return calcStringMulPowerTen(val, power); // 1 ETH = 10^8 WEI
+        }
+        else if (from === 'wei' && to === 'eth') {
+            return calcStringDivPowerTen(val, power); // 1 ETH = 10^8 WEI
+        }
+        throw new Error('invalid unit');
+    },
+    btc: function (val, from, to) {
+        const power = 8;
+        if (from === to) {
+            return val;
+        }
+        else if (from === 'btc' && to === 'satoshi') {
+            return calcStringMulPowerTen(val, power);
+        }
+        else if (from === 'satoshi' && to === 'btc') {
+            return calcStringDivPowerTen(val, power);
+        }
+        throw new Error('invalid unit');
+    },
+    neo: function (val, from, to) {
+        if (val.includes('.')) {
+            throw new Error('invalid value, NEO is indivisible');
+        }
+        return val;
+    },
+    lsk: function (val, from, to) {
+        const power = 8;
+        if (from === to) {
+            return val;
+        }
+        else if (from === 'lsk' && to === 'mlsk') {
+            return calcStringMulPowerTen(val, power);
+        }
+        else if (from === 'mlsk' && to === 'lsk') {
+            return calcStringDivPowerTen(val, power);
+        }
+        throw new Error('invalid unit');
+    },
+    wav: function (val, from, to) {
+        const power = 8;
+        if (from === to) {
+            return val;
+        }
+        else if (from === 'wav' && to === 'mwav') {
+            return calcStringMulPowerTen(val, power);
+        }
+        else if (from === 'mwav' && to === 'wav') {
+            return calcStringDivPowerTen(val, power);
+        }
+        throw new Error('invalid unit');
     },
 };
 class Currency {
     static toMinimumUnitAsStr(currency, value, from) {
-        return exports.CurrencyInfo[currency].converter(value, from, exports.CurrencyInfo[currency].minUnit);
+        return exports.CurrencyConverter[currency](value, from, exports.CurrencyInfo[currency].minUnit);
     }
     static toMinimumUnitAsBN(currency, value, from) {
         return new bn_js_1.default(Currency.toMinimumUnitAsStr(currency, value, from));
     }
     static fromMinimumUnitToHuman(currency, value, from) {
-        return exports.CurrencyInfo[currency].converter(value, from, exports.CurrencyInfo[currency].humanUnit);
+        return exports.CurrencyConverter[currency](value, from, exports.CurrencyInfo[currency].humanUnit);
     }
 }
 exports.Currency = Currency;

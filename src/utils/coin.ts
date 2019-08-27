@@ -1,5 +1,17 @@
 import BN from 'bn.js'
 
+interface CurrencyConverterInterface {
+  [key:string]: (val: string, from: string, to: string) => string | Error
+}
+
+interface CurrencyInterface {
+  [key:string]: string
+}
+
+interface CurrencyInfoInterface {
+  [key:string]: CurrencyInterface
+}
+
 export const COIN_FRACS = {
   BOSON: 'boson',
   NRG: 'nrg',
@@ -140,85 +152,88 @@ export const internalToBN = (internal: Buffer, unit: string): BN => {
   return new BN(internal)
 }
 
-export const CurrencyInfo = {
+export const CurrencyInfo: CurrencyInfoInterface = {
   eth: {
     ETH: 'eth',
     WEI: 'wei',
     minUnit: 'wei',
     humanUnit: 'eth',
-    converter: function(val: string, from: string, to: string): string | Error {
-      const power = 18
-      if (from === to) {
-        return val
-      } else if (from === 'eth' && to === 'wei') {
-        return calcStringMulPowerTen(val, power) // 1 ETH = 10^8 WEI
-      } else if (from === 'wei' && to === 'eth') {
-        return calcStringDivPowerTen(val, power) // 1 ETH = 10^8 WEI
-      }
-      throw new Error('invalid unit')
-    },
   },
   btc: {
     BTC: 'btc',
     SATOSHI: 'satoshi',
     minUnit: 'satoshi',
     humanUnit: 'btc',
-    converter: function(val: string, from: string, to: string): string | Error {
-      const power = 8
-      if (from === to) {
-        return val
-      } else if (from === 'btc' && to === 'satoshi') {
-        return calcStringMulPowerTen(val, power)
-      } else if (from === 'satoshi' && to === 'btc') {
-        return calcStringDivPowerTen(val, power)
-      }
-      throw new Error('invalid unit')
-    },
   },
   neo: {
     NEO: 'neo',
     minUnit: 'neo',
     humanUnit: 'neo',
-    converter: function(val: string, from: string, to: string): string | Error {
-      if (val.includes('.')) {
-        throw new Error('invalid value, NEO is indivisible')
-      }
-      return val
-    },
   },
   lsk: {
     LSK: 'lsk',
     minLsk: 'mwav',
     minUnit: 'mlsk',
     humanUnit: 'lsk',
-    converter: function(val: string, from: string, to: string): string | Error {
-      const power = 8
-      if (from === to) {
-        return val
-      } else if (from === 'lsk' && to === 'mlsk') {
-        return calcStringMulPowerTen(val, power)
-      } else if (from === 'mlsk' && to === 'lsk') {
-        return calcStringDivPowerTen(val, power)
-      }
-      throw new Error('invalid unit')
-    },
   },
   wav: {
     WAV: 'wav',
     minWav: 'mwav',
     minUnit: 'mwav',
     humanUnit: 'wav',
-    converter: function(val: string, from: string, to: string): string | Error {
-      const power = 8
-      if (from === to) {
-        return val
-      } else if (from === 'wav' && to === 'mwav') {
-        return calcStringMulPowerTen(val, power)
-      } else if (from === 'mwav' && to === 'wav') {
-        return calcStringDivPowerTen(val, power)
-      }
-      throw new Error('invalid unit')
-    },
+  },
+}
+
+export const CurrencyConverter: CurrencyConverterInterface = {
+  eth: function(val: string, from: string, to: string): string | Error {
+    const power = 18
+    if (from === to) {
+      return val
+    } else if (from === 'eth' && to === 'wei') {
+      return calcStringMulPowerTen(val, power) // 1 ETH = 10^8 WEI
+    } else if (from === 'wei' && to === 'eth') {
+      return calcStringDivPowerTen(val, power) // 1 ETH = 10^8 WEI
+    }
+    throw new Error('invalid unit')
+  },
+  btc: function(val: string, from: string, to: string): string | Error {
+    const power = 8
+    if (from === to) {
+      return val
+    } else if (from === 'btc' && to === 'satoshi') {
+      return calcStringMulPowerTen(val, power)
+    } else if (from === 'satoshi' && to === 'btc') {
+      return calcStringDivPowerTen(val, power)
+    }
+    throw new Error('invalid unit')
+  },
+  neo: function(val: string, from: string, to: string): string | Error {
+    if (val.includes('.')) {
+      throw new Error('invalid value, NEO is indivisible')
+    }
+    return val
+  },
+  lsk: function(val: string, from: string, to: string): string | Error {
+    const power = 8
+    if (from === to) {
+      return val
+    } else if (from === 'lsk' && to === 'mlsk') {
+      return calcStringMulPowerTen(val, power)
+    } else if (from === 'mlsk' && to === 'lsk') {
+      return calcStringDivPowerTen(val, power)
+    }
+    throw new Error('invalid unit')
+  },
+  wav: function(val: string, from: string, to: string): string | Error {
+    const power = 8
+    if (from === to) {
+      return val
+    } else if (from === 'wav' && to === 'mwav') {
+      return calcStringMulPowerTen(val, power)
+    } else if (from === 'mwav' && to === 'wav') {
+      return calcStringDivPowerTen(val, power)
+    }
+    throw new Error('invalid unit')
   },
 }
 
@@ -228,15 +243,15 @@ export class Currency {
     currency: string,
     value: string,
     from: string,
-  ): string {
-    return CurrencyInfo[currency].converter(
+  ): string | Error {
+    return CurrencyConverter[currency](
       value,
       from,
       CurrencyInfo[currency].minUnit,
     )
   }
 
-  static toMinimumUnitAsBN(currency: string, value: string, from: string): BN {
+  static toMinimumUnitAsBN(currency: string, value: string, from: string): BN | Error {
     return new BN(Currency.toMinimumUnitAsStr(currency, value, from))
   }
 
@@ -244,8 +259,8 @@ export class Currency {
     currency: string,
     value: string,
     from: string,
-  ): string {
-    return CurrencyInfo[currency].converter(
+  ): string | Error {
+    return CurrencyConverter[currency](
       value,
       from,
       CurrencyInfo[currency].humanUnit,
