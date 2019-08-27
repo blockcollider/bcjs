@@ -2,21 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const { blake2blTwice } = require('./utils/crypto');
 class TimbleScript {
-    constructor() {
-        // Global Variables
-        this.NRG_TRANSFER = 'nrg_transfer';
-        this.MAKER_OUTPUT = 'maker_output';
-        this.TAKER_INPUT = 'taker_input';
-        this.TAKER_OUTPUT = 'taker_output';
-        this.TAKER_CALLBACK = 'taker_callback';
-    }
-    bufferToString(scriptBuffer) {
+    static bufferToString(scriptBuffer) {
         return Buffer.from(scriptBuffer).toString('ascii');
     }
-    stringToBuffer(scriptString) {
+    static stringToBuffer(scriptString) {
         return new Uint8Array(Buffer.from(scriptString, 'ascii'));
     }
-    createNRGLockScript(address) {
+    static createNRGLockScript(address) {
         address = address.toLowerCase();
         const script = [
             'OP_BLAKE2BL',
@@ -26,15 +18,15 @@ class TimbleScript {
         ];
         return script.join(' ');
     }
-    parseNRGLockScript(script) {
+    static parseNRGLockScript(script) {
         if (typeof script != 'string')
-            script = this.bufferToString(script);
+            script = TimbleScript.bufferToString(script);
         const doubleHashedBcAddress = script.split(' ')[1];
         return {
             doubleHashedBcAddress
         };
     }
-    createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress) {
+    static createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress) {
         bcAddress = bcAddress.toLowerCase();
         let doubleHashedBcAddress = blake2blTwice(bcAddress);
         const script = [
@@ -53,9 +45,9 @@ class TimbleScript {
         ];
         return script.map(part => part.join(' ')).join(' ');
     }
-    parseMakerLockScript(script) {
+    static parseMakerLockScript(script) {
         if (typeof script != 'string')
-            script = this.bufferToString(script);
+            script = TimbleScript.bufferToString(script);
         const [shiftMaker, shiftTaker, deposit, settlement] = script.split(' OP_DEPSET ')[0].split(' ').slice(1);
         const tradeInfo = script.split(' OP_MAKERCOLL ')[0].split(' ');
         const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] = tradeInfo.slice(tradeInfo.length - 5);
@@ -74,19 +66,19 @@ class TimbleScript {
             doubleHashedBcAddress: doubleHashedBcAddress
         };
     }
-    createTakerUnlockScript(takerWantsAddress, takerSendsAddress) {
+    static createTakerUnlockScript(takerWantsAddress, takerSendsAddress) {
         return [takerWantsAddress, takerSendsAddress].join(' ');
     }
-    parseTakerUnlockScript(script) {
+    static parseTakerUnlockScript(script) {
         if (typeof script != 'string')
-            script = this.bufferToString(script);
+            script = TimbleScript.bufferToString(script);
         const [takerWantsAddress, takerSendsAddress] = script.split(' ');
         return {
             takerWantsAddress,
             takerSendsAddress
         };
     }
-    createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress) {
+    static createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress) {
         takerBCAddress = takerBCAddress.toLowerCase();
         const doubleHashedBcAddress = blake2blTwice(takerBCAddress);
         const script = [
@@ -96,9 +88,9 @@ class TimbleScript {
         ];
         return script.map(part => part.join(' ')).join(' ');
     }
-    parseTakerLockScript(script) {
+    static parseTakerLockScript(script) {
         if (typeof script != 'string')
-            script = this.bufferToString(script);
+            script = TimbleScript.bufferToString(script);
         if (script.indexOf('OP_CALLBACK') === -1) {
             throw new Error('Invalid taker outpout script');
         }
@@ -110,36 +102,42 @@ class TimbleScript {
             doubleHashedBcAddress: doubleHashedBcAddress
         };
     }
-    createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex) {
+    static createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex) {
         return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ');
     }
-    parseTakerCallbackLockScript(script) {
+    static parseTakerCallbackLockScript(script) {
         if (typeof script != 'string')
-            script = this.bufferToString(script);
+            script = TimbleScript.bufferToString(script);
         const [makerTxHash, makerTxOutputIndex, OP_Callback] = script.split(' ');
         return {
             makerTxHash,
             makerTxOutputIndex
         };
     }
-    getScriptType(script) {
+    static getScriptType(script) {
         if (typeof script != 'string')
-            script = this.bufferToString(script);
+            script = TimbleScript.bufferToString(script);
         if (script.startsWith('OP_MONOID')) {
-            return this.MAKER_OUTPUT;
+            return TimbleScript.MAKER_OUTPUT;
         }
         else if (script.endsWith('OP_CALLBACK')) {
-            return this.TAKER_CALLBACK;
+            return TimbleScript.TAKER_CALLBACK;
         }
         else if (script.indexOf('OP_MONAD') > -1 && script.indexOf('OP_CALLBACK') > -1) {
-            return this.TAKER_OUTPUT;
+            return TimbleScript.TAKER_OUTPUT;
         }
         else if (script.startsWith('OP_BLAKE2BL')) {
-            return this.NRG_TRANSFER;
+            return TimbleScript.NRG_TRANSFER;
         }
         else
-            return this.TAKER_INPUT;
+            return TimbleScript.TAKER_INPUT;
     }
 }
+// Global Variables
+TimbleScript.NRG_TRANSFER = 'nrg_transfer';
+TimbleScript.MAKER_OUTPUT = 'maker_output';
+TimbleScript.TAKER_INPUT = 'taker_input';
+TimbleScript.TAKER_OUTPUT = 'taker_output';
+TimbleScript.TAKER_CALLBACK = 'taker_callback';
 exports.default = TimbleScript;
 //# sourceMappingURL=timble.js.map

@@ -3,21 +3,21 @@ const { blake2blTwice } = require('./utils/crypto');
 export default class TimbleScript {
 
     // Global Variables
-    public NRG_TRANSFER = 'nrg_transfer';
-    public MAKER_OUTPUT = 'maker_output';
-    public TAKER_INPUT = 'taker_input';
-    public TAKER_OUTPUT = 'taker_output';
-    public TAKER_CALLBACK = 'taker_callback';
+    static NRG_TRANSFER = 'nrg_transfer';
+    static MAKER_OUTPUT = 'maker_output';
+    static TAKER_INPUT = 'taker_input';
+    static TAKER_OUTPUT = 'taker_output';
+    static TAKER_CALLBACK = 'taker_callback';
 
-    public bufferToString(scriptBuffer: Uint8Array): string {
+    static bufferToString(scriptBuffer: Uint8Array): string {
       return Buffer.from(scriptBuffer).toString('ascii')
     }
 
-    public stringToBuffer(scriptString : string) : Uint8Array {
+    static stringToBuffer(scriptString : string) : Uint8Array {
       return new Uint8Array(Buffer.from(scriptString, 'ascii'))
     }
 
-    public createNRGLockScript(address: string): string {
+    static createNRGLockScript(address: string): string {
       address = address.toLowerCase()
       const script = [
         'OP_BLAKE2BL',
@@ -28,10 +28,10 @@ export default class TimbleScript {
       return script.join(' ')
     }
 
-    public parseNRGLockScript(script: string|Uint8Array):{
+    static parseNRGLockScript(script: string|Uint8Array):{
       doubleHashedBcAddress:string
     }{
-      if(typeof script != 'string') script = this.bufferToString(script)
+      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
 
       const doubleHashedBcAddress = script.split(' ')[1]
       return {
@@ -39,7 +39,7 @@ export default class TimbleScript {
       }
     }
 
-    public createMakerLockScript(
+    static createMakerLockScript(
       shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
       sendsFromChain: string, receivesToChain: string,
       sendsFromAddress: string, receivesToAddress: string,
@@ -66,7 +66,7 @@ export default class TimbleScript {
       return script.map(part => part.join(' ')).join(' ')
     }
 
-    public parseMakerLockScript(script: string|Uint8Array): {
+    static parseMakerLockScript(script: string|Uint8Array): {
       shiftMaker: number,
       shiftTaker: number,
       deposit: number,
@@ -79,7 +79,7 @@ export default class TimbleScript {
       receivesUnit: string,
       doubleHashedBcAddress: string
     } {
-      if(typeof script != 'string') script = this.bufferToString(script)
+      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
 
       const [shiftMaker, shiftTaker, deposit, settlement] = script.split(' OP_DEPSET ')[0].split(' ').slice(1)
       const tradeInfo = script.split(' OP_MAKERCOLL ')[0].split(' ')
@@ -103,15 +103,15 @@ export default class TimbleScript {
     }
 
 
-    public createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string {
+    static createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string {
       return [takerWantsAddress, takerSendsAddress].join(' ')
     }
 
-    public parseTakerUnlockScript(script: string|Uint8Array):{
+    static parseTakerUnlockScript(script: string|Uint8Array):{
       takerWantsAddress: string,
       takerSendsAddress: string
     }{
-      if(typeof script != 'string') script = this.bufferToString(script)
+      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
 
       const [takerWantsAddress, takerSendsAddress] = script.split(' ')
       return {
@@ -120,7 +120,7 @@ export default class TimbleScript {
       }
     }
 
-    public createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string): string {
+    static createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string): string {
       takerBCAddress = takerBCAddress.toLowerCase()
       const doubleHashedBcAddress = blake2blTwice(takerBCAddress)
       const script = [
@@ -131,12 +131,12 @@ export default class TimbleScript {
       return script.map(part => part.join(' ')).join(' ')
     }
 
-    public parseTakerLockScript(script: string|Uint8Array):{
+    static parseTakerLockScript(script: string|Uint8Array):{
       makerTxHash: string,
       makerTxOutputIndex: number,
       doubleHashedBcAddress: string
     }{
-      if(typeof script != 'string') script = this.bufferToString(script)
+      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
 
       if (script.indexOf('OP_CALLBACK') === -1) {
         throw new Error('Invalid taker outpout script')
@@ -151,15 +151,15 @@ export default class TimbleScript {
       }
     }
 
-    public createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string {
+    static createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string {
       return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
     }
 
-    public parseTakerCallbackLockScript(script: string|Uint8Array): {
+    static parseTakerCallbackLockScript(script: string|Uint8Array): {
       makerTxHash: string,
       makerTxOutputIndex: string
     } {
-      if(typeof script != 'string') script = this.bufferToString(script)
+      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
 
       const [makerTxHash, makerTxOutputIndex, OP_Callback] = script.split(' ')
       return {
@@ -168,17 +168,17 @@ export default class TimbleScript {
       }
     }
 
-    public getScriptType(script: Uint8Array|string): string {
-      if(typeof script != 'string') script = this.bufferToString(script)
+    static getScriptType(script: Uint8Array|string): string {
+      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
       if (script.startsWith('OP_MONOID')){
-        return this.MAKER_OUTPUT
+        return TimbleScript.MAKER_OUTPUT
       } else if (script.endsWith('OP_CALLBACK')){
-        return this.TAKER_CALLBACK
+        return TimbleScript.TAKER_CALLBACK
       } else if (script.indexOf('OP_MONAD') > -1 && script.indexOf('OP_CALLBACK') > -1){
-        return this.TAKER_OUTPUT
+        return TimbleScript.TAKER_OUTPUT
       } else if (script.startsWith('OP_BLAKE2BL')){
-        return this.NRG_TRANSFER
-      } else return this.TAKER_INPUT
+        return TimbleScript.NRG_TRANSFER
+      } else return TimbleScript.TAKER_INPUT
     }
 
 }
