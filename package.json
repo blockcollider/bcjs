@@ -22,6 +22,7 @@
     "avon": "^3.0.0",
     "bn.js": "^5.0.0",
     "node-fetch": "^2.6.0",
+    "secp256k1": "^3.7.1",
     "to-buffer": "^1.1.1"
   },
   "devDependencies": {
