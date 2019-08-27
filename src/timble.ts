@@ -1,4 +1,12 @@
-const { blake2blTwice } = require('./utils/crypto');
+const secp256k1 = require('secp256k1')
+
+import * as coreProtobuf from './protos/core_pb';
+import * as bcProtobuf from './protos/bc_pb';
+
+const { blake2blTwice, blake2bl } = require('./utils/crypto');
+const Coin = require('./utils/coin')
+const { toBuffer, intToBuffer } = require('./utils/buffer')
+
 
 export default class TimbleScript {
 
@@ -15,6 +23,96 @@ export default class TimbleScript {
 
     static stringToBuffer(scriptString : string) : Uint8Array {
       return new Uint8Array(Buffer.from(scriptString, 'ascii'))
+    }
+
+    /*
+     * @param spendableOutPoint: an outpoint that is to be spent in the tx
+     * @param txOutputs: transaction outputs in the transaction that is spending the spendableOutPoint
+     * @return a hash signature of spendableOutPoint and txOutputs
+     */
+    static createOutPointOutputsHash(spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string {
+      const outputsData = txOutputs.map(output => {
+        var obj = output.toObject()
+        return [
+          obj.value,
+          obj.unit,
+          obj.scriptLength,
+          obj.outputScript
+        ].join('')
+      }).join('')
+
+      const parts = [
+        Coin.internalToHuman(spendableOutPoint.getValue(), Coin.COIN_FRACS.NRG),
+        spendableOutPoint.getHash(),
+        spendableOutPoint.getIndex(),
+        outputsData
+      ]
+
+      const hash = blake2bl(parts.join(''))
+      return hash
+    }
+
+    // sign data ANY with private key Buffer
+    // return 65B long signature with recovery number as the last byte
+    static signData(data: string|Buffer, privateKey: Buffer): Buffer | Error {
+      data = toBuffer(data)
+      const dataHash = blake2bl(data)
+      const sig = secp256k1.sign(Buffer.from(dataHash, 'hex'), privateKey)
+
+      if (sig.signature.length !== 64) {
+        throw Error(`Signature should always be 64B long, l: ${sig.signature.length}`)
+      }
+      const signatureWithRecovery = Buffer.concat([
+        sig.signature,
+        intToBuffer(sig.recovery)
+      ])
+
+      return signatureWithRecovery
+    }
+
+
+    /*
+     * @param spendableOutPoint: an outpoint that is to be spent in the tx
+     * @param tx: transaction is spending the spendableOutPoint
+     * @return a signature of the tx input
+     */
+    static createTxInputSig(spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer|Error {
+      const dataToSign = TimbleScript.generateDataToSignForSig(spendableOutPoint, tx.getOutputsList())
+      const sig = TimbleScript.signData(dataToSign, privateKey)
+
+      return sig
+    }
+
+    static generateDataToSignForSig = (spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string => {
+      return TimbleScript.createOutPointOutputsHash(spendableOutPoint, txOutputs)
+    }
+
+    /*
+     * Sign transaction inputs of a tx, the signature requires transaction outputs to be set tx before calling this
+     * @param bcAddress: BlockCollider address
+     * @param bcPrivateKeyHex: BlockCollider private key in hex
+     * @param txTemplate: transaction that is spending the spentOutPoints
+     * @param spentOutPoints: outPoints to be spent in the txTemplate
+     * @return a list of signed transaction inputs
+     */
+    static createSignedNRGInputs(
+      bcAddress: string, bcPrivateKeyHex: string,
+      txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]
+    ): Array<coreProtobuf.TransactionInput> {
+      return spentOutPoints.map((outPoint) => {
+        const signature = TimbleScript.createTxInputSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'))
+        const pubKey = secp256k1.staticKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true)
+        const input = new coreProtobuf.TransactionInput()
+        input.setOutPoint(outPoint)
+        const inputUnlockScript = [
+          signature.toString('hex'),
+          pubKey.toString('hex'),
+          blake2bl(bcAddress)
+        ].join(' ')
+        input.setScriptLength(inputUnlockScript.length)
+        input.setInputScript(new Uint8Array(Buffer.from(inputUnlockScript, 'ascii')))
+        return input
+      })
     }
 
     static createNRGLockScript(address: string): string {
