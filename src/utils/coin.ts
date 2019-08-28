@@ -1,7 +1,7 @@
 import BN from 'bn.js'
 
 interface CurrencyConverterInterface {
-  [key:string]: (val: string, from: string, to: string) => string | Error
+  [key:string]: (val: string, from: string, to: string) => string | never
 }
 
 interface CurrencyInterface {
@@ -185,7 +185,7 @@ export const CurrencyInfo: CurrencyInfoInterface = {
 }
 
 export const CurrencyConverter: CurrencyConverterInterface = {
-  eth: function(val: string, from: string, to: string): string | Error {
+  eth: function(val: string, from: string, to: string): string | never {
     const power = 18
     if (from === to) {
       return val
@@ -196,7 +196,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  btc: function(val: string, from: string, to: string): string | Error {
+  btc: function(val: string, from: string, to: string): string | never {
     const power = 8
     if (from === to) {
       return val
@@ -207,13 +207,13 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  neo: function(val: string, from: string, to: string): string | Error {
+  neo: function(val: string, from: string, to: string): string | never {
     if (val.includes('.')) {
       throw new Error('invalid value, NEO is indivisible')
     }
     return val
   },
-  lsk: function(val: string, from: string, to: string): string | Error {
+  lsk: function(val: string, from: string, to: string): string | never {
     const power = 8
     if (from === to) {
       return val
@@ -224,7 +224,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  wav: function(val: string, from: string, to: string): string | Error {
+  wav: function(val: string, from: string, to: string): string | never {
     const power = 8
     if (from === to) {
       return val
@@ -243,7 +243,7 @@ export class Currency {
     currency: string,
     value: string,
     from: string,
-  ): string | Error {
+  ): string | never {
     return CurrencyConverter[currency](
       value,
       from,
@@ -251,7 +251,7 @@ export class Currency {
     )
   }
 
-  static toMinimumUnitAsBN(currency: string, value: string, from: string): BN | Error {
+  static toMinimumUnitAsBN(currency: string, value: string, from: string): BN | never {
     return new BN(Currency.toMinimumUnitAsStr(currency, value, from))
   }
 
@@ -259,7 +259,7 @@ export class Currency {
     currency: string,
     value: string,
     from: string,
-  ): string | Error {
+  ): string | never {
     return CurrencyConverter[currency](
       value,
       from,
