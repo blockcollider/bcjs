@@ -1,3 +1,5 @@
+import BN from 'bn.js'
+
 const secp256k1 = require('secp256k1')
 
 import * as coreProtobuf from './protos/core_pb';
@@ -6,6 +8,7 @@ import * as bcProtobuf from './protos/bc_pb';
 const { blake2blTwice, blake2bl } = require('./utils/crypto');
 const Coin = require('./utils/coin')
 const { toBuffer, intToBuffer } = require('./utils/buffer')
+const protoUtil = require('./utils/protoUtil')
 
 
 export default class TimbleScript {
@@ -17,12 +20,13 @@ export default class TimbleScript {
     static TAKER_OUTPUT = 'taker_output';
     static TAKER_CALLBACK = 'taker_callback';
 
-    static bufferToString(scriptBuffer: Uint8Array): string {
-      return Buffer.from(scriptBuffer).toString('ascii')
-    }
-
-    static stringToBuffer(scriptString : string) : Uint8Array {
-      return new Uint8Array(Buffer.from(scriptString, 'ascii'))
+    static createTransactionOutput (outputLockScript: string, unit: BN, value: BN): coreProtobuf.TransactionOutput {
+      const output = new coreProtobuf.TransactionOutput()
+      output.setValue(protoUtil.bnToBytes(value))
+      output.setUnit(protoUtil.bnToBytes(unit))
+      output.setScriptLength(outputLockScript.length)
+      output.setOutputScript(protoUtil.stringToBytes(outputLockScript, 'ascii'))
+      return output
     }
 
     /*
@@ -54,7 +58,7 @@ export default class TimbleScript {
 
     // sign data ANY with private key Buffer
     // return 65B long signature with recovery number as the last byte
-    static signData(data: string|Buffer, privateKey: Buffer): Buffer | Error {
+    static signData(data: string|Buffer, privateKey: Buffer): Buffer | never {
       data = toBuffer(data)
       const dataHash = blake2bl(data)
       const sig = secp256k1.sign(Buffer.from(dataHash, 'hex'), privateKey)
@@ -76,7 +80,7 @@ export default class TimbleScript {
      * @param tx: transaction is spending the spendableOutPoint
      * @return a signature of the tx input
      */
-    static createTxInputSig(spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer|Error {
+    static createUnlockSig(spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer | never {
       const dataToSign = TimbleScript.generateDataToSignForSig(spendableOutPoint, tx.getOutputsList())
       const sig = TimbleScript.signData(dataToSign, privateKey)
 
@@ -95,12 +99,12 @@ export default class TimbleScript {
      * @param spentOutPoints: outPoints to be spent in the txTemplate
      * @return a list of signed transaction inputs
      */
-    static createSignedNRGInputs(
+    static createSignedNRGUnlockInputs(
       bcAddress: string, bcPrivateKeyHex: string,
       txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]
     ): Array<coreProtobuf.TransactionInput> {
       return spentOutPoints.map((outPoint) => {
-        const signature = TimbleScript.createTxInputSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'))
+        const signature = TimbleScript.createUnlockSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'))
         const pubKey = secp256k1.staticKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true)
         const input = new coreProtobuf.TransactionInput()
         input.setOutPoint(outPoint)
@@ -110,7 +114,7 @@ export default class TimbleScript {
           blake2bl(bcAddress)
         ].join(' ')
         input.setScriptLength(inputUnlockScript.length)
-        input.setInputScript(new Uint8Array(Buffer.from(inputUnlockScript, 'ascii')))
+        input.setInputScript(protoUtil.stringToBytes(inputUnlockScript, 'ascii'))
         return input
       })
     }
@@ -129,7 +133,8 @@ export default class TimbleScript {
     static parseNRGLockScript(script: string|Uint8Array):{
       doubleHashedBcAddress:string
     }{
-      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
+      // TODO: PING why it complains
+      if(typeof script != 'string') script = protoUtil.bytesToString(script)
 
       const doubleHashedBcAddress = script.split(' ')[1]
       return {
@@ -177,7 +182,7 @@ export default class TimbleScript {
       receivesUnit: string,
       doubleHashedBcAddress: string
     } {
-      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
+      if(typeof script != 'string') script = protoUtil.bytesToString(script)
 
       const [shiftMaker, shiftTaker, deposit, settlement] = script.split(' OP_DEPSET ')[0].split(' ').slice(1)
       const tradeInfo = script.split(' OP_MAKERCOLL ')[0].split(' ')
@@ -209,7 +214,7 @@ export default class TimbleScript {
       takerWantsAddress: string,
       takerSendsAddress: string
     }{
-      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
+      if(typeof script != 'string') script = protoUtil.bytesToString(script)
 
       const [takerWantsAddress, takerSendsAddress] = script.split(' ')
       return {
@@ -234,7 +239,7 @@ export default class TimbleScript {
       makerTxOutputIndex: number,
       doubleHashedBcAddress: string
     }{
-      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
+      if(typeof script != 'string') script = protoUtil.bytesToString(script)
 
       if (script.indexOf('OP_CALLBACK') === -1) {
         throw new Error('Invalid taker outpout script')
@@ -257,7 +262,7 @@ export default class TimbleScript {
       makerTxHash: string,
       makerTxOutputIndex: string
     } {
-      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
+      if(typeof script != 'string') script = protoUtil.bytesToString(script)
 
       const [makerTxHash, makerTxOutputIndex, OP_Callback] = script.split(' ')
       return {
@@ -267,7 +272,7 @@ export default class TimbleScript {
     }
 
     static getScriptType(script: Uint8Array|string): string {
-      if(typeof script != 'string') script = TimbleScript.bufferToString(script)
+      if(typeof script != 'string') script = protoUtil.bytesToString(script)
       if (script.startsWith('OP_MONOID')){
         return TimbleScript.MAKER_OUTPUT
       } else if (script.endsWith('OP_CALLBACK')){
