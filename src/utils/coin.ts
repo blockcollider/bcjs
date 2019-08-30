@@ -92,7 +92,14 @@ function calcStringDivPowerTen(valStr: string, powTen: number): string {
   }
 }
 
-export const humanToBN = (val: string, unit: string): BN => {
+export const humanToInternalAsBN = (val: string, unit: string): BN => {
+  if (Number.isNaN(Number(val))) {
+    throw new Error(val + ' is not number')
+  }
+  if (val.startsWith('-')) {
+    throw new Error(val + ' must be positive')
+  }
+
   const divisor = getDivisor(unit)
   if (unit === COIN_FRACS.BOSON && val.includes('.')) {
     throw new Error(
@@ -108,7 +115,7 @@ export const humanToBN = (val: string, unit: string): BN => {
 }
 
 export const humanToInternal = (val: string, unit: string): Buffer => {
-  const amt = humanToBN(val, unit)
+  const amt = humanToInternalAsBN(val, unit)
   return amt.toBuffer()
 }
 
