@@ -30,14 +30,6 @@ export default class Transaction {
     this.lockTime = 0
   }
 
-  calculateCrossChainTradeFee(collateralizedNRG: string, additionalTxFee: string, side: 'maker'|'taker'): BN {
-    const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
-
-    const txFeeBN = (side === 'maker') ? humanToInternalAsBN('0.002', COIN_FRACS.NRG) : collateralizedBN.div(new BN(1000))
-
-    return txFeeBN.add(humanToInternalAsBN(additionalTxFee, COIN_FRACS.NRG))
-  }
-
   /*
    * Create NRG transfer transaction
    * @param spendableWalletOutPointObjs:
@@ -79,7 +71,7 @@ export default class Transaction {
     bcAddress: string, bcPrivateKeyHex: string,
     collateralizedNrg: string, nrgUnit:string, additionalTxFee: string
   ) {
-    let totalFeeBN = this.calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
+    let totalFeeBN = this._calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
     const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
 
     const indivisibleSendsUnit = Currency.toMinimumUnitAsStr(
@@ -123,7 +115,7 @@ export default class Transaction {
       throw new Error('OutPoint is missing in makerOpenOrder')
     }
 
-    let totalFeeBN = this.calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
+    let totalFeeBN = this._calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
     const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
 
     const makerUnitBN = protoUtil.bytesToInternalBN(makerOpenOrder.unit)
@@ -161,6 +153,14 @@ export default class Transaction {
       spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex
     )
 
+  }
+
+  _calculateCrossChainTradeFee(collateralizedNRG: string, additionalTxFee: string, side: 'maker'|'taker'): BN {
+    const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
+
+    const txFeeBN = (side === 'maker') ? humanToInternalAsBN('0.002', COIN_FRACS.NRG) : collateralizedBN.div(new BN(1000))
+
+    return txFeeBN.add(humanToInternalAsBN(additionalTxFee, COIN_FRACS.NRG))
   }
 
   _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN): {
