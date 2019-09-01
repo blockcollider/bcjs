@@ -119,6 +119,11 @@ export const humanToInternal = (val: string, unit: string): Buffer => {
   return amt.toBuffer()
 }
 
+/* convert internal value from BN to human format with unit */
+export const internalBNToHuman = (val: BN, unit: string): string => {
+  return internalToHuman(val.toBuffer(), unit)
+}
+
 // supports decimal
 export const internalToHuman = (internal: Buffer, unit: string): string => {
   const divisor = getDivisor(unit)
@@ -152,7 +157,7 @@ export const internalToHuman = (internal: Buffer, unit: string): string => {
   }
 }
 
-export const internalToBN = (internal: Buffer, unit: string): BN => {
+export const internalToBN = (internal: Buffer|Uint8Array, unit: string): BN => {
   if (unit !== COIN_FRACS.BOSON) {
     throw new Error('internalToBN only supports BOSON')
   }
