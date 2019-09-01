@@ -20,15 +20,6 @@ export default class TimbleScript {
     static TAKER_OUTPUT = 'taker_output';
     static TAKER_CALLBACK = 'taker_callback';
 
-    static createTransactionOutput (outputLockScript: string, unit: BN, value: BN): coreProtobuf.TransactionOutput {
-      const output = new coreProtobuf.TransactionOutput()
-      output.setValue(protoUtil.bnToBytes(value))
-      output.setUnit(protoUtil.bnToBytes(unit))
-      output.setScriptLength(outputLockScript.length)
-      output.setOutputScript(protoUtil.stringToBytes(outputLockScript, 'ascii'))
-      return output
-    }
-
     /*
      * @param spendableOutPoint: an outpoint that is to be spent in the tx
      * @param txOutputs: transaction outputs in the transaction that is spending the spendableOutPoint
@@ -103,19 +94,22 @@ export default class TimbleScript {
       bcAddress: string, bcPrivateKeyHex: string,
       txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]
     ): Array<coreProtobuf.TransactionInput> {
+      const txOutputs = txTemplate.getOutputsList()
+      if (!txOutputs) {
+        throw new Error("outputs has to be set to txTemplate before signing the inputs")
+      }
+
       return spentOutPoints.map((outPoint) => {
         const signature = TimbleScript.createUnlockSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'))
         const pubKey = secp256k1.staticKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true)
-        const input = new coreProtobuf.TransactionInput()
-        input.setOutPoint(outPoint)
+
         const inputUnlockScript = [
           signature.toString('hex'),
           pubKey.toString('hex'),
           blake2bl(bcAddress)
         ].join(' ')
-        input.setScriptLength(inputUnlockScript.length)
-        input.setInputScript(protoUtil.stringToBytes(inputUnlockScript, 'ascii'))
-        return input
+
+        return protoUtil.createTransactionInput(outPoint, inputUnlockScript)
       })
     }
 
