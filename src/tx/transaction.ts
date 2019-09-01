@@ -155,6 +155,11 @@ export default class Transaction {
 
   }
 
+  unlockTakerTx(toUnlockTakerTxOutput: coreProtobuf.TransactionOutput) {
+    // call client to get the original maker tx script
+    // extract taker and maker nrg lock script from them
+  }
+
   _calculateCrossChainTradeFee(collateralizedNRG: string, additionalTxFee: string, side: 'maker'|'taker'): BN {
     const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
 
