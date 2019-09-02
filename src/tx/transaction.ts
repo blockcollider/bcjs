@@ -13,6 +13,10 @@ const { blake2bl } = require('./../utils/crypto');
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
 
+export const fromBuffer = function(txBuffer: Buffer|Uint8Array): coreProtobuf.Transaction {
+  return coreProtobuf.Transaction.deserializeBinary(txBuffer)
+}
+
 /*
  * Create NRG transfer transaction
  * @param spendableWalletOutPointObjs:
