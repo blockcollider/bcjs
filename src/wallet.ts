@@ -19,24 +19,21 @@ type BcRpcResponse =
     bc.VanityConvertResponse.AsObject
 
 export default class Wallet {
-    public address: string
     private rpcClient: RpcClient
 
-    constructor(address: string, authToken?: string) {
-        this.address = address.toLowerCase()
-        // TODO: PING, need a proper way to pass in the url
-        this.rpcClient = new RpcClient('todo', authToken)
+    constructor(rpcClient: RpcClient) {
+        this.rpcClient = rpcClient
     }
 
-    public async getBalance(): Promise<bc.GetBalanceResponse.AsObject|Error> {
+    public async getBalance(address: string): Promise<bc.GetBalanceResponse.AsObject|Error> {
         const req = new bc.GetBalanceRequest()
-        req.setAddress(this.address)
+        req.setAddress(address)
         return await this.rpcClient.getBalance(req)
     }
 
-    public async getSpendableOutpoints(): Promise<Array<core.WalletOutPoint.AsObject>> {
+    public async getSpendableOutpoints(address: string): Promise<Array<core.WalletOutPoint.AsObject>> {
         const req = new bc.GetBalanceRequest()
-        req.setAddress(this.address)
+        req.setAddress(address)
 
         let a = await this.rpcClient.getWallet(req)
         return a.spendableOutpointsList
