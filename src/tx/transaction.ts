@@ -13,56 +13,39 @@ const { blake2bl } = require('./../utils/crypto');
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
 
-export default class Transaction {
-
-  public inputs: coreProtobuf.TransactionInput.AsObject[]
-  public outputs: coreProtobuf.TransactionOutput.AsObject[]
-  public hash: string
-  public nonce: string
-  public lockTime: number
-
-  constructor(data?: Buffer) {
-    // TODO: will add fromBuffer method
-    this.inputs = []
-    this.outputs = []
-    this.hash = ''
-    this.nonce = ''
-    this.lockTime = 0
-  }
-
-  /*
-   * Create NRG transfer transaction
-   * @param spendableWalletOutPointObjs:
-   * @param fromAddress: string,
-   * @param privateKeyHex: string,
-   * @param toAddress: string,
-   * @param transferAmount: string,
-   * @param txFee: string
-   */
-  createNRGTransferTransaction (
+/*
+ * Create NRG transfer transaction
+ * @param spendableWalletOutPointObjs:
+ * @param fromAddress: string,
+ * @param privateKeyHex: string,
+ * @param toAddress: string,
+ * @param transferAmount: string,
+ * @param txFee: string
+ */
+export const createNRGTransferTransaction = function(
     spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
     fromAddress: string,
     privateKeyHex: string,
     toAddress: string,
     transferAmountNRG: string,
     txFeeNRG: string
-  ): coreProtobuf.Transaction {
-    const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
+    ): coreProtobuf.Transaction {
+  const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
     const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
     const totalAmountBN = transferAmountBN.add(txFeeBN)
     const unitBN = new BN(1)
 
     const txOutputs = [
-      protoUtil.createTransactionOutput(TimbleScript.createNRGLockScript(toAddress), unitBN, transferAmountBN)
+    protoUtil.createTransactionOutput(TimbleScript.createNRGLockScript(toAddress), unitBN, transferAmountBN)
     ]
     const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
-    return this._compileTransaction(
-      spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex
-    )
-  }
+    return _compileTransaction(
+        spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex
+        )
+}
 
-  createMakerOrderTransaction(
+export const createMakerOrderTransaction = function(
     spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
     shiftMaker: string, shiftTaker: string, deposit: string, settlement: string,
     sendsFromChain: string, receivesToChain: string,
@@ -70,12 +53,12 @@ export default class Transaction {
     sendsUnit: string, receivesUnit: string,
     bcAddress: string, bcPrivateKeyHex: string,
     collateralizedNrg: string, nrgUnit:string, additionalTxFee: string
-  ) {
-    let totalFeeBN = this._calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
+    ) {
+  let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
     const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
 
-    const indivisibleSendsUnit = Currency.toMinimumUnitAsStr(
-      sendsFromChain, sendsUnit, CurrencyInfo[sendsFromChain].humanUnit
+const indivisibleSendsUnit = Currency.toMinimumUnitAsStr(
+sendsFromChain, sendsUnit, CurrencyInfo[sendsFromChain].humanUnit
     )
     const indivisibleReceivesUnit = Currency.toMinimumUnitAsStr(
       receivesToChain, receivesUnit, CurrencyInfo[receivesToChain].humanUnit
@@ -97,12 +80,12 @@ export default class Transaction {
 
     const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
-    return this._compileTransaction(
+    return _compileTransaction(
       spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex
     )
   }
 
-  createTakerOrderTransaction(
+  export const createTakerOrderTransaction = function(
     spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
     sendsFromAddress: string, receivesToAddress: string,
     makerOpenOrder: coreProtobuf.OpenOrder.AsObject,
@@ -115,7 +98,7 @@ export default class Transaction {
       throw new Error('OutPoint is missing in makerOpenOrder')
     }
 
-    let totalFeeBN = this._calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
+    let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
     const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
 
     const makerUnitBN = protoUtil.bytesToInternalBN(makerOpenOrder.unit)
@@ -149,18 +132,18 @@ export default class Transaction {
       txOutputs.push(protoUtil.createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
     }
 
-    return this._compileTransaction(
+    return _compileTransaction(
       spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex
     )
 
   }
 
-  unlockTakerTx(toUnlockTakerTxOutput: coreProtobuf.TransactionOutput) {
+  export const unlockTakerTx = function(toUnlockTakerTxOutput: coreProtobuf.TransactionOutput) {
     // call client to get the original maker tx script
     // extract taker and maker nrg lock script from them
   }
 
-  _calculateCrossChainTradeFee(collateralizedNRG: string, additionalTxFee: string, side: 'maker'|'taker'): BN {
+  const _calculateCrossChainTradeFee = function(collateralizedNRG: string, additionalTxFee: string, side: 'maker'|'taker'): BN {
     const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
 
     const txFeeBN = (side === 'maker') ? humanToInternalAsBN('0.002', COIN_FRACS.NRG) : collateralizedBN.div(new BN(1000))
@@ -168,7 +151,7 @@ export default class Transaction {
     return txFeeBN.add(humanToInternalAsBN(additionalTxFee, COIN_FRACS.NRG))
   }
 
-  _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN): {
+  const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN): {
     spentOutPoints: coreProtobuf.OutPoint[], leftoverOutPoint: coreProtobuf.OutPoint | null
   } {
     let sumBN = new BN(0)
@@ -201,20 +184,19 @@ export default class Transaction {
     return { spentOutPoints: spentOutPoints, leftoverOutPoint: leftoverOutPoint }
   }
 
-  _createTxWithOutputsAssigned(outputs: coreProtobuf.TransactionOutput[]): coreProtobuf.Transaction {
+  const _createTxWithOutputsAssigned = function(outputs: coreProtobuf.TransactionOutput[]): coreProtobuf.Transaction {
     const tx = new coreProtobuf.Transaction()
 
     tx.setVersion(constants.txVersion)
     tx.setNonce(`${Math.abs(Random.engines.nativeMath())}`)
     tx.setOutputsList(outputs)
     tx.setNoutCount(outputs.length)
-    // TODO: PING, get the latestBlock
-    // tx.setLockTime(latestBlock.getHeight() + 1)
+    tx.setLockTime(0)
 
     return tx
   }
 
-  _compileTransaction(
+  const _compileTransaction = function(
     spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
     txOutputs: coreProtobuf.TransactionOutput[],
     nonNRGinputs: coreProtobuf.TransactionInput[],
@@ -224,7 +206,7 @@ export default class Transaction {
   ): coreProtobuf.Transaction {
     const unitBN = new BN(1)
     // outputs
-    const { spentOutPoints, leftoverOutPoint } = this._calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN)
+    const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN)
     let finalOutputs = txOutputs
     if (leftoverOutPoint) {
       const leftoverOutput = protoUtil.createTransactionOutput (
@@ -233,19 +215,19 @@ export default class Transaction {
       finalOutputs = txOutputs.concat([leftoverOutput])
     }
     // txTemplate with output
-    const txTemplate = this._createTxWithOutputsAssigned(finalOutputs)
+    const txTemplate = _createTxWithOutputsAssigned(finalOutputs)
     // nrg inputs
     const nrgUnlockInputs = TimbleScript.createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints)
     const finalInputs = nonNRGinputs.concat(nrgUnlockInputs)
 
     txTemplate.setInputsList(finalInputs)
     txTemplate.setNinCount(finalInputs.length)
-    txTemplate.setHash(this._generateTxHash(txTemplate))
+    txTemplate.setHash(_generateTxHash(txTemplate))
 
     return txTemplate
   }
 
-  _generateTxHash(tx: coreProtobuf.Transaction): string {
+  const _generateTxHash = function(tx: coreProtobuf.Transaction): string {
     const obj = tx.toObject()
     const inputs = obj.inputsList.map(input => {
       const outPoint = input.outPoint
@@ -285,4 +267,3 @@ export default class Transaction {
     const hash = blake2bl(prehash)
     return hash
   }
-}
