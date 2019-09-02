@@ -127,10 +127,9 @@ export default class TimbleScript {
     static parseNRGLockScript(script: string|Uint8Array):{
       doubleHashedBcAddress:string
     }{
-      // TODO: PING why it complains
-      if(typeof script != 'string') script = protoUtil.bytesToString(script)
+      const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
 
-      const doubleHashedBcAddress = script.split(' ')[1]
+      const doubleHashedBcAddress = scriptStr.split(' ')[1]
       return {
         doubleHashedBcAddress
       }
@@ -176,13 +175,13 @@ export default class TimbleScript {
       receivesUnit: string,
       doubleHashedBcAddress: string
     } {
-      if(typeof script != 'string') script = protoUtil.bytesToString(script)
+      const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
 
-      const [shiftMaker, shiftTaker, deposit, settlement] = script.split(' OP_DEPSET ')[0].split(' ').slice(1)
-      const tradeInfo = script.split(' OP_MAKERCOLL ')[0].split(' ')
+      const [shiftMaker, shiftTaker, deposit, settlement] = scriptStr.split(' OP_DEPSET ')[0].split(' ').slice(1)
+      const tradeInfo = scriptStr.split(' OP_MAKERCOLL ')[0].split(' ')
       const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] = tradeInfo.slice(tradeInfo.length - 5)
 
-      const doubleHashedBcAddress = script.split(' OP_IFEQ OP_BLAKE2BL ')[1].split(' ')[0]
+      const doubleHashedBcAddress = scriptStr.split(' OP_IFEQ OP_BLAKE2BL ')[1].split(' ')[0]
 
       return {
         shiftMaker: parseInt(shiftMaker, 10),
@@ -208,9 +207,9 @@ export default class TimbleScript {
       takerWantsAddress: string,
       takerSendsAddress: string
     }{
-      if(typeof script != 'string') script = protoUtil.bytesToString(script)
+      const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
 
-      const [takerWantsAddress, takerSendsAddress] = script.split(' ')
+      const [takerWantsAddress, takerSendsAddress] = scriptStr.split(' ')
       return {
         takerWantsAddress,
         takerSendsAddress
@@ -233,13 +232,13 @@ export default class TimbleScript {
       makerTxOutputIndex: number,
       doubleHashedBcAddress: string
     }{
-      if(typeof script != 'string') script = protoUtil.bytesToString(script)
+      const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
 
-      if (script.indexOf('OP_CALLBACK') === -1) {
+      if (scriptStr.indexOf('OP_CALLBACK') === -1) {
         throw new Error('Invalid taker outpout script')
       }
-      const [makerTxHash, makerTxOutputIndex] = script.split(' OP_CALLBACK')[0].split(' ')
-      const doubleHashedBcAddress = script.split(' OP_BLAKE2BL ')[1].split(' ')[0]
+      const [makerTxHash, makerTxOutputIndex] = scriptStr.split(' OP_CALLBACK')[0].split(' ')
+      const doubleHashedBcAddress = scriptStr.split(' OP_BLAKE2BL ')[1].split(' ')[0]
 
       return {
         makerTxHash: makerTxHash,
@@ -256,9 +255,9 @@ export default class TimbleScript {
       makerTxHash: string,
       makerTxOutputIndex: string
     } {
-      if(typeof script != 'string') script = protoUtil.bytesToString(script)
+      const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
 
-      const [makerTxHash, makerTxOutputIndex, OP_Callback] = script.split(' ')
+      const [makerTxHash, makerTxOutputIndex, OP_Callback] = scriptStr.split(' ')
       return {
         makerTxHash,
         makerTxOutputIndex
@@ -266,14 +265,15 @@ export default class TimbleScript {
     }
 
     static getScriptType(script: Uint8Array|string): string {
-      if(typeof script != 'string') script = protoUtil.bytesToString(script)
-      if (script.startsWith('OP_MONOID')){
+      const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
+
+      if (scriptStr.startsWith('OP_MONOID')){
         return TimbleScript.MAKER_OUTPUT
-      } else if (script.endsWith('OP_CALLBACK')){
+      } else if (scriptStr.endsWith('OP_CALLBACK')){
         return TimbleScript.TAKER_CALLBACK
-      } else if (script.indexOf('OP_MONAD') > -1 && script.indexOf('OP_CALLBACK') > -1){
+      } else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1){
         return TimbleScript.TAKER_OUTPUT
-      } else if (script.startsWith('OP_BLAKE2BL')){
+      } else if (scriptStr.startsWith('OP_BLAKE2BL')){
         return TimbleScript.NRG_TRANSFER
       } else return TimbleScript.TAKER_INPUT
     }
