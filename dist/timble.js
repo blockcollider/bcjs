@@ -1,24 +1,11 @@
 "use strict";
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const secp256k1 = require('secp256k1');
-const coreProtobuf = __importStar(require("./protos/core_pb"));
 const { blake2blTwice, blake2bl } = require('./utils/crypto');
 const Coin = require('./utils/coin');
 const { toBuffer, intToBuffer } = require('./utils/buffer');
+const protoUtil = require('./utils/protoUtil');
 class TimbleScript {
-    static bufferToString(scriptBuffer) {
-        return Buffer.from(scriptBuffer).toString('ascii');
-    }
-    static stringToBuffer(scriptString) {
-        return new Uint8Array(Buffer.from(scriptString, 'ascii'));
-    }
     /*
      * @param spendableOutPoint: an outpoint that is to be spent in the tx
      * @param txOutputs: transaction outputs in the transaction that is spending the spendableOutPoint
@@ -63,7 +50,7 @@ class TimbleScript {
      * @param tx: transaction is spending the spendableOutPoint
      * @return a signature of the tx input
      */
-    static createTxInputSig(spendableOutPoint, tx, privateKey) {
+    static createUnlockSig(spendableOutPoint, tx, privateKey) {
         const dataToSign = TimbleScript.generateDataToSignForSig(spendableOutPoint, tx.getOutputsList());
         const sig = TimbleScript.signData(dataToSign, privateKey);
         return sig;
@@ -76,20 +63,20 @@ class TimbleScript {
      * @param spentOutPoints: outPoints to be spent in the txTemplate
      * @return a list of signed transaction inputs
      */
-    static createSignedNRGInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints) {
+    static createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints) {
+        const txOutputs = txTemplate.getOutputsList();
+        if (!txOutputs) {
+            throw new Error("outputs has to be set to txTemplate before signing the inputs");
+        }
         return spentOutPoints.map((outPoint) => {
-            const signature = TimbleScript.createTxInputSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'));
+            const signature = TimbleScript.createUnlockSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'));
             const pubKey = secp256k1.staticKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true);
-            const input = new coreProtobuf.TransactionInput();
-            input.setOutPoint(outPoint);
             const inputUnlockScript = [
                 signature.toString('hex'),
                 pubKey.toString('hex'),
                 blake2bl(bcAddress)
             ].join(' ');
-            input.setScriptLength(inputUnlockScript.length);
-            input.setInputScript(new Uint8Array(Buffer.from(inputUnlockScript, 'ascii')));
-            return input;
+            return protoUtil.createTransactionInput(outPoint, inputUnlockScript);
         });
     }
     static createNRGLockScript(address) {
@@ -103,9 +90,8 @@ class TimbleScript {
         return script.join(' ');
     }
     static parseNRGLockScript(script) {
-        if (typeof script != 'string')
-            script = TimbleScript.bufferToString(script);
-        const doubleHashedBcAddress = script.split(' ')[1];
+        const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+        const doubleHashedBcAddress = scriptStr.split(' ')[1];
         return {
             doubleHashedBcAddress
         };
@@ -130,12 +116,11 @@ class TimbleScript {
         return script.map(part => part.join(' ')).join(' ');
     }
     static parseMakerLockScript(script) {
-        if (typeof script != 'string')
-            script = TimbleScript.bufferToString(script);
-        const [shiftMaker, shiftTaker, deposit, settlement] = script.split(' OP_DEPSET ')[0].split(' ').slice(1);
-        const tradeInfo = script.split(' OP_MAKERCOLL ')[0].split(' ');
+        const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+        const [shiftMaker, shiftTaker, deposit, settlement] = scriptStr.split(' OP_DEPSET ')[0].split(' ').slice(1);
+        const tradeInfo = scriptStr.split(' OP_MAKERCOLL ')[0].split(' ');
         const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] = tradeInfo.slice(tradeInfo.length - 5);
-        const doubleHashedBcAddress = script.split(' OP_IFEQ OP_BLAKE2BL ')[1].split(' ')[0];
+        const doubleHashedBcAddress = scriptStr.split(' OP_IFEQ OP_BLAKE2BL ')[1].split(' ')[0];
         return {
             shiftMaker: parseInt(shiftMaker, 10),
             shiftTaker: parseInt(shiftTaker, 10),
@@ -154,9 +139,8 @@ class TimbleScript {
         return [takerWantsAddress, takerSendsAddress].join(' ');
     }
     static parseTakerUnlockScript(script) {
-        if (typeof script != 'string')
-            script = TimbleScript.bufferToString(script);
-        const [takerWantsAddress, takerSendsAddress] = script.split(' ');
+        const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+        const [takerWantsAddress, takerSendsAddress] = scriptStr.split(' ');
         return {
             takerWantsAddress,
             takerSendsAddress
@@ -173,13 +157,12 @@ class TimbleScript {
         return script.map(part => part.join(' ')).join(' ');
     }
     static parseTakerLockScript(script) {
-        if (typeof script != 'string')
-            script = TimbleScript.bufferToString(script);
-        if (script.indexOf('OP_CALLBACK') === -1) {
+        const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+        if (scriptStr.indexOf('OP_CALLBACK') === -1) {
             throw new Error('Invalid taker outpout script');
         }
-        const [makerTxHash, makerTxOutputIndex] = script.split(' OP_CALLBACK')[0].split(' ');
-        const doubleHashedBcAddress = script.split(' OP_BLAKE2BL ')[1].split(' ')[0];
+        const [makerTxHash, makerTxOutputIndex] = scriptStr.split(' OP_CALLBACK')[0].split(' ');
+        const doubleHashedBcAddress = scriptStr.split(' OP_BLAKE2BL ')[1].split(' ')[0];
         return {
             makerTxHash: makerTxHash,
             makerTxOutputIndex: parseInt(makerTxOutputIndex, 10),
@@ -190,27 +173,25 @@ class TimbleScript {
         return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ');
     }
     static parseTakerCallbackLockScript(script) {
-        if (typeof script != 'string')
-            script = TimbleScript.bufferToString(script);
-        const [makerTxHash, makerTxOutputIndex, OP_Callback] = script.split(' ');
+        const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+        const [makerTxHash, makerTxOutputIndex, OP_Callback] = scriptStr.split(' ');
         return {
             makerTxHash,
             makerTxOutputIndex
         };
     }
     static getScriptType(script) {
-        if (typeof script != 'string')
-            script = TimbleScript.bufferToString(script);
-        if (script.startsWith('OP_MONOID')) {
+        const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+        if (scriptStr.startsWith('OP_MONOID')) {
             return TimbleScript.MAKER_OUTPUT;
         }
-        else if (script.endsWith('OP_CALLBACK')) {
+        else if (scriptStr.endsWith('OP_CALLBACK')) {
             return TimbleScript.TAKER_CALLBACK;
         }
-        else if (script.indexOf('OP_MONAD') > -1 && script.indexOf('OP_CALLBACK') > -1) {
+        else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1) {
             return TimbleScript.TAKER_OUTPUT;
         }
-        else if (script.startsWith('OP_BLAKE2BL')) {
+        else if (scriptStr.startsWith('OP_BLAKE2BL')) {
             return TimbleScript.NRG_TRANSFER;
         }
         else

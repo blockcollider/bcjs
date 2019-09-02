@@ -79,7 +79,13 @@ function calcStringDivPowerTen(valStr, powTen) {
             .join('.');
     }
 }
-exports.humanToBN = (val, unit) => {
+exports.humanToInternalAsBN = (val, unit) => {
+    if (Number.isNaN(Number(val))) {
+        throw new Error(val + ' is not number');
+    }
+    if (val.startsWith('-')) {
+        throw new Error(val + ' must be positive');
+    }
     const divisor = getDivisor(unit);
     if (unit === exports.COIN_FRACS.BOSON && val.includes('.')) {
         throw new Error(`Invalid val: ${val}, since boson is the minimum supported unit`);
@@ -91,8 +97,12 @@ exports.humanToBN = (val, unit) => {
     return amt;
 };
 exports.humanToInternal = (val, unit) => {
-    const amt = exports.humanToBN(val, unit);
+    const amt = exports.humanToInternalAsBN(val, unit);
     return amt.toBuffer();
+};
+/* convert internal value from BN to human format with unit */
+exports.internalBNToHuman = (val, unit) => {
+    return exports.internalToHuman(val.toBuffer(), unit);
 };
 // supports decimal
 exports.internalToHuman = (internal, unit) => {
