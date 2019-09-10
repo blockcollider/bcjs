@@ -18,6 +18,7 @@ type BcRpcResponse =
     bc.GetSpendableCollateralResponse.AsObject |
     bc.RpcTransactionResponse.AsObject |
     bc.GetUnlockTakerTxOutputScriptsResponse.AsObject |
+    bc.GetOpenOrdersResponse.AsObject |
     bc.VanityConvertResponse.AsObject
 
 type JsonRpcParams = Array<string | number>
