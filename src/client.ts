@@ -17,6 +17,7 @@ type BcRpcResponse =
     bc.GetRoveredBlocksResponse.AsObject |
     bc.GetSpendableCollateralResponse.AsObject |
     bc.RpcTransactionResponse.AsObject |
+    bc.GetUnlockTakerTxOutputScriptsResponse.AsObject |
     bc.VanityConvertResponse.AsObject
 
 type JsonRpcParams = Array<string | number>
@@ -34,6 +35,7 @@ enum BcRpcMethod {
     GetSpendableCollateral  = "getSpendableCollateral",
 
     UnlockCollateral  = "unlockCollateral",
+    GetUnlockTakerTxOutputScripts = "getUnlockTakerTxOutputScripts",
 
     PlaceMakerOrder  = "placeMakerOrder",
     PlaceTakerOrder  = "placeTakerOrder",
@@ -239,6 +241,11 @@ export default class RpcClient {
     public async unlockCollateral(request: bc.UnlockCollateralRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.UnlockCollateral, request.toArray())
         return result as bc.RpcTransactionResponse.AsObject
+    }
+
+    public async getUnlockTakerTxOutputScripts(request: bc.GetUnlockTakerTxOutputScriptsRequest): Promise<bc.GetUnlockTakerTxOutputScriptsResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetUnlockTakerTxOutputScripts, request.toArray())
+        return result as bc.GetUnlockTakerTxOutputScriptsResponse.AsObject
     }
 
     public async createMakerOrder(request: bc.PlaceMakerOrderRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
