@@ -113,6 +113,7 @@ message MatchedOrder {
   bytes taker_input_script = 3;
   OpenOrder maker_order = 4;
   uint64 block_height_taker = 5;
+  uint64 timestamp = 6;
 }
 
 message MatchedOrders {
@@ -125,6 +126,7 @@ message HistoricalOrder {
   MatchedOrder order = 1;
   bool taker_settled = 2;
   bool maker_settled = 3;
+  bool unlocked = 4;
 }
 
 message HistoricalOrders {

@@ -58,6 +58,15 @@ message UnlockCollateralRequest {
   string  bc_private_key_hex = 4;
 }
 
+message GetUnlockTakerTxOutputScriptsRequest {
+  string tx_hash = 1;
+  uint32  tx_output_index = 2;
+}
+
+message GetUnlockTakerTxOutputScriptsResponse {
+  repeated string unlock_scripts = 1;
+}
+
 message MakerOrderInfo {
     uint64  trade_height = 1;
     uint64  deposit = 2;
@@ -86,11 +95,28 @@ message TakerOrderInfo {
     string  tx_hash = 5;
     uint32  tx_output_index = 6;
     string  total_collateral = 7;
+    uint64  trade_height = 8;
+    uint64  timestamp = 9;
+}
+
+message MatchedTx {
+    string hash = 1;
+    uint32 output_index = 2;
+    string chain = 3;
+    string sends_from = 4;
+    string receives_to = 5;
+    uint64 amount = 6;
+    bool   is_maker = 7;
+}
+
+message MatchedTxs {
+    repeated MatchedTx txs = 1;
 }
 
 message MatchedOpenOrder {
     MakerOrderInfo maker = 1;
     TakerOrderInfo taker = 2;
+    bool unlocked = 7;
 }
 
 message GetOpenOrdersResponse {
@@ -223,6 +249,23 @@ message GetBlocksResponse {
     repeated BcBlock blocks = 1;
 }
 
+message Transfer{
+    string from = 1;
+    string to = 2;
+    string amount = 3;
+    string tx_hash = 4;
+    uint32 tx_output_index = 5;
+    uint64 timestamp = 6;
+}
+
+message TransferResponse {
+    repeated Transfer transfers = 1;
+}
+
+message TransferRequest {
+    string address = 1;
+}
+
 message GetRoveredBlocksRequest {
     string blockchain = 1;
     uint32 start_height = 2;
@@ -292,6 +335,9 @@ service Bc {
     rpc GetSpendableCollateral (GetSpendableCollateralRequest) returns (GetSpendableCollateralResponse) {}
 
     rpc UnlockCollateral (UnlockCollateralRequest) returns (RpcTransactionResponse) {}
+    rpc GetUnlockTakerTxOutputScripts (GetUnlockTakerTxOutputScriptsRequest) returns (GetUnlockTakerTxOutputScriptsResponse) {}
+
+    rpc GetTransfers (TransferRequest) returns (TransferResponse) {}
 
     rpc PlaceMakerOrder (PlaceMakerOrderRequest) returns (RpcTransactionResponse) {}
     rpc PlaceTakerOrder (PlaceTakerOrderRequest) returns (RpcTransactionResponse) {}

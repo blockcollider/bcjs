@@ -238,6 +238,52 @@ export namespace UnlockCollateralRequest {
   }
 }
 
+export class GetUnlockTakerTxOutputScriptsRequest extends jspb.Message {
+  getTxHash(): string;
+  setTxHash(value: string): void;
+
+  getTxOutputIndex(): number;
+  setTxOutputIndex(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetUnlockTakerTxOutputScriptsRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetUnlockTakerTxOutputScriptsRequest): GetUnlockTakerTxOutputScriptsRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetUnlockTakerTxOutputScriptsRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetUnlockTakerTxOutputScriptsRequest;
+  static deserializeBinaryFromReader(message: GetUnlockTakerTxOutputScriptsRequest, reader: jspb.BinaryReader): GetUnlockTakerTxOutputScriptsRequest;
+}
+
+export namespace GetUnlockTakerTxOutputScriptsRequest {
+  export type AsObject = {
+    txHash: string,
+    txOutputIndex: number,
+  }
+}
+
+export class GetUnlockTakerTxOutputScriptsResponse extends jspb.Message {
+  clearUnlockScriptsList(): void;
+  getUnlockScriptsList(): Array<string>;
+  setUnlockScriptsList(value: Array<string>): void;
+  addUnlockScripts(value: string, index?: number): string;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetUnlockTakerTxOutputScriptsResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetUnlockTakerTxOutputScriptsResponse): GetUnlockTakerTxOutputScriptsResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetUnlockTakerTxOutputScriptsResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetUnlockTakerTxOutputScriptsResponse;
+  static deserializeBinaryFromReader(message: GetUnlockTakerTxOutputScriptsResponse, reader: jspb.BinaryReader): GetUnlockTakerTxOutputScriptsResponse;
+}
+
+export namespace GetUnlockTakerTxOutputScriptsResponse {
+  export type AsObject = {
+    unlockScriptsList: Array<string>,
+  }
+}
+
 export class MakerOrderInfo extends jspb.Message {
   getTradeHeight(): number;
   setTradeHeight(value: number): void;
@@ -344,6 +390,12 @@ export class TakerOrderInfo extends jspb.Message {
   getTotalCollateral(): string;
   setTotalCollateral(value: string): void;
 
+  getTradeHeight(): number;
+  setTradeHeight(value: number): void;
+
+  getTimestamp(): number;
+  setTimestamp(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TakerOrderInfo.AsObject;
   static toObject(includeInstance: boolean, msg: TakerOrderInfo): TakerOrderInfo.AsObject;
@@ -363,6 +415,74 @@ export namespace TakerOrderInfo {
     txHash: string,
     txOutputIndex: number,
     totalCollateral: string,
+    tradeHeight: number,
+    timestamp: number,
+  }
+}
+
+export class MatchedTx extends jspb.Message {
+  getHash(): string;
+  setHash(value: string): void;
+
+  getOutputIndex(): number;
+  setOutputIndex(value: number): void;
+
+  getChain(): string;
+  setChain(value: string): void;
+
+  getSendsFrom(): string;
+  setSendsFrom(value: string): void;
+
+  getReceivesTo(): string;
+  setReceivesTo(value: string): void;
+
+  getAmount(): number;
+  setAmount(value: number): void;
+
+  getIsMaker(): boolean;
+  setIsMaker(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MatchedTx.AsObject;
+  static toObject(includeInstance: boolean, msg: MatchedTx): MatchedTx.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MatchedTx, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MatchedTx;
+  static deserializeBinaryFromReader(message: MatchedTx, reader: jspb.BinaryReader): MatchedTx;
+}
+
+export namespace MatchedTx {
+  export type AsObject = {
+    hash: string,
+    outputIndex: number,
+    chain: string,
+    sendsFrom: string,
+    receivesTo: string,
+    amount: number,
+    isMaker: boolean,
+  }
+}
+
+export class MatchedTxs extends jspb.Message {
+  clearTxsList(): void;
+  getTxsList(): Array<MatchedTx>;
+  setTxsList(value: Array<MatchedTx>): void;
+  addTxs(value?: MatchedTx, index?: number): MatchedTx;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MatchedTxs.AsObject;
+  static toObject(includeInstance: boolean, msg: MatchedTxs): MatchedTxs.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MatchedTxs, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MatchedTxs;
+  static deserializeBinaryFromReader(message: MatchedTxs, reader: jspb.BinaryReader): MatchedTxs;
+}
+
+export namespace MatchedTxs {
+  export type AsObject = {
+    txsList: Array<MatchedTx.AsObject>,
   }
 }
 
@@ -376,6 +496,9 @@ export class MatchedOpenOrder extends jspb.Message {
   clearTaker(): void;
   getTaker(): TakerOrderInfo | undefined;
   setTaker(value?: TakerOrderInfo): void;
+
+  getUnlocked(): boolean;
+  setUnlocked(value: boolean): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MatchedOpenOrder.AsObject;
@@ -391,6 +514,7 @@ export namespace MatchedOpenOrder {
   export type AsObject = {
     maker?: MakerOrderInfo.AsObject,
     taker?: TakerOrderInfo.AsObject,
+    unlocked: boolean,
   }
 }
 
@@ -971,6 +1095,88 @@ export class GetBlocksResponse extends jspb.Message {
 export namespace GetBlocksResponse {
   export type AsObject = {
     blocksList: Array<core_pb.BcBlock.AsObject>,
+  }
+}
+
+export class Transfer extends jspb.Message {
+  getFrom(): string;
+  setFrom(value: string): void;
+
+  getTo(): string;
+  setTo(value: string): void;
+
+  getAmount(): string;
+  setAmount(value: string): void;
+
+  getTxHash(): string;
+  setTxHash(value: string): void;
+
+  getTxOutputIndex(): number;
+  setTxOutputIndex(value: number): void;
+
+  getTimestamp(): number;
+  setTimestamp(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Transfer.AsObject;
+  static toObject(includeInstance: boolean, msg: Transfer): Transfer.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Transfer, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Transfer;
+  static deserializeBinaryFromReader(message: Transfer, reader: jspb.BinaryReader): Transfer;
+}
+
+export namespace Transfer {
+  export type AsObject = {
+    from: string,
+    to: string,
+    amount: string,
+    txHash: string,
+    txOutputIndex: number,
+    timestamp: number,
+  }
+}
+
+export class TransferResponse extends jspb.Message {
+  clearTransfersList(): void;
+  getTransfersList(): Array<Transfer>;
+  setTransfersList(value: Array<Transfer>): void;
+  addTransfers(value?: Transfer, index?: number): Transfer;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TransferResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: TransferResponse): TransferResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TransferResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TransferResponse;
+  static deserializeBinaryFromReader(message: TransferResponse, reader: jspb.BinaryReader): TransferResponse;
+}
+
+export namespace TransferResponse {
+  export type AsObject = {
+    transfersList: Array<Transfer.AsObject>,
+  }
+}
+
+export class TransferRequest extends jspb.Message {
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TransferRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: TransferRequest): TransferRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TransferRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TransferRequest;
+  static deserializeBinaryFromReader(message: TransferRequest, reader: jspb.BinaryReader): TransferRequest;
+}
+
+export namespace TransferRequest {
+  export type AsObject = {
+    address: string,
   }
 }
 

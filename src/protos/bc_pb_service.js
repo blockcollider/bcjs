@@ -218,6 +218,24 @@ Bc.UnlockCollateral = {
   responseType: bc_pb.RpcTransactionResponse
 };
 
+Bc.GetUnlockTakerTxOutputScripts = {
+  methodName: "GetUnlockTakerTxOutputScripts",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetUnlockTakerTxOutputScriptsRequest,
+  responseType: bc_pb.GetUnlockTakerTxOutputScriptsResponse
+};
+
+Bc.GetTransfers = {
+  methodName: "GetTransfers",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.TransferRequest,
+  responseType: bc_pb.TransferResponse
+};
+
 Bc.PlaceMakerOrder = {
   methodName: "PlaceMakerOrder",
   service: Bc,
@@ -993,6 +1011,68 @@ BcClient.prototype.unlockCollateral = function unlockCollateral(requestMessage, 
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.UnlockCollateral, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getUnlockTakerTxOutputScripts = function getUnlockTakerTxOutputScripts(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetUnlockTakerTxOutputScripts, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getTransfers = function getTransfers(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetTransfers, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

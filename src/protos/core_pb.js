@@ -3744,7 +3744,8 @@ proto.bc.MatchedOrder.toObject = function(includeInstance, msg) {
     takerOutputScript: msg.getTakerOutputScript_asB64(),
     takerInputScript: msg.getTakerInputScript_asB64(),
     makerOrder: (f = msg.getMakerOrder()) && proto.bc.OpenOrder.toObject(includeInstance, f),
-    blockHeightTaker: jspb.Message.getFieldWithDefault(msg, 5, 0)
+    blockHeightTaker: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    timestamp: jspb.Message.getFieldWithDefault(msg, 6, 0)
   };
 
   if (includeInstance) {
@@ -3802,6 +3803,10 @@ proto.bc.MatchedOrder.deserializeBinaryFromReader = function(msg, reader) {
     case 5:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setBlockHeightTaker(value);
+      break;
+    case 6:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setTimestamp(value);
       break;
     default:
       reader.skipField();
@@ -3866,6 +3871,13 @@ proto.bc.MatchedOrder.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0) {
     writer.writeUint64(
       5,
+      f
+    );
+  }
+  f = message.getTimestamp();
+  if (f !== 0) {
+    writer.writeUint64(
+      6,
       f
     );
   }
@@ -4022,6 +4034,21 @@ proto.bc.MatchedOrder.prototype.getBlockHeightTaker = function() {
 /** @param {number} value */
 proto.bc.MatchedOrder.prototype.setBlockHeightTaker = function(value) {
   jspb.Message.setProto3IntField(this, 5, value);
+};
+
+
+/**
+ * optional uint64 timestamp = 6;
+ * @return {number}
+ */
+proto.bc.MatchedOrder.prototype.getTimestamp = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+};
+
+
+/** @param {number} value */
+proto.bc.MatchedOrder.prototype.setTimestamp = function(value) {
+  jspb.Message.setProto3IntField(this, 6, value);
 };
 
 
@@ -4296,7 +4323,8 @@ proto.bc.HistoricalOrder.toObject = function(includeInstance, msg) {
   var f, obj = {
     order: (f = msg.getOrder()) && proto.bc.MatchedOrder.toObject(includeInstance, f),
     takerSettled: jspb.Message.getFieldWithDefault(msg, 2, false),
-    makerSettled: jspb.Message.getFieldWithDefault(msg, 3, false)
+    makerSettled: jspb.Message.getFieldWithDefault(msg, 3, false),
+    unlocked: jspb.Message.getFieldWithDefault(msg, 4, false)
   };
 
   if (includeInstance) {
@@ -4346,6 +4374,10 @@ proto.bc.HistoricalOrder.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setMakerSettled(value);
       break;
+    case 4:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setUnlocked(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -4394,6 +4426,13 @@ proto.bc.HistoricalOrder.serializeBinaryToWriter = function(message, writer) {
   if (f) {
     writer.writeBool(
       3,
+      f
+    );
+  }
+  f = message.getUnlocked();
+  if (f) {
+    writer.writeBool(
+      4,
       f
     );
   }
@@ -4461,6 +4500,23 @@ proto.bc.HistoricalOrder.prototype.getMakerSettled = function() {
 /** @param {boolean} value */
 proto.bc.HistoricalOrder.prototype.setMakerSettled = function(value) {
   jspb.Message.setProto3BooleanField(this, 3, value);
+};
+
+
+/**
+ * optional bool unlocked = 4;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.bc.HistoricalOrder.prototype.getUnlocked = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 4, false));
+};
+
+
+/** @param {boolean} value */
+proto.bc.HistoricalOrder.prototype.setUnlocked = function(value) {
+  jspb.Message.setProto3BooleanField(this, 4, value);
 };
 
 

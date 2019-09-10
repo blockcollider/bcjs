@@ -531,6 +531,9 @@ export class MatchedOrder extends jspb.Message {
   getBlockHeightTaker(): number;
   setBlockHeightTaker(value: number): void;
 
+  getTimestamp(): number;
+  setTimestamp(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MatchedOrder.AsObject;
   static toObject(includeInstance: boolean, msg: MatchedOrder): MatchedOrder.AsObject;
@@ -548,6 +551,7 @@ export namespace MatchedOrder {
     takerInputScript: Uint8Array | string,
     makerOrder?: OpenOrder.AsObject,
     blockHeightTaker: number,
+    timestamp: number,
   }
 }
 
@@ -593,6 +597,9 @@ export class HistoricalOrder extends jspb.Message {
   getMakerSettled(): boolean;
   setMakerSettled(value: boolean): void;
 
+  getUnlocked(): boolean;
+  setUnlocked(value: boolean): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): HistoricalOrder.AsObject;
   static toObject(includeInstance: boolean, msg: HistoricalOrder): HistoricalOrder.AsObject;
@@ -608,6 +615,7 @@ export namespace HistoricalOrder {
     order?: MatchedOrder.AsObject,
     takerSettled: boolean,
     makerSettled: boolean,
+    unlocked: boolean,
   }
 }
 

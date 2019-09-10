@@ -212,6 +212,24 @@ type BcUnlockCollateral = {
   readonly responseType: typeof bc_pb.RpcTransactionResponse;
 };
 
+type BcGetUnlockTakerTxOutputScripts = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetUnlockTakerTxOutputScriptsRequest;
+  readonly responseType: typeof bc_pb.GetUnlockTakerTxOutputScriptsResponse;
+};
+
+type BcGetTransfers = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.TransferRequest;
+  readonly responseType: typeof bc_pb.TransferResponse;
+};
+
 type BcPlaceMakerOrder = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -318,6 +336,8 @@ export class Bc {
   static readonly GetWallet: BcGetWallet;
   static readonly GetSpendableCollateral: BcGetSpendableCollateral;
   static readonly UnlockCollateral: BcUnlockCollateral;
+  static readonly GetUnlockTakerTxOutputScripts: BcGetUnlockTakerTxOutputScripts;
+  static readonly GetTransfers: BcGetTransfers;
   static readonly PlaceMakerOrder: BcPlaceMakerOrder;
   static readonly PlaceTakerOrder: BcPlaceTakerOrder;
   static readonly PlaceTakerOrders: BcPlaceTakerOrders;
@@ -567,6 +587,24 @@ export class BcClient {
   unlockCollateral(
     requestMessage: bc_pb.UnlockCollateralRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
+  ): UnaryResponse;
+  getUnlockTakerTxOutputScripts(
+    requestMessage: bc_pb.GetUnlockTakerTxOutputScriptsRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUnlockTakerTxOutputScriptsResponse|null) => void
+  ): UnaryResponse;
+  getUnlockTakerTxOutputScripts(
+    requestMessage: bc_pb.GetUnlockTakerTxOutputScriptsRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUnlockTakerTxOutputScriptsResponse|null) => void
+  ): UnaryResponse;
+  getTransfers(
+    requestMessage: bc_pb.TransferRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.TransferResponse|null) => void
+  ): UnaryResponse;
+  getTransfers(
+    requestMessage: bc_pb.TransferRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.TransferResponse|null) => void
   ): UnaryResponse;
   placeMakerOrder(
     requestMessage: bc_pb.PlaceMakerOrderRequest,

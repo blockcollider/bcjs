@@ -313,6 +313,28 @@ function deserialize_bc_GetTxRequest(buffer_arg) {
   return bc_pb.GetTxRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bc_GetUnlockTakerTxOutputScriptsRequest(arg) {
+  if (!(arg instanceof bc_pb.GetUnlockTakerTxOutputScriptsRequest)) {
+    throw new Error('Expected argument of type bc.GetUnlockTakerTxOutputScriptsRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetUnlockTakerTxOutputScriptsRequest(buffer_arg) {
+  return bc_pb.GetUnlockTakerTxOutputScriptsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_GetUnlockTakerTxOutputScriptsResponse(arg) {
+  if (!(arg instanceof bc_pb.GetUnlockTakerTxOutputScriptsResponse)) {
+    throw new Error('Expected argument of type bc.GetUnlockTakerTxOutputScriptsResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_GetUnlockTakerTxOutputScriptsResponse(buffer_arg) {
+  return bc_pb.GetUnlockTakerTxOutputScriptsResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bc_HelpResponse(arg) {
   if (!(arg instanceof bc_pb.HelpResponse)) {
     throw new Error('Expected argument of type bc.HelpResponse');
@@ -421,6 +443,28 @@ function serialize_bc_Transaction(arg) {
 
 function deserialize_bc_Transaction(buffer_arg) {
   return core_pb.Transaction.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_TransferRequest(arg) {
+  if (!(arg instanceof bc_pb.TransferRequest)) {
+    throw new Error('Expected argument of type bc.TransferRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_TransferRequest(buffer_arg) {
+  return bc_pb.TransferRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bc_TransferResponse(arg) {
+  if (!(arg instanceof bc_pb.TransferResponse)) {
+    throw new Error('Expected argument of type bc.TransferResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_TransferResponse(buffer_arg) {
+  return bc_pb.TransferResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bc_UnlockCollateralRequest(arg) {
@@ -721,6 +765,28 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bc_UnlockCollateralRequest,
     responseSerialize: serialize_bc_RpcTransactionResponse,
     responseDeserialize: deserialize_bc_RpcTransactionResponse,
+  },
+  getUnlockTakerTxOutputScripts: {
+    path: '/bc.Bc/GetUnlockTakerTxOutputScripts',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetUnlockTakerTxOutputScriptsRequest,
+    responseType: bc_pb.GetUnlockTakerTxOutputScriptsResponse,
+    requestSerialize: serialize_bc_GetUnlockTakerTxOutputScriptsRequest,
+    requestDeserialize: deserialize_bc_GetUnlockTakerTxOutputScriptsRequest,
+    responseSerialize: serialize_bc_GetUnlockTakerTxOutputScriptsResponse,
+    responseDeserialize: deserialize_bc_GetUnlockTakerTxOutputScriptsResponse,
+  },
+  getTransfers: {
+    path: '/bc.Bc/GetTransfers',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.TransferRequest,
+    responseType: bc_pb.TransferResponse,
+    requestSerialize: serialize_bc_TransferRequest,
+    requestDeserialize: deserialize_bc_TransferRequest,
+    responseSerialize: serialize_bc_TransferResponse,
+    responseDeserialize: deserialize_bc_TransferResponse,
   },
   placeMakerOrder: {
     path: '/bc.Bc/PlaceMakerOrder',
