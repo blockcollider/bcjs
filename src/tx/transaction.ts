@@ -2,6 +2,8 @@ const Random = require('random-js')
 const secp256k1 = require('secp256k1')
 
 import BN from 'bn.js'
+import { address, networks } from 'bitcoinjs-lib'
+
 import * as bcProtobuf from './../protos/bc_pb'
 import * as coreProtobuf from './../protos/core_pb'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './../utils/coin'
@@ -15,6 +17,22 @@ type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
 
 export const fromBuffer = function(txBuffer: Buffer|Uint8Array): coreProtobuf.Transaction {
   return coreProtobuf.Transaction.deserializeBinary(txBuffer)
+}
+
+function validateBtcAddress (btcAddress: string) {
+  let decoded
+  try {
+    decoded = address.fromBase58Check(btcAddress)
+  } catch (e) {
+    return new Error(`Invalid BTC (not base58) address ${address}`)
+  }
+
+  // TODO networks constant has to change according to used Bitcoin network
+  if (!decoded.version || decoded.version !== networks.bitcoin.pubKeyHash) {
+    return new Error(`Not P2PKH BTC address ${address}`)
+  }
+
+  return false
 }
 
 /*
@@ -58,6 +76,20 @@ export const createMakerOrderTransaction = function(
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, nrgUnit:string, additionalTxFee: string
 ) {
+
+  let err
+  if (sendsFromChain.toLowerCase() === 'btc') {
+    err = validateBtcAddress(sendsFromAddress)
+  }
+
+  if (receivesToChain.toLowerCase() === 'btc') {
+    err = validateBtcAddress(receivesToAddress)
+  }
+
+  if (err) {
+    throw err
+  }
+
   let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
   const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
 
@@ -100,6 +132,24 @@ export const createTakerOrderTransaction = function(
 
   if (!makerOutPoint) {
     throw new Error('OutPoint is missing in makerOpenOrder')
+  }
+
+  const {
+    sendsFromChain: makerSendsFromChain,
+    receivesToChain: makerReceivesToChain
+  } = TimbleScript.parseMakerLockScript(makerOpenOrder.script)
+
+  let err
+  if (makerSendsFromChain.toLowerCase() === 'btc') {
+    err = validateBtcAddress(receivesToAddress)
+  }
+
+  if (makerReceivesToChain.toLowerCase() === 'btc') {
+    err = validateBtcAddress(sendsFromAddress)
+  }
+
+  if (err) {
+    throw err
   }
 
   let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')

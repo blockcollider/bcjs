@@ -20,6 +20,7 @@
     "@types/google-protobuf": "^3.7.1",
     "@types/node-fetch": "^2.3.7",
     "avon": "^3.0.0",
+    "bitcoinjs-lib": "^5.1.6",
     "bn.js": "^5.0.0",
     "node-fetch": "^2.6.0",
     "random-js": "^2.1.0",

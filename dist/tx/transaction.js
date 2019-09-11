@@ -13,6 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Random = require('random-js');
 const secp256k1 = require('secp256k1');
 const bn_js_1 = __importDefault(require("bn.js"));
+const bitcoinjs_lib_1 = require("bitcoinjs-lib");
 const coreProtobuf = __importStar(require("./../protos/core_pb"));
 const coin_1 = require("./../utils/coin");
 const constants = require('./../constants');
@@ -22,6 +23,20 @@ const { blake2bl } = require('./../utils/crypto');
 exports.fromBuffer = function (txBuffer) {
     return coreProtobuf.Transaction.deserializeBinary(txBuffer);
 };
+function validateBtcAddress(btcAddress) {
+    let decoded;
+    try {
+        decoded = bitcoinjs_lib_1.address.fromBase58Check(btcAddress);
+    }
+    catch (e) {
+        return new Error(`Invalid BTC (not base58) address ${bitcoinjs_lib_1.address}`);
+    }
+    // TODO networks constant has to change according to used Bitcoin network
+    if (!decoded.version || decoded.version !== bitcoinjs_lib_1.networks.bitcoin.pubKeyHash) {
+        return new Error(`Not P2PKH BTC address ${bitcoinjs_lib_1.address}`);
+    }
+    return false;
+}
 /*
  * Create NRG transfer transaction
  * @param spendableWalletOutPointObjs:
@@ -43,6 +58,16 @@ exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fr
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex);
 };
 exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, deposit, settlement, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, additionalTxFee) {
+    let err;
+    if (sendsFromChain.toLowerCase() === 'btc') {
+        err = validateBtcAddress(sendsFromAddress);
+    }
+    if (receivesToChain.toLowerCase() === 'btc') {
+        err = validateBtcAddress(receivesToAddress);
+    }
+    if (err) {
+        throw err;
+    }
     let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'maker');
     const totalAmountBN = totalFeeBN.add(coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG));
     const indivisibleSendsUnit = coin_1.Currency.toMinimumUnitAsStr(sendsFromChain, sendsUnit, coin_1.CurrencyInfo[sendsFromChain].humanUnit);
@@ -58,6 +83,17 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     const makerOutPoint = makerOpenOrder.outpoint;
     if (!makerOutPoint) {
         throw new Error('OutPoint is missing in makerOpenOrder');
+    }
+    const { sendsFromChain: makerSendsFromChain, receivesToChain: makerReceivesToChain } = TimbleScript.parseMakerLockScript(makerOpenOrder.script);
+    let err;
+    if (makerSendsFromChain.toLowerCase() === 'btc') {
+        err = validateBtcAddress(receivesToAddress);
+    }
+    if (makerReceivesToChain.toLowerCase() === 'btc') {
+        err = validateBtcAddress(sendsFromAddress);
+    }
+    if (err) {
+        throw err;
     }
     let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');
     const totalAmountBN = totalFeeBN.add(coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG));
