@@ -9,7 +9,7 @@ import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Curre
 const constants = require('./../constants')
 const protoUtil = require('./../utils/protoUtil')
 const { TimbleScript } = require('./../timble')
-const { blake2bl } = require('./../utils/crypto');
+const { blake2bl } = require('./../utils/crypto')
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
 
