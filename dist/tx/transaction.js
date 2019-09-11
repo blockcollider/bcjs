@@ -29,11 +29,11 @@ function validateBtcAddress(btcAddress) {
         decoded = bitcoinjs_lib_1.address.fromBase58Check(btcAddress);
     }
     catch (e) {
-        return new Error(`Invalid BTC (not base58) address ${bitcoinjs_lib_1.address}`);
+        return new Error(`Invalid BTC (not base58) address ${btcAddress}`);
     }
     // TODO networks constant has to change according to used Bitcoin network
-    if (!decoded.version || decoded.version !== bitcoinjs_lib_1.networks.bitcoin.pubKeyHash) {
-        return new Error(`Not P2PKH BTC address ${bitcoinjs_lib_1.address}`);
+    if (decoded.version === undefined || decoded.version !== bitcoinjs_lib_1.networks.bitcoin.pubKeyHash) {
+        return new Error(`Not P2PKH BTC address ${btcAddress}`);
     }
     return false;
 }

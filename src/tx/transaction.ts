@@ -24,12 +24,12 @@ function validateBtcAddress (btcAddress: string) {
   try {
     decoded = address.fromBase58Check(btcAddress)
   } catch (e) {
-    return new Error(`Invalid BTC (not base58) address ${address}`)
+    return new Error(`Invalid BTC (not base58) address ${btcAddress}`)
   }
 
   // TODO networks constant has to change according to used Bitcoin network
-  if (!decoded.version || decoded.version !== networks.bitcoin.pubKeyHash) {
-    return new Error(`Not P2PKH BTC address ${address}`)
+  if (decoded.version === undefined || decoded.version !== networks.bitcoin.pubKeyHash) {
+    return new Error(`Not P2PKH BTC address ${btcAddress}`)
   }
 
   return false
