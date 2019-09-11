@@ -154,9 +154,7 @@ export const unlockTakerTx = function(
 
     let outputs = []
     if (outputs.length === 2) { // both settled
-      outputs = unlockScripts.map(unlockScript =>
-                                  protoUtil.createTransactionOutput(unlockScript, new BN(1), unlockBOSON.div(new BN(2)))
-                                 )
+      outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, new BN(1), unlockBOSON.div(new BN(2))))
     } else { // one party settled
       outputs = [protoUtil.createTransactionOutput(unlockScripts[0], new BN(1), unlockBOSON)]
     }
