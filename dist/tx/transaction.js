@@ -88,9 +88,28 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     }
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex);
 };
-exports.unlockTakerTx = function (toUnlockTakerTxOutput) {
-    // call client to get the original maker tx script
-    // extract taker and maker nrg lock script from them
+exports.unlockTakerTx = function (txHash, txOutputIndex, takerTxToUnlock, unlockScripts, bcAddress, privateKeyHex) {
+    if (unlockScripts.length > 1) {
+        const toUnlockTakerTxOutput = takerTxToUnlock.getOutputsList()[txOutputIndex];
+        const unlockBOSON = coin_1.internalToBN(toUnlockTakerTxOutput.getValue(), coin_1.COIN_FRACS.BOSON);
+        let outputs = [];
+        if (outputs.length === 2) { // both settled
+            outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, new bn_js_1.default(1), unlockBOSON.div(new bn_js_1.default(2))));
+        }
+        else { // one party settled
+            outputs = [protoUtil.createTransactionOutput(unlockScripts[0], new bn_js_1.default(1), unlockBOSON)];
+        }
+        const tx = _createTxWithOutputsAssigned(outputs);
+        const outpoint = protoUtil.createOutPoint(txHash, txOutputIndex, unlockBOSON);
+        const inputs = TimbleScript.createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint]);
+        tx.setInputsList(inputs);
+        tx.setNinCount(inputs.length);
+        tx.setHash(_generateTxHash(tx));
+        return tx;
+    }
+    else {
+        return null;
+    }
 };
 const _calculateCrossChainTradeFee = function (collateralizedNRG, additionalTxFee, side) {
     const collateralizedBN = coin_1.humanToInternalAsBN(collateralizedNRG, coin_1.COIN_FRACS.NRG);

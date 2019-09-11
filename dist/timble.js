@@ -70,7 +70,7 @@ class TimbleScript {
         }
         return spentOutPoints.map((outPoint) => {
             const signature = TimbleScript.createUnlockSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'));
-            const pubKey = secp256k1.staticKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true);
+            const pubKey = secp256k1.publicKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true);
             const inputUnlockScript = [
                 signature.toString('hex'),
                 pubKey.toString('hex'),

@@ -21,6 +21,7 @@ var BcRpcMethod;
     BcRpcMethod["GetWallet"] = "getWallet";
     BcRpcMethod["GetSpendableCollateral"] = "getSpendableCollateral";
     BcRpcMethod["UnlockCollateral"] = "unlockCollateral";
+    BcRpcMethod["GetUnlockTakerTxOutputScripts"] = "getUnlockTakerTxOutputScripts";
     BcRpcMethod["PlaceMakerOrder"] = "placeMakerOrder";
     BcRpcMethod["PlaceTakerOrder"] = "placeTakerOrder";
     BcRpcMethod["PlaceTakerOrders"] = "placeTakerOrders";
@@ -197,6 +198,12 @@ class RpcClient {
     unlockCollateral(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.UnlockCollateral, request.toArray());
+            return result;
+        });
+    }
+    getUnlockTakerTxOutputScripts(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetUnlockTakerTxOutputScripts, request.toArray());
             return result;
         });
     }
