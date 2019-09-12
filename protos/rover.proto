@@ -55,6 +55,7 @@ message RoverMessage {
         uint64 lowest_height = 3;
         string highest_hash = 4;
         string lowest_hash = 5;
+        string synced = 6;
     }
 
     message Resync {

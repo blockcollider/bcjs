@@ -105,7 +105,7 @@ message MatchedTx {
     string chain = 3;
     string sends_from = 4;
     string receives_to = 5;
-    uint64 amount = 6;
+    string amount = 6;
     bool   is_maker = 7;
 }
 

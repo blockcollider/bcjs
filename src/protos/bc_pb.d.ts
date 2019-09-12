@@ -436,8 +436,8 @@ export class MatchedTx extends jspb.Message {
   getReceivesTo(): string;
   setReceivesTo(value: string): void;
 
-  getAmount(): number;
-  setAmount(value: number): void;
+  getAmount(): string;
+  setAmount(value: string): void;
 
   getIsMaker(): boolean;
   setIsMaker(value: boolean): void;
@@ -459,7 +459,7 @@ export namespace MatchedTx {
     chain: string,
     sendsFrom: string,
     receivesTo: string,
-    amount: number,
+    amount: string,
     isMaker: boolean,
   }
 }

@@ -130,6 +130,9 @@ export namespace RoverMessage {
     getLowestHash(): string;
     setLowestHash(value: string): void;
 
+    getSynced(): string;
+    setSynced(value: string): void;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): RoverBlockRange.AsObject;
     static toObject(includeInstance: boolean, msg: RoverBlockRange): RoverBlockRange.AsObject;
@@ -147,6 +150,7 @@ export namespace RoverMessage {
       lowestHeight: number,
       highestHash: string,
       lowestHash: string,
+      synced: string,
     }
   }
 

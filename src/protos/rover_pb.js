@@ -787,7 +787,8 @@ proto.bc.RoverMessage.RoverBlockRange.toObject = function(includeInstance, msg) 
     highestHeight: jspb.Message.getFieldWithDefault(msg, 2, 0),
     lowestHeight: jspb.Message.getFieldWithDefault(msg, 3, 0),
     highestHash: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    lowestHash: jspb.Message.getFieldWithDefault(msg, 5, "")
+    lowestHash: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    synced: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -843,6 +844,10 @@ proto.bc.RoverMessage.RoverBlockRange.deserializeBinaryFromReader = function(msg
     case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setLowestHash(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSynced(value);
       break;
     default:
       reader.skipField();
@@ -905,6 +910,13 @@ proto.bc.RoverMessage.RoverBlockRange.serializeBinaryToWriter = function(message
   if (f.length > 0) {
     writer.writeString(
       5,
+      f
+    );
+  }
+  f = message.getSynced();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -983,6 +995,21 @@ proto.bc.RoverMessage.RoverBlockRange.prototype.getLowestHash = function() {
 /** @param {string} value */
 proto.bc.RoverMessage.RoverBlockRange.prototype.setLowestHash = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional string synced = 6;
+ * @return {string}
+ */
+proto.bc.RoverMessage.RoverBlockRange.prototype.getSynced = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.RoverMessage.RoverBlockRange.prototype.setSynced = function(value) {
+  jspb.Message.setProto3StringField(this, 6, value);
 };
 
 

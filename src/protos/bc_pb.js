@@ -3036,7 +3036,7 @@ proto.bc.MatchedTx.toObject = function(includeInstance, msg) {
     chain: jspb.Message.getFieldWithDefault(msg, 3, ""),
     sendsFrom: jspb.Message.getFieldWithDefault(msg, 4, ""),
     receivesTo: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    amount: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    amount: jspb.Message.getFieldWithDefault(msg, 6, ""),
     isMaker: jspb.Message.getFieldWithDefault(msg, 7, false)
   };
 
@@ -3095,7 +3095,7 @@ proto.bc.MatchedTx.deserializeBinaryFromReader = function(msg, reader) {
       msg.setReceivesTo(value);
       break;
     case 6:
-      var value = /** @type {number} */ (reader.readUint64());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAmount(value);
       break;
     case 7:
@@ -3167,8 +3167,8 @@ proto.bc.MatchedTx.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getAmount();
-  if (f !== 0) {
-    writer.writeUint64(
+  if (f.length > 0) {
+    writer.writeString(
       6,
       f
     );
@@ -3259,17 +3259,17 @@ proto.bc.MatchedTx.prototype.setReceivesTo = function(value) {
 
 
 /**
- * optional uint64 amount = 6;
- * @return {number}
+ * optional string amount = 6;
+ * @return {string}
  */
 proto.bc.MatchedTx.prototype.getAmount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
-/** @param {number} value */
+/** @param {string} value */
 proto.bc.MatchedTx.prototype.setAmount = function(value) {
-  jspb.Message.setProto3IntField(this, 6, value);
+  jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
