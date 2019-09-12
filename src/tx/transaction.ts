@@ -6,11 +6,11 @@ import { address, networks } from 'bitcoinjs-lib'
 
 import * as bcProtobuf from './../protos/bc_pb'
 import * as coreProtobuf from './../protos/core_pb'
+import TimbleScript from './../timble'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './../utils/coin'
 
 const constants = require('./../constants')
 const protoUtil = require('./../utils/protoUtil')
-const { TimbleScript } = require('./../timble')
 const { blake2bl } = require('./../utils/crypto')
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
@@ -56,6 +56,9 @@ export const createNRGTransferTransaction = function(
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
   const totalAmountBN = transferAmountBN.add(txFeeBN)
   const unitBN = new BN(1)
+  if (privateKeyHex.startsWith('0x')) {
+    privateKeyHex = privateKeyHex.slice(2)
+  }
 
   const txOutputs = [
     protoUtil.createTransactionOutput(TimbleScript.createNRGLockScript(toAddress), unitBN, transferAmountBN)
@@ -69,20 +72,25 @@ export const createNRGTransferTransaction = function(
 
 export const createMakerOrderTransaction = function(
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
-  shiftMaker: string, shiftTaker: string, deposit: string, settlement: string,
+  shiftMaker: number, shiftTaker: number, deposit: number, settlement: number,
   sendsFromChain: string, receivesToChain: string,
   sendsFromAddress: string, receivesToAddress: string,
   sendsUnit: string, receivesUnit: string,
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, nrgUnit:string, additionalTxFee: string
 ) {
+  if (bcPrivateKeyHex.startsWith('0x')) {
+    bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
+  }
+  sendsFromChain = sendsFromChain.toLowerCase()
+  receivesToChain = receivesToChain.toLowerCase()
 
   let err
-  if (sendsFromChain.toLowerCase() === 'btc') {
+  if (sendsFromChain === 'btc') {
     err = validateBtcAddress(sendsFromAddress)
   }
 
-  if (receivesToChain.toLowerCase() === 'btc') {
+  if (receivesToChain === 'btc') {
     err = validateBtcAddress(receivesToAddress)
   }
 
@@ -100,7 +108,7 @@ export const createMakerOrderTransaction = function(
     receivesToChain, receivesUnit, CurrencyInfo[receivesToChain].humanUnit
   )
   const outputLockScript = TimbleScript.createMakerLockScript(
-    shiftMaker,shiftTaker, deposit, settlement,
+    shiftMaker, shiftTaker, deposit, settlement,
     sendsFromChain, receivesToChain,
     sendsFromAddress, receivesToAddress,
     indivisibleSendsUnit, indivisibleReceivesUnit,
@@ -128,6 +136,9 @@ export const createTakerOrderTransaction = function(
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, additionalTxFee: string
 ) {
+  if (bcPrivateKeyHex.startsWith('0x')) {
+    bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
+  }
   const makerOutPoint = makerOpenOrder.outpoint
 
   if (!makerOutPoint) {
@@ -168,7 +179,7 @@ export const createTakerOrderTransaction = function(
   const makerTxOutputIndex = makerOutPoint.index
 
   // takers input
-  const takerInputUnlockScript = TimbleScript.createTakerInputScript(sendsFromAddress, receivesToAddress)
+  const takerInputUnlockScript = TimbleScript.createTakerUnlockScript(sendsFromAddress, receivesToAddress)
   const makerTxOutpoint = protoUtil.createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN)
   const nonNRGInputs = [
     protoUtil.createTransactionInput(makerTxOutpoint, takerInputUnlockScript)
@@ -199,6 +210,9 @@ export const unlockTakerTx = function(
   bcAddress: string, privateKeyHex: string
 ): coreProtobuf.Transaction|null {
   if (unlockScripts.length > 1) {
+    if (privateKeyHex.startsWith('0x')) {
+      privateKeyHex = privateKeyHex.slice(2)
+    }
     const toUnlockTakerTxOutput = takerTxToUnlock.getOutputsList()[txOutputIndex]
     const unlockBOSON = internalToBN(toUnlockTakerTxOutput.getValue() as Uint8Array, COIN_FRACS.BOSON)
 
