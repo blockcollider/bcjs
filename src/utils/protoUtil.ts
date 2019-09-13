@@ -27,7 +27,7 @@ export const createOutPoint = (hash: string, index: number, val: BN): coreProtob
   const outPoint = new coreProtobuf.OutPoint()
   outPoint.setHash(hash)
   outPoint.setIndex(index)
-  outPoint.setValue(new Uint8Array(val.toBuffer()))
+  outPoint.setValue(bnToBytes(val))
   return outPoint
 }
 
