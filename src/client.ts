@@ -21,7 +21,7 @@ type BcRpcResponse =
     bc.GetOpenOrdersResponse.AsObject |
     bc.VanityConvertResponse.AsObject
 
-type JsonRpcParams = Array<string | number>
+type JsonRpcParams = Array<string | number> | Buffer
 type JsonRpcVersion = "2.0";
 type JsonRpcReservedMethod = string;
 type JsonRpcId = number | string | void;
@@ -123,7 +123,7 @@ export default class RpcClient {
         }
     }
 
-    private async makeJsonRpcRequest(method: BcRpcMethod, rpcParams: JsonRpcParams = []): Promise<BcRpcResponse|JsonRpcError<BcRpcResponse>> {
+    private async makeJsonRpcRequest(method: BcRpcMethod, rpcParams: JsonRpcParams|Buffer): Promise<BcRpcResponse|JsonRpcError<BcRpcResponse>> {
         const id = Math.abs(Math.random() * 1e6 | 0)
         const rpcBody: JsonRpcRequest<BcRpcMethod> = {
             id,
@@ -185,7 +185,7 @@ export default class RpcClient {
     }
 
     public async getLatestRoveredBlock(): Promise<bc.GetRoveredBlocksResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks)
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks, [])
         return result as bc.GetRoveredBlocksResponse.AsObject
     }
 
@@ -205,7 +205,7 @@ export default class RpcClient {
     }
 
     public async getLatestBlock(): Promise<core.BcBlock.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestBlock)
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestBlock, [])
         return result as core.BcBlock.AsObject
     }
 
@@ -275,17 +275,17 @@ export default class RpcClient {
     }
 
     public async getOpenOrders(): Promise<bc.GetOpenOrdersResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders)
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, [])
         return result as bc.GetOpenOrdersResponse.AsObject
     }
 
     public async sendTx(request: core.Transaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.SendTx, request.toArray())
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.SendTx, Buffer.from(request.serializeBinary()))
         return result as bc.RpcTransactionResponse.AsObject
     }
 
     public async getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, request.toArray())
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, Buffer.from(request.serializeBinary()))
         return result as bc.GetMatchedOrdersResponse.AsObject
     }
 
