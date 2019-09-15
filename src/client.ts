@@ -274,7 +274,7 @@ export default class RpcClient {
         return result as bc.FeeResponse.AsObject
     }
 
-    public async getOpenOrders(): Promise<bc.GetOpenOrdersResponse.AsObject|Error> {
+    public async getOpenOrders(): Promise<bc.GetOpenOrdersResponse.AsObject> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, [])
         return result as bc.GetOpenOrdersResponse.AsObject
     }

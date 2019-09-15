@@ -72,7 +72,7 @@ export const createNRGTransferTransaction = function(
 
 export const createMakerOrderTransaction = function(
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
-  shiftMaker: number, shiftTaker: number, deposit: number, settlement: number,
+  shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
   sendsFromChain: string, receivesToChain: string,
   sendsFromAddress: string, receivesToAddress: string,
   sendsUnit: string, receivesUnit: string,
@@ -108,7 +108,7 @@ export const createMakerOrderTransaction = function(
     receivesToChain, receivesUnit, CurrencyInfo[receivesToChain].humanUnit
   )
   const outputLockScript = TimbleScript.createMakerLockScript(
-    shiftMaker, shiftTaker, deposit, settlement,
+    shiftMaker, shiftTaker, depositLength, settleLength,
     sendsFromChain, receivesToChain,
     sendsFromAddress, receivesToAddress,
     indivisibleSendsUnit, indivisibleReceivesUnit,
@@ -243,7 +243,11 @@ const _calculateCrossChainTradeFee = function(collateralizedNRG: string, additio
 
   const txFeeBN = (side === 'maker') ? humanToInternalAsBN('0.002', COIN_FRACS.NRG) : collateralizedBN.div(new BN(1000))
 
-  return txFeeBN.add(humanToInternalAsBN(additionalTxFee, COIN_FRACS.NRG))
+  if (additionalTxFee != '0') {
+    return txFeeBN.add(humanToInternalAsBN(additionalTxFee, COIN_FRACS.NRG))
+  } else {
+    return txFeeBN
+  }
 }
 
 const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN): {
