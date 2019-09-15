@@ -55,7 +55,7 @@ export const createNRGTransferTransaction = function(
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
   const totalAmountBN = transferAmountBN.add(txFeeBN)
-  const unitBN = new BN(1)
+  const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
   if (privateKeyHex.startsWith('0x')) {
     privateKeyHex = privateKeyHex.slice(2)
   }
@@ -215,12 +215,13 @@ export const unlockTakerTx = function(
     }
     const toUnlockTakerTxOutput = takerTxToUnlock.getOutputsList()[txOutputIndex]
     const unlockBOSON = internalToBN(toUnlockTakerTxOutput.getValue() as Uint8Array, COIN_FRACS.BOSON)
+    const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 
     let outputs = []
     if (outputs.length === 2) { // both settled
-      outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, new BN(1), unlockBOSON.div(new BN(2))))
+      outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new BN(2))))
     } else { // one party settled
-      outputs = [protoUtil.createTransactionOutput(unlockScripts[0], new BN(1), unlockBOSON)]
+      outputs = [protoUtil.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)]
     }
 
     const tx = _createTxWithOutputsAssigned(outputs)
@@ -303,7 +304,7 @@ const _compileTransaction = function(
   bcAddress: string,
   bcPrivateKeyHex: string
 ): coreProtobuf.Transaction {
-  const unitBN = new BN(1)
+  const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
   // outputs
   const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN)
   let finalOutputs = txOutputs
