@@ -284,7 +284,7 @@ export default class RpcClient {
         return result as bc.RpcTransactionResponse.AsObject
     }
 
-    public async getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject|Error> {
+    public async getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, Buffer.from(request.serializeBinary()))
         return result as bc.GetMatchedOrdersResponse.AsObject
     }

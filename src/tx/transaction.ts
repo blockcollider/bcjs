@@ -132,23 +132,16 @@ export const createMakerOrderTransaction = function(
 export const createTakerOrderTransaction = function(
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, receivesToAddress: string,
-  makerOpenOrder: coreProtobuf.OpenOrder.AsObject,
+  makerOpenOrder: bcProtobuf.MakerOrderInfo.AsObject,
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, additionalTxFee: string
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
   }
-  const makerOutPoint = makerOpenOrder.outpoint
 
-  if (!makerOutPoint) {
-    throw new Error('OutPoint is missing in makerOpenOrder')
-  }
-
-  const {
-    sendsFromChain: makerSendsFromChain,
-    receivesToChain: makerReceivesToChain
-  } = TimbleScript.parseMakerLockScript(makerOpenOrder.script)
+  const makerSendsFromChain = makerOpenOrder.sendsFromChain
+  const makerReceivesToChain = makerOpenOrder.receivesToChain
 
   let err
   if (makerSendsFromChain.toLowerCase() === 'btc') {
@@ -163,11 +156,11 @@ export const createTakerOrderTransaction = function(
     throw err
   }
 
-  let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
+  const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
   const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
 
-  const makerUnitBN = protoUtil.bytesToInternalBN(makerOpenOrder.unit)
-  const makerCollateralBN = protoUtil.bytesToInternalBN(makerOpenOrder.originalValue)
+  const makerUnitBN = humanToInternalAsBN(makerOpenOrder.nrgUnit, COIN_FRACS.NRG)
+  const makerCollateralBN = humanToInternalAsBN(makerOpenOrder.collateralizedNrg, COIN_FRACS.NRG)
 
   let takerCollateralBN = humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
   // modify taker collateral to be = makercollateralBN if it is above
@@ -175,8 +168,8 @@ export const createTakerOrderTransaction = function(
     takerCollateralBN = new BN(makerCollateralBN.toString())
   }
 
-  const makerTxHash = makerOutPoint.hash
-  const makerTxOutputIndex = makerOutPoint.index
+  const makerTxHash = makerOpenOrder.txHash
+  const makerTxOutputIndex = makerOpenOrder.txOutputIndex
 
   // takers input
   const takerInputUnlockScript = TimbleScript.createTakerUnlockScript(sendsFromAddress, receivesToAddress)
