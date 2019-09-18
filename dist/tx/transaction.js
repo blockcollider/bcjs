@@ -15,10 +15,10 @@ const secp256k1 = require('secp256k1');
 const bn_js_1 = __importDefault(require("bn.js"));
 const bitcoinjs_lib_1 = require("bitcoinjs-lib");
 const coreProtobuf = __importStar(require("./../protos/core_pb"));
+const timble_1 = __importDefault(require("./../timble"));
 const coin_1 = require("./../utils/coin");
 const constants = require('./../constants');
 const protoUtil = require('./../utils/protoUtil');
-const { TimbleScript } = require('./../timble');
 const { blake2bl } = require('./../utils/crypto');
 exports.fromBuffer = function (txBuffer) {
     return coreProtobuf.Transaction.deserializeBinary(txBuffer);
@@ -50,19 +50,27 @@ exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fr
     const transferAmountBN = coin_1.humanToInternalAsBN(transferAmountNRG, coin_1.COIN_FRACS.NRG);
     const txFeeBN = coin_1.humanToInternalAsBN(txFeeNRG, coin_1.COIN_FRACS.NRG);
     const totalAmountBN = transferAmountBN.add(txFeeBN);
-    const unitBN = new bn_js_1.default(1);
+    const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
+    if (privateKeyHex.startsWith('0x')) {
+        privateKeyHex = privateKeyHex.slice(2);
+    }
     const txOutputs = [
-        protoUtil.createTransactionOutput(TimbleScript.createNRGLockScript(toAddress), unitBN, transferAmountBN)
+        protoUtil.createTransactionOutput(timble_1.default.createNRGLockScript(toAddress), unitBN, transferAmountBN)
     ];
     const nonNRGInputs = [];
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex);
 };
-exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, deposit, settlement, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, additionalTxFee) {
+exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, additionalTxFee) {
+    if (bcPrivateKeyHex.startsWith('0x')) {
+        bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
+    }
+    sendsFromChain = sendsFromChain.toLowerCase();
+    receivesToChain = receivesToChain.toLowerCase();
     let err;
-    if (sendsFromChain.toLowerCase() === 'btc') {
+    if (sendsFromChain === 'btc') {
         err = validateBtcAddress(sendsFromAddress);
     }
-    if (receivesToChain.toLowerCase() === 'btc') {
+    if (receivesToChain === 'btc') {
         err = validateBtcAddress(receivesToAddress);
     }
     if (err) {
@@ -72,7 +80,7 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
     const totalAmountBN = totalFeeBN.add(coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG));
     const indivisibleSendsUnit = coin_1.Currency.toMinimumUnitAsStr(sendsFromChain, sendsUnit, coin_1.CurrencyInfo[sendsFromChain].humanUnit);
     const indivisibleReceivesUnit = coin_1.Currency.toMinimumUnitAsStr(receivesToChain, receivesUnit, coin_1.CurrencyInfo[receivesToChain].humanUnit);
-    const outputLockScript = TimbleScript.createMakerLockScript(shiftMaker, shiftTaker, deposit, settlement, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, indivisibleSendsUnit, indivisibleReceivesUnit, bcAddress);
+    const outputLockScript = timble_1.default.createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, indivisibleSendsUnit, indivisibleReceivesUnit, bcAddress);
     const txOutputs = [
         protoUtil.createTransactionOutput(outputLockScript, coin_1.humanToInternalAsBN(nrgUnit, coin_1.COIN_FRACS.NRG), coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG))
     ];
@@ -80,11 +88,11 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex);
 };
 exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee) {
-    const makerOutPoint = makerOpenOrder.outpoint;
-    if (!makerOutPoint) {
-        throw new Error('OutPoint is missing in makerOpenOrder');
+    if (bcPrivateKeyHex.startsWith('0x')) {
+        bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
     }
-    const { sendsFromChain: makerSendsFromChain, receivesToChain: makerReceivesToChain } = TimbleScript.parseMakerLockScript(makerOpenOrder.script);
+    const makerSendsFromChain = makerOpenOrder.sendsFromChain;
+    const makerReceivesToChain = makerOpenOrder.receivesToChain;
     let err;
     if (makerSendsFromChain.toLowerCase() === 'btc') {
         err = validateBtcAddress(receivesToAddress);
@@ -95,49 +103,53 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     if (err) {
         throw err;
     }
-    let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');
+    const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');
     const totalAmountBN = totalFeeBN.add(coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG));
-    const makerUnitBN = protoUtil.bytesToInternalBN(makerOpenOrder.unit);
-    const makerCollateralBN = protoUtil.bytesToInternalBN(makerOpenOrder.originalValue);
+    const makerUnitBN = coin_1.humanToInternalAsBN(makerOpenOrder.nrgUnit, coin_1.COIN_FRACS.NRG);
+    const makerCollateralBN = coin_1.humanToInternalAsBN(makerOpenOrder.collateralizedNrg, coin_1.COIN_FRACS.NRG);
     let takerCollateralBN = coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG);
     // modify taker collateral to be = makercollateralBN if it is above
     if (makerCollateralBN.lt(takerCollateralBN)) {
         takerCollateralBN = new bn_js_1.default(makerCollateralBN.toString());
     }
-    const makerTxHash = makerOutPoint.hash;
-    const makerTxOutputIndex = makerOutPoint.index;
+    const makerTxHash = makerOpenOrder.txHash;
+    const makerTxOutputIndex = makerOpenOrder.txOutputIndex;
     // takers input
-    const takerInputUnlockScript = TimbleScript.createTakerInputScript(sendsFromAddress, receivesToAddress);
+    const takerInputUnlockScript = timble_1.default.createTakerUnlockScript(sendsFromAddress, receivesToAddress);
     const makerTxOutpoint = protoUtil.createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN);
     const nonNRGInputs = [
         protoUtil.createTransactionInput(makerTxOutpoint, takerInputUnlockScript)
     ];
     // takers output
-    const outputLockScript = TimbleScript.createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress);
+    const outputLockScript = timble_1.default.createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress);
     const txOutputs = [
         protoUtil.createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new bn_js_1.default(2)))
     ];
     // partial order
     if (makerCollateralBN.gt(takerCollateralBN)) {
-        const outputLockScriptCb = TimbleScript.createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex);
+        const outputLockScriptCb = timble_1.default.createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex);
         txOutputs.push(protoUtil.createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)));
     }
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex);
 };
 exports.unlockTakerTx = function (txHash, txOutputIndex, takerTxToUnlock, unlockScripts, bcAddress, privateKeyHex) {
     if (unlockScripts.length > 1) {
+        if (privateKeyHex.startsWith('0x')) {
+            privateKeyHex = privateKeyHex.slice(2);
+        }
         const toUnlockTakerTxOutput = takerTxToUnlock.getOutputsList()[txOutputIndex];
         const unlockBOSON = coin_1.internalToBN(toUnlockTakerTxOutput.getValue(), coin_1.COIN_FRACS.BOSON);
+        const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
         let outputs = [];
         if (outputs.length === 2) { // both settled
-            outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, new bn_js_1.default(1), unlockBOSON.div(new bn_js_1.default(2))));
+            outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new bn_js_1.default(2))));
         }
         else { // one party settled
-            outputs = [protoUtil.createTransactionOutput(unlockScripts[0], new bn_js_1.default(1), unlockBOSON)];
+            outputs = [protoUtil.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)];
         }
         const tx = _createTxWithOutputsAssigned(outputs);
         const outpoint = protoUtil.createOutPoint(txHash, txOutputIndex, unlockBOSON);
-        const inputs = TimbleScript.createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint]);
+        const inputs = timble_1.default.createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint]);
         tx.setInputsList(inputs);
         tx.setNinCount(inputs.length);
         tx.setHash(_generateTxHash(tx));
@@ -150,7 +162,12 @@ exports.unlockTakerTx = function (txHash, txOutputIndex, takerTxToUnlock, unlock
 const _calculateCrossChainTradeFee = function (collateralizedNRG, additionalTxFee, side) {
     const collateralizedBN = coin_1.humanToInternalAsBN(collateralizedNRG, coin_1.COIN_FRACS.NRG);
     const txFeeBN = (side === 'maker') ? coin_1.humanToInternalAsBN('0.002', coin_1.COIN_FRACS.NRG) : collateralizedBN.div(new bn_js_1.default(1000));
-    return txFeeBN.add(coin_1.humanToInternalAsBN(additionalTxFee, coin_1.COIN_FRACS.NRG));
+    if (additionalTxFee != '0') {
+        return txFeeBN.add(coin_1.humanToInternalAsBN(additionalTxFee, coin_1.COIN_FRACS.NRG));
+    }
+    else {
+        return txFeeBN;
+    }
 };
 const _calculateSpentAndLeftoverOutPoints = function (spendableWalletOutPointObjs, totalAmountBN) {
     let sumBN = new bn_js_1.default(0);
@@ -188,18 +205,18 @@ const _createTxWithOutputsAssigned = function (outputs) {
     return tx;
 };
 const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex) {
-    const unitBN = new bn_js_1.default(1);
+    const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
     // outputs
     const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN);
     let finalOutputs = txOutputs;
     if (leftoverOutPoint) {
-        const leftoverOutput = protoUtil.createTransactionOutput(TimbleScript.createNRGLockScript(bcAddress), unitBN, protoUtil.bytesToInternalBN(leftoverOutPoint.getValue()));
+        const leftoverOutput = protoUtil.createTransactionOutput(timble_1.default.createNRGLockScript(bcAddress), unitBN, protoUtil.bytesToInternalBN(leftoverOutPoint.getValue()));
         finalOutputs = txOutputs.concat([leftoverOutput]);
     }
     // txTemplate with output
     const txTemplate = _createTxWithOutputsAssigned(finalOutputs);
     // nrg inputs
-    const nrgUnlockInputs = TimbleScript.createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints);
+    const nrgUnlockInputs = timble_1.default.createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints);
     const finalInputs = nonNRGinputs.concat(nrgUnlockInputs);
     txTemplate.setInputsList(finalInputs);
     txTemplate.setNinCount(finalInputs.length);

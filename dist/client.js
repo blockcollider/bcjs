@@ -69,7 +69,7 @@ class RpcClient {
             this.rpcUrl = new URL(`${this.rpcUrl.origin}:3000`);
         }
     }
-    makeJsonRpcRequest(method, rpcParams = []) {
+    makeJsonRpcRequest(method, rpcParams) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = Math.abs(Math.random() * 1e6 | 0);
             const rpcBody = {
@@ -131,7 +131,7 @@ class RpcClient {
     }
     getLatestRoveredBlock() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks);
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetLatestRoveredBlocks, []);
             return result;
         });
     }
@@ -155,7 +155,7 @@ class RpcClient {
     }
     getLatestBlock() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetLatestBlock);
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetLatestBlock, []);
             return result;
         });
     }
@@ -239,19 +239,19 @@ class RpcClient {
     }
     getOpenOrders() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders);
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, []);
             return result;
         });
     }
     sendTx(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.SendTx, request.toArray());
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.SendTx, Buffer.from(request.serializeBinary()));
             return result;
         });
     }
     getMatchedOrders(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, request.toArray());
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, Buffer.from(request.serializeBinary()));
             return result;
         });
     }

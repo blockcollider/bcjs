@@ -32,7 +32,7 @@ exports.createOutPoint = (hash, index, val) => {
     const outPoint = new coreProtobuf.OutPoint();
     outPoint.setHash(hash);
     outPoint.setIndex(index);
-    outPoint.setValue(new Uint8Array(val.toBuffer()));
+    outPoint.setValue(exports.bnToBytes(val));
     return outPoint;
 };
 exports.createTransactionInput = (outPoint, unlockScript) => {
