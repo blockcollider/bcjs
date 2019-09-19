@@ -4,10 +4,10 @@ const secp256k1 = require('secp256k1')
 import BN from 'bn.js'
 import { address, networks } from 'bitcoinjs-lib'
 
-import * as bcProtobuf from './../protos/bc_pb'
-import * as coreProtobuf from './../protos/core_pb'
-import TimbleScript from './../timble'
-import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './../utils/coin'
+import * as bcProtobuf from './protos/bc_pb'
+import * as coreProtobuf from './protos/core_pb'
+import TimbleScript from './timble'
+import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './utils/coin'
 
 const constants = require('./../constants')
 const protoUtil = require('./../utils/protoUtil')
