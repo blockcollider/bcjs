@@ -10,7 +10,7 @@ import {
 
 import {
     createNRGTransferTransaction
-} from '../src/tx/transaction';
+} from '../src/transaction';
 
 
 const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3000'
