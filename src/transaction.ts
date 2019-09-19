@@ -180,7 +180,7 @@ export const createTakerOrderTransaction = function(
 
 }
 
-export const unlockTakerTx = function(
+export const createUnlockTakerTx = function(
   txHash: string, txOutputIndex: number,
   takerTxToUnlock: coreProtobuf.Transaction,
   unlockScripts: string[],

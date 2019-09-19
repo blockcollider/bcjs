@@ -120,7 +120,7 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     }
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex);
 };
-exports.unlockTakerTx = function (txHash, txOutputIndex, takerTxToUnlock, unlockScripts, bcAddress, privateKeyHex) {
+exports.createUnlockTakerTx = function (txHash, txOutputIndex, takerTxToUnlock, unlockScripts, bcAddress, privateKeyHex) {
     if (unlockScripts.length > 1) {
         if (privateKeyHex.startsWith('0x')) {
             privateKeyHex = privateKeyHex.slice(2);
