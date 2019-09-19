@@ -132,28 +132,12 @@ export const createMakerOrderTransaction = function(
 export const createTakerOrderTransaction = function(
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, receivesToAddress: string,
-  makerOpenOrder: bcProtobuf.MakerOrderInfo.AsObject,
+  makerOpenOrder: { nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, additionalTxFee: string
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
-  }
-
-  const makerSendsFromChain = makerOpenOrder.sendsFromChain
-  const makerReceivesToChain = makerOpenOrder.receivesToChain
-
-  let err
-  if (makerSendsFromChain.toLowerCase() === 'btc') {
-    err = validateBtcAddress(receivesToAddress)
-  }
-
-  if (makerReceivesToChain.toLowerCase() === 'btc') {
-    err = validateBtcAddress(sendsFromAddress)
-  }
-
-  if (err) {
-    throw err
   }
 
   const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
