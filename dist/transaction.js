@@ -91,18 +91,6 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     if (bcPrivateKeyHex.startsWith('0x')) {
         bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
     }
-    const makerSendsFromChain = makerOpenOrder.sendsFromChain;
-    const makerReceivesToChain = makerOpenOrder.receivesToChain;
-    let err;
-    if (makerSendsFromChain.toLowerCase() === 'btc') {
-        err = validateBtcAddress(receivesToAddress);
-    }
-    if (makerReceivesToChain.toLowerCase() === 'btc') {
-        err = validateBtcAddress(sendsFromAddress);
-    }
-    if (err) {
-        throw err;
-    }
     const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');
     const totalAmountBN = totalFeeBN.add(coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG));
     const makerUnitBN = coin_1.humanToInternalAsBN(makerOpenOrder.nrgUnit, coin_1.COIN_FRACS.NRG);
