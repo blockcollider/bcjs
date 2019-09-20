@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -14,6 +22,7 @@ const Random = require('random-js');
 const secp256k1 = require('secp256k1');
 const bn_js_1 = __importDefault(require("bn.js"));
 const bitcoinjs_lib_1 = require("bitcoinjs-lib");
+const bcProtobuf = __importStar(require("./protos/bc_pb"));
 const coreProtobuf = __importStar(require("./protos/core_pb"));
 const timble_1 = __importDefault(require("./timble"));
 const coin_1 = require("./utils/coin");
@@ -120,32 +129,37 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     }
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex);
 };
-exports.createUnlockTakerTx = function (txHash, txOutputIndex, takerTxToUnlock, unlockScripts, bcAddress, privateKeyHex) {
-    if (unlockScripts.length > 1) {
-        if (privateKeyHex.startsWith('0x')) {
-            privateKeyHex = privateKeyHex.slice(2);
+exports.createUnlockTakerTx = function (txHash, txOutputIndex, nrgToUnlock, bcAddress, privateKeyHex, bcClient) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const req = new bcProtobuf.GetUnlockTakerTxOutputScriptsRequest();
+        req.setTxHash(txHash);
+        req.setTxOutputIndex(txOutputIndex);
+        const unlockScripts = (yield bcClient.getUnlockTakerTxOutputScripts(req)).unlockScriptsList;
+        if (unlockScripts.length > 0) {
+            if (privateKeyHex.startsWith('0x')) {
+                privateKeyHex = privateKeyHex.slice(2);
+            }
+            const unlockBOSON = coin_1.humanToInternalAsBN(nrgToUnlock, coin_1.COIN_FRACS.NRG);
+            const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
+            let outputs = [];
+            if (outputs.length === 2) { // both settled
+                outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new bn_js_1.default(2))));
+            }
+            else { // one party settled
+                outputs = [protoUtil.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)];
+            }
+            const tx = _createTxWithOutputsAssigned(outputs);
+            const outpoint = protoUtil.createOutPoint(txHash, txOutputIndex, unlockBOSON);
+            const inputs = timble_1.default.createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint]);
+            tx.setInputsList(inputs);
+            tx.setNinCount(inputs.length);
+            tx.setHash(_generateTxHash(tx));
+            return tx;
         }
-        const toUnlockTakerTxOutput = takerTxToUnlock.getOutputsList()[txOutputIndex];
-        const unlockBOSON = coin_1.internalToBN(toUnlockTakerTxOutput.getValue(), coin_1.COIN_FRACS.BOSON);
-        const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
-        let outputs = [];
-        if (outputs.length === 2) { // both settled
-            outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new bn_js_1.default(2))));
+        else {
+            return null;
         }
-        else { // one party settled
-            outputs = [protoUtil.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)];
-        }
-        const tx = _createTxWithOutputsAssigned(outputs);
-        const outpoint = protoUtil.createOutPoint(txHash, txOutputIndex, unlockBOSON);
-        const inputs = timble_1.default.createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint]);
-        tx.setInputsList(inputs);
-        tx.setNinCount(inputs.length);
-        tx.setHash(_generateTxHash(tx));
-        return tx;
-    }
-    else {
-        return null;
-    }
+    });
 };
 const _calculateCrossChainTradeFee = function (collateralizedNRG, additionalTxFee, side) {
     const collateralizedBN = coin_1.humanToInternalAsBN(collateralizedNRG, coin_1.COIN_FRACS.NRG);
