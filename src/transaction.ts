@@ -7,6 +7,7 @@ import { address, networks } from 'bitcoinjs-lib'
 import * as bcProtobuf from './protos/bc_pb'
 import * as coreProtobuf from './protos/core_pb'
 import TimbleScript from './timble'
+import RpcClient from './client'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './utils/coin'
 
 const constants = require('./../constants')
@@ -180,18 +181,22 @@ export const createTakerOrderTransaction = function(
 
 }
 
-export const createUnlockTakerTx = function(
+export const createUnlockTakerTx = async function(
   txHash: string, txOutputIndex: number,
-  takerTxToUnlock: coreProtobuf.Transaction,
-  unlockScripts: string[],
-  bcAddress: string, privateKeyHex: string
-): coreProtobuf.Transaction|null {
-  if (unlockScripts.length > 1) {
+  nrgToUnlock: string,
+  bcAddress: string, privateKeyHex: string,
+  bcClient: RpcClient
+): Promise<coreProtobuf.Transaction | null> {
+  const req = new bcProtobuf.GetUnlockTakerTxOutputScriptsRequest()
+  req.setTxHash(txHash)
+  req.setTxOutputIndex(txOutputIndex)
+  const unlockScripts = (await bcClient.getUnlockTakerTxOutputScripts(req)).unlockScriptsList
+
+  if (unlockScripts.length > 0) {
     if (privateKeyHex.startsWith('0x')) {
       privateKeyHex = privateKeyHex.slice(2)
     }
-    const toUnlockTakerTxOutput = takerTxToUnlock.getOutputsList()[txOutputIndex]
-    const unlockBOSON = internalToBN(toUnlockTakerTxOutput.getValue() as Uint8Array, COIN_FRACS.BOSON)
+    const unlockBOSON = humanToInternalAsBN(nrgToUnlock, COIN_FRACS.NRG)
     const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 
     let outputs = []

@@ -244,7 +244,7 @@ export default class RpcClient {
         return result as bc.RpcTransactionResponse.AsObject
     }
 
-    public async getUnlockTakerTxOutputScripts(request: bc.GetUnlockTakerTxOutputScriptsRequest): Promise<bc.GetUnlockTakerTxOutputScriptsResponse.AsObject|Error> {
+    public async getUnlockTakerTxOutputScripts(request: bc.GetUnlockTakerTxOutputScriptsRequest): Promise<bc.GetUnlockTakerTxOutputScriptsResponse.AsObject> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetUnlockTakerTxOutputScripts, request.toArray())
         return result as bc.GetUnlockTakerTxOutputScriptsResponse.AsObject
     }
