@@ -4,7 +4,7 @@
   "description": "SDK to connect to BlockCollider",
   "main": "dist/index.js",
   "scripts": {
-    "compile": "tsc && ./node_modules/.bin/mkdirp dist/protos && ./node_modules/.bin/cpy ./src/protos/* ./dist/protos/",
+    "compile": "tsc && ./node_modules/.bin/mkdirp dist/protos && ./node_modules/.bin/cpy ./src/protos/*.js ./dist/protos/",
     "proto": "./node_modules/.bin/grpc_tools_node_protoc --plugin=./node_modules/.bin/protoc-gen-ts --proto_path=protos --js_out=import_style=commonjs,binary:src/protos protos/*.proto --grpc_out=src/protos --ts_out=\"service=true:src/protos\" --plugin=protoc-gen-grpc=./node_modules/grpc-tools/bin/grpc_node_plugin",
     "start": "tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
