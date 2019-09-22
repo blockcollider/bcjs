@@ -29,7 +29,9 @@
   },
   "devDependencies": {
     "@types/bn.js": "^4.11.5",
+    "cpy-cli": "^2.0.0",
     "grpc-tools": "^1.8.0",
+    "mkdirp": "^0.5.1",
     "ts-protoc-gen": "^0.10.0",
     "tslint": "5.18.0",
     "typescript": "3.5.2"
