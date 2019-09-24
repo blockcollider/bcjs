@@ -313,26 +313,26 @@ function deserialize_bc_GetTxRequest(buffer_arg) {
   return bc_pb.GetTxRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bc_GetUnlockTakerTxOutputScriptsRequest(arg) {
-  if (!(arg instanceof bc_pb.GetUnlockTakerTxOutputScriptsRequest)) {
-    throw new Error('Expected argument of type bc.GetUnlockTakerTxOutputScriptsRequest');
+function serialize_bc_GetUnlockTakerTxParamsRequest(arg) {
+  if (!(arg instanceof bc_pb.GetUnlockTakerTxParamsRequest)) {
+    throw new Error('Expected argument of type bc.GetUnlockTakerTxParamsRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_bc_GetUnlockTakerTxOutputScriptsRequest(buffer_arg) {
-  return bc_pb.GetUnlockTakerTxOutputScriptsRequest.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_bc_GetUnlockTakerTxParamsRequest(buffer_arg) {
+  return bc_pb.GetUnlockTakerTxParamsRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bc_GetUnlockTakerTxOutputScriptsResponse(arg) {
-  if (!(arg instanceof bc_pb.GetUnlockTakerTxOutputScriptsResponse)) {
-    throw new Error('Expected argument of type bc.GetUnlockTakerTxOutputScriptsResponse');
+function serialize_bc_GetUnlockTakerTxParamsResponse(arg) {
+  if (!(arg instanceof bc_pb.GetUnlockTakerTxParamsResponse)) {
+    throw new Error('Expected argument of type bc.GetUnlockTakerTxParamsResponse');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_bc_GetUnlockTakerTxOutputScriptsResponse(buffer_arg) {
-  return bc_pb.GetUnlockTakerTxOutputScriptsResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_bc_GetUnlockTakerTxParamsResponse(buffer_arg) {
+  return bc_pb.GetUnlockTakerTxParamsResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bc_HelpResponse(arg) {
@@ -766,16 +766,16 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bc_RpcTransactionResponse,
     responseDeserialize: deserialize_bc_RpcTransactionResponse,
   },
-  getUnlockTakerTxOutputScripts: {
-    path: '/bc.Bc/GetUnlockTakerTxOutputScripts',
+  getUnlockTakerTxParams: {
+    path: '/bc.Bc/GetUnlockTakerTxParams',
     requestStream: false,
     responseStream: false,
-    requestType: bc_pb.GetUnlockTakerTxOutputScriptsRequest,
-    responseType: bc_pb.GetUnlockTakerTxOutputScriptsResponse,
-    requestSerialize: serialize_bc_GetUnlockTakerTxOutputScriptsRequest,
-    requestDeserialize: deserialize_bc_GetUnlockTakerTxOutputScriptsRequest,
-    responseSerialize: serialize_bc_GetUnlockTakerTxOutputScriptsResponse,
-    responseDeserialize: deserialize_bc_GetUnlockTakerTxOutputScriptsResponse,
+    requestType: bc_pb.GetUnlockTakerTxParamsRequest,
+    responseType: bc_pb.GetUnlockTakerTxParamsResponse,
+    requestSerialize: serialize_bc_GetUnlockTakerTxParamsRequest,
+    requestDeserialize: deserialize_bc_GetUnlockTakerTxParamsRequest,
+    responseSerialize: serialize_bc_GetUnlockTakerTxParamsResponse,
+    responseDeserialize: deserialize_bc_GetUnlockTakerTxParamsResponse,
   },
   getTransfers: {
     path: '/bc.Bc/GetTransfers',

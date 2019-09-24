@@ -129,17 +129,18 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     }
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex);
 };
-exports.createUnlockTakerTx = function (txHash, txOutputIndex, nrgToUnlock, bcAddress, privateKeyHex, bcClient) {
+exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privateKeyHex, bcClient) {
     return __awaiter(this, void 0, void 0, function* () {
-        const req = new bcProtobuf.GetUnlockTakerTxOutputScriptsRequest();
+        const req = new bcProtobuf.GetUnlockTakerTxParamsRequest();
         req.setTxHash(txHash);
         req.setTxOutputIndex(txOutputIndex);
-        const unlockScripts = (yield bcClient.getUnlockTakerTxOutputScripts(req)).unlockScriptsList;
+        const unlockTakerTxParams = yield bcClient.getUnlockTakerTxParams(req);
+        const unlockScripts = unlockTakerTxParams.unlockScriptsList;
         if (unlockScripts.length > 0) {
             if (privateKeyHex.startsWith('0x')) {
                 privateKeyHex = privateKeyHex.slice(2);
             }
-            const unlockBOSON = coin_1.humanToInternalAsBN(nrgToUnlock, coin_1.COIN_FRACS.NRG);
+            const unlockBOSON = coin_1.internalToBN(protoUtil.convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx), coin_1.COIN_FRACS.BOSON);
             const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
             let outputs = [];
             if (outputs.length === 2) { // both settled
@@ -180,7 +181,7 @@ const _calculateSpentAndLeftoverOutPoints = function (spendableWalletOutPointObj
         if (!outPointObj) {
             continue;
         }
-        const currentBN = coin_1.internalToBN(protoUtil.convertProtoBufSerializedBytesToNumStr(outPointObj.value), coin_1.COIN_FRACS.BOSON);
+        const currentBN = coin_1.internalToBN(protoUtil.convertProtoBufSerializedBytesToBuffer(outPointObj.value), coin_1.COIN_FRACS.BOSON);
         const outPoint = protoUtil.createOutPoint(outPointObj.hash, outPointObj.index, currentBN);
         sumBN = sumBN.add(currentBN);
         spentOutPoints.push(outPoint);

@@ -21,7 +21,7 @@ var BcRpcMethod;
     BcRpcMethod["GetWallet"] = "getWallet";
     BcRpcMethod["GetSpendableCollateral"] = "getSpendableCollateral";
     BcRpcMethod["UnlockCollateral"] = "unlockCollateral";
-    BcRpcMethod["GetUnlockTakerTxOutputScripts"] = "getUnlockTakerTxOutputScripts";
+    BcRpcMethod["GetUnlockTakerTxParams"] = "getUnlockTakerTxParams";
     BcRpcMethod["PlaceMakerOrder"] = "placeMakerOrder";
     BcRpcMethod["PlaceTakerOrder"] = "placeTakerOrder";
     BcRpcMethod["PlaceTakerOrders"] = "placeTakerOrders";
@@ -201,9 +201,9 @@ class RpcClient {
             return result;
         });
     }
-    getUnlockTakerTxOutputScripts(request) {
+    getUnlockTakerTxParams(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetUnlockTakerTxOutputScripts, request.toArray());
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetUnlockTakerTxParams, request.toArray());
             return result;
         });
     }

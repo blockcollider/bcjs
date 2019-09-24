@@ -218,13 +218,13 @@ Bc.UnlockCollateral = {
   responseType: bc_pb.RpcTransactionResponse
 };
 
-Bc.GetUnlockTakerTxOutputScripts = {
-  methodName: "GetUnlockTakerTxOutputScripts",
+Bc.GetUnlockTakerTxParams = {
+  methodName: "GetUnlockTakerTxParams",
   service: Bc,
   requestStream: false,
   responseStream: false,
-  requestType: bc_pb.GetUnlockTakerTxOutputScriptsRequest,
-  responseType: bc_pb.GetUnlockTakerTxOutputScriptsResponse
+  requestType: bc_pb.GetUnlockTakerTxParamsRequest,
+  responseType: bc_pb.GetUnlockTakerTxParamsResponse
 };
 
 Bc.GetTransfers = {
@@ -1037,11 +1037,11 @@ BcClient.prototype.unlockCollateral = function unlockCollateral(requestMessage, 
   };
 };
 
-BcClient.prototype.getUnlockTakerTxOutputScripts = function getUnlockTakerTxOutputScripts(requestMessage, metadata, callback) {
+BcClient.prototype.getUnlockTakerTxParams = function getUnlockTakerTxParams(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Bc.GetUnlockTakerTxOutputScripts, {
+  var client = grpc.unary(Bc.GetUnlockTakerTxParams, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

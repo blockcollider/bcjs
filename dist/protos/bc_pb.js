@@ -39,8 +39,8 @@ goog.exportSymbol('proto.bc.GetSpendableCollateralRequest', null, global);
 goog.exportSymbol('proto.bc.GetSpendableCollateralResponse', null, global);
 goog.exportSymbol('proto.bc.GetTradeStatusResponse', null, global);
 goog.exportSymbol('proto.bc.GetTxRequest', null, global);
-goog.exportSymbol('proto.bc.GetUnlockTakerTxOutputScriptsRequest', null, global);
-goog.exportSymbol('proto.bc.GetUnlockTakerTxOutputScriptsResponse', null, global);
+goog.exportSymbol('proto.bc.GetUnlockTakerTxParamsRequest', null, global);
+goog.exportSymbol('proto.bc.GetUnlockTakerTxParamsResponse', null, global);
 goog.exportSymbol('proto.bc.HelpResponse', null, global);
 goog.exportSymbol('proto.bc.MakerOrderInfo', null, global);
 goog.exportSymbol('proto.bc.MatchedOpenOrder', null, global);
@@ -1727,12 +1727,12 @@ proto.bc.UnlockCollateralRequest.prototype.setBcPrivateKeyHex = function(value) 
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest = function(opt_data) {
+proto.bc.GetUnlockTakerTxParamsRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetUnlockTakerTxOutputScriptsRequest, jspb.Message);
+goog.inherits(proto.bc.GetUnlockTakerTxParamsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.bc.GetUnlockTakerTxOutputScriptsRequest.displayName = 'proto.bc.GetUnlockTakerTxOutputScriptsRequest';
+  proto.bc.GetUnlockTakerTxParamsRequest.displayName = 'proto.bc.GetUnlockTakerTxParamsRequest';
 }
 
 
@@ -1747,8 +1747,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetUnlockTakerTxOutputScriptsRequest.toObject(opt_includeInstance, this);
+proto.bc.GetUnlockTakerTxParamsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bc.GetUnlockTakerTxParamsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -1757,11 +1757,11 @@ proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.toObject = function(opt_
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetUnlockTakerTxOutputScriptsRequest} msg The msg instance to transform.
+ * @param {!proto.bc.GetUnlockTakerTxParamsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.toObject = function(includeInstance, msg) {
+proto.bc.GetUnlockTakerTxParamsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     txHash: jspb.Message.getFieldWithDefault(msg, 1, ""),
     txOutputIndex: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -1778,23 +1778,23 @@ proto.bc.GetUnlockTakerTxOutputScriptsRequest.toObject = function(includeInstanc
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetUnlockTakerTxOutputScriptsRequest}
+ * @return {!proto.bc.GetUnlockTakerTxParamsRequest}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.deserializeBinary = function(bytes) {
+proto.bc.GetUnlockTakerTxParamsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetUnlockTakerTxOutputScriptsRequest;
-  return proto.bc.GetUnlockTakerTxOutputScriptsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bc.GetUnlockTakerTxParamsRequest;
+  return proto.bc.GetUnlockTakerTxParamsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetUnlockTakerTxOutputScriptsRequest} msg The message object to deserialize into.
+ * @param {!proto.bc.GetUnlockTakerTxParamsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetUnlockTakerTxOutputScriptsRequest}
+ * @return {!proto.bc.GetUnlockTakerTxParamsRequest}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bc.GetUnlockTakerTxParamsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -1822,9 +1822,9 @@ proto.bc.GetUnlockTakerTxOutputScriptsRequest.deserializeBinaryFromReader = func
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.serializeBinary = function() {
+proto.bc.GetUnlockTakerTxParamsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetUnlockTakerTxOutputScriptsRequest.serializeBinaryToWriter(this, writer);
+  proto.bc.GetUnlockTakerTxParamsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -1832,11 +1832,11 @@ proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.serializeBinary = functi
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetUnlockTakerTxOutputScriptsRequest} message
+ * @param {!proto.bc.GetUnlockTakerTxParamsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bc.GetUnlockTakerTxParamsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxHash();
   if (f.length > 0) {
@@ -1859,13 +1859,13 @@ proto.bc.GetUnlockTakerTxOutputScriptsRequest.serializeBinaryToWriter = function
  * optional string tx_hash = 1;
  * @return {string}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.getTxHash = function() {
+proto.bc.GetUnlockTakerTxParamsRequest.prototype.getTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.setTxHash = function(value) {
+proto.bc.GetUnlockTakerTxParamsRequest.prototype.setTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1874,13 +1874,13 @@ proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.setTxHash = function(val
  * optional uint32 tx_output_index = 2;
  * @return {number}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.getTxOutputIndex = function() {
+proto.bc.GetUnlockTakerTxParamsRequest.prototype.getTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.setTxOutputIndex = function(value) {
+proto.bc.GetUnlockTakerTxParamsRequest.prototype.setTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -1896,19 +1896,19 @@ proto.bc.GetUnlockTakerTxOutputScriptsRequest.prototype.setTxOutputIndex = funct
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetUnlockTakerTxOutputScriptsResponse.repeatedFields_, null);
+proto.bc.GetUnlockTakerTxParamsResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetUnlockTakerTxParamsResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.GetUnlockTakerTxOutputScriptsResponse, jspb.Message);
+goog.inherits(proto.bc.GetUnlockTakerTxParamsResponse, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.bc.GetUnlockTakerTxOutputScriptsResponse.displayName = 'proto.bc.GetUnlockTakerTxOutputScriptsResponse';
+  proto.bc.GetUnlockTakerTxParamsResponse.displayName = 'proto.bc.GetUnlockTakerTxParamsResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.repeatedFields_ = [1];
+proto.bc.GetUnlockTakerTxParamsResponse.repeatedFields_ = [1];
 
 
 
@@ -1923,8 +1923,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetUnlockTakerTxOutputScriptsResponse.toObject(opt_includeInstance, this);
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bc.GetUnlockTakerTxParamsResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -1933,13 +1933,14 @@ proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.toObject = function(opt
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetUnlockTakerTxOutputScriptsResponse} msg The msg instance to transform.
+ * @param {!proto.bc.GetUnlockTakerTxParamsResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.toObject = function(includeInstance, msg) {
+proto.bc.GetUnlockTakerTxParamsResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    unlockScriptsList: jspb.Message.getRepeatedField(msg, 1)
+    unlockScriptsList: jspb.Message.getRepeatedField(msg, 1),
+    valueInTx: msg.getValueInTx_asB64()
   };
 
   if (includeInstance) {
@@ -1953,23 +1954,23 @@ proto.bc.GetUnlockTakerTxOutputScriptsResponse.toObject = function(includeInstan
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetUnlockTakerTxOutputScriptsResponse}
+ * @return {!proto.bc.GetUnlockTakerTxParamsResponse}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.deserializeBinary = function(bytes) {
+proto.bc.GetUnlockTakerTxParamsResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetUnlockTakerTxOutputScriptsResponse;
-  return proto.bc.GetUnlockTakerTxOutputScriptsResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bc.GetUnlockTakerTxParamsResponse;
+  return proto.bc.GetUnlockTakerTxParamsResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetUnlockTakerTxOutputScriptsResponse} msg The message object to deserialize into.
+ * @param {!proto.bc.GetUnlockTakerTxParamsResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetUnlockTakerTxOutputScriptsResponse}
+ * @return {!proto.bc.GetUnlockTakerTxParamsResponse}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bc.GetUnlockTakerTxParamsResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -1979,6 +1980,10 @@ proto.bc.GetUnlockTakerTxOutputScriptsResponse.deserializeBinaryFromReader = fun
     case 1:
       var value = /** @type {string} */ (reader.readString());
       msg.addUnlockScripts(value);
+      break;
+    case 2:
+      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      msg.setValueInTx(value);
       break;
     default:
       reader.skipField();
@@ -1993,9 +1998,9 @@ proto.bc.GetUnlockTakerTxOutputScriptsResponse.deserializeBinaryFromReader = fun
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.serializeBinary = function() {
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetUnlockTakerTxOutputScriptsResponse.serializeBinaryToWriter(this, writer);
+  proto.bc.GetUnlockTakerTxParamsResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2003,16 +2008,23 @@ proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.serializeBinary = funct
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetUnlockTakerTxOutputScriptsResponse} message
+ * @param {!proto.bc.GetUnlockTakerTxParamsResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bc.GetUnlockTakerTxParamsResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getUnlockScriptsList();
   if (f.length > 0) {
     writer.writeRepeatedString(
       1,
+      f
+    );
+  }
+  f = message.getValueInTx_asU8();
+  if (f.length > 0) {
+    writer.writeBytes(
+      2,
       f
     );
   }
@@ -2023,13 +2035,13 @@ proto.bc.GetUnlockTakerTxOutputScriptsResponse.serializeBinaryToWriter = functio
  * repeated string unlock_scripts = 1;
  * @return {!Array<string>}
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.getUnlockScriptsList = function() {
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.getUnlockScriptsList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
 };
 
 
 /** @param {!Array<string>} value */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.setUnlockScriptsList = function(value) {
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.setUnlockScriptsList = function(value) {
   jspb.Message.setField(this, 1, value || []);
 };
 
@@ -2038,13 +2050,52 @@ proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.setUnlockScriptsList = 
  * @param {string} value
  * @param {number=} opt_index
  */
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.addUnlockScripts = function(value, opt_index) {
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.addUnlockScripts = function(value, opt_index) {
   jspb.Message.addToRepeatedField(this, 1, value, opt_index);
 };
 
 
-proto.bc.GetUnlockTakerTxOutputScriptsResponse.prototype.clearUnlockScriptsList = function() {
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.clearUnlockScriptsList = function() {
   this.setUnlockScriptsList([]);
+};
+
+
+/**
+ * optional bytes value_in_tx = 2;
+ * @return {!(string|Uint8Array)}
+ */
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.getValueInTx = function() {
+  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * optional bytes value_in_tx = 2;
+ * This is a type-conversion wrapper around `getValueInTx()`
+ * @return {string}
+ */
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.getValueInTx_asB64 = function() {
+  return /** @type {string} */ (jspb.Message.bytesAsB64(
+      this.getValueInTx()));
+};
+
+
+/**
+ * optional bytes value_in_tx = 2;
+ * Note that Uint8Array is not supported on all browsers.
+ * @see http://caniuse.com/Uint8Array
+ * This is a type-conversion wrapper around `getValueInTx()`
+ * @return {!Uint8Array}
+ */
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.getValueInTx_asU8 = function() {
+  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
+      this.getValueInTx()));
+};
+
+
+/** @param {!(string|Uint8Array)} value */
+proto.bc.GetUnlockTakerTxParamsResponse.prototype.setValueInTx = function(value) {
+  jspb.Message.setProto3BytesField(this, 2, value);
 };
 
 

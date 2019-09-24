@@ -25,8 +25,8 @@ exports.stringToBytes = (value, encoding) => {
 exports.bytesToString = (value) => {
     return Buffer.from(value).toString('ascii');
 };
-exports.convertProtoBufSerializedBytesToNumStr = (val) => {
-    return (new bn_js_1.default(Buffer.from(val, 'base64'))).toString(10);
+exports.convertProtoBufSerializedBytesToBuffer = (val) => {
+    return (new bn_js_1.default(Buffer.from(val, 'base64'))).toBuffer();
 };
 exports.createOutPoint = (hash, index, val) => {
     const outPoint = new coreProtobuf.OutPoint();
