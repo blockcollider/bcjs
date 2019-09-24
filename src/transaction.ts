@@ -10,9 +10,9 @@ import TimbleScript from './timble'
 import RpcClient from './client'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './utils/coin'
 
-const constants = require('./../constants')
-const protoUtil = require('./../utils/protoUtil')
-const { blake2bl } = require('./../utils/crypto')
+const constants = require('./constants')
+const protoUtil = require('./utils/protoUtil')
+const { blake2bl } = require('./utils/crypto')
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
 

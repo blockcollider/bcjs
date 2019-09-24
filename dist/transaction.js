@@ -26,9 +26,9 @@ const bcProtobuf = __importStar(require("./protos/bc_pb"));
 const coreProtobuf = __importStar(require("./protos/core_pb"));
 const timble_1 = __importDefault(require("./timble"));
 const coin_1 = require("./utils/coin");
-const constants = require('./../constants');
-const protoUtil = require('./../utils/protoUtil');
-const { blake2bl } = require('./../utils/crypto');
+const constants = require('./constants');
+const protoUtil = require('./utils/protoUtil');
+const { blake2bl } = require('./utils/crypto');
 exports.fromBuffer = function (txBuffer) {
     return coreProtobuf.Transaction.deserializeBinary(txBuffer);
 };
