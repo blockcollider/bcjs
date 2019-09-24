@@ -6,13 +6,20 @@ import * as bcProtobuf from '../src/protos/bc_pb'
 import RpcClient from '../src/client';
 import Wallet from '../src/wallet';
 import {
-  GetBalanceRequest
+  GetBalanceRequest,
+  GetMatchedOrdersRequest,
+  GetUnlockTakerTxParamsRequest
 } from '../src/protos/bc_pb';
+
+import {
+  convertProtoBufSerializedBytesToBuffer
+} from '../src/utils/protoUtil';
 
 import {
   createMakerOrderTransaction,
   createNRGTransferTransaction,
-  createTakerOrderTransaction
+  createTakerOrderTransaction,
+  createUnlockTakerTx
 } from '../src/transaction';
 
 
@@ -51,8 +58,8 @@ async function testMaker() {
 
   const shiftMaker = 2
   const shiftTaker = 3
-  const depositLength = 300000
-  const settleLength = 2000000
+  const depositLength = 30
+  const settleLength = 20
   const sendsFromChain = 'btc'
   const receivesToChain = 'eth'
 
@@ -110,20 +117,60 @@ async function getOpenOrders() {
   }
   return res.ordersList
 }
-/* getOpenOrders().then(() => {}) */
+
+async function getMatchedOrders() {
+  console.log('Getting matched orders')
+  const req = new GetMatchedOrdersRequest()
+  req.setOnlySettled(false)
+  const res = await client.getMatchedOrders(req)
+  for(let order of res.ordersList) {
+    console.log(JSON.stringify(order, null, 2))
+  }
+  return res.ordersList
+}
+
+
+function testUnlockTakerTx(txHash: string, txOutputIndex: number) {
+  const req = new GetUnlockTakerTxParamsRequest()
+  req.setTxHash('83739333a89519b24dada963878ff9be5b0f4a29ee879937f4f53242422a1494')
+  req.setTxOutputIndex(0)
+  client.getUnlockTakerTxParams(req).then((req) => { console.log('xxxxxxx', req) })
+
+  createUnlockTakerTx( txHash, txOutputIndex, bcAddress, privateKeyHex, client).then((tx) => {
+    if (!tx) {
+      console.log('afs')
+    } else {
+      console.log('unlock', tx)
+      client.sendTx(tx).then((res) => {
+        console.log('send unlock taker', res)
+      }).catch((err) => {
+        console.error('unlock error', err)
+      })
+    }
+  })
+}
+const txHash = '83739333a89519b24dada963878ff9be5b0f4a29ee879937f4f53242422a1494'
+const txOutputIndex = 0
+testUnlockTakerTx(txHash, txOutputIndex)
+
+getMatchedOrders().then(() => {})
 
 wallet.getBalance(bcAddress).then(balance => {
   console.log(balance);
-  /* testTransfer().then(() => {}) */
-  getOpenOrders().then((orders) => {
-    /* testTaker(orders[0]).then(() => {}) */
-  })
+  // 1. transfer
+  // testTransfer().then(() => {})
 
+  // 2. create maker
   /* testMaker().then(() => { */
   /*   setInterval(() => { */
   /*     getOpenOrders().then((orders) => { */
   /*     }) */
   /*   }, 5000) */
+  /* }) */
+
+  // 3. create taker
+  /* getOpenOrders().then((orders) => { */
+  /*   testTaker(orders[0]).then(() => {}) */
   /* }) */
 })
 
