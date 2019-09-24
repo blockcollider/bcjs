@@ -238,7 +238,7 @@ export namespace UnlockCollateralRequest {
   }
 }
 
-export class GetUnlockTakerTxOutputScriptsRequest extends jspb.Message {
+export class GetUnlockTakerTxParamsRequest extends jspb.Message {
   getTxHash(): string;
   setTxHash(value: string): void;
 
@@ -246,41 +246,47 @@ export class GetUnlockTakerTxOutputScriptsRequest extends jspb.Message {
   setTxOutputIndex(value: number): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetUnlockTakerTxOutputScriptsRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: GetUnlockTakerTxOutputScriptsRequest): GetUnlockTakerTxOutputScriptsRequest.AsObject;
+  toObject(includeInstance?: boolean): GetUnlockTakerTxParamsRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetUnlockTakerTxParamsRequest): GetUnlockTakerTxParamsRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetUnlockTakerTxOutputScriptsRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetUnlockTakerTxOutputScriptsRequest;
-  static deserializeBinaryFromReader(message: GetUnlockTakerTxOutputScriptsRequest, reader: jspb.BinaryReader): GetUnlockTakerTxOutputScriptsRequest;
+  static serializeBinaryToWriter(message: GetUnlockTakerTxParamsRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetUnlockTakerTxParamsRequest;
+  static deserializeBinaryFromReader(message: GetUnlockTakerTxParamsRequest, reader: jspb.BinaryReader): GetUnlockTakerTxParamsRequest;
 }
 
-export namespace GetUnlockTakerTxOutputScriptsRequest {
+export namespace GetUnlockTakerTxParamsRequest {
   export type AsObject = {
     txHash: string,
     txOutputIndex: number,
   }
 }
 
-export class GetUnlockTakerTxOutputScriptsResponse extends jspb.Message {
+export class GetUnlockTakerTxParamsResponse extends jspb.Message {
   clearUnlockScriptsList(): void;
   getUnlockScriptsList(): Array<string>;
   setUnlockScriptsList(value: Array<string>): void;
   addUnlockScripts(value: string, index?: number): string;
 
+  getValueInTx(): Uint8Array | string;
+  getValueInTx_asU8(): Uint8Array;
+  getValueInTx_asB64(): string;
+  setValueInTx(value: Uint8Array | string): void;
+
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetUnlockTakerTxOutputScriptsResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GetUnlockTakerTxOutputScriptsResponse): GetUnlockTakerTxOutputScriptsResponse.AsObject;
+  toObject(includeInstance?: boolean): GetUnlockTakerTxParamsResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetUnlockTakerTxParamsResponse): GetUnlockTakerTxParamsResponse.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetUnlockTakerTxOutputScriptsResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetUnlockTakerTxOutputScriptsResponse;
-  static deserializeBinaryFromReader(message: GetUnlockTakerTxOutputScriptsResponse, reader: jspb.BinaryReader): GetUnlockTakerTxOutputScriptsResponse;
+  static serializeBinaryToWriter(message: GetUnlockTakerTxParamsResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetUnlockTakerTxParamsResponse;
+  static deserializeBinaryFromReader(message: GetUnlockTakerTxParamsResponse, reader: jspb.BinaryReader): GetUnlockTakerTxParamsResponse;
 }
 
-export namespace GetUnlockTakerTxOutputScriptsResponse {
+export namespace GetUnlockTakerTxParamsResponse {
   export type AsObject = {
     unlockScriptsList: Array<string>,
+    valueInTx: Uint8Array | string,
   }
 }
 

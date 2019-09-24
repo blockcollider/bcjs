@@ -212,13 +212,13 @@ type BcUnlockCollateral = {
   readonly responseType: typeof bc_pb.RpcTransactionResponse;
 };
 
-type BcGetUnlockTakerTxOutputScripts = {
+type BcGetUnlockTakerTxParams = {
   readonly methodName: string;
   readonly service: typeof Bc;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof bc_pb.GetUnlockTakerTxOutputScriptsRequest;
-  readonly responseType: typeof bc_pb.GetUnlockTakerTxOutputScriptsResponse;
+  readonly requestType: typeof bc_pb.GetUnlockTakerTxParamsRequest;
+  readonly responseType: typeof bc_pb.GetUnlockTakerTxParamsResponse;
 };
 
 type BcGetTransfers = {
@@ -336,7 +336,7 @@ export class Bc {
   static readonly GetWallet: BcGetWallet;
   static readonly GetSpendableCollateral: BcGetSpendableCollateral;
   static readonly UnlockCollateral: BcUnlockCollateral;
-  static readonly GetUnlockTakerTxOutputScripts: BcGetUnlockTakerTxOutputScripts;
+  static readonly GetUnlockTakerTxParams: BcGetUnlockTakerTxParams;
   static readonly GetTransfers: BcGetTransfers;
   static readonly PlaceMakerOrder: BcPlaceMakerOrder;
   static readonly PlaceTakerOrder: BcPlaceTakerOrder;
@@ -588,14 +588,14 @@ export class BcClient {
     requestMessage: bc_pb.UnlockCollateralRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
   ): UnaryResponse;
-  getUnlockTakerTxOutputScripts(
-    requestMessage: bc_pb.GetUnlockTakerTxOutputScriptsRequest,
+  getUnlockTakerTxParams(
+    requestMessage: bc_pb.GetUnlockTakerTxParamsRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUnlockTakerTxOutputScriptsResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUnlockTakerTxParamsResponse|null) => void
   ): UnaryResponse;
-  getUnlockTakerTxOutputScripts(
-    requestMessage: bc_pb.GetUnlockTakerTxOutputScriptsRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUnlockTakerTxOutputScriptsResponse|null) => void
+  getUnlockTakerTxParams(
+    requestMessage: bc_pb.GetUnlockTakerTxParamsRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUnlockTakerTxParamsResponse|null) => void
   ): UnaryResponse;
   getTransfers(
     requestMessage: bc_pb.TransferRequest,

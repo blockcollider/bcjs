@@ -58,13 +58,14 @@ message UnlockCollateralRequest {
   string  bc_private_key_hex = 4;
 }
 
-message GetUnlockTakerTxOutputScriptsRequest {
+message GetUnlockTakerTxParamsRequest {
   string tx_hash = 1;
   uint32  tx_output_index = 2;
 }
 
-message GetUnlockTakerTxOutputScriptsResponse {
+message GetUnlockTakerTxParamsResponse {
   repeated string unlock_scripts = 1;
+  bytes value_in_tx = 2;
 }
 
 message MakerOrderInfo {
@@ -335,7 +336,7 @@ service Bc {
     rpc GetSpendableCollateral (GetSpendableCollateralRequest) returns (GetSpendableCollateralResponse) {}
 
     rpc UnlockCollateral (UnlockCollateralRequest) returns (RpcTransactionResponse) {}
-    rpc GetUnlockTakerTxOutputScripts (GetUnlockTakerTxOutputScriptsRequest) returns (GetUnlockTakerTxOutputScriptsResponse) {}
+    rpc GetUnlockTakerTxParams (GetUnlockTakerTxParamsRequest) returns (GetUnlockTakerTxParamsResponse) {}
 
     rpc GetTransfers (TransferRequest) returns (TransferResponse) {}
 
