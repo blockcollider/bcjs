@@ -194,6 +194,12 @@ export const CurrencyInfo: CurrencyInfoInterface = {
     minUnit: 'mwav',
     humanUnit: 'wav',
   },
+  dai: {
+    DAI: 'dai',
+    minDai: 'adai',
+    minUnit: 'adai',
+    humanUnit: 'dai',
+  }
 }
 
 export const CurrencyConverter: CurrencyConverterInterface = {
@@ -247,6 +253,17 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
+  dai: function (val: string, from: string, to: string): string | never {
+    const power = 18
+    if (from === to) {
+      return val
+    } else if (from === 'dai' && to === 'adai') {
+      return calcStringMulPowerTen(val, power) // 1 DAI = 10^18 aDAI
+    } else if (from === 'adai' && to === 'dai') {
+      return calcStringDivPowerTen(val, power) // 1 DAI = 10^18 aDAI
+    }
+    throw new Error('invalid unit')
+  }
 }
 
 export class Currency {

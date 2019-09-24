@@ -172,6 +172,12 @@ exports.CurrencyInfo = {
         minUnit: 'mwav',
         humanUnit: 'wav',
     },
+    dai: {
+        DAI: 'dai',
+        minDai: 'adai',
+        minUnit: 'adai',
+        humanUnit: 'dai',
+    }
 };
 exports.CurrencyConverter = {
     eth: function (val, from, to) {
@@ -232,6 +238,19 @@ exports.CurrencyConverter = {
         }
         throw new Error('invalid unit');
     },
+    dai: function (val, from, to) {
+        const power = 18;
+        if (from === to) {
+            return val;
+        }
+        else if (from === 'dai' && to === 'adai') {
+            return calcStringMulPowerTen(val, power); // 1 DAI = 10^18 aDAI
+        }
+        else if (from === 'adai' && to === 'dai') {
+            return calcStringDivPowerTen(val, power); // 1 DAI = 10^18 aDAI
+        }
+        throw new Error('invalid unit');
+    }
 };
 class Currency {
     static toMinimumUnitAsStr(currency, value, from) {
