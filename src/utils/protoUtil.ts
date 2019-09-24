@@ -19,8 +19,8 @@ export const bytesToString = (value: Uint8Array): string => {
   return Buffer.from(value).toString('ascii')
 }
 
-export const convertProtoBufSerializedBytesToNumStr = (val: string): string => {
-  return (new BN(Buffer.from(val, 'base64'))).toString(10)
+export const convertProtoBufSerializedBytesToBuffer = (val: string): Buffer => {
+  return (new BN(Buffer.from(val, 'base64'))).toBuffer()
 }
 
 export const createOutPoint = (hash: string, index: number, val: BN): coreProtobuf.OutPoint => {

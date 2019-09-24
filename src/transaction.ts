@@ -183,20 +183,21 @@ export const createTakerOrderTransaction = function(
 
 export const createUnlockTakerTx = async function(
   txHash: string, txOutputIndex: number,
-  nrgToUnlock: string,
   bcAddress: string, privateKeyHex: string,
   bcClient: RpcClient
 ): Promise<coreProtobuf.Transaction | null> {
-  const req = new bcProtobuf.GetUnlockTakerTxOutputScriptsRequest()
+  const req = new bcProtobuf.GetUnlockTakerTxParamsRequest()
   req.setTxHash(txHash)
   req.setTxOutputIndex(txOutputIndex)
-  const unlockScripts = (await bcClient.getUnlockTakerTxOutputScripts(req)).unlockScriptsList
+  const unlockTakerTxParams = await bcClient.getUnlockTakerTxParams(req)
+  const unlockScripts = unlockTakerTxParams.unlockScriptsList
 
   if (unlockScripts.length > 0) {
     if (privateKeyHex.startsWith('0x')) {
       privateKeyHex = privateKeyHex.slice(2)
     }
-    const unlockBOSON = humanToInternalAsBN(nrgToUnlock, COIN_FRACS.NRG)
+    const unlockBOSON = internalToBN(protoUtil.convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx),
+                                     COIN_FRACS.BOSON)
     const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 
     let outputs = []
@@ -245,7 +246,7 @@ const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs
       continue
     }
 
-    const currentBN = internalToBN(protoUtil.convertProtoBufSerializedBytesToNumStr(outPointObj.value), COIN_FRACS.BOSON)
+    const currentBN = internalToBN(protoUtil.convertProtoBufSerializedBytesToBuffer(outPointObj.value), COIN_FRACS.BOSON)
 
     const outPoint = protoUtil.createOutPoint(outPointObj.hash, outPointObj.index, currentBN)
 
