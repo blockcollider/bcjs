@@ -850,6 +850,11 @@ google-protobuf@^3.6.1:
   resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.8.0.tgz#4fd2ee3a97751cb543dc5de85ffd264aff9f4980"
   integrity sha512-tx39PTc//HaIT7K/baUF/8JYLGDozEi1e4xwPP1qSx3InP78cNpbSJpxiDsDMwj77qNOndVBDXnn7oi9zKxZew==
 
+google-protobuf@^3.7.1:
+  version "3.9.2"
+  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.9.2.tgz#3ae89569ec8df1c9e83609f77b09f7ed56d2414e"
+  integrity sha512-TxK/kqHmVeqTXiuejN9aAy4Y/8bTa9k+F1/WXCOuIXCMheV1ySeSFfYS4ctzM6WZZbUo6rlshoX4/eqEK28Swg==
+
 graceful-fs@^4.1.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
@@ -861,6 +866,11 @@ grpc-tools@^1.8.0:
   integrity sha512-GzYHjPQ/sbV/DmnNRksapMlLj26Tvq2Qppmzjmd+lHYZNeWM1feiGsYCduzJLyy295P+3uYIPy2/w/1thAnOow==
   dependencies:
     node-pre-gyp "^0.12.0"
+
+grpc-web@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/grpc-web/-/grpc-web-1.0.6.tgz#9dc2886b5bff5cee08e51960e33702322890376e"
+  integrity sha512-iwqchQXNsA8bcJwuYEv/A8ScEaf5nA5+vtptEv2KN646KW94tsq7O+Q7hy5+gADOg6XhmJqPhSlvTMdiHlVfcw==
 
 has-flag@^3.0.0:
   version "3.0.0"
