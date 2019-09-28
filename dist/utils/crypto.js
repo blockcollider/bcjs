@@ -1,7 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const avon = require('avon');
+const isNode = typeof process !== 'undefined' &&
+    process.versions != null &&
+    process.versions.node != null;
 const toBuffer = require('to-buffer');
+class Blaker {
+    static blake2b(input) {
+        if (isNode) {
+            const avon = require('avon');
+            return avon.sumBuffer(toBuffer(input), avon.ALGORITHMS.B).toString('hex');
+        }
+        else {
+            const blake = require('blakejs');
+            return blake.blake2bHex(input);
+        }
+    }
+}
 /**
  * Calculates blake2b hash
  *
@@ -9,7 +23,7 @@ const toBuffer = require('to-buffer');
  * @returns {String} hash
  */
 exports.blake2b = (input) => {
-    return avon.sumBuffer(toBuffer(input), avon.ALGORITHMS.B).toString('hex');
+    return Blaker.blake2b(input);
 };
 /**
  * Calculates blake2bl hash
