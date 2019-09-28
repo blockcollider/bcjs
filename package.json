@@ -22,6 +22,7 @@
   "dependencies": {
     "avon": "^3.0.0",
     "bitcoinjs-lib": "^5.1.6",
+    "blakejs": "^1.1.0",
     "bn.js": "^5.0.0",
     "google-protobuf": "^3.7.1",
     "grpc-web": "^1.0.6",
@@ -32,9 +33,9 @@
   },
   "devDependencies": {
     "@improbable-eng/grpc-web": "^0.9.6",
+    "@types/bn.js": "^4.11.5",
     "@types/google-protobuf": "^3.7.1",
     "@types/node-fetch": "^2.3.7",
-    "@types/bn.js": "^4.11.5",
     "cpy-cli": "^2.0.0",
     "grpc-tools": "^1.8.0",
     "mkdirp": "^0.5.1",

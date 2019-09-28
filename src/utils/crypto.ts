@@ -1,5 +1,21 @@
-const avon = require('avon')
+const isNode =
+  typeof process !== 'undefined' &&
+  process.versions != null &&
+  process.versions.node != null
+
 const toBuffer: (buf: Buffer|string) => Buffer = require('to-buffer')
+
+class Blaker {
+  static blake2b (input: string | Buffer): string {
+    if (isNode) {
+      const avon = require('avon')
+      return avon.sumBuffer(toBuffer(input), avon.ALGORITHMS.B).toString('hex')
+    } else {
+      const blake = require('blakejs')
+      return blake.blake2bHex(input)
+    }
+  }
+}
 
 /**
  * Calculates blake2b hash
@@ -8,7 +24,7 @@ const toBuffer: (buf: Buffer|string) => Buffer = require('to-buffer')
  * @returns {String} hash
  */
 export const blake2b = (input: string | Buffer): string => {
-  return avon.sumBuffer(toBuffer(input), avon.ALGORITHMS.B).toString('hex')
+  return Blaker.blake2b(input)
 }
 
 /**
