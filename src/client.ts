@@ -1,4 +1,5 @@
-import fetch from 'node-fetch';
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 import * as core from './protos/core_pb';
 import * as bc from './protos/bc_pb';
