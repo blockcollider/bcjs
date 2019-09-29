@@ -7,11 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const node_fetch_1 = __importDefault(require("node-fetch"));
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 var BcRpcMethod;
 (function (BcRpcMethod) {
     // Help  = "help",
@@ -80,7 +78,7 @@ class RpcClient {
             };
             let res;
             try {
-                res = yield node_fetch_1.default(`${this.rpcUrl.origin}/rpc`, {
+                res = yield fetch(`${this.rpcUrl.origin}/rpc`, {
                     method: 'post',
                     body: JSON.stringify(rpcBody),
                     headers: this.defaultHeaders
