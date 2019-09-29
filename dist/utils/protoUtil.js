@@ -14,7 +14,7 @@ const bn_js_1 = __importDefault(require("bn.js"));
 const coreProtobuf = __importStar(require("./../protos/core_pb"));
 const coin_1 = require("./coin");
 exports.bnToBytes = (value) => {
-    return new Uint8Array(value.toBuffer());
+    return new Uint8Array(value.toArrayLike(Buffer));
 };
 exports.bytesToInternalBN = (value) => {
     return coin_1.internalToBN(value, coin_1.COIN_FRACS.BOSON);
@@ -26,7 +26,7 @@ exports.bytesToString = (value) => {
     return Buffer.from(value).toString('ascii');
 };
 exports.convertProtoBufSerializedBytesToBuffer = (val) => {
-    return (new bn_js_1.default(Buffer.from(val, 'base64'))).toBuffer();
+    return (new bn_js_1.default(Buffer.from(val, 'base64'))).toArrayLike(Buffer);
 };
 exports.createOutPoint = (hash, index, val) => {
     const outPoint = new coreProtobuf.OutPoint();

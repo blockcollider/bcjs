@@ -14,7 +14,7 @@ exports.COIN_DIVISORS = {
     [exports.COIN_FRACS.WEIBETTER]: 1,
     [exports.COIN_FRACS.NRG]: 18,
 };
-exports.MIN_POSSIBLE_VALUE = new bn_js_1.default(1);
+exports.MIN_POSSIBLE_VALUE = new bn_js_1.default(0);
 // 9.8 billion NRG in boson
 exports.MAX_NRG_VALUE = 9800000000;
 exports.MAX_POSSIBLE_VALUE = new bn_js_1.default(exports.MAX_NRG_VALUE).mul(new bn_js_1.default(10).pow(new bn_js_1.default(18)));

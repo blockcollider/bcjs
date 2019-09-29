@@ -4,7 +4,7 @@ import * as coreProtobuf from './../protos/core_pb'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN } from './coin'
 
 export const bnToBytes = (value: BN): Uint8Array => {
-  return new Uint8Array(value.toBuffer())
+  return new Uint8Array(value.toArrayLike(Buffer))
 }
 
 export const bytesToInternalBN = (value: Uint8Array): BN => {
@@ -20,7 +20,7 @@ export const bytesToString = (value: Uint8Array): string => {
 }
 
 export const convertProtoBufSerializedBytesToBuffer = (val: string): Buffer => {
-  return (new BN(Buffer.from(val, 'base64'))).toBuffer()
+  return (new BN(Buffer.from(val, 'base64'))).toArrayLike(Buffer)
 }
 
 export const createOutPoint = (hash: string, index: number, val: BN): coreProtobuf.OutPoint => {

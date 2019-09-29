@@ -24,7 +24,7 @@ export const COIN_DIVISORS = {
   [COIN_FRACS.NRG]: 18,
 }
 
-export const MIN_POSSIBLE_VALUE = new BN(1)
+export const MIN_POSSIBLE_VALUE = new BN(0)
 
 // 9.8 billion NRG in boson
 export const MAX_NRG_VALUE = 9800000000
