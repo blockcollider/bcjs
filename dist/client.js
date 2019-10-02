@@ -63,9 +63,6 @@ class RpcClient {
             }
             this.defaultHeaders = { 'Content-Type': 'application/json' };
         }
-        if (this.rpcUrl.port === '') {
-            this.rpcUrl = new URL(`${this.rpcUrl.origin}:3000`);
-        }
     }
     makeJsonRpcRequest(method, rpcParams) {
         return __awaiter(this, void 0, void 0, function* () {

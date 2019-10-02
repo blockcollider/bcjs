@@ -118,10 +118,6 @@ export default class RpcClient {
             }
             this.defaultHeaders = { 'Content-Type': 'application/json' }
         }
-
-        if (this.rpcUrl.port === '') {
-            this.rpcUrl = new URL(`${this.rpcUrl.origin}:3000`)
-        }
     }
 
     private async makeJsonRpcRequest(method: BcRpcMethod, rpcParams: JsonRpcParams|Buffer): Promise<BcRpcResponse|JsonRpcError<BcRpcResponse>> {
