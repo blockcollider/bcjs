@@ -104,7 +104,7 @@ class TimbleScript {
             ['OP_0', 'OP_IFEQ',
                 'OP_RETURN', 'OP_ENDIFEQ'],
             ['OP_2', 'OP_IFEQ',
-                'OP_TAKERPAIR', '2', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+                'OP_TAKERPAIR', 'OP_2', 'OP_0', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
             ['OP_3', 'OP_IFEQ',
                 'OP_RETURN', 'OP_ENDIFEQ'],
             ['OP_DROP', sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, 'OP_MAKERCOLL'],

@@ -157,6 +157,31 @@ message PlaceMakerOrderRequest {
     string  tx_fee = 15;
 }
 
+message PlaceMakerNrgOrderRequest {
+
+    uint64  shift_maker = 1;
+    uint64  shift_taker = 2;
+
+    uint64  deposit_length = 3;
+    uint64  settlement_length = 4;
+
+    string  sends_from_chain = 5;
+    string  receives_to_chain = 6;
+
+    string  sends_from_address = 7;
+    string  receives_to_address = 8;
+
+    string  sends_unit = 9;
+    string  receives_unit = 10;
+
+    string  bc_address = 11;
+    string  bc_private_key_hex = 12;
+
+    string  collateralized_nrg = 13;
+    string  nrg_unit = 14;
+    string  tx_fee = 15;
+}
+
 message PlaceTakerOrderRequest {
     string  sends_from_address = 1;
     string  receives_to_address = 2;
@@ -257,6 +282,7 @@ message Transfer{
     string tx_hash = 4;
     uint32 tx_output_index = 5;
     uint64 timestamp = 6;
+    uint64 height = 7;
 }
 
 message TransferResponse {
@@ -341,6 +367,7 @@ service Bc {
     rpc GetTransfers (TransferRequest) returns (TransferResponse) {}
 
     rpc PlaceMakerOrder (PlaceMakerOrderRequest) returns (RpcTransactionResponse) {}
+    rpc PlaceMakerNrgOrder (PlaceMakerNrgOrderRequest) returns (RpcTransactionResponse) {}
     rpc PlaceTakerOrder (PlaceTakerOrderRequest) returns (RpcTransactionResponse) {}
     rpc PlaceTakerOrders (PlaceTakerOrdersRequest) returns (RpcTransactionResponse) {}
 

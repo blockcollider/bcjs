@@ -368,6 +368,17 @@ function deserialize_bc_Null(buffer_arg) {
   return core_pb.Null.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bc_PlaceMakerNrgOrderRequest(arg) {
+  if (!(arg instanceof bc_pb.PlaceMakerNrgOrderRequest)) {
+    throw new Error('Expected argument of type bc.PlaceMakerNrgOrderRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bc_PlaceMakerNrgOrderRequest(buffer_arg) {
+  return bc_pb.PlaceMakerNrgOrderRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bc_PlaceMakerOrderRequest(arg) {
   if (!(arg instanceof bc_pb.PlaceMakerOrderRequest)) {
     throw new Error('Expected argument of type bc.PlaceMakerOrderRequest');
@@ -796,6 +807,17 @@ var BcService = exports.BcService = {
     responseType: bc_pb.RpcTransactionResponse,
     requestSerialize: serialize_bc_PlaceMakerOrderRequest,
     requestDeserialize: deserialize_bc_PlaceMakerOrderRequest,
+    responseSerialize: serialize_bc_RpcTransactionResponse,
+    responseDeserialize: deserialize_bc_RpcTransactionResponse,
+  },
+  placeMakerNrgOrder: {
+    path: '/bc.Bc/PlaceMakerNrgOrder',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.PlaceMakerNrgOrderRequest,
+    responseType: bc_pb.RpcTransactionResponse,
+    requestSerialize: serialize_bc_PlaceMakerNrgOrderRequest,
+    requestDeserialize: deserialize_bc_PlaceMakerNrgOrderRequest,
     responseSerialize: serialize_bc_RpcTransactionResponse,
     responseDeserialize: deserialize_bc_RpcTransactionResponse,
   },
