@@ -78,7 +78,7 @@ export const createMakerOrderTransaction = function(
   sendsFromAddress: string, receivesToAddress: string,
   sendsUnit: string, receivesUnit: string,
   bcAddress: string, bcPrivateKeyHex: string,
-  collateralizedNrg: string, nrgUnit:string, additionalTxFee: string
+  collateralizedNrg: string, nrgUnit:string,fixedUnitFee:string, additionalTxFee: string
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -105,16 +105,19 @@ export const createMakerOrderTransaction = function(
   const indivisibleSendsUnit = Currency.toMinimumUnitAsStr(
     sendsFromChain, sendsUnit, CurrencyInfo[sendsFromChain].humanUnit
   )
+
   const indivisibleReceivesUnit = Currency.toMinimumUnitAsStr(
     receivesToChain, receivesUnit, CurrencyInfo[receivesToChain].humanUnit
   )
+
   const outputLockScript = TimbleScript.createMakerLockScript(
     shiftMaker, shiftTaker, depositLength, settleLength,
     sendsFromChain, receivesToChain,
     sendsFromAddress, receivesToAddress,
-    indivisibleSendsUnit, indivisibleReceivesUnit,
+    indivisibleSendsUnit, indivisibleReceivesUnit,fixedUnitFee,
     bcAddress
   )
+
   const txOutputs = [
     protoUtil.createTransactionOutput(
       outputLockScript,
@@ -133,7 +136,7 @@ export const createMakerOrderTransaction = function(
 export const createTakerOrderTransaction = function(
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, receivesToAddress: string,
-  makerOpenOrder: { nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
+  makerOpenOrder: {doubleHashedBcAddress:string,base:number, fixedUnitFee: number, nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, additionalTxFee: string
 ) {
@@ -141,8 +144,11 @@ export const createTakerOrderTransaction = function(
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
   }
 
+  // if op min unit fixedFee set this amount only equals fixed fee
+  let spendingNRG = fixedUnitFee !== 0 || fixedUnitFee !== null ? fixedUnitFee.toString() : collateralizedNrg;
+
   const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
-  const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
+  const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(spendingNRG, COIN_FRACS.NRG))
 
   const makerUnitBN = humanToInternalAsBN(makerOpenOrder.nrgUnit, COIN_FRACS.NRG)
   const makerCollateralBN = humanToInternalAsBN(makerOpenOrder.collateralizedNrg, COIN_FRACS.NRG)
@@ -166,8 +172,17 @@ export const createTakerOrderTransaction = function(
   // takers output
   const outputLockScript = TimbleScript.createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress)
   const txOutputs = [
-    protoUtil.createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(2)))
+    protoUtil.createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString())))
   ]
+
+  if (fixedUnitFee && fixedUnitFee !== 0) {
+    const makerFeeScript = ['OP_BLAKE2BL',doubleHashedBcAddress,'OP_EQUALVERIFY','OP_CHECKSIGVERIFY'].join(' ')
+    txOutputs.push(protoUtil.createTransactionOutput(
+      makerFeeScript
+      makerUnitBN,
+      humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
+    ))
+  }
 
   // partial order
   if (makerCollateralBN.gt(takerCollateralBN)) {

@@ -139,13 +139,14 @@ export default class TimbleScript {
       shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
       sendsFromChain: string, receivesToChain: string,
       sendsFromAddress: string, receivesToAddress: string,
-      sendsUnit: string, receivesUnit: string,
+      sendsUnit: string, receivesUnit: string,fixedUnitFee: string
       bcAddress: string
     ) : string {
       bcAddress = bcAddress.toLowerCase()
       let doubleHashedBcAddress = blake2blTwice(bcAddress)
 
-      const script = [
+      const script = fixedUnitFee === '' ?
+      [
         ['OP_MONOID', shiftMaker, shiftTaker, depositLength, settleLength, 'OP_DEPSET'],
         ['OP_0', 'OP_IFEQ',
           'OP_RETURN', 'OP_ENDIFEQ'],
@@ -158,6 +159,22 @@ export default class TimbleScript {
           'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
         ['OP_2', 'OP_IFEQ',
           '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
+      ] :
+      [
+        ['OP_MONOID', shiftMaker, shiftTaker, deposit, settlement, 'OP_DEPSET'],
+        ['OP_0', 'OP_IFEQ',
+          'OP_RETURN', 'OP_ENDIFEQ'],
+        ['OP_2', 'OP_IFEQ', /* TODO: Below fix OP_2 to come as an argument for OP_MINUNITVALUE */
+          'OP_TAKERPAIR', 'OP_1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY',
+          'OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+        ['OP_3', 'OP_IFEQ',
+          'OP_RETURN', 'OP_ENDIFEQ'],
+        ['OP_DROP', sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, 'OP_MAKERCOLL'],
+        // this.OP_3() // maker succeed, taker failed, maker can spend the outpoint
+        ['OP_3', 'OP_IFEQ',
+          'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+        ['OP_2', 'OP_IFEQ',
+         'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
       ]
       return script.map(part => part.join(' ')).join(' ')
     }
@@ -173,13 +190,19 @@ export default class TimbleScript {
       receivesToAddress: string,
       sendsUnit: string,
       receivesUnit: string,
-      doubleHashedBcAddress: string
+      doubleHashedBcAddress: string,
+      fixedUnitFee: number,
+      base: number
     } {
       const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
 
       const [shiftMaker, shiftTaker, deposit, settlement] = scriptStr.split(' OP_DEPSET ')[0].split(' ').slice(1)
       const tradeInfo = scriptStr.split(' OP_MAKERCOLL ')[0].split(' ')
       const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] = tradeInfo.slice(tradeInfo.length - 5)
+
+      let [fixedUnitFee,base] = scriptStr.split(' OP_MINUNITVALUE')[0].split(' ').reverse().slice(0,2)
+      fixedUnitFee = isNaN(parseInt(fixedUnitFee, 10)) ? 0 : parseInt(fixedUnitFee, 10)
+      base = isNaN(parseInt(base, 10)) ? 0 : parseInt(base, 10)
 
       const doubleHashedBcAddress = scriptStr.split(' OP_IFEQ OP_BLAKE2BL ')[1].split(' ')[0]
 
@@ -194,7 +217,9 @@ export default class TimbleScript {
         receivesToAddress: receivesToAddress,
         sendsUnit: sendsUnit,
         receivesUnit: receivesUnit,
-        doubleHashedBcAddress: doubleHashedBcAddress
+        doubleHashedBcAddress: doubleHashedBcAddress,
+        fixedUnitFee:fixedUnitFee,
+        base:base
       }
     }
 
