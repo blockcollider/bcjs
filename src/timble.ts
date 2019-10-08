@@ -139,7 +139,7 @@ export default class TimbleScript {
       shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
       sendsFromChain: string, receivesToChain: string,
       sendsFromAddress: string, receivesToAddress: string,
-      sendsUnit: string, receivesUnit: string,fixedUnitFee: string
+      sendsUnit: string, receivesUnit: string,fixedUnitFee: string,
       bcAddress: string
     ) : string {
       bcAddress = bcAddress.toLowerCase()
@@ -151,31 +151,42 @@ export default class TimbleScript {
         ['OP_0', 'OP_IFEQ',
           'OP_RETURN', 'OP_ENDIFEQ'],
         ['OP_2', 'OP_IFEQ',
-          'OP_TAKERPAIR', 'OP_2', 'OP_0', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+          'OP_TAKERPAIR', '2', '0', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
         ['OP_3', 'OP_IFEQ',
           'OP_RETURN', 'OP_ENDIFEQ'],
         ['OP_DROP', sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, 'OP_MAKERCOLL'],
+        // maker succeed, taker failed - maker can spend
         ['OP_3', 'OP_IFEQ',
-          'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+          'OP_MONAD','OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+
+        // taker & maker pass -  both can spend
         ['OP_2', 'OP_IFEQ',
+          '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+
+        // taker & maker fail - both can spend
+        ['OP_5', 'OP_IFEQ',
           '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
       ] :
       [
-        ['OP_MONOID', shiftMaker, shiftTaker, deposit, settlement, 'OP_DEPSET'],
+        ['OP_MONOID', shiftMaker, shiftTaker, depositLength, settleLength, 'OP_DEPSET'],
         ['OP_0', 'OP_IFEQ',
           'OP_RETURN', 'OP_ENDIFEQ'],
-        ['OP_2', 'OP_IFEQ', /* TODO: Below fix OP_2 to come as an argument for OP_MINUNITVALUE */
-          'OP_TAKERPAIR', 'OP_1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY',
-          'OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
-        ['OP_3', 'OP_IFEQ',
-          'OP_RETURN', 'OP_ENDIFEQ'],
-        ['OP_DROP', sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, 'OP_MAKERCOLL'],
-        // this.OP_3() // maker succeed, taker failed, maker can spend the outpoint
-        ['OP_3', 'OP_IFEQ',
-          'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
         ['OP_2', 'OP_IFEQ',
-         'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
+          'OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY',
+          'OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+        // maker succeed, taker failed - maker can spend
+        ['OP_3', 'OP_IFEQ',
+          'OP_MONAD','OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+
+        // taker & maker pass -  maker can spend
+        ['OP_2', 'OP_IFEQ',
+          'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+
+        // taker & maker fail - maker can spend
+        ['OP_5', 'OP_IFEQ',
+          'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
       ]
+      console.log({script})
       return script.map(part => part.join(' ')).join(' ')
     }
 
@@ -201,10 +212,11 @@ export default class TimbleScript {
       const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] = tradeInfo.slice(tradeInfo.length - 5)
 
       let [fixedUnitFee,base] = scriptStr.split(' OP_MINUNITVALUE')[0].split(' ').reverse().slice(0,2)
-      fixedUnitFee = isNaN(parseInt(fixedUnitFee, 10)) ? 0 : parseInt(fixedUnitFee, 10)
-      base = isNaN(parseInt(base, 10)) ? 0 : parseInt(base, 10)
 
-      const doubleHashedBcAddress = scriptStr.split(' OP_IFEQ OP_BLAKE2BL ')[1].split(' ')[0]
+      const fixedUnitFeeNum = isNaN(parseInt(fixedUnitFee, 10)) ? 0 : parseInt(fixedUnitFee, 10)
+      const baseNum = isNaN(parseInt(base, 10)) ? 0 : parseInt(base, 10)
+
+      const doubleHashedBcAddress = scriptStr.split(' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL ')[1].split(' ')[0];
 
       return {
         shiftMaker: parseInt(shiftMaker, 10),
@@ -218,8 +230,8 @@ export default class TimbleScript {
         sendsUnit: sendsUnit,
         receivesUnit: receivesUnit,
         doubleHashedBcAddress: doubleHashedBcAddress,
-        fixedUnitFee:fixedUnitFee,
-        base:base
+        fixedUnitFee:fixedUnitFeeNum,
+        base:baseNum
       }
     }
 
@@ -246,7 +258,9 @@ export default class TimbleScript {
       const doubleHashedBcAddress = blake2blTwice(takerBCAddress)
       const script = [
         [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
-        ['4', 'OP_IFEQ', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDIFEQ'],
+        // 4: taker succeed, maker failed, taker can spend the outpoint
+        ['4','OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY','OP_ENDMONAD', 'OP_ENDIFEQ'],
+        // this.OP_0() // both failed,
         ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD']
       ]
       return script.map(part => part.join(' ')).join(' ')

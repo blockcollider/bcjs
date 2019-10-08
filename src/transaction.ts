@@ -143,9 +143,10 @@ export const createTakerOrderTransaction = function(
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
   }
-
+  let fixedUnitFee = makerOpenOrder.fixedUnitFee
+  let base = makerOpenOrder.base
   // if op min unit fixedFee set this amount only equals fixed fee
-  let spendingNRG = fixedUnitFee !== 0 || fixedUnitFee !== null ? fixedUnitFee.toString() : collateralizedNrg;
+  let spendingNRG = (fixedUnitFee !== 0 && fixedUnitFee !== null) ? fixedUnitFee.toString() : collateralizedNrg
 
   const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
   const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(spendingNRG, COIN_FRACS.NRG))
@@ -176,11 +177,11 @@ export const createTakerOrderTransaction = function(
   ]
 
   if (fixedUnitFee && fixedUnitFee !== 0) {
-    const makerFeeScript = ['OP_BLAKE2BL',doubleHashedBcAddress,'OP_EQUALVERIFY','OP_CHECKSIGVERIFY'].join(' ')
+    const makerFeeScript = ['OP_BLAKE2BL',makerOpenOrder.doubleHashedBcAddress,'OP_EQUALVERIFY','OP_CHECKSIGVERIFY'].join(' ')
     txOutputs.push(protoUtil.createTransactionOutput(
-      makerFeeScript
+      makerFeeScript,
       makerUnitBN,
-      humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
+      humanToInternalAsBN(fixedUnitFee.toString(), COIN_FRACS.NRG)
     ))
   }
 
