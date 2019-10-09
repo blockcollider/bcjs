@@ -178,10 +178,6 @@ export default class TimbleScript {
         ['OP_3', 'OP_IFEQ',
           'OP_MONAD','OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
 
-        // taker & maker pass -  maker can spend
-        ['OP_2', 'OP_IFEQ',
-          'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
-
         // taker & maker fail - maker can spend
         ['OP_5', 'OP_IFEQ',
           'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
