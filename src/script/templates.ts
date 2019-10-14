@@ -2,14 +2,15 @@ import BN from 'bn.js'
 
 const secp256k1 = require('secp256k1')
 
-import * as coreProtobuf from '../protos/core_pb';
-import * as bcProtobuf from '../protos/bc_pb';
+import * as coreProtobuf from '../protos/core_pb'
+import * as bcProtobuf from '../protos/bc_pb'
 
 import { createTransactionInput } from '../utils/protoUtil'
 import { toASM } from './bytecode'
-import { blake2blTwice, blake2bl } from '../utils/crypto';
+import { blake2blTwice, blake2bl } from '../utils/crypto'
 import * as Coin from '../utils/coin'
 import { toBuffer, intToBuffer } from '../utils/buffer'
+import { normalizeHexString } from '../utils/string'
 
 enum ScriptType {
     NRG_TRANSFER = 'nrg_transfer',
@@ -106,7 +107,7 @@ export function createSignedNRGUnlockInputs(
       signature.toString('hex'),
       pubKey.toString('hex'),
       blake2bl(bcAddress)
-    ].join(' ')
+    ].map(normalizeHexString).join(' ')
 
     return createTransactionInput(outPoint, inputUnlockScript)
   })
@@ -116,7 +117,7 @@ export function createNRGLockScript(address: string): string {
   address = address.toLowerCase()
   const script = [
     'OP_BLAKE2BL',
-    blake2blTwice(address),
+    normalizeHexString(blake2blTwice(address)),
     'OP_EQUALVERIFY',
     'OP_CHECKSIGVERIFY'
   ]
@@ -156,32 +157,31 @@ export function createMakerLockScript(
       ['OP_DROP', sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, 'OP_MAKERCOLL'],
       // maker succeed, taker failed - maker can spend
       ['OP_3', 'OP_IFEQ',
-        'OP_MONAD','OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+        'OP_MONAD','OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
 
       // taker & maker pass -  both can spend
       ['OP_2', 'OP_IFEQ',
-        '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+        '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
 
       // taker & maker fail - both can spend
       ['OP_5', 'OP_IFEQ',
-        '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
+        '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
     ] :
     [
       ['OP_MONOID', shiftMaker, shiftTaker, depositLength, settleLength, 'OP_DEPSET'],
       ['OP_0', 'OP_IFEQ',
         'OP_RETURN', 'OP_ENDIFEQ'],
       ['OP_2', 'OP_IFEQ',
-        'OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY',
+        'OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY',
         'OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
       // maker succeed, taker failed - maker can spend
       ['OP_3', 'OP_IFEQ',
-        'OP_MONAD','OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+        'OP_MONAD','OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
 
       // taker & maker fail - maker can spend
       ['OP_5', 'OP_IFEQ',
-        'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
+        'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
     ]
-  console.log({script})
   return script.map(part => part.join(' ')).join(' ')
 }
 
@@ -254,9 +254,9 @@ export function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: s
   const script = [
     [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
     // 4: taker succeed, maker failed, taker can spend the outpoint
-    ['4','OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY','OP_ENDMONAD', 'OP_ENDIFEQ'],
+    ['4','OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY','OP_ENDMONAD', 'OP_ENDIFEQ'],
     // this.OP_0() // both failed,
-    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD']
+    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD']
   ]
   return script.map(part => part.join(' ')).join(' ')
 }
@@ -275,14 +275,14 @@ export function parseTakerLockScript(script: Uint8Array): {
   const doubleHashedBcAddress = scriptStr.split(' OP_BLAKE2BL ')[1].split(' ')[0]
 
   return {
-    makerTxHash: makerTxHash,
+    makerTxHash,
     makerTxOutputIndex: parseInt(makerTxOutputIndex, 10),
-    doubleHashedBcAddress: doubleHashedBcAddress
+    doubleHashedBcAddress
   }
 }
 
 export function createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string {
-  return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
+  return [normalizeHexString(makerTxHash), makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
 }
 
 export function parseTakerCallbackLockScript(script: Uint8Array): {
