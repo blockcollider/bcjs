@@ -82,6 +82,6 @@ describe('bytecode', () => {
   it('works with protocol buffers', () => {
     const to = new TransactionOutput()
     to.setOutputScript(new Uint8Array(fromASM(asm1, 0x01)))
-    expect(toASM(Buffer.from(to.getOutputScript()), 0x01)).toEqual(asm1)
+    expect(toASM(Buffer.from(to.getOutputScript() as Uint8Array), 0x01)).toEqual(asm1)
   })
 })
