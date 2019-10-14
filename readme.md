@@ -1,5 +1,10 @@
 # BC RPC SDK
 
+## Tests
+
+Tests are written in [Jest](https://jestjs.io/) framework.
+Run them using `yarn run test`.
+
 ## Examples
 
 `examples/get-balance.ts`:
