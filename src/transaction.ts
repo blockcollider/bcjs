@@ -6,7 +6,14 @@ import { address, networks } from 'bitcoinjs-lib'
 
 import * as bcProtobuf from './protos/bc_pb'
 import * as coreProtobuf from './protos/core_pb'
-import { createNRGLockScript, createMakerLockScript, createTakerUnlockScript, createTakerLockScript, createTakerCallbackLockScript, createSignedNRGUnlockInputs }  from './script/templates'
+import {
+  createNRGLockScript,
+  createMakerLockScript,
+  createTakerUnlockScript,
+  createTakerLockScript,
+  createTakerCallbackLockScript,
+  createSignedNRGUnlockInputs
+}  from './script/templates'
 import RpcClient from './client'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './utils/coin'
 
