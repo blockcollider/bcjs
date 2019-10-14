@@ -6,7 +6,7 @@ import { address, networks } from 'bitcoinjs-lib'
 
 import * as bcProtobuf from './protos/bc_pb'
 import * as coreProtobuf from './protos/core_pb'
-import TimbleScript from './timble'
+import TimbleScript from './script/templates'
 import RpcClient from './client'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './utils/coin'
 
