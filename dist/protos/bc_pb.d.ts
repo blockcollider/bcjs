@@ -342,6 +342,12 @@ export class MakerOrderInfo extends jspb.Message {
   getIsSettled(): boolean;
   setIsSettled(value: boolean): void;
 
+  getFixedUnitFee(): number;
+  setFixedUnitFee(value: number): void;
+
+  getBase(): number;
+  setBase(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): MakerOrderInfo.AsObject;
   static toObject(includeInstance: boolean, msg: MakerOrderInfo): MakerOrderInfo.AsObject;
@@ -371,6 +377,8 @@ export namespace MakerOrderInfo {
     txHash: string,
     txOutputIndex: number,
     isSettled: boolean,
+    fixedUnitFee: number,
+    base: number,
   }
 }
 
@@ -631,6 +639,9 @@ export class PlaceMakerOrderRequest extends jspb.Message {
   getNrgUnit(): string;
   setNrgUnit(value: string): void;
 
+  getFixedUnitFee(): string;
+  setFixedUnitFee(value: string): void;
+
   getTxFee(): string;
   setTxFee(value: string): void;
 
@@ -660,82 +671,7 @@ export namespace PlaceMakerOrderRequest {
     bcPrivateKeyHex: string,
     collateralizedNrg: string,
     nrgUnit: string,
-    txFee: string,
-  }
-}
-
-export class PlaceMakerNrgOrderRequest extends jspb.Message {
-  getShiftMaker(): number;
-  setShiftMaker(value: number): void;
-
-  getShiftTaker(): number;
-  setShiftTaker(value: number): void;
-
-  getDepositLength(): number;
-  setDepositLength(value: number): void;
-
-  getSettlementLength(): number;
-  setSettlementLength(value: number): void;
-
-  getSendsFromChain(): string;
-  setSendsFromChain(value: string): void;
-
-  getReceivesToChain(): string;
-  setReceivesToChain(value: string): void;
-
-  getSendsFromAddress(): string;
-  setSendsFromAddress(value: string): void;
-
-  getReceivesToAddress(): string;
-  setReceivesToAddress(value: string): void;
-
-  getSendsUnit(): string;
-  setSendsUnit(value: string): void;
-
-  getReceivesUnit(): string;
-  setReceivesUnit(value: string): void;
-
-  getBcAddress(): string;
-  setBcAddress(value: string): void;
-
-  getBcPrivateKeyHex(): string;
-  setBcPrivateKeyHex(value: string): void;
-
-  getCollateralizedNrg(): string;
-  setCollateralizedNrg(value: string): void;
-
-  getNrgUnit(): string;
-  setNrgUnit(value: string): void;
-
-  getTxFee(): string;
-  setTxFee(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PlaceMakerNrgOrderRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: PlaceMakerNrgOrderRequest): PlaceMakerNrgOrderRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: PlaceMakerNrgOrderRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PlaceMakerNrgOrderRequest;
-  static deserializeBinaryFromReader(message: PlaceMakerNrgOrderRequest, reader: jspb.BinaryReader): PlaceMakerNrgOrderRequest;
-}
-
-export namespace PlaceMakerNrgOrderRequest {
-  export type AsObject = {
-    shiftMaker: number,
-    shiftTaker: number,
-    depositLength: number,
-    settlementLength: number,
-    sendsFromChain: string,
-    receivesToChain: string,
-    sendsFromAddress: string,
-    receivesToAddress: string,
-    sendsUnit: string,
-    receivesUnit: string,
-    bcAddress: string,
-    bcPrivateKeyHex: string,
-    collateralizedNrg: string,
-    nrgUnit: string,
+    fixedUnitFee: string,
     txFee: string,
   }
 }

@@ -239,15 +239,6 @@ type BcPlaceMakerOrder = {
   readonly responseType: typeof bc_pb.RpcTransactionResponse;
 };
 
-type BcPlaceMakerNrgOrder = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.PlaceMakerNrgOrderRequest;
-  readonly responseType: typeof bc_pb.RpcTransactionResponse;
-};
-
 type BcPlaceTakerOrder = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -348,7 +339,6 @@ export class Bc {
   static readonly GetUnlockTakerTxParams: BcGetUnlockTakerTxParams;
   static readonly GetTransfers: BcGetTransfers;
   static readonly PlaceMakerOrder: BcPlaceMakerOrder;
-  static readonly PlaceMakerNrgOrder: BcPlaceMakerNrgOrder;
   static readonly PlaceTakerOrder: BcPlaceTakerOrder;
   static readonly PlaceTakerOrders: BcPlaceTakerOrders;
   static readonly CalculateMakerFee: BcCalculateMakerFee;
@@ -623,15 +613,6 @@ export class BcClient {
   ): UnaryResponse;
   placeMakerOrder(
     requestMessage: bc_pb.PlaceMakerOrderRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  placeMakerNrgOrder(
-    requestMessage: bc_pb.PlaceMakerNrgOrderRequest,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  placeMakerNrgOrder(
-    requestMessage: bc_pb.PlaceMakerNrgOrderRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
   ): UnaryResponse;
   placeTakerOrder(
