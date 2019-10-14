@@ -213,9 +213,9 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     const power = 18
     if (from === to) {
       return val
-    } else if (from === 'eth' && to === 'wei') {
+    } else if (from === 'nrg' && to === 'boson') {
       return calcStringMulPowerTen(val, power) // 1 NRG = 10^18 BOSON
-    } else if (from === 'wei' && to === 'eth') {
+    } else if (from === 'boson' && to === 'nrg') {
       return calcStringDivPowerTen(val, power) // 1 NRG = 10^18 BOSON
     }
     throw new Error('invalid unit')
