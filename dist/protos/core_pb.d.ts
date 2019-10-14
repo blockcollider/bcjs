@@ -401,6 +401,11 @@ export class WalletData extends jspb.Message {
   setCollateralizedMakerOutpointsList(value: Array<WalletOutPoint>): void;
   addCollateralizedMakerOutpoints(value?: WalletOutPoint, index?: number): WalletOutPoint;
 
+  clearCollateralizedUnmatchedOutpointsList(): void;
+  getCollateralizedUnmatchedOutpointsList(): Array<WalletOutPoint>;
+  setCollateralizedUnmatchedOutpointsList(value: Array<WalletOutPoint>): void;
+  addCollateralizedUnmatchedOutpoints(value?: WalletOutPoint, index?: number): WalletOutPoint;
+
   clearCollateralizedMatchedOutpointsList(): void;
   getCollateralizedMatchedOutpointsList(): Array<WalletOutPoint>;
   setCollateralizedMatchedOutpointsList(value: Array<WalletOutPoint>): void;
@@ -428,6 +433,7 @@ export namespace WalletData {
     unconfirmedSpendableOutpointsList: Array<WalletOutPoint.AsObject>,
     spendableOutpointsList: Array<WalletOutPoint.AsObject>,
     collateralizedMakerOutpointsList: Array<WalletOutPoint.AsObject>,
+    collateralizedUnmatchedOutpointsList: Array<WalletOutPoint.AsObject>,
     collateralizedMatchedOutpointsList: Array<WalletOutPoint.AsObject>,
     collateralizedSpendableOutpointsList: Array<WalletOutPoint.AsObject>,
   }
@@ -646,6 +652,72 @@ export namespace HistoricalOrders {
     ordersList: Array<HistoricalOrder.AsObject>,
     blockHeight: number,
     blockHash: string,
+  }
+}
+
+export class MatchedTx extends jspb.Message {
+  getHash(): string;
+  setHash(value: string): void;
+
+  getOutputIndex(): number;
+  setOutputIndex(value: number): void;
+
+  getChain(): string;
+  setChain(value: string): void;
+
+  getSendsFrom(): string;
+  setSendsFrom(value: string): void;
+
+  getReceivesTo(): string;
+  setReceivesTo(value: string): void;
+
+  getAmount(): string;
+  setAmount(value: string): void;
+
+  getIsMaker(): boolean;
+  setIsMaker(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MatchedTx.AsObject;
+  static toObject(includeInstance: boolean, msg: MatchedTx): MatchedTx.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MatchedTx, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MatchedTx;
+  static deserializeBinaryFromReader(message: MatchedTx, reader: jspb.BinaryReader): MatchedTx;
+}
+
+export namespace MatchedTx {
+  export type AsObject = {
+    hash: string,
+    outputIndex: number,
+    chain: string,
+    sendsFrom: string,
+    receivesTo: string,
+    amount: string,
+    isMaker: boolean,
+  }
+}
+
+export class MatchedTxs extends jspb.Message {
+  clearTxsList(): void;
+  getTxsList(): Array<MatchedTx>;
+  setTxsList(value: Array<MatchedTx>): void;
+  addTxs(value?: MatchedTx, index?: number): MatchedTx;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MatchedTxs.AsObject;
+  static toObject(includeInstance: boolean, msg: MatchedTxs): MatchedTxs.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MatchedTxs, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MatchedTxs;
+  static deserializeBinaryFromReader(message: MatchedTxs, reader: jspb.BinaryReader): MatchedTxs;
+}
+
+export namespace MatchedTxs {
+  export type AsObject = {
+    txsList: Array<MatchedTx.AsObject>,
   }
 }
 

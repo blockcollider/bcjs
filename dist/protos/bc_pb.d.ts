@@ -180,11 +180,8 @@ export class GetBalanceResponse extends jspb.Message {
   getCollateralized(): string;
   setCollateralized(value: string): void;
 
-  getCollateralizedspendable(): string;
-  setCollateralizedspendable(value: string): void;
-
-  getUnit(): string;
-  setUnit(value: string): void;
+  getUnlockable(): string;
+  setUnlockable(value: string): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetBalanceResponse.AsObject;
@@ -201,8 +198,7 @@ export namespace GetBalanceResponse {
     confirmed: string,
     unconfirmed: string,
     collateralized: string,
-    collateralizedspendable: string,
-    unit: string,
+    unlockable: string,
   }
 }
 
@@ -434,73 +430,7 @@ export namespace TakerOrderInfo {
   }
 }
 
-export class MatchedTx extends jspb.Message {
-  getHash(): string;
-  setHash(value: string): void;
-
-  getOutputIndex(): number;
-  setOutputIndex(value: number): void;
-
-  getChain(): string;
-  setChain(value: string): void;
-
-  getSendsFrom(): string;
-  setSendsFrom(value: string): void;
-
-  getReceivesTo(): string;
-  setReceivesTo(value: string): void;
-
-  getAmount(): string;
-  setAmount(value: string): void;
-
-  getIsMaker(): boolean;
-  setIsMaker(value: boolean): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MatchedTx.AsObject;
-  static toObject(includeInstance: boolean, msg: MatchedTx): MatchedTx.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: MatchedTx, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MatchedTx;
-  static deserializeBinaryFromReader(message: MatchedTx, reader: jspb.BinaryReader): MatchedTx;
-}
-
-export namespace MatchedTx {
-  export type AsObject = {
-    hash: string,
-    outputIndex: number,
-    chain: string,
-    sendsFrom: string,
-    receivesTo: string,
-    amount: string,
-    isMaker: boolean,
-  }
-}
-
-export class MatchedTxs extends jspb.Message {
-  clearTxsList(): void;
-  getTxsList(): Array<MatchedTx>;
-  setTxsList(value: Array<MatchedTx>): void;
-  addTxs(value?: MatchedTx, index?: number): MatchedTx;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MatchedTxs.AsObject;
-  static toObject(includeInstance: boolean, msg: MatchedTxs): MatchedTxs.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: MatchedTxs, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MatchedTxs;
-  static deserializeBinaryFromReader(message: MatchedTxs, reader: jspb.BinaryReader): MatchedTxs;
-}
-
-export namespace MatchedTxs {
-  export type AsObject = {
-    txsList: Array<MatchedTx.AsObject>,
-  }
-}
-
-export class MatchedOpenOrder extends jspb.Message {
+export class MatchedOrderInfo extends jspb.Message {
   hasMaker(): boolean;
   clearMaker(): void;
   getMaker(): MakerOrderInfo | undefined;
@@ -515,16 +445,16 @@ export class MatchedOpenOrder extends jspb.Message {
   setUnlocked(value: boolean): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MatchedOpenOrder.AsObject;
-  static toObject(includeInstance: boolean, msg: MatchedOpenOrder): MatchedOpenOrder.AsObject;
+  toObject(includeInstance?: boolean): MatchedOrderInfo.AsObject;
+  static toObject(includeInstance: boolean, msg: MatchedOrderInfo): MatchedOrderInfo.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: MatchedOpenOrder, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MatchedOpenOrder;
-  static deserializeBinaryFromReader(message: MatchedOpenOrder, reader: jspb.BinaryReader): MatchedOpenOrder;
+  static serializeBinaryToWriter(message: MatchedOrderInfo, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MatchedOrderInfo;
+  static deserializeBinaryFromReader(message: MatchedOrderInfo, reader: jspb.BinaryReader): MatchedOrderInfo;
 }
 
-export namespace MatchedOpenOrder {
+export namespace MatchedOrderInfo {
   export type AsObject = {
     maker?: MakerOrderInfo.AsObject,
     taker?: TakerOrderInfo.AsObject,
@@ -576,9 +506,9 @@ export namespace GetMatchedOrdersRequest {
 
 export class GetMatchedOrdersResponse extends jspb.Message {
   clearOrdersList(): void;
-  getOrdersList(): Array<MatchedOpenOrder>;
-  setOrdersList(value: Array<MatchedOpenOrder>): void;
-  addOrders(value?: MatchedOpenOrder, index?: number): MatchedOpenOrder;
+  getOrdersList(): Array<MatchedOrderInfo>;
+  setOrdersList(value: Array<MatchedOrderInfo>): void;
+  addOrders(value?: MatchedOrderInfo, index?: number): MatchedOrderInfo;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetMatchedOrdersResponse.AsObject;
@@ -592,7 +522,7 @@ export class GetMatchedOrdersResponse extends jspb.Message {
 
 export namespace GetMatchedOrdersResponse {
   export type AsObject = {
-    ordersList: Array<MatchedOpenOrder.AsObject>,
+    ordersList: Array<MatchedOrderInfo.AsObject>,
   }
 }
 
