@@ -165,6 +165,12 @@ export const internalToBN = (internal: Buffer|Uint8Array, unit: string): BN => {
 }
 
 export const CurrencyInfo: CurrencyInfoInterface = {
+  nrg: {
+    NRG: 'nrg',
+    BOSON: 'boson',
+    minUnit: 'boson',
+    humanUnit: 'nrg',
+  },
   eth: {
     ETH: 'eth',
     WEI: 'wei',
@@ -203,14 +209,25 @@ export const CurrencyInfo: CurrencyInfoInterface = {
 }
 
 export const CurrencyConverter: CurrencyConverterInterface = {
+  nrg: function(val: string, from: string, to: string): string | never {
+    const power = 18
+    if (from === to) {
+      return val
+    } else if (from === 'eth' && to === 'wei') {
+      return calcStringMulPowerTen(val, power) // 1 NRG = 10^18 BOSON
+    } else if (from === 'wei' && to === 'eth') {
+      return calcStringDivPowerTen(val, power) // 1 NRG = 10^18 BOSON
+    }
+    throw new Error('invalid unit')
+  },
   eth: function(val: string, from: string, to: string): string | never {
     const power = 18
     if (from === to) {
       return val
     } else if (from === 'eth' && to === 'wei') {
-      return calcStringMulPowerTen(val, power) // 1 ETH = 10^8 WEI
+      return calcStringMulPowerTen(val, power) // 1 ETH = 10^18 WEI
     } else if (from === 'wei' && to === 'eth') {
-      return calcStringDivPowerTen(val, power) // 1 ETH = 10^8 WEI
+      return calcStringDivPowerTen(val, power) // 1 ETH = 10^18 WEI
     }
     throw new Error('invalid unit')
   },
