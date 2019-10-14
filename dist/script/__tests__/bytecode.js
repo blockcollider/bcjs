@@ -5,10 +5,10 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @flow
  */
-const { fromASM, toASM } = require('../bytecode');
-const { TransactionOutput } = require('../../protos/core_pb');
+Object.defineProperty(exports, "__esModule", { value: true });
+const bytecode_1 = require("../bytecode");
+const core_pb_1 = require("../../protos/core_pb");
 const asm1 = `OP_MONOID 2 3 100 100 OP_DEPSET OP_0 OP_IFEQ OP_RETURN OP_ENDIFEQ OP_2 OP_IFEQ OP_TAKERPAIR OP_2 OP_0 OP_MINUNITVALUE OP_RETURN_RESULT OP_ENDIFEQ OP_3 OP_IFEQ OP_RETURN OP_ENDIFEQ OP_DROP eth dai 0x7efbb13383757ca1f581dd5e20cb2e9f24448608 0x7efbb13383757ca1f581dd5e20cb2e9f24448608 0.1 10 OP_MAKERCOLL OP_3 OP_IFEQ OP_BLAKE2BL 0x3266bbec0ac0899e8a42a264465e0d04a576e57192382f63b74434c2a65277c2 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_RETURN_RESULT OP_ENDIFEQ OP_2 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL 0x3266bbec0ac0899e8a42a264465e0d04a576e57192382f63b74434c2a65277c2 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_ENDMONAD OP_ENDIFEQ`;
 const asm2 = '0x721439679277836f4dd2bc0044d0ba57febe960db3a27dcd439cb36d13c37f15 0 OP_CALLBACK 4 OP_IFEQ OP_BLAKE2BL 0xce1dac37eee16fe55f9f2fe47d4462068801341854e18d3f542712d56d712362 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_ENDIFEQ OP_DROP OP_MONAD OP_BLAKE2BL 0xce1dac37eee16fe55f9f2fe47d4462068801341854e18d3f542712d56d712362 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_ENDMONAD';
 const asm3 = 'OP_BLAKE2BL 0xce1dac37eee16fe55f9f2fe47d4462068801341854e18d3f542712d56d712362 OP_EQUALVERIFY OP_CHECKSIGVERIFY';
@@ -58,22 +58,23 @@ const binary = Buffer.from([
 describe('bytecode', () => {
     it('is able to transform from asm to bytecode and back', () => {
         const version = 0x01;
-        expect(fromASM(asm1, version)).toEqual(binary);
-        expect(toASM(binary, version)).toEqual(asm1);
-        console.log(asm1, fromASM(asm1, version).length, asm1.length);
-        expect(toASM(fromASM(asm1, version), version)).toEqual(asm1);
-        console.log(asm2, fromASM(asm2, version).length, asm2.length);
-        expect(toASM(fromASM(asm2, version), version)).toEqual(asm2);
-        console.log(asm3, fromASM(asm3, version).length, asm3.length);
-        expect(toASM(fromASM(asm3, version), version)).toEqual(asm3);
-        console.log(asm4, fromASM(asm4, version).length, asm4.length);
-        expect(toASM(fromASM(asm4, version), version)).toEqual(asm4);
-        // console.log(Array.from(fromASM(asm2, version)).map(b => `0x${b.toString(16)}`).join(' '))
+        expect(bytecode_1.fromASM(asm1, version)).toEqual(binary);
+        expect(bytecode_1.toASM(binary, version)).toEqual(asm1);
+        console.log(asm1, bytecode_1.fromASM(asm1, version).length, asm1.length);
+        expect(bytecode_1.toASM(bytecode_1.fromASM(asm1, version), version)).toEqual(asm1);
+        console.log(asm2, bytecode_1.fromASM(asm2, version).length, asm2.length);
+        expect(bytecode_1.toASM(bytecode_1.fromASM(asm2, version), version)).toEqual(asm2);
+        console.log(asm3, bytecode_1.fromASM(asm3, version).length, asm3.length);
+        expect(bytecode_1.toASM(bytecode_1.fromASM(asm3, version), version)).toEqual(asm3);
+        console.log(asm4, bytecode_1.fromASM(asm4, version).length, asm4.length);
+        expect(bytecode_1.toASM(bytecode_1.fromASM(asm4, version), version)).toEqual(asm4);
+        const bytes = Array.from(bytecode_1.fromASM(asm2, version));
+        console.log(bytes.map(b => `0x${b.toString(16)}`).join(' '));
     });
     it('works with protocol buffers', () => {
-        const to = new TransactionOutput();
-        to.setOutputScript(new Uint8Array(fromASM(asm1, 0x01)));
-        expect(toASM(Buffer.from(to.getOutputScript()), 0x01)).toEqual(asm1);
+        const to = new core_pb_1.TransactionOutput();
+        to.setOutputScript(new Uint8Array(bytecode_1.fromASM(asm1, 0x01)));
+        expect(bytecode_1.toASM(Buffer.from(to.getOutputScript()), 0x01)).toEqual(asm1);
     });
 });
 //# sourceMappingURL=bytecode.js.map

@@ -1,10 +1,18 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const secp256k1 = require('secp256k1');
-const { blake2blTwice, blake2bl } = require('./utils/crypto');
-const Coin = require('./utils/coin');
-const { toBuffer, intToBuffer } = require('./utils/buffer');
-const protoUtil = require('./utils/protoUtil');
+const protoUtil_1 = require("../utils/protoUtil");
+const bytecode_1 = require("./bytecode");
+const crypto_1 = require("../utils/crypto");
+const Coin = __importStar(require("../utils/coin"));
+const buffer_1 = require("../utils/buffer");
 var ScriptType;
 (function (ScriptType) {
     ScriptType["NRG_TRANSFER"] = "nrg_transfer";
@@ -29,26 +37,26 @@ function createOutPointOutputsHash(spendableOutPoint, txOutputs) {
         ].join('');
     }).join('');
     const parts = [
-        Coin.internalToHuman(spendableOutPoint.getValue(), Coin.COIN_FRACS.NRG),
+        Coin.internalToHuman(Buffer.from(spendableOutPoint.getValue()), Coin.COIN_FRACS.NRG),
         spendableOutPoint.getHash(),
         spendableOutPoint.getIndex(),
         outputsData
     ];
-    const hash = blake2bl(parts.join(''));
+    const hash = crypto_1.blake2bl(parts.join(''));
     return hash;
 }
 // sign data ANY with private key Buffer
 // return 65B long signature with recovery number as the last byte
 function signData(data, privateKey) {
-    data = toBuffer(data);
-    const dataHash = blake2bl(data);
+    data = buffer_1.toBuffer(data);
+    const dataHash = crypto_1.blake2bl(data);
     const sig = secp256k1.sign(Buffer.from(dataHash, 'hex'), privateKey);
     if (sig.signature.length !== 64) {
         throw Error(`Signature should always be 64B long, l: ${sig.signature.length}`);
     }
     const signatureWithRecovery = Buffer.concat([
         sig.signature,
-        intToBuffer(sig.recovery)
+        buffer_1.intToBuffer(sig.recovery)
     ]);
     return signatureWithRecovery;
 }
@@ -84,9 +92,9 @@ function createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spe
         const inputUnlockScript = [
             signature.toString('hex'),
             pubKey.toString('hex'),
-            blake2bl(bcAddress)
+            crypto_1.blake2bl(bcAddress)
         ].join(' ');
-        return protoUtil.createTransactionInput(outPoint, inputUnlockScript);
+        return protoUtil_1.createTransactionInput(outPoint, inputUnlockScript);
     });
 }
 exports.createSignedNRGUnlockInputs = createSignedNRGUnlockInputs;
@@ -94,7 +102,7 @@ function createNRGLockScript(address) {
     address = address.toLowerCase();
     const script = [
         'OP_BLAKE2BL',
-        blake2blTwice(address),
+        crypto_1.blake2blTwice(address),
         'OP_EQUALVERIFY',
         'OP_CHECKSIGVERIFY'
     ];
@@ -102,7 +110,7 @@ function createNRGLockScript(address) {
 }
 exports.createNRGLockScript = createNRGLockScript;
 function parseNRGLockScript(script) {
-    const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+    const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     const doubleHashedBcAddress = scriptStr.split(' ')[1];
     return {
         doubleHashedBcAddress
@@ -111,7 +119,7 @@ function parseNRGLockScript(script) {
 exports.parseNRGLockScript = parseNRGLockScript;
 function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, fixedUnitFee, bcAddress) {
     bcAddress = bcAddress.toLowerCase();
-    let doubleHashedBcAddress = blake2blTwice(bcAddress);
+    let doubleHashedBcAddress = crypto_1.blake2blTwice(bcAddress);
     const script = fixedUnitFee === '' ?
         [
             ['OP_MONOID', shiftMaker, shiftTaker, depositLength, settleLength, 'OP_DEPSET'],
@@ -151,7 +159,7 @@ function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLeng
 }
 exports.createMakerLockScript = createMakerLockScript;
 function parseMakerLockScript(script) {
-    const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+    const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     const [shiftMaker, shiftTaker, deposit, settlement] = scriptStr.split(' OP_DEPSET ')[0].split(' ').slice(1);
     const tradeInfo = scriptStr.split(' OP_MAKERCOLL ')[0].split(' ');
     const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] = tradeInfo.slice(tradeInfo.length - 5);
@@ -181,7 +189,7 @@ function createTakerUnlockScript(takerWantsAddress, takerSendsAddress) {
 }
 exports.createTakerUnlockScript = createTakerUnlockScript;
 function parseTakerUnlockScript(script) {
-    const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+    const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     const [takerWantsAddress, takerSendsAddress] = scriptStr.split(' ');
     return {
         takerWantsAddress,
@@ -191,7 +199,7 @@ function parseTakerUnlockScript(script) {
 exports.parseTakerUnlockScript = parseTakerUnlockScript;
 function createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress) {
     takerBCAddress = takerBCAddress.toLowerCase();
-    const doubleHashedBcAddress = blake2blTwice(takerBCAddress);
+    const doubleHashedBcAddress = crypto_1.blake2blTwice(takerBCAddress);
     const script = [
         [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
         // 4: taker succeed, maker failed, taker can spend the outpoint
@@ -203,7 +211,7 @@ function createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress) 
 }
 exports.createTakerLockScript = createTakerLockScript;
 function parseTakerLockScript(script) {
-    const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+    const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     if (scriptStr.indexOf('OP_CALLBACK') === -1) {
         throw new Error('Invalid taker outpout script');
     }
@@ -221,7 +229,7 @@ function createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex) {
 }
 exports.createTakerCallbackLockScript = createTakerCallbackLockScript;
 function parseTakerCallbackLockScript(script) {
-    const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+    const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     const [makerTxHash, makerTxOutputIndex, OP_Callback] = scriptStr.split(' ');
     return {
         makerTxHash,
@@ -230,7 +238,7 @@ function parseTakerCallbackLockScript(script) {
 }
 exports.parseTakerCallbackLockScript = parseTakerCallbackLockScript;
 function getScriptType(script) {
-    const scriptStr = typeof script != 'string' ? protoUtil.bytesToString(script) : script;
+    const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     if (scriptStr.startsWith('OP_MONOID')) {
         return ScriptType.MAKER_OUTPUT;
     }
