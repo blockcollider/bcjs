@@ -82,15 +82,15 @@ message WalletOutPoint {
   uint64 block_height = 4;
 }
 
-
 message WalletData {
   uint64 block_height = 1;
   string block_hash = 2;
   repeated WalletOutPoint unconfirmed_spendable_outpoints = 3;
   repeated WalletOutPoint spendable_outpoints = 4;
   repeated WalletOutPoint collateralized_maker_outpoints = 5;
-  repeated WalletOutPoint collateralized_matched_outpoints = 6;
-  repeated WalletOutPoint collateralized_spendable_outpoints = 7;
+  repeated WalletOutPoint collateralized_unmatched_outpoints = 6;
+  repeated WalletOutPoint collateralized_matched_outpoints = 7;
+  repeated WalletOutPoint collateralized_spendable_outpoints = 8;
 }
 
 message OpenOrder {
@@ -133,6 +133,20 @@ message HistoricalOrders {
   repeated HistoricalOrder orders = 1;
   uint64 block_height = 2;
   string block_hash = 3;
+}
+
+message MatchedTx {
+    string hash = 1;
+    uint32 output_index = 2;
+    string chain = 3;
+    string sends_from = 4;
+    string receives_to = 5;
+    string amount = 6;
+    bool   is_maker = 7;
+}
+
+message MatchedTxs {
+    repeated MatchedTx txs = 1;
 }
 
 message Transaction {
