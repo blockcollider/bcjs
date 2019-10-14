@@ -1,51 +1,47 @@
-/// <reference types="node" />
 import * as coreProtobuf from '../protos/core_pb';
-export default class TimbleScript {
-    static NRG_TRANSFER: string;
-    static MAKER_OUTPUT: string;
-    static TAKER_INPUT: string;
-    static TAKER_OUTPUT: string;
-    static TAKER_CALLBACK: string;
-    static createOutPointOutputsHash(spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string;
-    static signData(data: string | Buffer, privateKey: Buffer): Buffer | never;
-    static createUnlockSig(spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer | never;
-    static generateDataToSignForSig: (spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]) => string;
-    static createSignedNRGUnlockInputs(bcAddress: string, bcPrivateKeyHex: string, txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]): Array<coreProtobuf.TransactionInput>;
-    static createNRGLockScript(address: string): string;
-    static parseNRGLockScript(script: string | Uint8Array): {
-        doubleHashedBcAddress: string;
-    };
-    static createMakerLockScript(shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, fixedUnitFee: string, bcAddress: string): string;
-    static parseMakerLockScript(script: string | Uint8Array): {
-        shiftMaker: number;
-        shiftTaker: number;
-        deposit: number;
-        settlement: number;
-        sendsFromChain: string;
-        receivesToChain: string;
-        sendsFromAddress: string;
-        receivesToAddress: string;
-        sendsUnit: string;
-        receivesUnit: string;
-        doubleHashedBcAddress: string;
-        fixedUnitFee: number;
-        base: number;
-    };
-    static createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string;
-    static parseTakerUnlockScript(script: string | Uint8Array): {
-        takerWantsAddress: string;
-        takerSendsAddress: string;
-    };
-    static createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string | number, takerBCAddress: string): string;
-    static parseTakerLockScript(script: string | Uint8Array): {
-        makerTxHash: string;
-        makerTxOutputIndex: number;
-        doubleHashedBcAddress: string;
-    };
-    static createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string;
-    static parseTakerCallbackLockScript(script: string | Uint8Array): {
-        makerTxHash: string;
-        makerTxOutputIndex: string;
-    };
-    static getScriptType(script: Uint8Array | string): string;
+declare enum ScriptType {
+    NRG_TRANSFER = "nrg_transfer",
+    MAKER_OUTPUT = "maker_output",
+    TAKER_INPUT = "taker_input",
+    TAKER_OUTPUT = "taker_output",
+    TAKER_CALLBACK = "taker_callback"
 }
+export declare function createSignedNRGUnlockInputs(bcAddress: string, bcPrivateKeyHex: string, txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]): Array<coreProtobuf.TransactionInput>;
+export declare function createNRGLockScript(address: string): string;
+export declare function parseNRGLockScript(script: string | Uint8Array): {
+    doubleHashedBcAddress: string;
+};
+export declare function createMakerLockScript(shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, fixedUnitFee: string, bcAddress: string): string;
+export declare function parseMakerLockScript(script: string | Uint8Array): {
+    shiftMaker: number;
+    shiftTaker: number;
+    deposit: number;
+    settlement: number;
+    sendsFromChain: string;
+    receivesToChain: string;
+    sendsFromAddress: string;
+    receivesToAddress: string;
+    sendsUnit: string;
+    receivesUnit: string;
+    doubleHashedBcAddress: string;
+    fixedUnitFee: number;
+    base: number;
+};
+export declare function createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string;
+export declare function parseTakerUnlockScript(script: string | Uint8Array): {
+    takerWantsAddress: string;
+    takerSendsAddress: string;
+};
+export declare function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string | number, takerBCAddress: string): string;
+export declare function parseTakerLockScript(script: string | Uint8Array): {
+    makerTxHash: string;
+    makerTxOutputIndex: number;
+    doubleHashedBcAddress: string;
+};
+export declare function createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string;
+export declare function parseTakerCallbackLockScript(script: string | Uint8Array): {
+    makerTxHash: string;
+    makerTxOutputIndex: string;
+};
+export declare function getScriptType(script: Uint8Array | string): ScriptType;
+export {};
