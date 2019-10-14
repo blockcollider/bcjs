@@ -6,7 +6,7 @@ import { address, networks } from 'bitcoinjs-lib'
 
 import * as bcProtobuf from './protos/bc_pb'
 import * as coreProtobuf from './protos/core_pb'
-import TimbleScript from './script/templates'
+import { createNRGLockScript, createMakerLockScript, createTakerUnlockScript, createTakerLockScript, createTakerCallbackLockScript, createSignedNRGUnlockInputs }  from './script/templates'
 import RpcClient from './client'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './utils/coin'
 
@@ -62,7 +62,7 @@ export const createNRGTransferTransaction = function(
   }
 
   const txOutputs = [
-    protoUtil.createTransactionOutput(TimbleScript.createNRGLockScript(toAddress), unitBN, transferAmountBN)
+    protoUtil.createTransactionOutput(createNRGLockScript(toAddress), unitBN, transferAmountBN)
   ]
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
@@ -110,7 +110,7 @@ export const createMakerOrderTransaction = function(
     receivesToChain, receivesUnit, CurrencyInfo[receivesToChain].humanUnit
   )
 
-  const outputLockScript = TimbleScript.createMakerLockScript(
+  const outputLockScript = createMakerLockScript(
     shiftMaker, shiftTaker, depositLength, settleLength,
     sendsFromChain, receivesToChain,
     sendsFromAddress, receivesToAddress,
@@ -164,14 +164,14 @@ export const createTakerOrderTransaction = function(
   const makerTxOutputIndex = makerOpenOrder.txOutputIndex
 
   // takers input
-  const takerInputUnlockScript = TimbleScript.createTakerUnlockScript(sendsFromAddress, receivesToAddress)
+  const takerInputUnlockScript = createTakerUnlockScript(sendsFromAddress, receivesToAddress)
   const makerTxOutpoint = protoUtil.createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN)
   const nonNRGInputs = [
     protoUtil.createTransactionInput(makerTxOutpoint, takerInputUnlockScript)
   ]
 
   // takers output
-  const outputLockScript = TimbleScript.createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress)
+  const outputLockScript = createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress)
   const txOutputs = [
     protoUtil.createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString())))
   ]
@@ -187,7 +187,7 @@ export const createTakerOrderTransaction = function(
 
   // partial order
   if (makerCollateralBN.gt(takerCollateralBN)) {
-    const outputLockScriptCb = TimbleScript.createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex)
+    const outputLockScriptCb = createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex)
     txOutputs.push(protoUtil.createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
   }
 
@@ -226,7 +226,7 @@ export const createUnlockTakerTx = async function(
     const tx = _createTxWithOutputsAssigned(outputs)
 
     const outpoint = protoUtil.createOutPoint(txHash, txOutputIndex, unlockBOSON)
-    const inputs = TimbleScript.createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint])
+    const inputs = createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint])
 
     tx.setInputsList(inputs)
     tx.setNinCount(inputs.length)
@@ -309,14 +309,14 @@ const _compileTransaction = function(
   let finalOutputs = txOutputs
   if (leftoverOutPoint) {
     const leftoverOutput = protoUtil.createTransactionOutput (
-      TimbleScript.createNRGLockScript(bcAddress), unitBN, protoUtil.bytesToInternalBN(leftoverOutPoint.getValue())
+      createNRGLockScript(bcAddress), unitBN, protoUtil.bytesToInternalBN(leftoverOutPoint.getValue())
     )
     finalOutputs = txOutputs.concat([leftoverOutput])
   }
   // txTemplate with output
   const txTemplate = _createTxWithOutputsAssigned(finalOutputs)
   // nrg inputs
-  const nrgUnlockInputs = TimbleScript.createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints)
+  const nrgUnlockInputs = createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints)
   const finalInputs = nonNRGinputs.concat(nrgUnlockInputs)
 
   txTemplate.setInputsList(finalInputs)

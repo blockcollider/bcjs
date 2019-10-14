@@ -18,15 +18,12 @@ enum ScriptType {
     TAKER_CALLBACK = 'taker_callback',
 }
 
-export default class TimbleScript {
-
-
     /*
      * @param spendableOutPoint: an outpoint that is to be spent in the tx
      * @param txOutputs: transaction outputs in the transaction that is spending the spendableOutPoint
      * @return a hash signature of spendableOutPoint and txOutputs
      */
-    static createOutPointOutputsHash(spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string {
+    export function createOutPointOutputsHash(spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string {
       const outputsData = txOutputs.map(output => {
         var obj = output.toObject()
         return [
@@ -50,7 +47,7 @@ export default class TimbleScript {
 
     // sign data ANY with private key Buffer
     // return 65B long signature with recovery number as the last byte
-    static signData(data: string|Buffer, privateKey: Buffer): Buffer | never {
+    export function signData(data: string|Buffer, privateKey: Buffer): Buffer | never {
       data = toBuffer(data)
       const dataHash = blake2bl(data)
       const sig = secp256k1.sign(Buffer.from(dataHash, 'hex'), privateKey)
@@ -72,15 +69,15 @@ export default class TimbleScript {
      * @param tx: transaction is spending the spendableOutPoint
      * @return a signature of the tx input
      */
-    static createUnlockSig(spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer | never {
-      const dataToSign = TimbleScript.generateDataToSignForSig(spendableOutPoint, tx.getOutputsList())
-      const sig = TimbleScript.signData(dataToSign, privateKey)
+    export function createUnlockSig (spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer | never {
+      const dataToSign = generateDataToSignForSig(spendableOutPoint, tx.getOutputsList())
+      const sig = signData(dataToSign, privateKey)
 
       return sig
     }
 
-    static generateDataToSignForSig = (spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string => {
-      return TimbleScript.createOutPointOutputsHash(spendableOutPoint, txOutputs)
+    export function generateDataToSignForSig (spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string {
+      return createOutPointOutputsHash(spendableOutPoint, txOutputs)
     }
 
     /*
@@ -91,7 +88,7 @@ export default class TimbleScript {
      * @param spentOutPoints: outPoints to be spent in the txTemplate
      * @return a list of signed transaction inputs
      */
-    static createSignedNRGUnlockInputs(
+    export function createSignedNRGUnlockInputs(
       bcAddress: string, bcPrivateKeyHex: string,
       txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]
     ): Array<coreProtobuf.TransactionInput> {
@@ -101,7 +98,7 @@ export default class TimbleScript {
       }
 
       return spentOutPoints.map((outPoint) => {
-        const signature = TimbleScript.createUnlockSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'))
+        const signature = createUnlockSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'))
         const pubKey = secp256k1.publicKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true)
 
         const inputUnlockScript = [
@@ -114,7 +111,7 @@ export default class TimbleScript {
       })
     }
 
-    static createNRGLockScript(address: string): string {
+    export function createNRGLockScript(address: string): string {
       address = address.toLowerCase()
       const script = [
         'OP_BLAKE2BL',
@@ -125,7 +122,7 @@ export default class TimbleScript {
       return script.join(' ')
     }
 
-    static parseNRGLockScript(script: string|Uint8Array):{
+    export function parseNRGLockScript(script: string|Uint8Array):{
       doubleHashedBcAddress:string
     }{
       const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
@@ -136,7 +133,7 @@ export default class TimbleScript {
       }
     }
 
-    static createMakerLockScript(
+    export function createMakerLockScript(
       shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
       sendsFromChain: string, receivesToChain: string,
       sendsFromAddress: string, receivesToAddress: string,
@@ -187,7 +184,7 @@ export default class TimbleScript {
       return script.map(part => part.join(' ')).join(' ')
     }
 
-    static parseMakerLockScript(script: string|Uint8Array): {
+    export function parseMakerLockScript(script: string|Uint8Array): {
       shiftMaker: number,
       shiftTaker: number,
       deposit: number,
@@ -233,11 +230,11 @@ export default class TimbleScript {
     }
 
 
-    static createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string {
+    export function createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string {
       return [takerWantsAddress, takerSendsAddress].join(' ')
     }
 
-    static parseTakerUnlockScript(script: string|Uint8Array):{
+    export function parseTakerUnlockScript(script: string|Uint8Array):{
       takerWantsAddress: string,
       takerSendsAddress: string
     }{
@@ -250,7 +247,7 @@ export default class TimbleScript {
       }
     }
 
-    static createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string): string {
+    export function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string): string {
       takerBCAddress = takerBCAddress.toLowerCase()
       const doubleHashedBcAddress = blake2blTwice(takerBCAddress)
       const script = [
@@ -263,7 +260,7 @@ export default class TimbleScript {
       return script.map(part => part.join(' ')).join(' ')
     }
 
-    static parseTakerLockScript(script: string|Uint8Array):{
+    export function parseTakerLockScript(script: string|Uint8Array):{
       makerTxHash: string,
       makerTxOutputIndex: number,
       doubleHashedBcAddress: string
@@ -283,11 +280,11 @@ export default class TimbleScript {
       }
     }
 
-    static createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string {
+    export function createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string {
       return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
     }
 
-    static parseTakerCallbackLockScript(script: string|Uint8Array): {
+    export function parseTakerCallbackLockScript(script: string|Uint8Array): {
       makerTxHash: string,
       makerTxOutputIndex: string
     } {
@@ -300,7 +297,7 @@ export default class TimbleScript {
       }
     }
 
-    static getScriptType(script: Uint8Array|string): ScriptType {
+    export function getScriptType(script: Uint8Array|string): ScriptType {
       const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
 
       if (scriptStr.startsWith('OP_MONOID')){
@@ -313,5 +310,3 @@ export default class TimbleScript {
         return ScriptType.NRG_TRANSFER
       } else return ScriptType.TAKER_INPUT
     }
-
-}
