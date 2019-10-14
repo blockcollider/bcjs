@@ -284,6 +284,15 @@ type BcGetOpenOrders = {
   readonly responseType: typeof bc_pb.GetOpenOrdersResponse;
 };
 
+type BcGetUnmatchedOrders = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly responseType: typeof bc_pb.GetOpenOrdersResponse;
+};
+
 type BcGetMatchedOrders = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -344,6 +353,7 @@ export class Bc {
   static readonly CalculateMakerFee: BcCalculateMakerFee;
   static readonly CalculateTakerFee: BcCalculateTakerFee;
   static readonly GetOpenOrders: BcGetOpenOrders;
+  static readonly GetUnmatchedOrders: BcGetUnmatchedOrders;
   static readonly GetMatchedOrders: BcGetMatchedOrders;
   static readonly GetBlake2bl: BcGetBlake2bl;
   static readonly GetBcAddressViaVanity: BcGetBcAddressViaVanity;
@@ -658,6 +668,15 @@ export class BcClient {
   ): UnaryResponse;
   getOpenOrders(
     requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
+  ): UnaryResponse;
+  getUnmatchedOrders(
+    requestMessage: bc_pb.GetBalanceRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
+  ): UnaryResponse;
+  getUnmatchedOrders(
+    requestMessage: bc_pb.GetBalanceRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
   getMatchedOrders(

@@ -20,6 +20,8 @@ goog.exportSymbol('proto.bc.HistoricalOrders', null, global);
 goog.exportSymbol('proto.bc.MarkedTransaction', null, global);
 goog.exportSymbol('proto.bc.MatchedOrder', null, global);
 goog.exportSymbol('proto.bc.MatchedOrders', null, global);
+goog.exportSymbol('proto.bc.MatchedTx', null, global);
+goog.exportSymbol('proto.bc.MatchedTxs', null, global);
 goog.exportSymbol('proto.bc.Null', null, global);
 goog.exportSymbol('proto.bc.OpenOrder', null, global);
 goog.exportSymbol('proto.bc.OpenOrders', null, global);
@@ -2749,7 +2751,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.bc.WalletData.repeatedFields_ = [3,4,5,6,7];
+proto.bc.WalletData.repeatedFields_ = [3,4,5,6,7,8];
 
 
 
@@ -2787,6 +2789,8 @@ proto.bc.WalletData.toObject = function(includeInstance, msg) {
     spendableOutpointsList: jspb.Message.toObjectList(msg.getSpendableOutpointsList(),
     proto.bc.WalletOutPoint.toObject, includeInstance),
     collateralizedMakerOutpointsList: jspb.Message.toObjectList(msg.getCollateralizedMakerOutpointsList(),
+    proto.bc.WalletOutPoint.toObject, includeInstance),
+    collateralizedUnmatchedOutpointsList: jspb.Message.toObjectList(msg.getCollateralizedUnmatchedOutpointsList(),
     proto.bc.WalletOutPoint.toObject, includeInstance),
     collateralizedMatchedOutpointsList: jspb.Message.toObjectList(msg.getCollateralizedMatchedOutpointsList(),
     proto.bc.WalletOutPoint.toObject, includeInstance),
@@ -2854,9 +2858,14 @@ proto.bc.WalletData.deserializeBinaryFromReader = function(msg, reader) {
     case 6:
       var value = new proto.bc.WalletOutPoint;
       reader.readMessage(value,proto.bc.WalletOutPoint.deserializeBinaryFromReader);
-      msg.addCollateralizedMatchedOutpoints(value);
+      msg.addCollateralizedUnmatchedOutpoints(value);
       break;
     case 7:
+      var value = new proto.bc.WalletOutPoint;
+      reader.readMessage(value,proto.bc.WalletOutPoint.deserializeBinaryFromReader);
+      msg.addCollateralizedMatchedOutpoints(value);
+      break;
+    case 8:
       var value = new proto.bc.WalletOutPoint;
       reader.readMessage(value,proto.bc.WalletOutPoint.deserializeBinaryFromReader);
       msg.addCollateralizedSpendableOutpoints(value);
@@ -2928,7 +2937,7 @@ proto.bc.WalletData.serializeBinaryToWriter = function(message, writer) {
       proto.bc.WalletOutPoint.serializeBinaryToWriter
     );
   }
-  f = message.getCollateralizedMatchedOutpointsList();
+  f = message.getCollateralizedUnmatchedOutpointsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       6,
@@ -2936,10 +2945,18 @@ proto.bc.WalletData.serializeBinaryToWriter = function(message, writer) {
       proto.bc.WalletOutPoint.serializeBinaryToWriter
     );
   }
-  f = message.getCollateralizedSpendableOutpointsList();
+  f = message.getCollateralizedMatchedOutpointsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       7,
+      f,
+      proto.bc.WalletOutPoint.serializeBinaryToWriter
+    );
+  }
+  f = message.getCollateralizedSpendableOutpointsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      8,
       f,
       proto.bc.WalletOutPoint.serializeBinaryToWriter
     );
@@ -3071,17 +3088,17 @@ proto.bc.WalletData.prototype.clearCollateralizedMakerOutpointsList = function()
 
 
 /**
- * repeated WalletOutPoint collateralized_matched_outpoints = 6;
+ * repeated WalletOutPoint collateralized_unmatched_outpoints = 6;
  * @return {!Array<!proto.bc.WalletOutPoint>}
  */
-proto.bc.WalletData.prototype.getCollateralizedMatchedOutpointsList = function() {
+proto.bc.WalletData.prototype.getCollateralizedUnmatchedOutpointsList = function() {
   return /** @type{!Array<!proto.bc.WalletOutPoint>} */ (
     jspb.Message.getRepeatedWrapperField(this, proto.bc.WalletOutPoint, 6));
 };
 
 
 /** @param {!Array<!proto.bc.WalletOutPoint>} value */
-proto.bc.WalletData.prototype.setCollateralizedMatchedOutpointsList = function(value) {
+proto.bc.WalletData.prototype.setCollateralizedUnmatchedOutpointsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 6, value);
 };
 
@@ -3091,28 +3108,28 @@ proto.bc.WalletData.prototype.setCollateralizedMatchedOutpointsList = function(v
  * @param {number=} opt_index
  * @return {!proto.bc.WalletOutPoint}
  */
-proto.bc.WalletData.prototype.addCollateralizedMatchedOutpoints = function(opt_value, opt_index) {
+proto.bc.WalletData.prototype.addCollateralizedUnmatchedOutpoints = function(opt_value, opt_index) {
   return jspb.Message.addToRepeatedWrapperField(this, 6, opt_value, proto.bc.WalletOutPoint, opt_index);
 };
 
 
-proto.bc.WalletData.prototype.clearCollateralizedMatchedOutpointsList = function() {
-  this.setCollateralizedMatchedOutpointsList([]);
+proto.bc.WalletData.prototype.clearCollateralizedUnmatchedOutpointsList = function() {
+  this.setCollateralizedUnmatchedOutpointsList([]);
 };
 
 
 /**
- * repeated WalletOutPoint collateralized_spendable_outpoints = 7;
+ * repeated WalletOutPoint collateralized_matched_outpoints = 7;
  * @return {!Array<!proto.bc.WalletOutPoint>}
  */
-proto.bc.WalletData.prototype.getCollateralizedSpendableOutpointsList = function() {
+proto.bc.WalletData.prototype.getCollateralizedMatchedOutpointsList = function() {
   return /** @type{!Array<!proto.bc.WalletOutPoint>} */ (
     jspb.Message.getRepeatedWrapperField(this, proto.bc.WalletOutPoint, 7));
 };
 
 
 /** @param {!Array<!proto.bc.WalletOutPoint>} value */
-proto.bc.WalletData.prototype.setCollateralizedSpendableOutpointsList = function(value) {
+proto.bc.WalletData.prototype.setCollateralizedMatchedOutpointsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 7, value);
 };
 
@@ -3122,8 +3139,39 @@ proto.bc.WalletData.prototype.setCollateralizedSpendableOutpointsList = function
  * @param {number=} opt_index
  * @return {!proto.bc.WalletOutPoint}
  */
-proto.bc.WalletData.prototype.addCollateralizedSpendableOutpoints = function(opt_value, opt_index) {
+proto.bc.WalletData.prototype.addCollateralizedMatchedOutpoints = function(opt_value, opt_index) {
   return jspb.Message.addToRepeatedWrapperField(this, 7, opt_value, proto.bc.WalletOutPoint, opt_index);
+};
+
+
+proto.bc.WalletData.prototype.clearCollateralizedMatchedOutpointsList = function() {
+  this.setCollateralizedMatchedOutpointsList([]);
+};
+
+
+/**
+ * repeated WalletOutPoint collateralized_spendable_outpoints = 8;
+ * @return {!Array<!proto.bc.WalletOutPoint>}
+ */
+proto.bc.WalletData.prototype.getCollateralizedSpendableOutpointsList = function() {
+  return /** @type{!Array<!proto.bc.WalletOutPoint>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bc.WalletOutPoint, 8));
+};
+
+
+/** @param {!Array<!proto.bc.WalletOutPoint>} value */
+proto.bc.WalletData.prototype.setCollateralizedSpendableOutpointsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 8, value);
+};
+
+
+/**
+ * @param {!proto.bc.WalletOutPoint=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.bc.WalletOutPoint}
+ */
+proto.bc.WalletData.prototype.addCollateralizedSpendableOutpoints = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 8, opt_value, proto.bc.WalletOutPoint, opt_index);
 };
 
 
@@ -4739,6 +4787,480 @@ proto.bc.HistoricalOrders.prototype.getBlockHash = function() {
 /** @param {string} value */
 proto.bc.HistoricalOrders.prototype.setBlockHash = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.bc.MatchedTx = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.bc.MatchedTx, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.bc.MatchedTx.displayName = 'proto.bc.MatchedTx';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.bc.MatchedTx.prototype.toObject = function(opt_includeInstance) {
+  return proto.bc.MatchedTx.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.bc.MatchedTx} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.bc.MatchedTx.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    hash: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    outputIndex: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    chain: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    sendsFrom: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    receivesTo: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    amount: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    isMaker: jspb.Message.getFieldWithDefault(msg, 7, false)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.bc.MatchedTx}
+ */
+proto.bc.MatchedTx.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.bc.MatchedTx;
+  return proto.bc.MatchedTx.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.bc.MatchedTx} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.bc.MatchedTx}
+ */
+proto.bc.MatchedTx.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setHash(value);
+      break;
+    case 2:
+      var value = /** @type {number} */ (reader.readUint32());
+      msg.setOutputIndex(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setChain(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSendsFrom(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setReceivesTo(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setAmount(value);
+      break;
+    case 7:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsMaker(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.bc.MatchedTx.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.bc.MatchedTx.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.bc.MatchedTx} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.bc.MatchedTx.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getHash();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getOutputIndex();
+  if (f !== 0) {
+    writer.writeUint32(
+      2,
+      f
+    );
+  }
+  f = message.getChain();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+  f = message.getSendsFrom();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
+      f
+    );
+  }
+  f = message.getReceivesTo();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
+  f = message.getAmount();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
+      f
+    );
+  }
+  f = message.getIsMaker();
+  if (f) {
+    writer.writeBool(
+      7,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string hash = 1;
+ * @return {string}
+ */
+proto.bc.MatchedTx.prototype.getHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.MatchedTx.prototype.setHash = function(value) {
+  jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional uint32 output_index = 2;
+ * @return {number}
+ */
+proto.bc.MatchedTx.prototype.getOutputIndex = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.bc.MatchedTx.prototype.setOutputIndex = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional string chain = 3;
+ * @return {string}
+ */
+proto.bc.MatchedTx.prototype.getChain = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.MatchedTx.prototype.setChain = function(value) {
+  jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional string sends_from = 4;
+ * @return {string}
+ */
+proto.bc.MatchedTx.prototype.getSendsFrom = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.MatchedTx.prototype.setSendsFrom = function(value) {
+  jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional string receives_to = 5;
+ * @return {string}
+ */
+proto.bc.MatchedTx.prototype.getReceivesTo = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.MatchedTx.prototype.setReceivesTo = function(value) {
+  jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional string amount = 6;
+ * @return {string}
+ */
+proto.bc.MatchedTx.prototype.getAmount = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/** @param {string} value */
+proto.bc.MatchedTx.prototype.setAmount = function(value) {
+  jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
+/**
+ * optional bool is_maker = 7;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.bc.MatchedTx.prototype.getIsMaker = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 7, false));
+};
+
+
+/** @param {boolean} value */
+proto.bc.MatchedTx.prototype.setIsMaker = function(value) {
+  jspb.Message.setProto3BooleanField(this, 7, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.bc.MatchedTxs = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.MatchedTxs.repeatedFields_, null);
+};
+goog.inherits(proto.bc.MatchedTxs, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.bc.MatchedTxs.displayName = 'proto.bc.MatchedTxs';
+}
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.bc.MatchedTxs.repeatedFields_ = [1];
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.bc.MatchedTxs.prototype.toObject = function(opt_includeInstance) {
+  return proto.bc.MatchedTxs.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.bc.MatchedTxs} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.bc.MatchedTxs.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    txsList: jspb.Message.toObjectList(msg.getTxsList(),
+    proto.bc.MatchedTx.toObject, includeInstance)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.bc.MatchedTxs}
+ */
+proto.bc.MatchedTxs.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.bc.MatchedTxs;
+  return proto.bc.MatchedTxs.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.bc.MatchedTxs} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.bc.MatchedTxs}
+ */
+proto.bc.MatchedTxs.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.bc.MatchedTx;
+      reader.readMessage(value,proto.bc.MatchedTx.deserializeBinaryFromReader);
+      msg.addTxs(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.bc.MatchedTxs.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.bc.MatchedTxs.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.bc.MatchedTxs} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.bc.MatchedTxs.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getTxsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      1,
+      f,
+      proto.bc.MatchedTx.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * repeated MatchedTx txs = 1;
+ * @return {!Array<!proto.bc.MatchedTx>}
+ */
+proto.bc.MatchedTxs.prototype.getTxsList = function() {
+  return /** @type{!Array<!proto.bc.MatchedTx>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bc.MatchedTx, 1));
+};
+
+
+/** @param {!Array<!proto.bc.MatchedTx>} value */
+proto.bc.MatchedTxs.prototype.setTxsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 1, value);
+};
+
+
+/**
+ * @param {!proto.bc.MatchedTx=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.bc.MatchedTx}
+ */
+proto.bc.MatchedTxs.prototype.addTxs = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.MatchedTx, opt_index);
+};
+
+
+proto.bc.MatchedTxs.prototype.clearTxsList = function() {
+  this.setTxsList([]);
 };
 
 
