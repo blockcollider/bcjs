@@ -5,10 +5,11 @@ const secp256k1 = require('secp256k1')
 import * as coreProtobuf from '../protos/core_pb';
 import * as bcProtobuf from '../protos/bc_pb';
 
+import { createTransactionInput } from '../utils/protoUtil'
+import { toASM } from './bytecode'
 const { blake2blTwice, blake2bl } = require('./utils/crypto');
 const Coin = require('./utils/coin')
 const { toBuffer, intToBuffer } = require('./utils/buffer')
-const protoUtil = require('./utils/protoUtil')
 
 enum ScriptType {
     NRG_TRANSFER = 'nrg_transfer',
@@ -107,7 +108,7 @@ export function createSignedNRGUnlockInputs(
       blake2bl(bcAddress)
     ].join(' ')
 
-    return protoUtil.createTransactionInput(outPoint, inputUnlockScript)
+    return createTransactionInput(outPoint, inputUnlockScript)
   })
 }
 
@@ -122,10 +123,10 @@ export function createNRGLockScript(address: string): string {
   return script.join(' ')
 }
 
-export function parseNRGLockScript(script: string|Uint8Array):{
+export function parseNRGLockScript(script: Uint8Array):{
   doubleHashedBcAddress:string
 }{
-  const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
+  const scriptStr = toASM(Buffer.from(script), 0x01)
 
   const doubleHashedBcAddress = scriptStr.split(' ')[1]
   return {
@@ -184,7 +185,7 @@ export function createMakerLockScript(
   return script.map(part => part.join(' ')).join(' ')
 }
 
-export function parseMakerLockScript(script: string|Uint8Array): {
+export function parseMakerLockScript(script: Uint8Array): {
   shiftMaker: number,
     shiftTaker: number,
     deposit: number,
@@ -199,7 +200,7 @@ export function parseMakerLockScript(script: string|Uint8Array): {
     fixedUnitFee: number,
     base: number
 } {
-  const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
+  const scriptStr = toASM(Buffer.from(script), 0x01)
 
   const [shiftMaker, shiftTaker, deposit, settlement] = scriptStr.split(' OP_DEPSET ')[0].split(' ').slice(1)
   const tradeInfo = scriptStr.split(' OP_MAKERCOLL ')[0].split(' ')
@@ -234,11 +235,11 @@ export function createTakerUnlockScript(takerWantsAddress: string, takerSendsAdd
   return [takerWantsAddress, takerSendsAddress].join(' ')
 }
 
-export function parseTakerUnlockScript(script: string|Uint8Array):{
+export function parseTakerUnlockScript(script: Uint8Array):{
   takerWantsAddress: string,
     takerSendsAddress: string
 }{
-  const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
+  const scriptStr = toASM(Buffer.from(script), 0x01)
 
   const [takerWantsAddress, takerSendsAddress] = scriptStr.split(' ')
   return {
@@ -260,12 +261,12 @@ export function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: s
   return script.map(part => part.join(' ')).join(' ')
 }
 
-export function parseTakerLockScript(script: string|Uint8Array):{
+export function parseTakerLockScript(script: Uint8Array): {
   makerTxHash: string,
     makerTxOutputIndex: number,
     doubleHashedBcAddress: string
-}{
-  const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
+} {
+  const scriptStr = toASM(Buffer.from(script), 0x01)
 
   if (scriptStr.indexOf('OP_CALLBACK') === -1) {
     throw new Error('Invalid taker outpout script')
@@ -284,11 +285,11 @@ export function createTakerCallbackLockScript(makerTxHash: string, makerTxOutput
   return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
 }
 
-export function parseTakerCallbackLockScript(script: string|Uint8Array): {
+export function parseTakerCallbackLockScript(script: Uint8Array): {
   makerTxHash: string,
     makerTxOutputIndex: string
 } {
-  const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
+  const scriptStr = toASM(Buffer.from(script), 0x01)
 
   const [makerTxHash, makerTxOutputIndex, OP_Callback] = scriptStr.split(' ')
   return {
@@ -297,8 +298,8 @@ export function parseTakerCallbackLockScript(script: string|Uint8Array): {
   }
 }
 
-export function getScriptType(script: Uint8Array|string): ScriptType {
-  const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
+export function getScriptType(script: Uint8Array): ScriptType {
+  const scriptStr = toASM(Buffer.from(script), 0x01)
 
   if (scriptStr.startsWith('OP_MONOID')){
     return ScriptType.MAKER_OUTPUT

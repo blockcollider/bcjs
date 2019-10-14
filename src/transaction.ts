@@ -15,10 +15,23 @@ import {
   createSignedNRGUnlockInputs
 }  from './script/templates'
 import RpcClient from './client'
-import { humanToInternalAsBN, COIN_FRACS, internalToBN, internalBNToHuman, Currency, CurrencyInfo } from './utils/coin'
+import {
+  humanToInternalAsBN,
+  COIN_FRACS,
+  internalToBN,
+  internalBNToHuman,
+  Currency,
+  CurrencyInfo
+} from './utils/coin'
+import {
+  bytesToInternalBN,
+  createOutPoint,
+  createTransactionInput,
+  createTransactionOutput,
+  convertProtoBufSerializedBytesToBuffer
+} from './utils/protoUtil'
 
 const constants = require('./constants')
-const protoUtil = require('./utils/protoUtil')
 const { blake2bl } = require('./utils/crypto')
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
@@ -69,7 +82,7 @@ export const createNRGTransferTransaction = function(
   }
 
   const txOutputs = [
-    protoUtil.createTransactionOutput(createNRGLockScript(toAddress), unitBN, transferAmountBN)
+    createTransactionOutput(createNRGLockScript(toAddress), unitBN, transferAmountBN)
   ]
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
@@ -126,7 +139,7 @@ export const createMakerOrderTransaction = function(
   )
 
   const txOutputs = [
-    protoUtil.createTransactionOutput(
+    createTransactionOutput(
       outputLockScript,
       humanToInternalAsBN(nrgUnit, COIN_FRACS.NRG),
       humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
@@ -172,20 +185,20 @@ export const createTakerOrderTransaction = function(
 
   // takers input
   const takerInputUnlockScript = createTakerUnlockScript(sendsFromAddress, receivesToAddress)
-  const makerTxOutpoint = protoUtil.createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN)
+  const makerTxOutpoint = createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN)
   const nonNRGInputs = [
-    protoUtil.createTransactionInput(makerTxOutpoint, takerInputUnlockScript)
+    createTransactionInput(makerTxOutpoint, takerInputUnlockScript)
   ]
 
   // takers output
   const outputLockScript = createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress)
   const txOutputs = [
-    protoUtil.createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString())))
+    createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString())))
   ]
 
   if (fixedUnitFee && fixedUnitFee !== 0) {
     const makerFeeScript = ['OP_BLAKE2BL',makerOpenOrder.doubleHashedBcAddress,'OP_EQUALVERIFY','OP_CHECKSIGVERIFY'].join(' ')
-    txOutputs.push(protoUtil.createTransactionOutput(
+    txOutputs.push(createTransactionOutput(
       makerFeeScript,
       makerUnitBN,
       humanToInternalAsBN(fixedUnitFee.toString(), COIN_FRACS.NRG)
@@ -195,7 +208,7 @@ export const createTakerOrderTransaction = function(
   // partial order
   if (makerCollateralBN.gt(takerCollateralBN)) {
     const outputLockScriptCb = createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex)
-    txOutputs.push(protoUtil.createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
+    txOutputs.push(createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
   }
 
   return _compileTransaction(
@@ -219,20 +232,20 @@ export const createUnlockTakerTx = async function(
     if (privateKeyHex.startsWith('0x')) {
       privateKeyHex = privateKeyHex.slice(2)
     }
-    const unlockBOSON = internalToBN(protoUtil.convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx),
+    const unlockBOSON = internalToBN(convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx),
                                      COIN_FRACS.BOSON)
     const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 
     let outputs = []
     if (outputs.length === 2) { // both settled
-      outputs = unlockScripts.map(unlockScript => protoUtil.createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new BN(2))))
+      outputs = unlockScripts.map(unlockScript => createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new BN(2))))
     } else { // one party settled
-      outputs = [protoUtil.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)]
+      outputs = [createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)]
     }
 
     const tx = _createTxWithOutputsAssigned(outputs)
 
-    const outpoint = protoUtil.createOutPoint(txHash, txOutputIndex, unlockBOSON)
+    const outpoint = createOutPoint(txHash, txOutputIndex, unlockBOSON)
     const inputs = createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint])
 
     tx.setInputsList(inputs)
@@ -269,14 +282,14 @@ const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs
       continue
     }
 
-    const currentBN = internalToBN(protoUtil.convertProtoBufSerializedBytesToBuffer(outPointObj.value), COIN_FRACS.BOSON)
+    const currentBN = internalToBN(convertProtoBufSerializedBytesToBuffer(outPointObj.value), COIN_FRACS.BOSON)
 
-    const outPoint = protoUtil.createOutPoint(outPointObj.hash, outPointObj.index, currentBN)
+    const outPoint = createOutPoint(outPointObj.hash, outPointObj.index, currentBN)
 
     sumBN = sumBN.add(currentBN)
     spentOutPoints.push(outPoint)
     if (sumBN.gt(totalAmountBN)) {
-      leftoverOutPoint = protoUtil.createOutPoint(outPointObj.hash, outPointObj.index, sumBN.sub(totalAmountBN))
+      leftoverOutPoint = createOutPoint(outPointObj.hash, outPointObj.index, sumBN.sub(totalAmountBN))
       break
     } else if(sumBN.eq(totalAmountBN)) {
       break
@@ -315,8 +328,8 @@ const _compileTransaction = function(
   const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN)
   let finalOutputs = txOutputs
   if (leftoverOutPoint) {
-    const leftoverOutput = protoUtil.createTransactionOutput (
-      createNRGLockScript(bcAddress), unitBN, protoUtil.bytesToInternalBN(leftoverOutPoint.getValue())
+    const leftoverOutput = createTransactionOutput (
+      createNRGLockScript(bcAddress), unitBN, bytesToInternalBN(leftoverOutPoint.getValue())
     )
     finalOutputs = txOutputs.concat([leftoverOutput])
   }
