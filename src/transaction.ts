@@ -232,7 +232,7 @@ export const createUnlockTakerTx = async function(
     if (privateKeyHex.startsWith('0x')) {
       privateKeyHex = privateKeyHex.slice(2)
     }
-    const unlockBOSON = internalToBN(convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx),
+    const unlockBOSON = internalToBN(convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx as string),
                                      COIN_FRACS.BOSON)
     const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 
@@ -282,7 +282,7 @@ const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs
       continue
     }
 
-    const currentBN = internalToBN(convertProtoBufSerializedBytesToBuffer(outPointObj.value), COIN_FRACS.BOSON)
+    const currentBN = internalToBN(convertProtoBufSerializedBytesToBuffer(outPointObj.value as string), COIN_FRACS.BOSON)
 
     const outPoint = createOutPoint(outPointObj.hash, outPointObj.index, currentBN)
 
@@ -329,7 +329,7 @@ const _compileTransaction = function(
   let finalOutputs = txOutputs
   if (leftoverOutPoint) {
     const leftoverOutput = createTransactionOutput (
-      createNRGLockScript(bcAddress), unitBN, bytesToInternalBN(leftoverOutPoint.getValue())
+      createNRGLockScript(bcAddress), unitBN, bytesToInternalBN(leftoverOutPoint.getValue() as Uint8Array)
     )
     finalOutputs = txOutputs.concat([leftoverOutput])
   }
