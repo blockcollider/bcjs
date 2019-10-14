@@ -7,9 +7,9 @@ import * as bcProtobuf from '../protos/bc_pb';
 
 import { createTransactionInput } from '../utils/protoUtil'
 import { toASM } from './bytecode'
-const { blake2blTwice, blake2bl } = require('./utils/crypto');
-const Coin = require('./utils/coin')
-const { toBuffer, intToBuffer } = require('./utils/buffer')
+import { blake2blTwice, blake2bl } from '../utils/crypto';
+import * as Coin from '../utils/coin'
+import { toBuffer, intToBuffer } from '../utils/buffer'
 
 enum ScriptType {
     NRG_TRANSFER = 'nrg_transfer',
@@ -36,7 +36,7 @@ function createOutPointOutputsHash(spendableOutPoint: coreProtobuf.OutPoint, txO
   }).join('')
 
   const parts = [
-    Coin.internalToHuman(spendableOutPoint.getValue(), Coin.COIN_FRACS.NRG),
+    Coin.internalToHuman(Buffer.from(spendableOutPoint.getValue() as Uint8Array), Coin.COIN_FRACS.NRG),
     spendableOutPoint.getHash(),
     spendableOutPoint.getIndex(),
     outputsData
