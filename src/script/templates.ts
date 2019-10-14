@@ -2,23 +2,24 @@ import BN from 'bn.js'
 
 const secp256k1 = require('secp256k1')
 
-import * as coreProtobuf from './protos/core_pb';
-import * as bcProtobuf from './protos/bc_pb';
+import * as coreProtobuf from '../protos/core_pb';
+import * as bcProtobuf from '../protos/bc_pb';
 
 const { blake2blTwice, blake2bl } = require('./utils/crypto');
 const Coin = require('./utils/coin')
 const { toBuffer, intToBuffer } = require('./utils/buffer')
 const protoUtil = require('./utils/protoUtil')
 
+enum ScriptType {
+    NRG_TRANSFER = 'nrg_transfer',
+    MAKER_OUTPUT = 'maker_output',
+    TAKER_INPUT = 'taker_input',
+    TAKER_OUTPUT = 'taker_output',
+    TAKER_CALLBACK = 'taker_callback',
+}
 
 export default class TimbleScript {
 
-    // Global Variables
-    static NRG_TRANSFER = 'nrg_transfer';
-    static MAKER_OUTPUT = 'maker_output';
-    static TAKER_INPUT = 'taker_input';
-    static TAKER_OUTPUT = 'taker_output';
-    static TAKER_CALLBACK = 'taker_callback';
 
     /*
      * @param spendableOutPoint: an outpoint that is to be spent in the tx
@@ -299,18 +300,18 @@ export default class TimbleScript {
       }
     }
 
-    static getScriptType(script: Uint8Array|string): string {
+    static getScriptType(script: Uint8Array|string): ScriptType {
       const scriptStr: string = typeof script != 'string' ?  protoUtil.bytesToString(script) : script
 
       if (scriptStr.startsWith('OP_MONOID')){
-        return TimbleScript.MAKER_OUTPUT
+        return ScriptType.MAKER_OUTPUT
       } else if (scriptStr.endsWith('OP_CALLBACK')){
-        return TimbleScript.TAKER_CALLBACK
+        return ScriptType.TAKER_CALLBACK
       } else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1){
-        return TimbleScript.TAKER_OUTPUT
+        return ScriptType.TAKER_OUTPUT
       } else if (scriptStr.startsWith('OP_BLAKE2BL')){
-        return TimbleScript.NRG_TRANSFER
-      } else return TimbleScript.TAKER_INPUT
+        return ScriptType.NRG_TRANSFER
+      } else return ScriptType.TAKER_INPUT
     }
 
 }
