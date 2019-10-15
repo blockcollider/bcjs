@@ -15,7 +15,7 @@ export default class TimbleScript {
     static parseNRGLockScript(script: string | Uint8Array): {
         doubleHashedBcAddress: string;
     };
-    static createMakerLockScript(shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, bcAddress: string): string;
+    static createMakerLockScript(shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, fixedUnitFee: string, bcAddress: string): string;
     static parseMakerLockScript(script: string | Uint8Array): {
         shiftMaker: number;
         shiftTaker: number;
@@ -28,6 +28,8 @@ export default class TimbleScript {
         sendsUnit: string;
         receivesUnit: string;
         doubleHashedBcAddress: string;
+        fixedUnitFee: number;
+        base: number;
     };
     static createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string;
     static parseTakerUnlockScript(script: string | Uint8Array): {

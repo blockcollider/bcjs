@@ -144,43 +144,53 @@ export default class TimbleScript {
     ) : string {
       bcAddress = bcAddress.toLowerCase()
       let doubleHashedBcAddress = blake2blTwice(bcAddress)
+      let unlockMonadScript = ['OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY']
+      let depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength]
+      let makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit]
 
       const script = fixedUnitFee === '' ?
-      [
-        ['OP_MONOID', shiftMaker, shiftTaker, depositLength, settleLength, 'OP_DEPSET'],
-        ['OP_0', 'OP_IFEQ',
-          'OP_RETURN', 'OP_ENDIFEQ'],
-        ['OP_2', 'OP_IFEQ',
-          'OP_TAKERPAIR', '2', '0', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
-        ['OP_3', 'OP_IFEQ',
-          'OP_RETURN', 'OP_ENDIFEQ'],
-        ['OP_DROP', sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, 'OP_MAKERCOLL'],
-        // maker succeed, taker failed - maker can spend
-        ['OP_3', 'OP_IFEQ',
-          'OP_MONAD','OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+        [
+          ['OP_MONOID'], depsetArgs,['OP_DEPSET'],
+            // depset failure - return
+            ['OP_0', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'],
 
-        // taker & maker pass -  both can spend
-        ['OP_2', 'OP_IFEQ',
-          '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+            // before deposit period ends - taker can take order
+            ['OP_2', 'OP_IFEQ','OP_TAKERPAIR', '2', '0', 'OP_MINUNITVALUE', 'OP_ENDIFEQ'],
 
-        // taker & maker fail - both can spend
-        ['OP_5', 'OP_IFEQ',
-          '1', 'OP_MONADSPLIT', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
-      ] :
-      [
-        ['OP_MONOID', shiftMaker, shiftTaker, depositLength, settleLength, 'OP_DEPSET'],
-        ['OP_0', 'OP_IFEQ',
-          'OP_RETURN', 'OP_ENDIFEQ'],
-        ['OP_2', 'OP_IFEQ',
-          'OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY',
-          'OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
-        // maker succeed, taker failed - maker can spend
-        ['OP_3', 'OP_IFEQ',
-          'OP_MONAD','OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+            // between deposit and settlement - return
+            ['OP_3', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'],
 
-        // taker & maker fail - maker can spend
-        ['OP_5', 'OP_IFEQ',
-          'OP_MONAD', 'OP_BLAKE2BL', doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ']
+            //after settlement period - calculate who sent their asset
+            ['OP_DROP'],makerCollArgs,['OP_MAKERCOLL'],
+
+              // maker succeeded, taker failed - maker can spend
+              ['OP_3', 'OP_IFEQ','OP_MONAD'], unlockMonadScript,['OP_ENDMONAD', 'OP_ENDIFEQ'],
+
+              // taker & maker succeeded -  both can spend
+              ['OP_2', 'OP_IFEQ','1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript,['OP_ENDMONAD', 'OP_ENDIFEQ'],
+
+              // taker & maker failed - both can spend
+              ['OP_5', 'OP_IFEQ','1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript,['OP_ENDMONAD', 'OP_ENDIFEQ']
+        ] :
+        [
+          ['OP_MONOID'],depsetArgs,['OP_DEPSET'],
+            // depset failure - return
+            ['OP_0', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'],
+
+            // before deposit period ends - taker can take order and has to pay maker the fixed unit fee
+            ['OP_2', 'OP_IFEQ','OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD'],unlockMonadScript,['OP_ENDMONAD','OP_ENDIFEQ'],
+
+            // between deposit and settlement - return
+            ['OP_3', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'],
+
+            //after settlement period - calculate who sent their asset
+            ['OP_DROP'],makerCollArgs,['OP_MAKERCOLL'],
+
+              // maker succeed, taker failed - maker can spend
+              ['OP_3', 'OP_IFEQ','OP_MONAD'],unlockMonadScript,['OP_ENDMONAD','OP_ENDIFEQ'],
+
+              // taker & maker fail - maker can spend
+              ['OP_5', 'OP_IFEQ','OP_MONAD'],unlockMonadScript,['OP_ENDMONAD','OP_ENDIFEQ'],
       ]
       console.log({script})
       return script.map(part => part.join(' ')).join(' ')
