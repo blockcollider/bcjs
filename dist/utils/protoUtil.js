@@ -14,6 +14,9 @@ const bn_js_1 = __importDefault(require("bn.js"));
 const coreProtobuf = __importStar(require("./../protos/core_pb"));
 const coin_1 = require("./coin");
 const bytecode_1 = require("../script/bytecode");
+function asmToV1Protobuf(asm) {
+    return new Uint8Array(bytecode_1.fromASM(asm, 0x01));
+}
 exports.bnToBytes = (value) => {
     return new Uint8Array(value.toArrayLike(Buffer));
 };
@@ -34,7 +37,7 @@ exports.createTransactionInput = (outPoint, unlockScript) => {
     const input = new coreProtobuf.TransactionInput();
     input.setOutPoint(outPoint);
     input.setScriptLength(unlockScript.length);
-    input.setInputScript(new Uint8Array(bytecode_1.fromASM(unlockScript, 0x01)));
+    input.setInputScript(asmToV1Protobuf(unlockScript));
     return input;
 };
 exports.createTransactionOutput = (outputLockScript, unit, value) => {
@@ -42,7 +45,7 @@ exports.createTransactionOutput = (outputLockScript, unit, value) => {
     output.setValue(exports.bnToBytes(value));
     output.setUnit(exports.bnToBytes(unit));
     output.setScriptLength(outputLockScript.length);
-    output.setOutputScript(new Uint8Array(bytecode_1.fromASM(outputLockScript, 0x01)));
+    output.setOutputScript(asmToV1Protobuf(outputLockScript));
     return output;
 };
 //# sourceMappingURL=protoUtil.js.map
