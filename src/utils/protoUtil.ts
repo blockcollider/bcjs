@@ -4,6 +4,11 @@ import * as coreProtobuf from './../protos/core_pb'
 import { humanToInternalAsBN, COIN_FRACS, internalToBN } from './coin'
 import { fromASM } from '../script/bytecode'
 
+
+function asmToV1Protobuf (asm: string): Uint8Array {
+  return new Uint8Array(fromASM(asm, 0x01))
+}
+
 export const bnToBytes = (value: BN): Uint8Array => {
   return new Uint8Array(value.toArrayLike(Buffer))
 }
@@ -28,7 +33,7 @@ export const createTransactionInput = (outPoint: coreProtobuf.OutPoint, unlockSc
   const input = new coreProtobuf.TransactionInput()
   input.setOutPoint(outPoint)
   input.setScriptLength(unlockScript.length)
-  input.setInputScript(new Uint8Array(fromASM(unlockScript, 0x01)))
+  input.setInputScript(asmToV1Protobuf(unlockScript))
   return input
 }
 
@@ -37,6 +42,6 @@ export const createTransactionOutput = (outputLockScript: string, unit: BN, valu
   output.setValue(bnToBytes(value))
   output.setUnit(bnToBytes(unit))
   output.setScriptLength(outputLockScript.length)
-  output.setOutputScript(new Uint8Array(fromASM(outputLockScript, 0x01)))
+  output.setOutputScript(asmToV1Protobuf(outputLockScript))
   return output
 }
