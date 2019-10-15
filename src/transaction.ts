@@ -98,7 +98,7 @@ export const createMakerOrderTransaction = function(
   sendsFromAddress: string, receivesToAddress: string,
   sendsUnit: string, receivesUnit: string,
   bcAddress: string, bcPrivateKeyHex: string,
-  collateralizedNrg: string, nrgUnit:string,fixedUnitFee:string, additionalTxFee: string
+  collateralizedNrg: string, nrgUnit:string, fixedUnitFee:string, additionalTxFee: string
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
