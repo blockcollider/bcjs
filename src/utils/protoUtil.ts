@@ -32,8 +32,9 @@ export const createOutPoint = (hash: string, index: number, val: BN): coreProtob
 export const createTransactionInput = (outPoint: coreProtobuf.OutPoint, unlockScript: string): coreProtobuf.TransactionInput => {
   const input = new coreProtobuf.TransactionInput()
   input.setOutPoint(outPoint)
-  input.setScriptLength(unlockScript.length)
-  input.setInputScript(asmToV1Protobuf(unlockScript))
+  const byteCode = asmToV1Protobuf(unlockScript)
+  input.setScriptLength(byteCode.length)
+  input.setInputScript(byteCode)
   return input
 }
 
@@ -41,7 +42,8 @@ export const createTransactionOutput = (outputLockScript: string, unit: BN, valu
   const output = new coreProtobuf.TransactionOutput()
   output.setValue(bnToBytes(value))
   output.setUnit(bnToBytes(unit))
-  output.setScriptLength(outputLockScript.length)
-  output.setOutputScript(asmToV1Protobuf(outputLockScript))
+  const byteCode = asmToV1Protobuf(outputLockScript)
+  output.setScriptLength(byteCode.length)
+  output.setOutputScript(byteCode)
   return output
 }
