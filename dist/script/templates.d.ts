@@ -1,5 +1,5 @@
 import * as coreProtobuf from '../protos/core_pb';
-declare enum ScriptType {
+export declare enum ScriptType {
     NRG_TRANSFER = "nrg_transfer",
     MAKER_OUTPUT = "maker_output",
     TAKER_INPUT = "taker_input",
@@ -44,4 +44,3 @@ export declare function parseTakerCallbackLockScript(script: Uint8Array): {
     makerTxOutputIndex: string;
 };
 export declare function getScriptType(script: Uint8Array): ScriptType;
-export {};

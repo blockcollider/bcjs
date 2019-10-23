@@ -12,7 +12,7 @@ import * as Coin from '../utils/coin'
 import { toBuffer, intToBuffer } from '../utils/buffer'
 import { normalizeHexString } from '../utils/string'
 
-enum ScriptType {
+export enum ScriptType {
     NRG_TRANSFER = 'nrg_transfer',
     MAKER_OUTPUT = 'maker_output',
     TAKER_INPUT = 'taker_input',
@@ -311,12 +311,12 @@ export function getScriptType(script: Uint8Array): ScriptType {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
   if (scriptStr.startsWith('OP_MONOID')){
-    return ScriptType.MAKER_OUTPUT
+    return ScriptType.MAKER_OUTPUT // IS_MAKER_ORDER
   } else if (scriptStr.endsWith('OP_CALLBACK')){
-    return ScriptType.TAKER_CALLBACK
+    return ScriptType.TAKER_CALLBACK // IS_MAKER_CALLBACK_ORDER
   } else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1){
-    return ScriptType.TAKER_OUTPUT
+    return ScriptType.TAKER_OUTPUT // IS_TAKER_ORDER
   } else if (scriptStr.startsWith('OP_BLAKE2BL')){
-    return ScriptType.NRG_TRANSFER
+    return ScriptType.NRG_TRANSFER // IS_NRG_TRANSFER
   } else return ScriptType.TAKER_INPUT
 }

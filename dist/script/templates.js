@@ -21,7 +21,7 @@ var ScriptType;
     ScriptType["TAKER_INPUT"] = "taker_input";
     ScriptType["TAKER_OUTPUT"] = "taker_output";
     ScriptType["TAKER_CALLBACK"] = "taker_callback";
-})(ScriptType || (ScriptType = {}));
+})(ScriptType = exports.ScriptType || (exports.ScriptType = {}));
 /*
  * @param spendableOutPoint: an outpoint that is to be spent in the tx
  * @param txOutputs: transaction outputs in the transaction that is spending the spendableOutPoint
