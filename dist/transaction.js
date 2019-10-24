@@ -151,7 +151,7 @@ exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privat
             const unlockBOSON = coin_1.internalToBN(protoUtil_1.convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx), coin_1.COIN_FRACS.BOSON);
             const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
             let outputs = [];
-            if (outputs.length === 2) { // both settled
+            if (unlockScripts.length === 2) { // both settled
                 outputs = unlockScripts.map(unlockScript => protoUtil_1.createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new bn_js_1.default(2))));
             }
             else { // one party settled
