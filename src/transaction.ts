@@ -237,7 +237,7 @@ export const createUnlockTakerTx = async function(
     const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 
     let outputs = []
-    if (outputs.length === 2) { // both settled
+    if (unlockScripts.length === 2) { // both settled
       outputs = unlockScripts.map(unlockScript => createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new BN(2))))
     } else { // one party settled
       outputs = [createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)]
