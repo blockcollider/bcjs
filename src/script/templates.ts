@@ -150,48 +150,48 @@ export function createMakerLockScript(
 
   const script = fixedUnitFee === '' ?
     [
-      ['OP_MONOID'], depsetArgs, ['OP_DEPSET'],
+      ['OP_MONOID'], depsetArgs, ['OP_DEPSET'], // 6
       // depset failure - return
-      ['OP_0', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'],
+      ['OP_0', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'], // 4
 
       // before deposit period ends - taker can take order
-      ['OP_2', 'OP_IFEQ','OP_TAKERPAIR', '2', '0', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+      ['OP_2', 'OP_IFEQ','OP_TAKERPAIR', '2', '0', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 8
 
       // between deposit and settlement - return
-      ['OP_3', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'],
+      ['OP_3', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'], // 4
 
       //after settlement period - calculate who sent their asset
-      ['OP_DROP'], makerCollArgs, ['OP_MAKERCOLL'],
+      ['OP_DROP'], makerCollArgs, ['OP_MAKERCOLL'], // 8
 
       // maker succeeded, taker failed - maker can spend
-      ['OP_3', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD','OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+      ['OP_3', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD','OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
 
       // taker & maker succeeded -  both can spend
-      ['OP_2', 'OP_IFEQ','1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'],
+      ['OP_2', 'OP_IFEQ','1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'], // 11
 
       // taker & maker failed - both can spend
-      ['OP_5', 'OP_IFEQ','1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ']
-    ] :
+      ['OP_5', 'OP_IFEQ','1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'] // 11
+    ] : // 62
     [
-      ['OP_MONOID'], depsetArgs, ['OP_DEPSET'],
+      ['OP_MONOID'], depsetArgs, ['OP_DEPSET'], // 6
       // depset failure - return
-      ['OP_0', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'],
+      ['OP_0', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'], // 4
 
       // before deposit period ends - taker can take order and has to pay maker the fixed unit fee
-      ['OP_2', 'OP_IFEQ','OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD','OP_RETURN_RESULT','OP_ENDIFEQ'],
+      ['OP_2', 'OP_IFEQ','OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD','OP_RETURN_RESULT','OP_ENDIFEQ'], // 14
 
       // between deposit and settlement - return
-      ['OP_3', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'],
+      ['OP_3', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'], // 4
 
       //after settlement period - calculate who sent their asset
-      ['OP_DROP'], makerCollArgs, ['OP_MAKERCOLL'],
+      ['OP_DROP'], makerCollArgs, ['OP_MAKERCOLL'], // 8
 
       // maker succeed, taker failed - maker can spend
-      ['OP_3', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
+      ['OP_3', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
 
       // taker & maker fail - maker can spend
-      ['OP_5', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
-    ]
+      ['OP_5', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
+    ] // 56
   return script.map(part => part.join(' ')).join(' ')
 }
 
@@ -220,7 +220,9 @@ export function parseMakerLockScript(script: Uint8Array): {
   const fixedUnitFeeNum = isNaN(parseInt(fixedUnitFee, 10)) ? 0 : parseInt(fixedUnitFee, 10)
   const baseNum = isNaN(parseInt(base, 10)) ? 0 : parseInt(base, 10)
 
-  const doubleHashedBcAddress = scriptStr.split(' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL ')[1].split(' ')[0];
+
+  const splitBy = scriptStr.includes('OP_MONADSPLIT') ? ' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL ' : ' OP_5 OP_IFEQ OP_MONAD OP_BLAKE2BL '
+  const doubleHashedBcAddress = scriptStr.split(splitBy)[1].split(' ')[0]
 
   return {
     shiftMaker: parseInt(shiftMaker, 10),
@@ -246,7 +248,7 @@ export function createTakerUnlockScript(takerWantsAddress: string, takerSendsAdd
 
 export function parseTakerUnlockScript(script: Uint8Array):{
   takerWantsAddress: string,
-    takerSendsAddress: string
+  takerSendsAddress: string
 }{
   const scriptStr = toASM(Buffer.from(script), 0x01)
 

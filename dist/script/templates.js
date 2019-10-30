@@ -140,8 +140,8 @@ function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLeng
             // taker & maker succeeded -  both can spend
             ['OP_2', 'OP_IFEQ', '1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'],
             // taker & maker failed - both can spend
-            ['OP_5', 'OP_IFEQ', '1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ']
-        ] :
+            ['OP_5', 'OP_IFEQ', '1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'] // 11
+        ] : // 62
         [
             ['OP_MONOID'], depsetArgs, ['OP_DEPSET'],
             // depset failure - return
@@ -156,7 +156,7 @@ function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLeng
             ['OP_3', 'OP_IFEQ', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
             // taker & maker fail - maker can spend
             ['OP_5', 'OP_IFEQ', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'],
-        ];
+        ]; // 56
     return script.map(part => part.join(' ')).join(' ');
 }
 exports.createMakerLockScript = createMakerLockScript;
@@ -167,7 +167,8 @@ function parseMakerLockScript(script) {
     let [fixedUnitFee, base] = scriptStr.split(' OP_MINUNITVALUE')[0].split(' ').reverse().slice(0, 2);
     const fixedUnitFeeNum = isNaN(parseInt(fixedUnitFee, 10)) ? 0 : parseInt(fixedUnitFee, 10);
     const baseNum = isNaN(parseInt(base, 10)) ? 0 : parseInt(base, 10);
-    const doubleHashedBcAddress = scriptStr.split(' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL ')[1].split(' ')[0];
+    const splitBy = scriptStr.includes('OP_MONADSPLIT') ? ' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL ' : ' OP_5 OP_IFEQ OP_MONAD OP_BLAKE2BL ';
+    const doubleHashedBcAddress = scriptStr.split(splitBy)[1].split(' ')[0];
     return {
         shiftMaker: parseInt(shiftMaker, 10),
         shiftTaker: parseInt(shiftTaker, 10),
@@ -241,16 +242,16 @@ exports.parseTakerCallbackLockScript = parseTakerCallbackLockScript;
 function getScriptType(script) {
     const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     if (scriptStr.startsWith('OP_MONOID')) {
-        return ScriptType.MAKER_OUTPUT;
+        return ScriptType.MAKER_OUTPUT; // IS_MAKER_ORDER
     }
     else if (scriptStr.endsWith('OP_CALLBACK')) {
-        return ScriptType.TAKER_CALLBACK;
+        return ScriptType.TAKER_CALLBACK; // IS_MAKER_CALLBACK_ORDER
     }
     else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1) {
-        return ScriptType.TAKER_OUTPUT;
+        return ScriptType.TAKER_OUTPUT; // IS_TAKER_ORDER
     }
     else if (scriptStr.startsWith('OP_BLAKE2BL')) {
-        return ScriptType.NRG_TRANSFER;
+        return ScriptType.NRG_TRANSFER; // IS_NRG_TRANSFER
     }
     else
         return ScriptType.TAKER_INPUT;
