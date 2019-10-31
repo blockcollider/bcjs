@@ -29,7 +29,7 @@ proto.bc.MessageGetObjectsRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.MessageGetObjectsRequest, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.MessageGetObjectsRequest.displayName = 'proto.bc.MessageGetObjectsRequest';
 }
 

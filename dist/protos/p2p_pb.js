@@ -28,7 +28,7 @@ proto.bc.InitialPeer = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.InitialPeer, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.InitialPeer.displayName = 'proto.bc.InitialPeer';
 }
 
@@ -197,7 +197,7 @@ proto.bc.InitialPeerEvents = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.InitialPeerEvents, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.InitialPeerEvents.displayName = 'proto.bc.InitialPeerEvents';
 }
 

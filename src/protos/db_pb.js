@@ -31,7 +31,7 @@ proto.bc.DbValue = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.DbValue, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.DbValue.displayName = 'proto.bc.DbValue';
 }
 
@@ -280,7 +280,7 @@ proto.bc.CounterPartySettleInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.CounterPartySettleInfo, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.CounterPartySettleInfo.displayName = 'proto.bc.CounterPartySettleInfo';
 }
 
@@ -534,7 +534,7 @@ proto.bc.CrossTxSettlementToWatch = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.CrossTxSettlementToWatch.repeatedFields_, null);
 };
 goog.inherits(proto.bc.CrossTxSettlementToWatch, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.CrossTxSettlementToWatch.displayName = 'proto.bc.CrossTxSettlementToWatch';
 }
 /**
@@ -802,7 +802,7 @@ proto.bc.SettleSchedule = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.SettleSchedule, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.SettleSchedule.displayName = 'proto.bc.SettleSchedule';
 }
 
@@ -1052,7 +1052,7 @@ proto.bc.Schedules = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.Schedules.repeatedFields_, null);
 };
 goog.inherits(proto.bc.Schedules, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.Schedules.displayName = 'proto.bc.Schedules';
 }
 /**

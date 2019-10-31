@@ -39,7 +39,7 @@ proto.bc.RoverIdent = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.RoverIdent, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.RoverIdent.displayName = 'proto.bc.RoverIdent';
 }
 
@@ -181,7 +181,7 @@ proto.bc.RoverSyncStatus = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.RoverSyncStatus, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.RoverSyncStatus.displayName = 'proto.bc.RoverSyncStatus';
 }
 
@@ -352,7 +352,7 @@ proto.bc.RoverMessage = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, proto.bc.RoverMessage.oneofGroups_);
 };
 goog.inherits(proto.bc.RoverMessage, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.RoverMessage.displayName = 'proto.bc.RoverMessage';
 }
 /**
@@ -548,7 +548,7 @@ proto.bc.RoverMessage.FetchBlock = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.RoverMessage.FetchBlock, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.RoverMessage.FetchBlock.displayName = 'proto.bc.RoverMessage.FetchBlock';
 }
 
@@ -751,7 +751,7 @@ proto.bc.RoverMessage.RoverBlockRange = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.RoverMessage.RoverBlockRange, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.RoverMessage.RoverBlockRange.displayName = 'proto.bc.RoverMessage.RoverBlockRange';
 }
 
@@ -1028,7 +1028,7 @@ proto.bc.RoverMessage.Resync = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.RoverMessage.Resync.repeatedFields_, null);
 };
 goog.inherits(proto.bc.RoverMessage.Resync, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.RoverMessage.Resync.displayName = 'proto.bc.RoverMessage.Resync';
 }
 /**
@@ -1179,7 +1179,7 @@ proto.bc.RoverMessage.Resync.Interval = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.RoverMessage.Resync.Interval, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.RoverMessage.Resync.Interval.displayName = 'proto.bc.RoverMessage.Resync.Interval';
 }
 
@@ -1548,7 +1548,7 @@ proto.bc.SettleTxCheckReq = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.SettleTxCheckReq.repeatedFields_, null);
 };
 goog.inherits(proto.bc.SettleTxCheckReq, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.SettleTxCheckReq.displayName = 'proto.bc.SettleTxCheckReq';
 }
 /**
@@ -1685,7 +1685,7 @@ proto.bc.SettleTxCheckReq.PossibleTransaction = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.SettleTxCheckReq.PossibleTransaction, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.SettleTxCheckReq.PossibleTransaction.displayName = 'proto.bc.SettleTxCheckReq.PossibleTransaction';
 }
 
@@ -2044,7 +2044,7 @@ proto.bc.SettleTxCheckResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.SettleTxCheckResponse.repeatedFields_, null);
 };
 goog.inherits(proto.bc.SettleTxCheckResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.SettleTxCheckResponse.displayName = 'proto.bc.SettleTxCheckResponse';
 }
 /**

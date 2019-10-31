@@ -46,7 +46,7 @@ proto.bc.Null = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.Null, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.Null.displayName = 'proto.bc.Null';
 }
 
@@ -162,7 +162,7 @@ proto.bc.Block = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.Block.repeatedFields_, null);
 };
 goog.inherits(proto.bc.Block, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.Block.displayName = 'proto.bc.Block';
 }
 /**
@@ -519,7 +519,7 @@ proto.bc.MarkedTransaction = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.MarkedTransaction, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.MarkedTransaction.displayName = 'proto.bc.MarkedTransaction';
 }
 
@@ -874,7 +874,7 @@ proto.bc.BlockchainHeaders = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.BlockchainHeaders.repeatedFields_, null);
 };
 goog.inherits(proto.bc.BlockchainHeaders, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.BlockchainHeaders.displayName = 'proto.bc.BlockchainHeaders';
 }
 /**
@@ -1226,7 +1226,7 @@ proto.bc.BcBlock = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.BcBlock.repeatedFields_, null);
 };
 goog.inherits(proto.bc.BcBlock, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.BcBlock.displayName = 'proto.bc.BcBlock';
 }
 /**
@@ -2235,7 +2235,7 @@ proto.bc.OutPoint = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.OutPoint, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.OutPoint.displayName = 'proto.bc.OutPoint';
 }
 
@@ -2455,7 +2455,7 @@ proto.bc.WalletOutPoint = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.WalletOutPoint, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.WalletOutPoint.displayName = 'proto.bc.WalletOutPoint';
 }
 
@@ -2743,7 +2743,7 @@ proto.bc.WalletData = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.WalletData.repeatedFields_, null);
 };
 goog.inherits(proto.bc.WalletData, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.WalletData.displayName = 'proto.bc.WalletData';
 }
 /**
@@ -3195,7 +3195,7 @@ proto.bc.OpenOrder = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.OpenOrder, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.OpenOrder.displayName = 'proto.bc.OpenOrder';
 }
 
@@ -3534,7 +3534,7 @@ proto.bc.OpenOrders = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.OpenOrders.repeatedFields_, null);
 };
 goog.inherits(proto.bc.OpenOrders, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.OpenOrders.displayName = 'proto.bc.OpenOrders';
 }
 /**
@@ -3756,7 +3756,7 @@ proto.bc.MatchedOrder = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.MatchedOrder, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.MatchedOrder.displayName = 'proto.bc.MatchedOrder';
 }
 
@@ -4115,7 +4115,7 @@ proto.bc.MatchedOrders = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.MatchedOrders.repeatedFields_, null);
 };
 goog.inherits(proto.bc.MatchedOrders, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.MatchedOrders.displayName = 'proto.bc.MatchedOrders';
 }
 /**
@@ -4337,7 +4337,7 @@ proto.bc.HistoricalOrder = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.HistoricalOrder, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.HistoricalOrder.displayName = 'proto.bc.HistoricalOrder';
 }
 
@@ -4583,7 +4583,7 @@ proto.bc.HistoricalOrders = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.HistoricalOrders.repeatedFields_, null);
 };
 goog.inherits(proto.bc.HistoricalOrders, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.HistoricalOrders.displayName = 'proto.bc.HistoricalOrders';
 }
 /**
@@ -4805,7 +4805,7 @@ proto.bc.MatchedTx = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.MatchedTx, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.MatchedTx.displayName = 'proto.bc.MatchedTx';
 }
 
@@ -5111,7 +5111,7 @@ proto.bc.MatchedTxs = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.MatchedTxs.repeatedFields_, null);
 };
 goog.inherits(proto.bc.MatchedTxs, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.MatchedTxs.displayName = 'proto.bc.MatchedTxs';
 }
 /**
@@ -5279,7 +5279,7 @@ proto.bc.Transaction = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.Transaction.repeatedFields_, null);
 };
 goog.inherits(proto.bc.Transaction, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.Transaction.displayName = 'proto.bc.Transaction';
 }
 /**
@@ -5682,7 +5682,7 @@ proto.bc.TransactionInput = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.TransactionInput, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.TransactionInput.displayName = 'proto.bc.TransactionInput';
 }
 
@@ -5919,7 +5919,7 @@ proto.bc.TransactionOutput = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.TransactionOutput, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.TransactionOutput.displayName = 'proto.bc.TransactionOutput';
 }
 
@@ -6214,7 +6214,7 @@ proto.bc.BlockchainHeader = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.BlockchainHeader.repeatedFields_, null);
 };
 goog.inherits(proto.bc.BlockchainHeader, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.BlockchainHeader.displayName = 'proto.bc.BlockchainHeader';
 }
 /**

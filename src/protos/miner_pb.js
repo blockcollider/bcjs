@@ -32,7 +32,7 @@ proto.bc.BlockFingerprint = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.BlockFingerprint, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.BlockFingerprint.displayName = 'proto.bc.BlockFingerprint';
 }
 
@@ -257,7 +257,7 @@ proto.bc.MinerRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.MinerRequest, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.MinerRequest.displayName = 'proto.bc.MinerRequest';
 }
 
@@ -649,7 +649,7 @@ proto.bc.MinerResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.bc.MinerResponse, jspb.Message);
-if (goog.DEBUG && !COMPILED) {
+if (true || goog.DEBUG && !COMPILED) {
   proto.bc.MinerResponse.displayName = 'proto.bc.MinerResponse';
 }
 
