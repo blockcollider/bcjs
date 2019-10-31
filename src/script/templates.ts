@@ -142,7 +142,7 @@ export function createMakerLockScript(
   shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
   sendsFromChain: string, receivesToChain: string,
   sendsFromAddress: string, receivesToAddress: string,
-  sendsUnit: string, receivesUnit: string,fixedUnitFee: string,
+  sendsUnit: string, receivesUnit: string, fixedUnitFee: string,
   bcAddress: string, addressDoubleHashed: boolean = false
 ) : string {
   bcAddress = bcAddress.toLowerCase()
