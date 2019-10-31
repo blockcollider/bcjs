@@ -7,11 +7,11 @@ export declare enum ScriptType {
     TAKER_CALLBACK = "taker_callback"
 }
 export declare function createSignedNRGUnlockInputs(bcAddress: string, bcPrivateKeyHex: string, txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]): Array<coreProtobuf.TransactionInput>;
-export declare function createNRGLockScript(address: string): string;
+export declare function createNRGLockScript(address: string, addressDoubleHashed?: boolean): string;
 export declare function parseNRGLockScript(script: Uint8Array): {
     doubleHashedBcAddress: string;
 };
-export declare function createMakerLockScript(shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, fixedUnitFee: string, bcAddress: string): string;
+export declare function createMakerLockScript(shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, fixedUnitFee: string, bcAddress: string, addressDoubleHashed?: boolean): string;
 export declare function parseMakerLockScript(script: Uint8Array): {
     shiftMaker: number;
     shiftTaker: number;
@@ -32,7 +32,7 @@ export declare function parseTakerUnlockScript(script: Uint8Array): {
     takerWantsAddress: string;
     takerSendsAddress: string;
 };
-export declare function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string | number, takerBCAddress: string): string;
+export declare function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string | number, takerBCAddress: string, addressDoubleHashed?: boolean): string;
 export declare function parseTakerLockScript(script: Uint8Array): {
     makerTxHash: string;
     makerTxOutputIndex: number;

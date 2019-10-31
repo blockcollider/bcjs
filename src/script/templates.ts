@@ -113,11 +113,14 @@ export function createSignedNRGUnlockInputs(
   })
 }
 
-export function createNRGLockScript(address: string): string {
+export function createNRGLockScript(address: string, addressDoubleHashed: boolean = false): string {
   address = address.toLowerCase()
+  if (!addressDoubleHashed) {
+    address = blake2blTwice(address)
+  }
   const script = [
     'OP_BLAKE2BL',
-    normalizeHexString(blake2blTwice(address)),
+    normalizeHexString(address),
     'OP_EQUALVERIFY',
     'OP_CHECKSIGVERIFY'
   ]
@@ -140,11 +143,13 @@ export function createMakerLockScript(
   sendsFromChain: string, receivesToChain: string,
   sendsFromAddress: string, receivesToAddress: string,
   sendsUnit: string, receivesUnit: string,fixedUnitFee: string,
-  bcAddress: string
+  bcAddress: string, addressDoubleHashed: boolean = false
 ) : string {
   bcAddress = bcAddress.toLowerCase()
-  let doubleHashedBcAddress = blake2blTwice(bcAddress)
-  let unlockMonadScript = ['OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY']
+  if (!addressDoubleHashed) {
+    bcAddress = blake2blTwice(bcAddress)
+  }
+  let unlockMonadScript = ['OP_BLAKE2BL', normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY']
   let depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength]
   let makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit]
 
@@ -259,15 +264,17 @@ export function parseTakerUnlockScript(script: Uint8Array):{
   }
 }
 
-export function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string): string {
+export function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string, addressDoubleHashed: boolean = false): string {
   takerBCAddress = takerBCAddress.toLowerCase()
-  const doubleHashedBcAddress = blake2blTwice(takerBCAddress)
+  if (!addressDoubleHashed) {
+    takerBCAddress = blake2blTwice(takerBCAddress)
+  }
   const script = [
     [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
     // 4: taker succeed, maker failed, taker can spend the outpoint
-    ['4','OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY','OP_ENDMONAD', 'OP_ENDIFEQ'],
+    ['4','OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(takerBCAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY','OP_ENDMONAD', 'OP_ENDIFEQ'],
     // this.OP_0() // both failed,
-    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD']
+    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(takerBCAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD']
   ]
   return script.map(part => part.join(' ')).join(' ')
 }

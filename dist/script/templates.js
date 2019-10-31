@@ -99,11 +99,14 @@ function createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spe
     });
 }
 exports.createSignedNRGUnlockInputs = createSignedNRGUnlockInputs;
-function createNRGLockScript(address) {
+function createNRGLockScript(address, addressDoubleHashed = false) {
     address = address.toLowerCase();
+    if (!addressDoubleHashed) {
+        address = crypto_1.blake2blTwice(address);
+    }
     const script = [
         'OP_BLAKE2BL',
-        string_1.normalizeHexString(crypto_1.blake2blTwice(address)),
+        string_1.normalizeHexString(address),
         'OP_EQUALVERIFY',
         'OP_CHECKSIGVERIFY'
     ];
@@ -118,10 +121,12 @@ function parseNRGLockScript(script) {
     };
 }
 exports.parseNRGLockScript = parseNRGLockScript;
-function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, fixedUnitFee, bcAddress) {
+function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, fixedUnitFee, bcAddress, addressDoubleHashed = false) {
     bcAddress = bcAddress.toLowerCase();
-    let doubleHashedBcAddress = crypto_1.blake2blTwice(bcAddress);
-    let unlockMonadScript = ['OP_BLAKE2BL', string_1.normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY'];
+    if (!addressDoubleHashed) {
+        bcAddress = crypto_1.blake2blTwice(bcAddress);
+    }
+    let unlockMonadScript = ['OP_BLAKE2BL', string_1.normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY'];
     let depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength];
     let makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit];
     const script = fixedUnitFee === '' ?
@@ -199,15 +204,17 @@ function parseTakerUnlockScript(script) {
     };
 }
 exports.parseTakerUnlockScript = parseTakerUnlockScript;
-function createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress) {
+function createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress, addressDoubleHashed = false) {
     takerBCAddress = takerBCAddress.toLowerCase();
-    const doubleHashedBcAddress = crypto_1.blake2blTwice(takerBCAddress);
+    if (!addressDoubleHashed) {
+        takerBCAddress = crypto_1.blake2blTwice(takerBCAddress);
+    }
     const script = [
         [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
         // 4: taker succeed, maker failed, taker can spend the outpoint
-        ['4', 'OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL', string_1.normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+        ['4', 'OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL', string_1.normalizeHexString(takerBCAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
         // this.OP_0() // both failed,
-        ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL', string_1.normalizeHexString(doubleHashedBcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD']
+        ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL', string_1.normalizeHexString(takerBCAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD']
     ];
     return script.map(part => part.join(' ')).join(' ');
 }
