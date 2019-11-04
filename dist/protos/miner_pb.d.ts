@@ -1,4 +1,4 @@
-// package: bc
+// package: bcsdk
 // file: miner.proto
 
 import * as jspb from "google-protobuf";

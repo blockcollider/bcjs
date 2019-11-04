@@ -1,4 +1,4 @@
-// package: bc
+// package: bcsdk
 // file: rover.proto
 
 var rover_pb = require("./rover_pb");
@@ -7,7 +7,7 @@ var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Rover = (function () {
   function Rover() {}
-  Rover.serviceName = "bc.Rover";
+  Rover.serviceName = "bcsdk.Rover";
   return Rover;
 }());
 

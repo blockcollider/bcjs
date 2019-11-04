@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package bc;
+package bcsdk;
 
 import "core.proto";
 
@@ -109,6 +109,14 @@ message MatchedOrderInfo {
 
 message GetOpenOrdersResponse {
     repeated  MakerOrderInfo orders = 1;
+}
+
+message GetOrderbookUpdateResponse {
+    repeated string open_orders_to_remove = 1;
+    repeated string matched_orders_to_remove = 2;
+    repeated MakerOrderInfo open_orders_to_add = 3;
+    repeated MatchedOrderInfo matched_orders_to_add = 4;
+    repeated MatchedOrderInfo historical_orders_to_add = 5;
 }
 
 message GetMatchedOrdersRequest {
@@ -341,6 +349,7 @@ service Bc {
     rpc GetOpenOrders (Null) returns (GetOpenOrdersResponse) {}
     rpc GetUnmatchedOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
     rpc GetMatchedOrders (GetMatchedOrdersRequest) returns (GetMatchedOrdersResponse) {}
+    rpc GetOrderbookUpdate (Null) returns (GetOrderbookUpdateResponse) {}
 
     rpc GetBlake2bl (GetBlake2blRequest) returns (GetBlake2blResponse) {}
     rpc GetBcAddressViaVanity (VanityConvertRequest) returns (VanityConvertResponse) {}

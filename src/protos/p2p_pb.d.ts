@@ -1,4 +1,4 @@
-// package: bc
+// package: bcsdk
 // file: p2p.proto
 
 import * as jspb from "google-protobuf";

@@ -1,4 +1,4 @@
-// package: bc
+// package: bcsdk
 // file: bc.proto
 
 import * as bc_pb from "./bc_pb";
@@ -302,6 +302,15 @@ type BcGetMatchedOrders = {
   readonly responseType: typeof bc_pb.GetMatchedOrdersResponse;
 };
 
+type BcGetOrderbookUpdate = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof bc_pb.GetOrderbookUpdateResponse;
+};
+
 type BcGetBlake2bl = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -355,6 +364,7 @@ export class Bc {
   static readonly GetOpenOrders: BcGetOpenOrders;
   static readonly GetUnmatchedOrders: BcGetUnmatchedOrders;
   static readonly GetMatchedOrders: BcGetMatchedOrders;
+  static readonly GetOrderbookUpdate: BcGetOrderbookUpdate;
   static readonly GetBlake2bl: BcGetBlake2bl;
   static readonly GetBcAddressViaVanity: BcGetBcAddressViaVanity;
 }
@@ -687,6 +697,15 @@ export class BcClient {
   getMatchedOrders(
     requestMessage: bc_pb.GetMatchedOrdersRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
+  ): UnaryResponse;
+  getOrderbookUpdate(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetOrderbookUpdateResponse|null) => void
+  ): UnaryResponse;
+  getOrderbookUpdate(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetOrderbookUpdateResponse|null) => void
   ): UnaryResponse;
   getBlake2bl(
     requestMessage: bc_pb.GetBlake2blRequest,

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package bc;
+package bcsdk;
 
 enum ObjType {
     BlockHeaders = 0;

@@ -1,3 +1,3 @@
-// package: bc
+// package: bcsdk
 // file: db.proto
 

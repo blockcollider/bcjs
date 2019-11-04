@@ -13,52 +13,53 @@ var global = Function('return this')();
 
 var core_pb = require('./core_pb.js');
 goog.object.extend(proto, core_pb);
-goog.exportSymbol('proto.bc.CalculateMakerFeeRequest', null, global);
-goog.exportSymbol('proto.bc.CalculateTakerFeeRequest', null, global);
-goog.exportSymbol('proto.bc.FeeResponse', null, global);
-goog.exportSymbol('proto.bc.GetBalanceRequest', null, global);
-goog.exportSymbol('proto.bc.GetBalanceResponse', null, global);
-goog.exportSymbol('proto.bc.GetBlake2blRequest', null, global);
-goog.exportSymbol('proto.bc.GetBlake2blResponse', null, global);
-goog.exportSymbol('proto.bc.GetBlockHashRequest', null, global);
-goog.exportSymbol('proto.bc.GetBlockHeightRequest', null, global);
-goog.exportSymbol('proto.bc.GetBlocksRequest', null, global);
-goog.exportSymbol('proto.bc.GetBlocksResponse', null, global);
-goog.exportSymbol('proto.bc.GetMarkedTxRequest', null, global);
-goog.exportSymbol('proto.bc.GetMatchedOrdersRequest', null, global);
-goog.exportSymbol('proto.bc.GetMatchedOrdersResponse', null, global);
-goog.exportSymbol('proto.bc.GetOpenOrdersResponse', null, global);
-goog.exportSymbol('proto.bc.GetOutPointRequest', null, global);
-goog.exportSymbol('proto.bc.GetOutPointStatusResponse', null, global);
-goog.exportSymbol('proto.bc.GetRawMempoolResponse', null, global);
-goog.exportSymbol('proto.bc.GetRoveredBlockHashRequest', null, global);
-goog.exportSymbol('proto.bc.GetRoveredBlockHeightRequest', null, global);
-goog.exportSymbol('proto.bc.GetRoveredBlocksRequest', null, global);
-goog.exportSymbol('proto.bc.GetRoveredBlocksResponse', null, global);
-goog.exportSymbol('proto.bc.GetSpendableCollateralRequest', null, global);
-goog.exportSymbol('proto.bc.GetSpendableCollateralResponse', null, global);
-goog.exportSymbol('proto.bc.GetTradeStatusResponse', null, global);
-goog.exportSymbol('proto.bc.GetTxRequest', null, global);
-goog.exportSymbol('proto.bc.GetUnlockTakerTxParamsRequest', null, global);
-goog.exportSymbol('proto.bc.GetUnlockTakerTxParamsResponse', null, global);
-goog.exportSymbol('proto.bc.HelpResponse', null, global);
-goog.exportSymbol('proto.bc.MakerOrderInfo', null, global);
-goog.exportSymbol('proto.bc.MatchedOrderInfo', null, global);
-goog.exportSymbol('proto.bc.PlaceMakerOrderRequest', null, global);
-goog.exportSymbol('proto.bc.PlaceTakerOrderRequest', null, global);
-goog.exportSymbol('proto.bc.PlaceTakerOrdersRequest', null, global);
-goog.exportSymbol('proto.bc.RpcTransaction', null, global);
-goog.exportSymbol('proto.bc.RpcTransactionResponse', null, global);
-goog.exportSymbol('proto.bc.RpcTransactionResponseStatus', null, global);
-goog.exportSymbol('proto.bc.StatsResponse', null, global);
-goog.exportSymbol('proto.bc.TakerOrder', null, global);
-goog.exportSymbol('proto.bc.TakerOrderInfo', null, global);
-goog.exportSymbol('proto.bc.Transfer', null, global);
-goog.exportSymbol('proto.bc.TransferRequest', null, global);
-goog.exportSymbol('proto.bc.TransferResponse', null, global);
-goog.exportSymbol('proto.bc.UnlockCollateralRequest', null, global);
-goog.exportSymbol('proto.bc.VanityConvertRequest', null, global);
-goog.exportSymbol('proto.bc.VanityConvertResponse', null, global);
+goog.exportSymbol('proto.bcsdk.CalculateMakerFeeRequest', null, global);
+goog.exportSymbol('proto.bcsdk.CalculateTakerFeeRequest', null, global);
+goog.exportSymbol('proto.bcsdk.FeeResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetBalanceRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetBalanceResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetBlake2blRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetBlake2blResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetBlockHashRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetBlockHeightRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetBlocksRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetBlocksResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetMarkedTxRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetMatchedOrdersRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetMatchedOrdersResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetOpenOrdersResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetOrderbookUpdateResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetOutPointRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetOutPointStatusResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetRawMempoolResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetRoveredBlockHashRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetRoveredBlockHeightRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetRoveredBlocksRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetRoveredBlocksResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetSpendableCollateralRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetSpendableCollateralResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetTradeStatusResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetTxRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetUnlockTakerTxParamsRequest', null, global);
+goog.exportSymbol('proto.bcsdk.GetUnlockTakerTxParamsResponse', null, global);
+goog.exportSymbol('proto.bcsdk.HelpResponse', null, global);
+goog.exportSymbol('proto.bcsdk.MakerOrderInfo', null, global);
+goog.exportSymbol('proto.bcsdk.MatchedOrderInfo', null, global);
+goog.exportSymbol('proto.bcsdk.PlaceMakerOrderRequest', null, global);
+goog.exportSymbol('proto.bcsdk.PlaceTakerOrderRequest', null, global);
+goog.exportSymbol('proto.bcsdk.PlaceTakerOrdersRequest', null, global);
+goog.exportSymbol('proto.bcsdk.RpcTransaction', null, global);
+goog.exportSymbol('proto.bcsdk.RpcTransactionResponse', null, global);
+goog.exportSymbol('proto.bcsdk.RpcTransactionResponseStatus', null, global);
+goog.exportSymbol('proto.bcsdk.StatsResponse', null, global);
+goog.exportSymbol('proto.bcsdk.TakerOrder', null, global);
+goog.exportSymbol('proto.bcsdk.TakerOrderInfo', null, global);
+goog.exportSymbol('proto.bcsdk.Transfer', null, global);
+goog.exportSymbol('proto.bcsdk.TransferRequest', null, global);
+goog.exportSymbol('proto.bcsdk.TransferResponse', null, global);
+goog.exportSymbol('proto.bcsdk.UnlockCollateralRequest', null, global);
+goog.exportSymbol('proto.bcsdk.VanityConvertRequest', null, global);
+goog.exportSymbol('proto.bcsdk.VanityConvertResponse', null, global);
 
 /**
  * Generated by JsPbCodeGenerator.
@@ -70,12 +71,12 @@ goog.exportSymbol('proto.bc.VanityConvertResponse', null, global);
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.HelpResponse = function(opt_data) {
+proto.bcsdk.HelpResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.HelpResponse, jspb.Message);
+goog.inherits(proto.bcsdk.HelpResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.HelpResponse.displayName = 'proto.bc.HelpResponse';
+  proto.bcsdk.HelpResponse.displayName = 'proto.bcsdk.HelpResponse';
 }
 
 
@@ -90,8 +91,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.HelpResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.HelpResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.HelpResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.HelpResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -100,11 +101,11 @@ proto.bc.HelpResponse.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.HelpResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.HelpResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.HelpResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.HelpResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     helpText: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -120,23 +121,23 @@ proto.bc.HelpResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.HelpResponse}
+ * @return {!proto.bcsdk.HelpResponse}
  */
-proto.bc.HelpResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.HelpResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.HelpResponse;
-  return proto.bc.HelpResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.HelpResponse;
+  return proto.bcsdk.HelpResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.HelpResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.HelpResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.HelpResponse}
+ * @return {!proto.bcsdk.HelpResponse}
  */
-proto.bc.HelpResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.HelpResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -160,9 +161,9 @@ proto.bc.HelpResponse.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.HelpResponse.prototype.serializeBinary = function() {
+proto.bcsdk.HelpResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.HelpResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.HelpResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -170,11 +171,11 @@ proto.bc.HelpResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.HelpResponse} message
+ * @param {!proto.bcsdk.HelpResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.HelpResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.HelpResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getHelpText();
   if (f.length > 0) {
@@ -190,13 +191,13 @@ proto.bc.HelpResponse.serializeBinaryToWriter = function(message, writer) {
  * optional string help_text = 1;
  * @return {string}
  */
-proto.bc.HelpResponse.prototype.getHelpText = function() {
+proto.bcsdk.HelpResponse.prototype.getHelpText = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.HelpResponse.prototype.setHelpText = function(value) {
+proto.bcsdk.HelpResponse.prototype.setHelpText = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -212,12 +213,12 @@ proto.bc.HelpResponse.prototype.setHelpText = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.StatsResponse = function(opt_data) {
+proto.bcsdk.StatsResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.StatsResponse, jspb.Message);
+goog.inherits(proto.bcsdk.StatsResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.StatsResponse.displayName = 'proto.bc.StatsResponse';
+  proto.bcsdk.StatsResponse.displayName = 'proto.bcsdk.StatsResponse';
 }
 
 
@@ -232,8 +233,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.StatsResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.StatsResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.StatsResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.StatsResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -242,11 +243,11 @@ proto.bc.StatsResponse.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.StatsResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.StatsResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.StatsResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.StatsResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     calls: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
@@ -262,23 +263,23 @@ proto.bc.StatsResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.StatsResponse}
+ * @return {!proto.bcsdk.StatsResponse}
  */
-proto.bc.StatsResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.StatsResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.StatsResponse;
-  return proto.bc.StatsResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.StatsResponse;
+  return proto.bcsdk.StatsResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.StatsResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.StatsResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.StatsResponse}
+ * @return {!proto.bcsdk.StatsResponse}
  */
-proto.bc.StatsResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.StatsResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -302,9 +303,9 @@ proto.bc.StatsResponse.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.StatsResponse.prototype.serializeBinary = function() {
+proto.bcsdk.StatsResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.StatsResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.StatsResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -312,11 +313,11 @@ proto.bc.StatsResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.StatsResponse} message
+ * @param {!proto.bcsdk.StatsResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.StatsResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.StatsResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getCalls();
   if (f !== 0) {
@@ -332,13 +333,13 @@ proto.bc.StatsResponse.serializeBinaryToWriter = function(message, writer) {
  * optional int64 calls = 1;
  * @return {number}
  */
-proto.bc.StatsResponse.prototype.getCalls = function() {
+proto.bcsdk.StatsResponse.prototype.getCalls = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.StatsResponse.prototype.setCalls = function(value) {
+proto.bcsdk.StatsResponse.prototype.setCalls = function(value) {
   jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -354,12 +355,12 @@ proto.bc.StatsResponse.prototype.setCalls = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.RpcTransaction = function(opt_data) {
+proto.bcsdk.RpcTransaction = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.RpcTransaction, jspb.Message);
+goog.inherits(proto.bcsdk.RpcTransaction, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.RpcTransaction.displayName = 'proto.bc.RpcTransaction';
+  proto.bcsdk.RpcTransaction.displayName = 'proto.bcsdk.RpcTransaction';
 }
 
 
@@ -374,8 +375,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.RpcTransaction.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.RpcTransaction.toObject(opt_includeInstance, this);
+proto.bcsdk.RpcTransaction.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.RpcTransaction.toObject(opt_includeInstance, this);
 };
 
 
@@ -384,11 +385,11 @@ proto.bc.RpcTransaction.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.RpcTransaction} msg The msg instance to transform.
+ * @param {!proto.bcsdk.RpcTransaction} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.RpcTransaction.toObject = function(includeInstance, msg) {
+proto.bcsdk.RpcTransaction.toObject = function(includeInstance, msg) {
   var f, obj = {
     fromAddr: jspb.Message.getFieldWithDefault(msg, 1, ""),
     toAddr: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -408,23 +409,23 @@ proto.bc.RpcTransaction.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.RpcTransaction}
+ * @return {!proto.bcsdk.RpcTransaction}
  */
-proto.bc.RpcTransaction.deserializeBinary = function(bytes) {
+proto.bcsdk.RpcTransaction.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.RpcTransaction;
-  return proto.bc.RpcTransaction.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.RpcTransaction;
+  return proto.bcsdk.RpcTransaction.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.RpcTransaction} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.RpcTransaction} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.RpcTransaction}
+ * @return {!proto.bcsdk.RpcTransaction}
  */
-proto.bc.RpcTransaction.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.RpcTransaction.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -464,9 +465,9 @@ proto.bc.RpcTransaction.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.RpcTransaction.prototype.serializeBinary = function() {
+proto.bcsdk.RpcTransaction.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.RpcTransaction.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.RpcTransaction.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -474,11 +475,11 @@ proto.bc.RpcTransaction.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.RpcTransaction} message
+ * @param {!proto.bcsdk.RpcTransaction} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.RpcTransaction.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.RpcTransaction.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getFromAddr();
   if (f.length > 0) {
@@ -522,13 +523,13 @@ proto.bc.RpcTransaction.serializeBinaryToWriter = function(message, writer) {
  * optional string from_addr = 1;
  * @return {string}
  */
-proto.bc.RpcTransaction.prototype.getFromAddr = function() {
+proto.bcsdk.RpcTransaction.prototype.getFromAddr = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.RpcTransaction.prototype.setFromAddr = function(value) {
+proto.bcsdk.RpcTransaction.prototype.setFromAddr = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -537,13 +538,13 @@ proto.bc.RpcTransaction.prototype.setFromAddr = function(value) {
  * optional string to_addr = 2;
  * @return {string}
  */
-proto.bc.RpcTransaction.prototype.getToAddr = function() {
+proto.bcsdk.RpcTransaction.prototype.getToAddr = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.RpcTransaction.prototype.setToAddr = function(value) {
+proto.bcsdk.RpcTransaction.prototype.setToAddr = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -552,13 +553,13 @@ proto.bc.RpcTransaction.prototype.setToAddr = function(value) {
  * optional string amount = 3;
  * @return {string}
  */
-proto.bc.RpcTransaction.prototype.getAmount = function() {
+proto.bcsdk.RpcTransaction.prototype.getAmount = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.RpcTransaction.prototype.setAmount = function(value) {
+proto.bcsdk.RpcTransaction.prototype.setAmount = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -567,13 +568,13 @@ proto.bc.RpcTransaction.prototype.setAmount = function(value) {
  * optional string tx_fee = 4;
  * @return {string}
  */
-proto.bc.RpcTransaction.prototype.getTxFee = function() {
+proto.bcsdk.RpcTransaction.prototype.getTxFee = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.RpcTransaction.prototype.setTxFee = function(value) {
+proto.bcsdk.RpcTransaction.prototype.setTxFee = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -582,13 +583,13 @@ proto.bc.RpcTransaction.prototype.setTxFee = function(value) {
  * optional string private_key_hex = 5;
  * @return {string}
  */
-proto.bc.RpcTransaction.prototype.getPrivateKeyHex = function() {
+proto.bcsdk.RpcTransaction.prototype.getPrivateKeyHex = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.RpcTransaction.prototype.setPrivateKeyHex = function(value) {
+proto.bcsdk.RpcTransaction.prototype.setPrivateKeyHex = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
 };
 
@@ -604,12 +605,12 @@ proto.bc.RpcTransaction.prototype.setPrivateKeyHex = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.RpcTransactionResponse = function(opt_data) {
+proto.bcsdk.RpcTransactionResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.RpcTransactionResponse, jspb.Message);
+goog.inherits(proto.bcsdk.RpcTransactionResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.RpcTransactionResponse.displayName = 'proto.bc.RpcTransactionResponse';
+  proto.bcsdk.RpcTransactionResponse.displayName = 'proto.bcsdk.RpcTransactionResponse';
 }
 
 
@@ -624,8 +625,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.RpcTransactionResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.RpcTransactionResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.RpcTransactionResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.RpcTransactionResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -634,11 +635,11 @@ proto.bc.RpcTransactionResponse.prototype.toObject = function(opt_includeInstanc
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.RpcTransactionResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.RpcTransactionResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.RpcTransactionResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.RpcTransactionResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     status: jspb.Message.getFieldWithDefault(msg, 1, 0),
     txHash: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -656,23 +657,23 @@ proto.bc.RpcTransactionResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.RpcTransactionResponse}
+ * @return {!proto.bcsdk.RpcTransactionResponse}
  */
-proto.bc.RpcTransactionResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.RpcTransactionResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.RpcTransactionResponse;
-  return proto.bc.RpcTransactionResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.RpcTransactionResponse;
+  return proto.bcsdk.RpcTransactionResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.RpcTransactionResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.RpcTransactionResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.RpcTransactionResponse}
+ * @return {!proto.bcsdk.RpcTransactionResponse}
  */
-proto.bc.RpcTransactionResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.RpcTransactionResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -680,7 +681,7 @@ proto.bc.RpcTransactionResponse.deserializeBinaryFromReader = function(msg, read
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!proto.bc.RpcTransactionResponseStatus} */ (reader.readEnum());
+      var value = /** @type {!proto.bcsdk.RpcTransactionResponseStatus} */ (reader.readEnum());
       msg.setStatus(value);
       break;
     case 2:
@@ -704,9 +705,9 @@ proto.bc.RpcTransactionResponse.deserializeBinaryFromReader = function(msg, read
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.RpcTransactionResponse.prototype.serializeBinary = function() {
+proto.bcsdk.RpcTransactionResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.RpcTransactionResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.RpcTransactionResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -714,11 +715,11 @@ proto.bc.RpcTransactionResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.RpcTransactionResponse} message
+ * @param {!proto.bcsdk.RpcTransactionResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.RpcTransactionResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.RpcTransactionResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getStatus();
   if (f !== 0.0) {
@@ -746,15 +747,15 @@ proto.bc.RpcTransactionResponse.serializeBinaryToWriter = function(message, writ
 
 /**
  * optional RpcTransactionResponseStatus status = 1;
- * @return {!proto.bc.RpcTransactionResponseStatus}
+ * @return {!proto.bcsdk.RpcTransactionResponseStatus}
  */
-proto.bc.RpcTransactionResponse.prototype.getStatus = function() {
-  return /** @type {!proto.bc.RpcTransactionResponseStatus} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+proto.bcsdk.RpcTransactionResponse.prototype.getStatus = function() {
+  return /** @type {!proto.bcsdk.RpcTransactionResponseStatus} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
-/** @param {!proto.bc.RpcTransactionResponseStatus} value */
-proto.bc.RpcTransactionResponse.prototype.setStatus = function(value) {
+/** @param {!proto.bcsdk.RpcTransactionResponseStatus} value */
+proto.bcsdk.RpcTransactionResponse.prototype.setStatus = function(value) {
   jspb.Message.setProto3EnumField(this, 1, value);
 };
 
@@ -763,13 +764,13 @@ proto.bc.RpcTransactionResponse.prototype.setStatus = function(value) {
  * optional string tx_hash = 2;
  * @return {string}
  */
-proto.bc.RpcTransactionResponse.prototype.getTxHash = function() {
+proto.bcsdk.RpcTransactionResponse.prototype.getTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.RpcTransactionResponse.prototype.setTxHash = function(value) {
+proto.bcsdk.RpcTransactionResponse.prototype.setTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -778,13 +779,13 @@ proto.bc.RpcTransactionResponse.prototype.setTxHash = function(value) {
  * optional string error = 3;
  * @return {string}
  */
-proto.bc.RpcTransactionResponse.prototype.getError = function() {
+proto.bcsdk.RpcTransactionResponse.prototype.getError = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.RpcTransactionResponse.prototype.setError = function(value) {
+proto.bcsdk.RpcTransactionResponse.prototype.setError = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -800,12 +801,12 @@ proto.bc.RpcTransactionResponse.prototype.setError = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetSpendableCollateralRequest = function(opt_data) {
+proto.bcsdk.GetSpendableCollateralRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetSpendableCollateralRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetSpendableCollateralRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetSpendableCollateralRequest.displayName = 'proto.bc.GetSpendableCollateralRequest';
+  proto.bcsdk.GetSpendableCollateralRequest.displayName = 'proto.bcsdk.GetSpendableCollateralRequest';
 }
 
 
@@ -820,8 +821,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetSpendableCollateralRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetSpendableCollateralRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetSpendableCollateralRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetSpendableCollateralRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -830,11 +831,11 @@ proto.bc.GetSpendableCollateralRequest.prototype.toObject = function(opt_include
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetSpendableCollateralRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetSpendableCollateralRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetSpendableCollateralRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetSpendableCollateralRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     address: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -850,23 +851,23 @@ proto.bc.GetSpendableCollateralRequest.toObject = function(includeInstance, msg)
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetSpendableCollateralRequest}
+ * @return {!proto.bcsdk.GetSpendableCollateralRequest}
  */
-proto.bc.GetSpendableCollateralRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetSpendableCollateralRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetSpendableCollateralRequest;
-  return proto.bc.GetSpendableCollateralRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetSpendableCollateralRequest;
+  return proto.bcsdk.GetSpendableCollateralRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetSpendableCollateralRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetSpendableCollateralRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetSpendableCollateralRequest}
+ * @return {!proto.bcsdk.GetSpendableCollateralRequest}
  */
-proto.bc.GetSpendableCollateralRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetSpendableCollateralRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -890,9 +891,9 @@ proto.bc.GetSpendableCollateralRequest.deserializeBinaryFromReader = function(ms
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetSpendableCollateralRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetSpendableCollateralRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetSpendableCollateralRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetSpendableCollateralRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -900,11 +901,11 @@ proto.bc.GetSpendableCollateralRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetSpendableCollateralRequest} message
+ * @param {!proto.bcsdk.GetSpendableCollateralRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetSpendableCollateralRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetSpendableCollateralRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddress();
   if (f.length > 0) {
@@ -920,13 +921,13 @@ proto.bc.GetSpendableCollateralRequest.serializeBinaryToWriter = function(messag
  * optional string address = 1;
  * @return {string}
  */
-proto.bc.GetSpendableCollateralRequest.prototype.getAddress = function() {
+proto.bcsdk.GetSpendableCollateralRequest.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetSpendableCollateralRequest.prototype.setAddress = function(value) {
+proto.bcsdk.GetSpendableCollateralRequest.prototype.setAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -942,19 +943,19 @@ proto.bc.GetSpendableCollateralRequest.prototype.setAddress = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetSpendableCollateralResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetSpendableCollateralResponse.repeatedFields_, null);
+proto.bcsdk.GetSpendableCollateralResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetSpendableCollateralResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.GetSpendableCollateralResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetSpendableCollateralResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetSpendableCollateralResponse.displayName = 'proto.bc.GetSpendableCollateralResponse';
+  proto.bcsdk.GetSpendableCollateralResponse.displayName = 'proto.bcsdk.GetSpendableCollateralResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.GetSpendableCollateralResponse.repeatedFields_ = [1];
+proto.bcsdk.GetSpendableCollateralResponse.repeatedFields_ = [1];
 
 
 
@@ -969,8 +970,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetSpendableCollateralResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetSpendableCollateralResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetSpendableCollateralResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetSpendableCollateralResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -979,11 +980,11 @@ proto.bc.GetSpendableCollateralResponse.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetSpendableCollateralResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetSpendableCollateralResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetSpendableCollateralResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetSpendableCollateralResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     outpointsList: jspb.Message.toObjectList(msg.getOutpointsList(),
     core_pb.OutPoint.toObject, includeInstance)
@@ -1000,23 +1001,23 @@ proto.bc.GetSpendableCollateralResponse.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetSpendableCollateralResponse}
+ * @return {!proto.bcsdk.GetSpendableCollateralResponse}
  */
-proto.bc.GetSpendableCollateralResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetSpendableCollateralResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetSpendableCollateralResponse;
-  return proto.bc.GetSpendableCollateralResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetSpendableCollateralResponse;
+  return proto.bcsdk.GetSpendableCollateralResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetSpendableCollateralResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetSpendableCollateralResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetSpendableCollateralResponse}
+ * @return {!proto.bcsdk.GetSpendableCollateralResponse}
  */
-proto.bc.GetSpendableCollateralResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetSpendableCollateralResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -1041,9 +1042,9 @@ proto.bc.GetSpendableCollateralResponse.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetSpendableCollateralResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetSpendableCollateralResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetSpendableCollateralResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetSpendableCollateralResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -1051,11 +1052,11 @@ proto.bc.GetSpendableCollateralResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetSpendableCollateralResponse} message
+ * @param {!proto.bcsdk.GetSpendableCollateralResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetSpendableCollateralResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetSpendableCollateralResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOutpointsList();
   if (f.length > 0) {
@@ -1070,31 +1071,31 @@ proto.bc.GetSpendableCollateralResponse.serializeBinaryToWriter = function(messa
 
 /**
  * repeated OutPoint outpoints = 1;
- * @return {!Array<!proto.bc.OutPoint>}
+ * @return {!Array<!proto.bcsdk.OutPoint>}
  */
-proto.bc.GetSpendableCollateralResponse.prototype.getOutpointsList = function() {
-  return /** @type{!Array<!proto.bc.OutPoint>} */ (
+proto.bcsdk.GetSpendableCollateralResponse.prototype.getOutpointsList = function() {
+  return /** @type{!Array<!proto.bcsdk.OutPoint>} */ (
     jspb.Message.getRepeatedWrapperField(this, core_pb.OutPoint, 1));
 };
 
 
-/** @param {!Array<!proto.bc.OutPoint>} value */
-proto.bc.GetSpendableCollateralResponse.prototype.setOutpointsList = function(value) {
+/** @param {!Array<!proto.bcsdk.OutPoint>} value */
+proto.bcsdk.GetSpendableCollateralResponse.prototype.setOutpointsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.bc.OutPoint=} opt_value
+ * @param {!proto.bcsdk.OutPoint=} opt_value
  * @param {number=} opt_index
- * @return {!proto.bc.OutPoint}
+ * @return {!proto.bcsdk.OutPoint}
  */
-proto.bc.GetSpendableCollateralResponse.prototype.addOutpoints = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.OutPoint, opt_index);
+proto.bcsdk.GetSpendableCollateralResponse.prototype.addOutpoints = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.OutPoint, opt_index);
 };
 
 
-proto.bc.GetSpendableCollateralResponse.prototype.clearOutpointsList = function() {
+proto.bcsdk.GetSpendableCollateralResponse.prototype.clearOutpointsList = function() {
   this.setOutpointsList([]);
 };
 
@@ -1110,12 +1111,12 @@ proto.bc.GetSpendableCollateralResponse.prototype.clearOutpointsList = function(
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetBalanceRequest = function(opt_data) {
+proto.bcsdk.GetBalanceRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetBalanceRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetBalanceRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetBalanceRequest.displayName = 'proto.bc.GetBalanceRequest';
+  proto.bcsdk.GetBalanceRequest.displayName = 'proto.bcsdk.GetBalanceRequest';
 }
 
 
@@ -1130,8 +1131,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetBalanceRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetBalanceRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetBalanceRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetBalanceRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -1140,11 +1141,11 @@ proto.bc.GetBalanceRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetBalanceRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetBalanceRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBalanceRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetBalanceRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     address: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -1160,23 +1161,23 @@ proto.bc.GetBalanceRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetBalanceRequest}
+ * @return {!proto.bcsdk.GetBalanceRequest}
  */
-proto.bc.GetBalanceRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetBalanceRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetBalanceRequest;
-  return proto.bc.GetBalanceRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetBalanceRequest;
+  return proto.bcsdk.GetBalanceRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetBalanceRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetBalanceRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetBalanceRequest}
+ * @return {!proto.bcsdk.GetBalanceRequest}
  */
-proto.bc.GetBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -1200,9 +1201,9 @@ proto.bc.GetBalanceRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetBalanceRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetBalanceRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetBalanceRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetBalanceRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -1210,11 +1211,11 @@ proto.bc.GetBalanceRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetBalanceRequest} message
+ * @param {!proto.bcsdk.GetBalanceRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBalanceRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetBalanceRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddress();
   if (f.length > 0) {
@@ -1230,13 +1231,13 @@ proto.bc.GetBalanceRequest.serializeBinaryToWriter = function(message, writer) {
  * optional string address = 1;
  * @return {string}
  */
-proto.bc.GetBalanceRequest.prototype.getAddress = function() {
+proto.bcsdk.GetBalanceRequest.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetBalanceRequest.prototype.setAddress = function(value) {
+proto.bcsdk.GetBalanceRequest.prototype.setAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1252,12 +1253,12 @@ proto.bc.GetBalanceRequest.prototype.setAddress = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetBalanceResponse = function(opt_data) {
+proto.bcsdk.GetBalanceResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetBalanceResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetBalanceResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetBalanceResponse.displayName = 'proto.bc.GetBalanceResponse';
+  proto.bcsdk.GetBalanceResponse.displayName = 'proto.bcsdk.GetBalanceResponse';
 }
 
 
@@ -1272,8 +1273,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetBalanceResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetBalanceResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetBalanceResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetBalanceResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -1282,11 +1283,11 @@ proto.bc.GetBalanceResponse.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetBalanceResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetBalanceResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBalanceResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetBalanceResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     confirmed: jspb.Message.getFieldWithDefault(msg, 1, ""),
     unconfirmed: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -1305,23 +1306,23 @@ proto.bc.GetBalanceResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetBalanceResponse}
+ * @return {!proto.bcsdk.GetBalanceResponse}
  */
-proto.bc.GetBalanceResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetBalanceResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetBalanceResponse;
-  return proto.bc.GetBalanceResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetBalanceResponse;
+  return proto.bcsdk.GetBalanceResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetBalanceResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetBalanceResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetBalanceResponse}
+ * @return {!proto.bcsdk.GetBalanceResponse}
  */
-proto.bc.GetBalanceResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetBalanceResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -1357,9 +1358,9 @@ proto.bc.GetBalanceResponse.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetBalanceResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetBalanceResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetBalanceResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetBalanceResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -1367,11 +1368,11 @@ proto.bc.GetBalanceResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetBalanceResponse} message
+ * @param {!proto.bcsdk.GetBalanceResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBalanceResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetBalanceResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getConfirmed();
   if (f.length > 0) {
@@ -1408,13 +1409,13 @@ proto.bc.GetBalanceResponse.serializeBinaryToWriter = function(message, writer) 
  * optional string confirmed = 1;
  * @return {string}
  */
-proto.bc.GetBalanceResponse.prototype.getConfirmed = function() {
+proto.bcsdk.GetBalanceResponse.prototype.getConfirmed = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetBalanceResponse.prototype.setConfirmed = function(value) {
+proto.bcsdk.GetBalanceResponse.prototype.setConfirmed = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1423,13 +1424,13 @@ proto.bc.GetBalanceResponse.prototype.setConfirmed = function(value) {
  * optional string unconfirmed = 2;
  * @return {string}
  */
-proto.bc.GetBalanceResponse.prototype.getUnconfirmed = function() {
+proto.bcsdk.GetBalanceResponse.prototype.getUnconfirmed = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetBalanceResponse.prototype.setUnconfirmed = function(value) {
+proto.bcsdk.GetBalanceResponse.prototype.setUnconfirmed = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -1438,13 +1439,13 @@ proto.bc.GetBalanceResponse.prototype.setUnconfirmed = function(value) {
  * optional string collateralized = 3;
  * @return {string}
  */
-proto.bc.GetBalanceResponse.prototype.getCollateralized = function() {
+proto.bcsdk.GetBalanceResponse.prototype.getCollateralized = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetBalanceResponse.prototype.setCollateralized = function(value) {
+proto.bcsdk.GetBalanceResponse.prototype.setCollateralized = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -1453,13 +1454,13 @@ proto.bc.GetBalanceResponse.prototype.setCollateralized = function(value) {
  * optional string unlockable = 4;
  * @return {string}
  */
-proto.bc.GetBalanceResponse.prototype.getUnlockable = function() {
+proto.bcsdk.GetBalanceResponse.prototype.getUnlockable = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetBalanceResponse.prototype.setUnlockable = function(value) {
+proto.bcsdk.GetBalanceResponse.prototype.setUnlockable = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -1475,12 +1476,12 @@ proto.bc.GetBalanceResponse.prototype.setUnlockable = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.UnlockCollateralRequest = function(opt_data) {
+proto.bcsdk.UnlockCollateralRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.UnlockCollateralRequest, jspb.Message);
+goog.inherits(proto.bcsdk.UnlockCollateralRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.UnlockCollateralRequest.displayName = 'proto.bc.UnlockCollateralRequest';
+  proto.bcsdk.UnlockCollateralRequest.displayName = 'proto.bcsdk.UnlockCollateralRequest';
 }
 
 
@@ -1495,8 +1496,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.UnlockCollateralRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.UnlockCollateralRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.UnlockCollateralRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.UnlockCollateralRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -1505,11 +1506,11 @@ proto.bc.UnlockCollateralRequest.prototype.toObject = function(opt_includeInstan
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.UnlockCollateralRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.UnlockCollateralRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.UnlockCollateralRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.UnlockCollateralRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     txHash: jspb.Message.getFieldWithDefault(msg, 1, ""),
     txOutputIndex: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -1528,23 +1529,23 @@ proto.bc.UnlockCollateralRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.UnlockCollateralRequest}
+ * @return {!proto.bcsdk.UnlockCollateralRequest}
  */
-proto.bc.UnlockCollateralRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.UnlockCollateralRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.UnlockCollateralRequest;
-  return proto.bc.UnlockCollateralRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.UnlockCollateralRequest;
+  return proto.bcsdk.UnlockCollateralRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.UnlockCollateralRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.UnlockCollateralRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.UnlockCollateralRequest}
+ * @return {!proto.bcsdk.UnlockCollateralRequest}
  */
-proto.bc.UnlockCollateralRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.UnlockCollateralRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -1580,9 +1581,9 @@ proto.bc.UnlockCollateralRequest.deserializeBinaryFromReader = function(msg, rea
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.UnlockCollateralRequest.prototype.serializeBinary = function() {
+proto.bcsdk.UnlockCollateralRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.UnlockCollateralRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.UnlockCollateralRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -1590,11 +1591,11 @@ proto.bc.UnlockCollateralRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.UnlockCollateralRequest} message
+ * @param {!proto.bcsdk.UnlockCollateralRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.UnlockCollateralRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.UnlockCollateralRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxHash();
   if (f.length > 0) {
@@ -1631,13 +1632,13 @@ proto.bc.UnlockCollateralRequest.serializeBinaryToWriter = function(message, wri
  * optional string tx_hash = 1;
  * @return {string}
  */
-proto.bc.UnlockCollateralRequest.prototype.getTxHash = function() {
+proto.bcsdk.UnlockCollateralRequest.prototype.getTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.UnlockCollateralRequest.prototype.setTxHash = function(value) {
+proto.bcsdk.UnlockCollateralRequest.prototype.setTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1646,13 +1647,13 @@ proto.bc.UnlockCollateralRequest.prototype.setTxHash = function(value) {
  * optional uint32 tx_output_index = 2;
  * @return {number}
  */
-proto.bc.UnlockCollateralRequest.prototype.getTxOutputIndex = function() {
+proto.bcsdk.UnlockCollateralRequest.prototype.getTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.UnlockCollateralRequest.prototype.setTxOutputIndex = function(value) {
+proto.bcsdk.UnlockCollateralRequest.prototype.setTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -1661,13 +1662,13 @@ proto.bc.UnlockCollateralRequest.prototype.setTxOutputIndex = function(value) {
  * optional string bc_address = 3;
  * @return {string}
  */
-proto.bc.UnlockCollateralRequest.prototype.getBcAddress = function() {
+proto.bcsdk.UnlockCollateralRequest.prototype.getBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.UnlockCollateralRequest.prototype.setBcAddress = function(value) {
+proto.bcsdk.UnlockCollateralRequest.prototype.setBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -1676,13 +1677,13 @@ proto.bc.UnlockCollateralRequest.prototype.setBcAddress = function(value) {
  * optional string bc_private_key_hex = 4;
  * @return {string}
  */
-proto.bc.UnlockCollateralRequest.prototype.getBcPrivateKeyHex = function() {
+proto.bcsdk.UnlockCollateralRequest.prototype.getBcPrivateKeyHex = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.UnlockCollateralRequest.prototype.setBcPrivateKeyHex = function(value) {
+proto.bcsdk.UnlockCollateralRequest.prototype.setBcPrivateKeyHex = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -1698,12 +1699,12 @@ proto.bc.UnlockCollateralRequest.prototype.setBcPrivateKeyHex = function(value) 
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetUnlockTakerTxParamsRequest = function(opt_data) {
+proto.bcsdk.GetUnlockTakerTxParamsRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetUnlockTakerTxParamsRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetUnlockTakerTxParamsRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetUnlockTakerTxParamsRequest.displayName = 'proto.bc.GetUnlockTakerTxParamsRequest';
+  proto.bcsdk.GetUnlockTakerTxParamsRequest.displayName = 'proto.bcsdk.GetUnlockTakerTxParamsRequest';
 }
 
 
@@ -1718,8 +1719,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetUnlockTakerTxParamsRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetUnlockTakerTxParamsRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetUnlockTakerTxParamsRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetUnlockTakerTxParamsRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -1728,11 +1729,11 @@ proto.bc.GetUnlockTakerTxParamsRequest.prototype.toObject = function(opt_include
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetUnlockTakerTxParamsRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetUnlockTakerTxParamsRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetUnlockTakerTxParamsRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     txHash: jspb.Message.getFieldWithDefault(msg, 1, ""),
     txOutputIndex: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -1749,23 +1750,23 @@ proto.bc.GetUnlockTakerTxParamsRequest.toObject = function(includeInstance, msg)
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetUnlockTakerTxParamsRequest}
+ * @return {!proto.bcsdk.GetUnlockTakerTxParamsRequest}
  */
-proto.bc.GetUnlockTakerTxParamsRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetUnlockTakerTxParamsRequest;
-  return proto.bc.GetUnlockTakerTxParamsRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetUnlockTakerTxParamsRequest;
+  return proto.bcsdk.GetUnlockTakerTxParamsRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetUnlockTakerTxParamsRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetUnlockTakerTxParamsRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetUnlockTakerTxParamsRequest}
+ * @return {!proto.bcsdk.GetUnlockTakerTxParamsRequest}
  */
-proto.bc.GetUnlockTakerTxParamsRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -1793,9 +1794,9 @@ proto.bc.GetUnlockTakerTxParamsRequest.deserializeBinaryFromReader = function(ms
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetUnlockTakerTxParamsRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetUnlockTakerTxParamsRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetUnlockTakerTxParamsRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -1803,11 +1804,11 @@ proto.bc.GetUnlockTakerTxParamsRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetUnlockTakerTxParamsRequest} message
+ * @param {!proto.bcsdk.GetUnlockTakerTxParamsRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetUnlockTakerTxParamsRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTxHash();
   if (f.length > 0) {
@@ -1830,13 +1831,13 @@ proto.bc.GetUnlockTakerTxParamsRequest.serializeBinaryToWriter = function(messag
  * optional string tx_hash = 1;
  * @return {string}
  */
-proto.bc.GetUnlockTakerTxParamsRequest.prototype.getTxHash = function() {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.prototype.getTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetUnlockTakerTxParamsRequest.prototype.setTxHash = function(value) {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.prototype.setTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1845,13 +1846,13 @@ proto.bc.GetUnlockTakerTxParamsRequest.prototype.setTxHash = function(value) {
  * optional uint32 tx_output_index = 2;
  * @return {number}
  */
-proto.bc.GetUnlockTakerTxParamsRequest.prototype.getTxOutputIndex = function() {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.prototype.getTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetUnlockTakerTxParamsRequest.prototype.setTxOutputIndex = function(value) {
+proto.bcsdk.GetUnlockTakerTxParamsRequest.prototype.setTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -1867,19 +1868,19 @@ proto.bc.GetUnlockTakerTxParamsRequest.prototype.setTxOutputIndex = function(val
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetUnlockTakerTxParamsResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetUnlockTakerTxParamsResponse.repeatedFields_, null);
+proto.bcsdk.GetUnlockTakerTxParamsResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetUnlockTakerTxParamsResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.GetUnlockTakerTxParamsResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetUnlockTakerTxParamsResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetUnlockTakerTxParamsResponse.displayName = 'proto.bc.GetUnlockTakerTxParamsResponse';
+  proto.bcsdk.GetUnlockTakerTxParamsResponse.displayName = 'proto.bcsdk.GetUnlockTakerTxParamsResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.GetUnlockTakerTxParamsResponse.repeatedFields_ = [1];
+proto.bcsdk.GetUnlockTakerTxParamsResponse.repeatedFields_ = [1];
 
 
 
@@ -1894,8 +1895,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetUnlockTakerTxParamsResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetUnlockTakerTxParamsResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -1904,11 +1905,11 @@ proto.bc.GetUnlockTakerTxParamsResponse.prototype.toObject = function(opt_includ
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetUnlockTakerTxParamsResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetUnlockTakerTxParamsResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetUnlockTakerTxParamsResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     unlockScriptsList: jspb.Message.getRepeatedField(msg, 1),
     valueInTx: msg.getValueInTx_asB64()
@@ -1925,23 +1926,23 @@ proto.bc.GetUnlockTakerTxParamsResponse.toObject = function(includeInstance, msg
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetUnlockTakerTxParamsResponse}
+ * @return {!proto.bcsdk.GetUnlockTakerTxParamsResponse}
  */
-proto.bc.GetUnlockTakerTxParamsResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetUnlockTakerTxParamsResponse;
-  return proto.bc.GetUnlockTakerTxParamsResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetUnlockTakerTxParamsResponse;
+  return proto.bcsdk.GetUnlockTakerTxParamsResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetUnlockTakerTxParamsResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetUnlockTakerTxParamsResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetUnlockTakerTxParamsResponse}
+ * @return {!proto.bcsdk.GetUnlockTakerTxParamsResponse}
  */
-proto.bc.GetUnlockTakerTxParamsResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -1969,9 +1970,9 @@ proto.bc.GetUnlockTakerTxParamsResponse.deserializeBinaryFromReader = function(m
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetUnlockTakerTxParamsResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetUnlockTakerTxParamsResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -1979,11 +1980,11 @@ proto.bc.GetUnlockTakerTxParamsResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetUnlockTakerTxParamsResponse} message
+ * @param {!proto.bcsdk.GetUnlockTakerTxParamsResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetUnlockTakerTxParamsResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getUnlockScriptsList();
   if (f.length > 0) {
@@ -2006,13 +2007,13 @@ proto.bc.GetUnlockTakerTxParamsResponse.serializeBinaryToWriter = function(messa
  * repeated string unlock_scripts = 1;
  * @return {!Array<string>}
  */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.getUnlockScriptsList = function() {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.getUnlockScriptsList = function() {
   return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
 };
 
 
 /** @param {!Array<string>} value */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.setUnlockScriptsList = function(value) {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.setUnlockScriptsList = function(value) {
   jspb.Message.setField(this, 1, value || []);
 };
 
@@ -2021,12 +2022,12 @@ proto.bc.GetUnlockTakerTxParamsResponse.prototype.setUnlockScriptsList = functio
  * @param {string} value
  * @param {number=} opt_index
  */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.addUnlockScripts = function(value, opt_index) {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.addUnlockScripts = function(value, opt_index) {
   jspb.Message.addToRepeatedField(this, 1, value, opt_index);
 };
 
 
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.clearUnlockScriptsList = function() {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.clearUnlockScriptsList = function() {
   this.setUnlockScriptsList([]);
 };
 
@@ -2035,7 +2036,7 @@ proto.bc.GetUnlockTakerTxParamsResponse.prototype.clearUnlockScriptsList = funct
  * optional bytes value_in_tx = 2;
  * @return {!(string|Uint8Array)}
  */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.getValueInTx = function() {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.getValueInTx = function() {
   return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -2045,7 +2046,7 @@ proto.bc.GetUnlockTakerTxParamsResponse.prototype.getValueInTx = function() {
  * This is a type-conversion wrapper around `getValueInTx()`
  * @return {string}
  */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.getValueInTx_asB64 = function() {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.getValueInTx_asB64 = function() {
   return /** @type {string} */ (jspb.Message.bytesAsB64(
       this.getValueInTx()));
 };
@@ -2058,14 +2059,14 @@ proto.bc.GetUnlockTakerTxParamsResponse.prototype.getValueInTx_asB64 = function(
  * This is a type-conversion wrapper around `getValueInTx()`
  * @return {!Uint8Array}
  */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.getValueInTx_asU8 = function() {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.getValueInTx_asU8 = function() {
   return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
       this.getValueInTx()));
 };
 
 
 /** @param {!(string|Uint8Array)} value */
-proto.bc.GetUnlockTakerTxParamsResponse.prototype.setValueInTx = function(value) {
+proto.bcsdk.GetUnlockTakerTxParamsResponse.prototype.setValueInTx = function(value) {
   jspb.Message.setProto3BytesField(this, 2, value);
 };
 
@@ -2081,12 +2082,12 @@ proto.bc.GetUnlockTakerTxParamsResponse.prototype.setValueInTx = function(value)
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.MakerOrderInfo = function(opt_data) {
+proto.bcsdk.MakerOrderInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.MakerOrderInfo, jspb.Message);
+goog.inherits(proto.bcsdk.MakerOrderInfo, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.MakerOrderInfo.displayName = 'proto.bc.MakerOrderInfo';
+  proto.bcsdk.MakerOrderInfo.displayName = 'proto.bcsdk.MakerOrderInfo';
 }
 
 
@@ -2101,8 +2102,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.MakerOrderInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.MakerOrderInfo.toObject(opt_includeInstance, this);
+proto.bcsdk.MakerOrderInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.MakerOrderInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -2111,11 +2112,11 @@ proto.bc.MakerOrderInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.MakerOrderInfo} msg The msg instance to transform.
+ * @param {!proto.bcsdk.MakerOrderInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.MakerOrderInfo.toObject = function(includeInstance, msg) {
+proto.bcsdk.MakerOrderInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     tradeHeight: jspb.Message.getFieldWithDefault(msg, 1, 0),
     deposit: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -2149,23 +2150,23 @@ proto.bc.MakerOrderInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.MakerOrderInfo}
+ * @return {!proto.bcsdk.MakerOrderInfo}
  */
-proto.bc.MakerOrderInfo.deserializeBinary = function(bytes) {
+proto.bcsdk.MakerOrderInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.MakerOrderInfo;
-  return proto.bc.MakerOrderInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.MakerOrderInfo;
+  return proto.bcsdk.MakerOrderInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.MakerOrderInfo} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.MakerOrderInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.MakerOrderInfo}
+ * @return {!proto.bcsdk.MakerOrderInfo}
  */
-proto.bc.MakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.MakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2261,9 +2262,9 @@ proto.bc.MakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.MakerOrderInfo.prototype.serializeBinary = function() {
+proto.bcsdk.MakerOrderInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.MakerOrderInfo.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.MakerOrderInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2271,11 +2272,11 @@ proto.bc.MakerOrderInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.MakerOrderInfo} message
+ * @param {!proto.bcsdk.MakerOrderInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.MakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.MakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTradeHeight();
   if (f !== 0) {
@@ -2417,13 +2418,13 @@ proto.bc.MakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
  * optional uint64 trade_height = 1;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getTradeHeight = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getTradeHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setTradeHeight = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setTradeHeight = function(value) {
   jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -2432,13 +2433,13 @@ proto.bc.MakerOrderInfo.prototype.setTradeHeight = function(value) {
  * optional uint64 deposit = 2;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getDeposit = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getDeposit = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setDeposit = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setDeposit = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -2447,13 +2448,13 @@ proto.bc.MakerOrderInfo.prototype.setDeposit = function(value) {
  * optional uint64 settlement = 3;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getSettlement = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getSettlement = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setSettlement = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setSettlement = function(value) {
   jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -2462,13 +2463,13 @@ proto.bc.MakerOrderInfo.prototype.setSettlement = function(value) {
  * optional uint64 shift_maker = 4;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getShiftMaker = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getShiftMaker = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setShiftMaker = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setShiftMaker = function(value) {
   jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -2477,13 +2478,13 @@ proto.bc.MakerOrderInfo.prototype.setShiftMaker = function(value) {
  * optional uint64 shift_taker = 5;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getShiftTaker = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getShiftTaker = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setShiftTaker = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setShiftTaker = function(value) {
   jspb.Message.setProto3IntField(this, 5, value);
 };
 
@@ -2492,13 +2493,13 @@ proto.bc.MakerOrderInfo.prototype.setShiftTaker = function(value) {
  * optional string sends_from_chain = 6;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getSendsFromChain = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getSendsFromChain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setSendsFromChain = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setSendsFromChain = function(value) {
   jspb.Message.setProto3StringField(this, 6, value);
 };
 
@@ -2507,13 +2508,13 @@ proto.bc.MakerOrderInfo.prototype.setSendsFromChain = function(value) {
  * optional string receives_to_chain = 7;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getReceivesToChain = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getReceivesToChain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setReceivesToChain = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setReceivesToChain = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
 };
 
@@ -2522,13 +2523,13 @@ proto.bc.MakerOrderInfo.prototype.setReceivesToChain = function(value) {
  * optional string sends_from_address = 8;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getSendsFromAddress = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setSendsFromAddress = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
 };
 
@@ -2537,13 +2538,13 @@ proto.bc.MakerOrderInfo.prototype.setSendsFromAddress = function(value) {
  * optional string receives_to_address = 9;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getReceivesToAddress = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setReceivesToAddress = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 9, value);
 };
 
@@ -2552,13 +2553,13 @@ proto.bc.MakerOrderInfo.prototype.setReceivesToAddress = function(value) {
  * optional string sends_unit = 10;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getSendsUnit = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getSendsUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setSendsUnit = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setSendsUnit = function(value) {
   jspb.Message.setProto3StringField(this, 10, value);
 };
 
@@ -2567,13 +2568,13 @@ proto.bc.MakerOrderInfo.prototype.setSendsUnit = function(value) {
  * optional string receives_unit = 11;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getReceivesUnit = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getReceivesUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setReceivesUnit = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setReceivesUnit = function(value) {
   jspb.Message.setProto3StringField(this, 11, value);
 };
 
@@ -2582,13 +2583,13 @@ proto.bc.MakerOrderInfo.prototype.setReceivesUnit = function(value) {
  * optional string double_hashed_bc_address = 12;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getDoubleHashedBcAddress = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getDoubleHashedBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setDoubleHashedBcAddress = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setDoubleHashedBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 12, value);
 };
 
@@ -2597,13 +2598,13 @@ proto.bc.MakerOrderInfo.prototype.setDoubleHashedBcAddress = function(value) {
  * optional string collateralized_nrg = 13;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getCollateralizedNrg = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getCollateralizedNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setCollateralizedNrg = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setCollateralizedNrg = function(value) {
   jspb.Message.setProto3StringField(this, 13, value);
 };
 
@@ -2612,13 +2613,13 @@ proto.bc.MakerOrderInfo.prototype.setCollateralizedNrg = function(value) {
  * optional string nrg_unit = 14;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getNrgUnit = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getNrgUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setNrgUnit = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setNrgUnit = function(value) {
   jspb.Message.setProto3StringField(this, 14, value);
 };
 
@@ -2627,13 +2628,13 @@ proto.bc.MakerOrderInfo.prototype.setNrgUnit = function(value) {
  * optional string tx_hash = 15;
  * @return {string}
  */
-proto.bc.MakerOrderInfo.prototype.getTxHash = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.MakerOrderInfo.prototype.setTxHash = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 15, value);
 };
 
@@ -2642,13 +2643,13 @@ proto.bc.MakerOrderInfo.prototype.setTxHash = function(value) {
  * optional uint32 tx_output_index = 16;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getTxOutputIndex = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setTxOutputIndex = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 16, value);
 };
 
@@ -2659,13 +2660,13 @@ proto.bc.MakerOrderInfo.prototype.setTxOutputIndex = function(value) {
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
-proto.bc.MakerOrderInfo.prototype.getIsSettled = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getIsSettled = function() {
   return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 17, false));
 };
 
 
 /** @param {boolean} value */
-proto.bc.MakerOrderInfo.prototype.setIsSettled = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setIsSettled = function(value) {
   jspb.Message.setProto3BooleanField(this, 17, value);
 };
 
@@ -2674,13 +2675,13 @@ proto.bc.MakerOrderInfo.prototype.setIsSettled = function(value) {
  * optional uint32 fixed_unit_fee = 18;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getFixedUnitFee = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getFixedUnitFee = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 18, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setFixedUnitFee = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setFixedUnitFee = function(value) {
   jspb.Message.setProto3IntField(this, 18, value);
 };
 
@@ -2689,13 +2690,13 @@ proto.bc.MakerOrderInfo.prototype.setFixedUnitFee = function(value) {
  * optional uint32 base = 19;
  * @return {number}
  */
-proto.bc.MakerOrderInfo.prototype.getBase = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getBase = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 19, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.MakerOrderInfo.prototype.setBase = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setBase = function(value) {
   jspb.Message.setProto3IntField(this, 19, value);
 };
 
@@ -2711,12 +2712,12 @@ proto.bc.MakerOrderInfo.prototype.setBase = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.TakerOrderInfo = function(opt_data) {
+proto.bcsdk.TakerOrderInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.TakerOrderInfo, jspb.Message);
+goog.inherits(proto.bcsdk.TakerOrderInfo, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.TakerOrderInfo.displayName = 'proto.bc.TakerOrderInfo';
+  proto.bcsdk.TakerOrderInfo.displayName = 'proto.bcsdk.TakerOrderInfo';
 }
 
 
@@ -2731,8 +2732,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.TakerOrderInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.TakerOrderInfo.toObject(opt_includeInstance, this);
+proto.bcsdk.TakerOrderInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.TakerOrderInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -2741,11 +2742,11 @@ proto.bc.TakerOrderInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.TakerOrderInfo} msg The msg instance to transform.
+ * @param {!proto.bcsdk.TakerOrderInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.TakerOrderInfo.toObject = function(includeInstance, msg) {
+proto.bcsdk.TakerOrderInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
     sendsFromAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     receivesToAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -2769,23 +2770,23 @@ proto.bc.TakerOrderInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.TakerOrderInfo}
+ * @return {!proto.bcsdk.TakerOrderInfo}
  */
-proto.bc.TakerOrderInfo.deserializeBinary = function(bytes) {
+proto.bcsdk.TakerOrderInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.TakerOrderInfo;
-  return proto.bc.TakerOrderInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.TakerOrderInfo;
+  return proto.bcsdk.TakerOrderInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.TakerOrderInfo} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.TakerOrderInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.TakerOrderInfo}
+ * @return {!proto.bcsdk.TakerOrderInfo}
  */
-proto.bc.TakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.TakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2841,9 +2842,9 @@ proto.bc.TakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.TakerOrderInfo.prototype.serializeBinary = function() {
+proto.bcsdk.TakerOrderInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.TakerOrderInfo.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.TakerOrderInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2851,11 +2852,11 @@ proto.bc.TakerOrderInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.TakerOrderInfo} message
+ * @param {!proto.bcsdk.TakerOrderInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.TakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.TakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getSendsFromAddress();
   if (f.length > 0) {
@@ -2927,13 +2928,13 @@ proto.bc.TakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
  * optional string sends_from_address = 1;
  * @return {string}
  */
-proto.bc.TakerOrderInfo.prototype.getSendsFromAddress = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrderInfo.prototype.setSendsFromAddress = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -2942,13 +2943,13 @@ proto.bc.TakerOrderInfo.prototype.setSendsFromAddress = function(value) {
  * optional string receives_to_address = 2;
  * @return {string}
  */
-proto.bc.TakerOrderInfo.prototype.getReceivesToAddress = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrderInfo.prototype.setReceivesToAddress = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -2957,13 +2958,13 @@ proto.bc.TakerOrderInfo.prototype.setReceivesToAddress = function(value) {
  * optional string double_hashed_bc_address = 3;
  * @return {string}
  */
-proto.bc.TakerOrderInfo.prototype.getDoubleHashedBcAddress = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getDoubleHashedBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrderInfo.prototype.setDoubleHashedBcAddress = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setDoubleHashedBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -2974,13 +2975,13 @@ proto.bc.TakerOrderInfo.prototype.setDoubleHashedBcAddress = function(value) {
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
-proto.bc.TakerOrderInfo.prototype.getIsSettled = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getIsSettled = function() {
   return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 4, false));
 };
 
 
 /** @param {boolean} value */
-proto.bc.TakerOrderInfo.prototype.setIsSettled = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setIsSettled = function(value) {
   jspb.Message.setProto3BooleanField(this, 4, value);
 };
 
@@ -2989,13 +2990,13 @@ proto.bc.TakerOrderInfo.prototype.setIsSettled = function(value) {
  * optional string tx_hash = 5;
  * @return {string}
  */
-proto.bc.TakerOrderInfo.prototype.getTxHash = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrderInfo.prototype.setTxHash = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
 };
 
@@ -3004,13 +3005,13 @@ proto.bc.TakerOrderInfo.prototype.setTxHash = function(value) {
  * optional uint32 tx_output_index = 6;
  * @return {number}
  */
-proto.bc.TakerOrderInfo.prototype.getTxOutputIndex = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.TakerOrderInfo.prototype.setTxOutputIndex = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 6, value);
 };
 
@@ -3019,13 +3020,13 @@ proto.bc.TakerOrderInfo.prototype.setTxOutputIndex = function(value) {
  * optional string total_collateral = 7;
  * @return {string}
  */
-proto.bc.TakerOrderInfo.prototype.getTotalCollateral = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getTotalCollateral = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrderInfo.prototype.setTotalCollateral = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setTotalCollateral = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
 };
 
@@ -3034,13 +3035,13 @@ proto.bc.TakerOrderInfo.prototype.setTotalCollateral = function(value) {
  * optional uint64 trade_height = 8;
  * @return {number}
  */
-proto.bc.TakerOrderInfo.prototype.getTradeHeight = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getTradeHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.TakerOrderInfo.prototype.setTradeHeight = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setTradeHeight = function(value) {
   jspb.Message.setProto3IntField(this, 8, value);
 };
 
@@ -3049,13 +3050,13 @@ proto.bc.TakerOrderInfo.prototype.setTradeHeight = function(value) {
  * optional uint64 timestamp = 9;
  * @return {number}
  */
-proto.bc.TakerOrderInfo.prototype.getTimestamp = function() {
+proto.bcsdk.TakerOrderInfo.prototype.getTimestamp = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.TakerOrderInfo.prototype.setTimestamp = function(value) {
+proto.bcsdk.TakerOrderInfo.prototype.setTimestamp = function(value) {
   jspb.Message.setProto3IntField(this, 9, value);
 };
 
@@ -3071,12 +3072,12 @@ proto.bc.TakerOrderInfo.prototype.setTimestamp = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.MatchedOrderInfo = function(opt_data) {
+proto.bcsdk.MatchedOrderInfo = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.MatchedOrderInfo, jspb.Message);
+goog.inherits(proto.bcsdk.MatchedOrderInfo, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.MatchedOrderInfo.displayName = 'proto.bc.MatchedOrderInfo';
+  proto.bcsdk.MatchedOrderInfo.displayName = 'proto.bcsdk.MatchedOrderInfo';
 }
 
 
@@ -3091,8 +3092,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.MatchedOrderInfo.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.MatchedOrderInfo.toObject(opt_includeInstance, this);
+proto.bcsdk.MatchedOrderInfo.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.MatchedOrderInfo.toObject(opt_includeInstance, this);
 };
 
 
@@ -3101,14 +3102,14 @@ proto.bc.MatchedOrderInfo.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.MatchedOrderInfo} msg The msg instance to transform.
+ * @param {!proto.bcsdk.MatchedOrderInfo} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.MatchedOrderInfo.toObject = function(includeInstance, msg) {
+proto.bcsdk.MatchedOrderInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    maker: (f = msg.getMaker()) && proto.bc.MakerOrderInfo.toObject(includeInstance, f),
-    taker: (f = msg.getTaker()) && proto.bc.TakerOrderInfo.toObject(includeInstance, f),
+    maker: (f = msg.getMaker()) && proto.bcsdk.MakerOrderInfo.toObject(includeInstance, f),
+    taker: (f = msg.getTaker()) && proto.bcsdk.TakerOrderInfo.toObject(includeInstance, f),
     unlocked: jspb.Message.getFieldWithDefault(msg, 7, false)
   };
 
@@ -3123,23 +3124,23 @@ proto.bc.MatchedOrderInfo.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.MatchedOrderInfo}
+ * @return {!proto.bcsdk.MatchedOrderInfo}
  */
-proto.bc.MatchedOrderInfo.deserializeBinary = function(bytes) {
+proto.bcsdk.MatchedOrderInfo.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.MatchedOrderInfo;
-  return proto.bc.MatchedOrderInfo.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.MatchedOrderInfo;
+  return proto.bcsdk.MatchedOrderInfo.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.MatchedOrderInfo} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.MatchedOrderInfo} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.MatchedOrderInfo}
+ * @return {!proto.bcsdk.MatchedOrderInfo}
  */
-proto.bc.MatchedOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.MatchedOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3147,13 +3148,13 @@ proto.bc.MatchedOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.bc.MakerOrderInfo;
-      reader.readMessage(value,proto.bc.MakerOrderInfo.deserializeBinaryFromReader);
+      var value = new proto.bcsdk.MakerOrderInfo;
+      reader.readMessage(value,proto.bcsdk.MakerOrderInfo.deserializeBinaryFromReader);
       msg.setMaker(value);
       break;
     case 2:
-      var value = new proto.bc.TakerOrderInfo;
-      reader.readMessage(value,proto.bc.TakerOrderInfo.deserializeBinaryFromReader);
+      var value = new proto.bcsdk.TakerOrderInfo;
+      reader.readMessage(value,proto.bcsdk.TakerOrderInfo.deserializeBinaryFromReader);
       msg.setTaker(value);
       break;
     case 7:
@@ -3173,9 +3174,9 @@ proto.bc.MatchedOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.MatchedOrderInfo.prototype.serializeBinary = function() {
+proto.bcsdk.MatchedOrderInfo.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.MatchedOrderInfo.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.MatchedOrderInfo.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3183,18 +3184,18 @@ proto.bc.MatchedOrderInfo.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.MatchedOrderInfo} message
+ * @param {!proto.bcsdk.MatchedOrderInfo} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.MatchedOrderInfo.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.MatchedOrderInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMaker();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      proto.bc.MakerOrderInfo.serializeBinaryToWriter
+      proto.bcsdk.MakerOrderInfo.serializeBinaryToWriter
     );
   }
   f = message.getTaker();
@@ -3202,7 +3203,7 @@ proto.bc.MatchedOrderInfo.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       2,
       f,
-      proto.bc.TakerOrderInfo.serializeBinaryToWriter
+      proto.bcsdk.TakerOrderInfo.serializeBinaryToWriter
     );
   }
   f = message.getUnlocked();
@@ -3217,21 +3218,21 @@ proto.bc.MatchedOrderInfo.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * optional MakerOrderInfo maker = 1;
- * @return {?proto.bc.MakerOrderInfo}
+ * @return {?proto.bcsdk.MakerOrderInfo}
  */
-proto.bc.MatchedOrderInfo.prototype.getMaker = function() {
-  return /** @type{?proto.bc.MakerOrderInfo} */ (
-    jspb.Message.getWrapperField(this, proto.bc.MakerOrderInfo, 1));
+proto.bcsdk.MatchedOrderInfo.prototype.getMaker = function() {
+  return /** @type{?proto.bcsdk.MakerOrderInfo} */ (
+    jspb.Message.getWrapperField(this, proto.bcsdk.MakerOrderInfo, 1));
 };
 
 
-/** @param {?proto.bc.MakerOrderInfo|undefined} value */
-proto.bc.MatchedOrderInfo.prototype.setMaker = function(value) {
+/** @param {?proto.bcsdk.MakerOrderInfo|undefined} value */
+proto.bcsdk.MatchedOrderInfo.prototype.setMaker = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
 
 
-proto.bc.MatchedOrderInfo.prototype.clearMaker = function() {
+proto.bcsdk.MatchedOrderInfo.prototype.clearMaker = function() {
   this.setMaker(undefined);
 };
 
@@ -3240,28 +3241,28 @@ proto.bc.MatchedOrderInfo.prototype.clearMaker = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.bc.MatchedOrderInfo.prototype.hasMaker = function() {
+proto.bcsdk.MatchedOrderInfo.prototype.hasMaker = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
 
 /**
  * optional TakerOrderInfo taker = 2;
- * @return {?proto.bc.TakerOrderInfo}
+ * @return {?proto.bcsdk.TakerOrderInfo}
  */
-proto.bc.MatchedOrderInfo.prototype.getTaker = function() {
-  return /** @type{?proto.bc.TakerOrderInfo} */ (
-    jspb.Message.getWrapperField(this, proto.bc.TakerOrderInfo, 2));
+proto.bcsdk.MatchedOrderInfo.prototype.getTaker = function() {
+  return /** @type{?proto.bcsdk.TakerOrderInfo} */ (
+    jspb.Message.getWrapperField(this, proto.bcsdk.TakerOrderInfo, 2));
 };
 
 
-/** @param {?proto.bc.TakerOrderInfo|undefined} value */
-proto.bc.MatchedOrderInfo.prototype.setTaker = function(value) {
+/** @param {?proto.bcsdk.TakerOrderInfo|undefined} value */
+proto.bcsdk.MatchedOrderInfo.prototype.setTaker = function(value) {
   jspb.Message.setWrapperField(this, 2, value);
 };
 
 
-proto.bc.MatchedOrderInfo.prototype.clearTaker = function() {
+proto.bcsdk.MatchedOrderInfo.prototype.clearTaker = function() {
   this.setTaker(undefined);
 };
 
@@ -3270,7 +3271,7 @@ proto.bc.MatchedOrderInfo.prototype.clearTaker = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.bc.MatchedOrderInfo.prototype.hasTaker = function() {
+proto.bcsdk.MatchedOrderInfo.prototype.hasTaker = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
@@ -3281,13 +3282,13 @@ proto.bc.MatchedOrderInfo.prototype.hasTaker = function() {
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
-proto.bc.MatchedOrderInfo.prototype.getUnlocked = function() {
+proto.bcsdk.MatchedOrderInfo.prototype.getUnlocked = function() {
   return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 7, false));
 };
 
 
 /** @param {boolean} value */
-proto.bc.MatchedOrderInfo.prototype.setUnlocked = function(value) {
+proto.bcsdk.MatchedOrderInfo.prototype.setUnlocked = function(value) {
   jspb.Message.setProto3BooleanField(this, 7, value);
 };
 
@@ -3303,19 +3304,19 @@ proto.bc.MatchedOrderInfo.prototype.setUnlocked = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetOpenOrdersResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetOpenOrdersResponse.repeatedFields_, null);
+proto.bcsdk.GetOpenOrdersResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetOpenOrdersResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.GetOpenOrdersResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetOpenOrdersResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetOpenOrdersResponse.displayName = 'proto.bc.GetOpenOrdersResponse';
+  proto.bcsdk.GetOpenOrdersResponse.displayName = 'proto.bcsdk.GetOpenOrdersResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.GetOpenOrdersResponse.repeatedFields_ = [1];
+proto.bcsdk.GetOpenOrdersResponse.repeatedFields_ = [1];
 
 
 
@@ -3330,8 +3331,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetOpenOrdersResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetOpenOrdersResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetOpenOrdersResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetOpenOrdersResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -3340,14 +3341,14 @@ proto.bc.GetOpenOrdersResponse.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetOpenOrdersResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetOpenOrdersResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetOpenOrdersResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetOpenOrdersResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     ordersList: jspb.Message.toObjectList(msg.getOrdersList(),
-    proto.bc.MakerOrderInfo.toObject, includeInstance)
+    proto.bcsdk.MakerOrderInfo.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -3361,23 +3362,23 @@ proto.bc.GetOpenOrdersResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetOpenOrdersResponse}
+ * @return {!proto.bcsdk.GetOpenOrdersResponse}
  */
-proto.bc.GetOpenOrdersResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetOpenOrdersResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetOpenOrdersResponse;
-  return proto.bc.GetOpenOrdersResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetOpenOrdersResponse;
+  return proto.bcsdk.GetOpenOrdersResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetOpenOrdersResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetOpenOrdersResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetOpenOrdersResponse}
+ * @return {!proto.bcsdk.GetOpenOrdersResponse}
  */
-proto.bc.GetOpenOrdersResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetOpenOrdersResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3385,8 +3386,8 @@ proto.bc.GetOpenOrdersResponse.deserializeBinaryFromReader = function(msg, reade
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.bc.MakerOrderInfo;
-      reader.readMessage(value,proto.bc.MakerOrderInfo.deserializeBinaryFromReader);
+      var value = new proto.bcsdk.MakerOrderInfo;
+      reader.readMessage(value,proto.bcsdk.MakerOrderInfo.deserializeBinaryFromReader);
       msg.addOrders(value);
       break;
     default:
@@ -3402,9 +3403,9 @@ proto.bc.GetOpenOrdersResponse.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetOpenOrdersResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetOpenOrdersResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetOpenOrdersResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetOpenOrdersResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3412,18 +3413,18 @@ proto.bc.GetOpenOrdersResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetOpenOrdersResponse} message
+ * @param {!proto.bcsdk.GetOpenOrdersResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetOpenOrdersResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetOpenOrdersResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOrdersList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.bc.MakerOrderInfo.serializeBinaryToWriter
+      proto.bcsdk.MakerOrderInfo.serializeBinaryToWriter
     );
   }
 };
@@ -3431,31 +3432,31 @@ proto.bc.GetOpenOrdersResponse.serializeBinaryToWriter = function(message, write
 
 /**
  * repeated MakerOrderInfo orders = 1;
- * @return {!Array<!proto.bc.MakerOrderInfo>}
+ * @return {!Array<!proto.bcsdk.MakerOrderInfo>}
  */
-proto.bc.GetOpenOrdersResponse.prototype.getOrdersList = function() {
-  return /** @type{!Array<!proto.bc.MakerOrderInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.bc.MakerOrderInfo, 1));
+proto.bcsdk.GetOpenOrdersResponse.prototype.getOrdersList = function() {
+  return /** @type{!Array<!proto.bcsdk.MakerOrderInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.MakerOrderInfo, 1));
 };
 
 
-/** @param {!Array<!proto.bc.MakerOrderInfo>} value */
-proto.bc.GetOpenOrdersResponse.prototype.setOrdersList = function(value) {
+/** @param {!Array<!proto.bcsdk.MakerOrderInfo>} value */
+proto.bcsdk.GetOpenOrdersResponse.prototype.setOrdersList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.bc.MakerOrderInfo=} opt_value
+ * @param {!proto.bcsdk.MakerOrderInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.bc.MakerOrderInfo}
+ * @return {!proto.bcsdk.MakerOrderInfo}
  */
-proto.bc.GetOpenOrdersResponse.prototype.addOrders = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.MakerOrderInfo, opt_index);
+proto.bcsdk.GetOpenOrdersResponse.prototype.addOrders = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.MakerOrderInfo, opt_index);
 };
 
 
-proto.bc.GetOpenOrdersResponse.prototype.clearOrdersList = function() {
+proto.bcsdk.GetOpenOrdersResponse.prototype.clearOrdersList = function() {
   this.setOrdersList([]);
 };
 
@@ -3471,12 +3472,354 @@ proto.bc.GetOpenOrdersResponse.prototype.clearOrdersList = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetMatchedOrdersRequest = function(opt_data) {
+proto.bcsdk.GetOrderbookUpdateResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetOrderbookUpdateResponse.repeatedFields_, null);
+};
+goog.inherits(proto.bcsdk.GetOrderbookUpdateResponse, jspb.Message);
+if (true || goog.DEBUG && !COMPILED) {
+  proto.bcsdk.GetOrderbookUpdateResponse.displayName = 'proto.bcsdk.GetOrderbookUpdateResponse';
+}
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.repeatedFields_ = [1,2,3,4,5];
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetOrderbookUpdateResponse.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.bcsdk.GetOrderbookUpdateResponse} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    openOrdersToRemoveList: jspb.Message.getRepeatedField(msg, 1),
+    matchedOrdersToRemoveList: jspb.Message.getRepeatedField(msg, 2),
+    openOrdersToAddList: jspb.Message.toObjectList(msg.getOpenOrdersToAddList(),
+    proto.bcsdk.MakerOrderInfo.toObject, includeInstance),
+    matchedOrdersToAddList: jspb.Message.toObjectList(msg.getMatchedOrdersToAddList(),
+    proto.bcsdk.MatchedOrderInfo.toObject, includeInstance),
+    historicalOrdersToAddList: jspb.Message.toObjectList(msg.getHistoricalOrdersToAddList(),
+    proto.bcsdk.MatchedOrderInfo.toObject, includeInstance)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.bcsdk.GetOrderbookUpdateResponse}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.bcsdk.GetOrderbookUpdateResponse;
+  return proto.bcsdk.GetOrderbookUpdateResponse.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.bcsdk.GetOrderbookUpdateResponse} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.bcsdk.GetOrderbookUpdateResponse}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.addOpenOrdersToRemove(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.addMatchedOrdersToRemove(value);
+      break;
+    case 3:
+      var value = new proto.bcsdk.MakerOrderInfo;
+      reader.readMessage(value,proto.bcsdk.MakerOrderInfo.deserializeBinaryFromReader);
+      msg.addOpenOrdersToAdd(value);
+      break;
+    case 4:
+      var value = new proto.bcsdk.MatchedOrderInfo;
+      reader.readMessage(value,proto.bcsdk.MatchedOrderInfo.deserializeBinaryFromReader);
+      msg.addMatchedOrdersToAdd(value);
+      break;
+    case 5:
+      var value = new proto.bcsdk.MatchedOrderInfo;
+      reader.readMessage(value,proto.bcsdk.MatchedOrderInfo.deserializeBinaryFromReader);
+      msg.addHistoricalOrdersToAdd(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.bcsdk.GetOrderbookUpdateResponse.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.bcsdk.GetOrderbookUpdateResponse} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getOpenOrdersToRemoveList();
+  if (f.length > 0) {
+    writer.writeRepeatedString(
+      1,
+      f
+    );
+  }
+  f = message.getMatchedOrdersToRemoveList();
+  if (f.length > 0) {
+    writer.writeRepeatedString(
+      2,
+      f
+    );
+  }
+  f = message.getOpenOrdersToAddList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      3,
+      f,
+      proto.bcsdk.MakerOrderInfo.serializeBinaryToWriter
+    );
+  }
+  f = message.getMatchedOrdersToAddList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      4,
+      f,
+      proto.bcsdk.MatchedOrderInfo.serializeBinaryToWriter
+    );
+  }
+  f = message.getHistoricalOrdersToAddList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      5,
+      f,
+      proto.bcsdk.MatchedOrderInfo.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * repeated string open_orders_to_remove = 1;
+ * @return {!Array<string>}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.getOpenOrdersToRemoveList = function() {
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
+};
+
+
+/** @param {!Array<string>} value */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.setOpenOrdersToRemoveList = function(value) {
+  jspb.Message.setField(this, 1, value || []);
+};
+
+
+/**
+ * @param {string} value
+ * @param {number=} opt_index
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.addOpenOrdersToRemove = function(value, opt_index) {
+  jspb.Message.addToRepeatedField(this, 1, value, opt_index);
+};
+
+
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.clearOpenOrdersToRemoveList = function() {
+  this.setOpenOrdersToRemoveList([]);
+};
+
+
+/**
+ * repeated string matched_orders_to_remove = 2;
+ * @return {!Array<string>}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.getMatchedOrdersToRemoveList = function() {
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 2));
+};
+
+
+/** @param {!Array<string>} value */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.setMatchedOrdersToRemoveList = function(value) {
+  jspb.Message.setField(this, 2, value || []);
+};
+
+
+/**
+ * @param {string} value
+ * @param {number=} opt_index
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.addMatchedOrdersToRemove = function(value, opt_index) {
+  jspb.Message.addToRepeatedField(this, 2, value, opt_index);
+};
+
+
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.clearMatchedOrdersToRemoveList = function() {
+  this.setMatchedOrdersToRemoveList([]);
+};
+
+
+/**
+ * repeated MakerOrderInfo open_orders_to_add = 3;
+ * @return {!Array<!proto.bcsdk.MakerOrderInfo>}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.getOpenOrdersToAddList = function() {
+  return /** @type{!Array<!proto.bcsdk.MakerOrderInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.MakerOrderInfo, 3));
+};
+
+
+/** @param {!Array<!proto.bcsdk.MakerOrderInfo>} value */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.setOpenOrdersToAddList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 3, value);
+};
+
+
+/**
+ * @param {!proto.bcsdk.MakerOrderInfo=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.bcsdk.MakerOrderInfo}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.addOpenOrdersToAdd = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.bcsdk.MakerOrderInfo, opt_index);
+};
+
+
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.clearOpenOrdersToAddList = function() {
+  this.setOpenOrdersToAddList([]);
+};
+
+
+/**
+ * repeated MatchedOrderInfo matched_orders_to_add = 4;
+ * @return {!Array<!proto.bcsdk.MatchedOrderInfo>}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.getMatchedOrdersToAddList = function() {
+  return /** @type{!Array<!proto.bcsdk.MatchedOrderInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.MatchedOrderInfo, 4));
+};
+
+
+/** @param {!Array<!proto.bcsdk.MatchedOrderInfo>} value */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.setMatchedOrdersToAddList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 4, value);
+};
+
+
+/**
+ * @param {!proto.bcsdk.MatchedOrderInfo=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.bcsdk.MatchedOrderInfo}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.addMatchedOrdersToAdd = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 4, opt_value, proto.bcsdk.MatchedOrderInfo, opt_index);
+};
+
+
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.clearMatchedOrdersToAddList = function() {
+  this.setMatchedOrdersToAddList([]);
+};
+
+
+/**
+ * repeated MatchedOrderInfo historical_orders_to_add = 5;
+ * @return {!Array<!proto.bcsdk.MatchedOrderInfo>}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.getHistoricalOrdersToAddList = function() {
+  return /** @type{!Array<!proto.bcsdk.MatchedOrderInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.MatchedOrderInfo, 5));
+};
+
+
+/** @param {!Array<!proto.bcsdk.MatchedOrderInfo>} value */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.setHistoricalOrdersToAddList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 5, value);
+};
+
+
+/**
+ * @param {!proto.bcsdk.MatchedOrderInfo=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.bcsdk.MatchedOrderInfo}
+ */
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.addHistoricalOrdersToAdd = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 5, opt_value, proto.bcsdk.MatchedOrderInfo, opt_index);
+};
+
+
+proto.bcsdk.GetOrderbookUpdateResponse.prototype.clearHistoricalOrdersToAddList = function() {
+  this.setHistoricalOrdersToAddList([]);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.bcsdk.GetMatchedOrdersRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetMatchedOrdersRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetMatchedOrdersRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetMatchedOrdersRequest.displayName = 'proto.bc.GetMatchedOrdersRequest';
+  proto.bcsdk.GetMatchedOrdersRequest.displayName = 'proto.bcsdk.GetMatchedOrdersRequest';
 }
 
 
@@ -3491,8 +3834,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetMatchedOrdersRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetMatchedOrdersRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetMatchedOrdersRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetMatchedOrdersRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -3501,11 +3844,11 @@ proto.bc.GetMatchedOrdersRequest.prototype.toObject = function(opt_includeInstan
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetMatchedOrdersRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetMatchedOrdersRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetMatchedOrdersRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetMatchedOrdersRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     onlySettled: jspb.Message.getFieldWithDefault(msg, 1, false)
   };
@@ -3521,23 +3864,23 @@ proto.bc.GetMatchedOrdersRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetMatchedOrdersRequest}
+ * @return {!proto.bcsdk.GetMatchedOrdersRequest}
  */
-proto.bc.GetMatchedOrdersRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetMatchedOrdersRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetMatchedOrdersRequest;
-  return proto.bc.GetMatchedOrdersRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetMatchedOrdersRequest;
+  return proto.bcsdk.GetMatchedOrdersRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetMatchedOrdersRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetMatchedOrdersRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetMatchedOrdersRequest}
+ * @return {!proto.bcsdk.GetMatchedOrdersRequest}
  */
-proto.bc.GetMatchedOrdersRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetMatchedOrdersRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3561,9 +3904,9 @@ proto.bc.GetMatchedOrdersRequest.deserializeBinaryFromReader = function(msg, rea
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetMatchedOrdersRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetMatchedOrdersRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetMatchedOrdersRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetMatchedOrdersRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3571,11 +3914,11 @@ proto.bc.GetMatchedOrdersRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetMatchedOrdersRequest} message
+ * @param {!proto.bcsdk.GetMatchedOrdersRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetMatchedOrdersRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetMatchedOrdersRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOnlySettled();
   if (f) {
@@ -3593,13 +3936,13 @@ proto.bc.GetMatchedOrdersRequest.serializeBinaryToWriter = function(message, wri
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
-proto.bc.GetMatchedOrdersRequest.prototype.getOnlySettled = function() {
+proto.bcsdk.GetMatchedOrdersRequest.prototype.getOnlySettled = function() {
   return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 1, false));
 };
 
 
 /** @param {boolean} value */
-proto.bc.GetMatchedOrdersRequest.prototype.setOnlySettled = function(value) {
+proto.bcsdk.GetMatchedOrdersRequest.prototype.setOnlySettled = function(value) {
   jspb.Message.setProto3BooleanField(this, 1, value);
 };
 
@@ -3615,19 +3958,19 @@ proto.bc.GetMatchedOrdersRequest.prototype.setOnlySettled = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetMatchedOrdersResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetMatchedOrdersResponse.repeatedFields_, null);
+proto.bcsdk.GetMatchedOrdersResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetMatchedOrdersResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.GetMatchedOrdersResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetMatchedOrdersResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetMatchedOrdersResponse.displayName = 'proto.bc.GetMatchedOrdersResponse';
+  proto.bcsdk.GetMatchedOrdersResponse.displayName = 'proto.bcsdk.GetMatchedOrdersResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.GetMatchedOrdersResponse.repeatedFields_ = [1];
+proto.bcsdk.GetMatchedOrdersResponse.repeatedFields_ = [1];
 
 
 
@@ -3642,8 +3985,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetMatchedOrdersResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetMatchedOrdersResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetMatchedOrdersResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetMatchedOrdersResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -3652,14 +3995,14 @@ proto.bc.GetMatchedOrdersResponse.prototype.toObject = function(opt_includeInsta
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetMatchedOrdersResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetMatchedOrdersResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetMatchedOrdersResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetMatchedOrdersResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     ordersList: jspb.Message.toObjectList(msg.getOrdersList(),
-    proto.bc.MatchedOrderInfo.toObject, includeInstance)
+    proto.bcsdk.MatchedOrderInfo.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -3673,23 +4016,23 @@ proto.bc.GetMatchedOrdersResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetMatchedOrdersResponse}
+ * @return {!proto.bcsdk.GetMatchedOrdersResponse}
  */
-proto.bc.GetMatchedOrdersResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetMatchedOrdersResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetMatchedOrdersResponse;
-  return proto.bc.GetMatchedOrdersResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetMatchedOrdersResponse;
+  return proto.bcsdk.GetMatchedOrdersResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetMatchedOrdersResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetMatchedOrdersResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetMatchedOrdersResponse}
+ * @return {!proto.bcsdk.GetMatchedOrdersResponse}
  */
-proto.bc.GetMatchedOrdersResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetMatchedOrdersResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3697,8 +4040,8 @@ proto.bc.GetMatchedOrdersResponse.deserializeBinaryFromReader = function(msg, re
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.bc.MatchedOrderInfo;
-      reader.readMessage(value,proto.bc.MatchedOrderInfo.deserializeBinaryFromReader);
+      var value = new proto.bcsdk.MatchedOrderInfo;
+      reader.readMessage(value,proto.bcsdk.MatchedOrderInfo.deserializeBinaryFromReader);
       msg.addOrders(value);
       break;
     default:
@@ -3714,9 +4057,9 @@ proto.bc.GetMatchedOrdersResponse.deserializeBinaryFromReader = function(msg, re
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetMatchedOrdersResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetMatchedOrdersResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetMatchedOrdersResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetMatchedOrdersResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3724,18 +4067,18 @@ proto.bc.GetMatchedOrdersResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetMatchedOrdersResponse} message
+ * @param {!proto.bcsdk.GetMatchedOrdersResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetMatchedOrdersResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetMatchedOrdersResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOrdersList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.bc.MatchedOrderInfo.serializeBinaryToWriter
+      proto.bcsdk.MatchedOrderInfo.serializeBinaryToWriter
     );
   }
 };
@@ -3743,31 +4086,31 @@ proto.bc.GetMatchedOrdersResponse.serializeBinaryToWriter = function(message, wr
 
 /**
  * repeated MatchedOrderInfo orders = 1;
- * @return {!Array<!proto.bc.MatchedOrderInfo>}
+ * @return {!Array<!proto.bcsdk.MatchedOrderInfo>}
  */
-proto.bc.GetMatchedOrdersResponse.prototype.getOrdersList = function() {
-  return /** @type{!Array<!proto.bc.MatchedOrderInfo>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.bc.MatchedOrderInfo, 1));
+proto.bcsdk.GetMatchedOrdersResponse.prototype.getOrdersList = function() {
+  return /** @type{!Array<!proto.bcsdk.MatchedOrderInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.MatchedOrderInfo, 1));
 };
 
 
-/** @param {!Array<!proto.bc.MatchedOrderInfo>} value */
-proto.bc.GetMatchedOrdersResponse.prototype.setOrdersList = function(value) {
+/** @param {!Array<!proto.bcsdk.MatchedOrderInfo>} value */
+proto.bcsdk.GetMatchedOrdersResponse.prototype.setOrdersList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.bc.MatchedOrderInfo=} opt_value
+ * @param {!proto.bcsdk.MatchedOrderInfo=} opt_value
  * @param {number=} opt_index
- * @return {!proto.bc.MatchedOrderInfo}
+ * @return {!proto.bcsdk.MatchedOrderInfo}
  */
-proto.bc.GetMatchedOrdersResponse.prototype.addOrders = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.MatchedOrderInfo, opt_index);
+proto.bcsdk.GetMatchedOrdersResponse.prototype.addOrders = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.MatchedOrderInfo, opt_index);
 };
 
 
-proto.bc.GetMatchedOrdersResponse.prototype.clearOrdersList = function() {
+proto.bcsdk.GetMatchedOrdersResponse.prototype.clearOrdersList = function() {
   this.setOrdersList([]);
 };
 
@@ -3783,12 +4126,12 @@ proto.bc.GetMatchedOrdersResponse.prototype.clearOrdersList = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.PlaceMakerOrderRequest = function(opt_data) {
+proto.bcsdk.PlaceMakerOrderRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.PlaceMakerOrderRequest, jspb.Message);
+goog.inherits(proto.bcsdk.PlaceMakerOrderRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.PlaceMakerOrderRequest.displayName = 'proto.bc.PlaceMakerOrderRequest';
+  proto.bcsdk.PlaceMakerOrderRequest.displayName = 'proto.bcsdk.PlaceMakerOrderRequest';
 }
 
 
@@ -3803,8 +4146,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.PlaceMakerOrderRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.PlaceMakerOrderRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.PlaceMakerOrderRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -3813,11 +4156,11 @@ proto.bc.PlaceMakerOrderRequest.prototype.toObject = function(opt_includeInstanc
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.PlaceMakerOrderRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.PlaceMakerOrderRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.PlaceMakerOrderRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.PlaceMakerOrderRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     shiftMaker: jspb.Message.getFieldWithDefault(msg, 1, 0),
     shiftTaker: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -3848,23 +4191,23 @@ proto.bc.PlaceMakerOrderRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.PlaceMakerOrderRequest}
+ * @return {!proto.bcsdk.PlaceMakerOrderRequest}
  */
-proto.bc.PlaceMakerOrderRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.PlaceMakerOrderRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.PlaceMakerOrderRequest;
-  return proto.bc.PlaceMakerOrderRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.PlaceMakerOrderRequest;
+  return proto.bcsdk.PlaceMakerOrderRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.PlaceMakerOrderRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.PlaceMakerOrderRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.PlaceMakerOrderRequest}
+ * @return {!proto.bcsdk.PlaceMakerOrderRequest}
  */
-proto.bc.PlaceMakerOrderRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.PlaceMakerOrderRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -3948,9 +4291,9 @@ proto.bc.PlaceMakerOrderRequest.deserializeBinaryFromReader = function(msg, read
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.serializeBinary = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.PlaceMakerOrderRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.PlaceMakerOrderRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -3958,11 +4301,11 @@ proto.bc.PlaceMakerOrderRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.PlaceMakerOrderRequest} message
+ * @param {!proto.bcsdk.PlaceMakerOrderRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.PlaceMakerOrderRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.PlaceMakerOrderRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getShiftMaker();
   if (f !== 0) {
@@ -4083,13 +4426,13 @@ proto.bc.PlaceMakerOrderRequest.serializeBinaryToWriter = function(message, writ
  * optional uint64 shift_maker = 1;
  * @return {number}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getShiftMaker = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getShiftMaker = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setShiftMaker = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setShiftMaker = function(value) {
   jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -4098,13 +4441,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setShiftMaker = function(value) {
  * optional uint64 shift_taker = 2;
  * @return {number}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getShiftTaker = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getShiftTaker = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setShiftTaker = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setShiftTaker = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -4113,13 +4456,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setShiftTaker = function(value) {
  * optional uint64 deposit_length = 3;
  * @return {number}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getDepositLength = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getDepositLength = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setDepositLength = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setDepositLength = function(value) {
   jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -4128,13 +4471,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setDepositLength = function(value) {
  * optional uint64 settlement_length = 4;
  * @return {number}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getSettlementLength = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getSettlementLength = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setSettlementLength = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setSettlementLength = function(value) {
   jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -4143,13 +4486,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setSettlementLength = function(value) 
  * optional string sends_from_chain = 5;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getSendsFromChain = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getSendsFromChain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setSendsFromChain = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setSendsFromChain = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
 };
 
@@ -4158,13 +4501,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setSendsFromChain = function(value) {
  * optional string receives_to_chain = 6;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getReceivesToChain = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getReceivesToChain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setReceivesToChain = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setReceivesToChain = function(value) {
   jspb.Message.setProto3StringField(this, 6, value);
 };
 
@@ -4173,13 +4516,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setReceivesToChain = function(value) {
  * optional string sends_from_address = 7;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getSendsFromAddress = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setSendsFromAddress = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
 };
 
@@ -4188,13 +4531,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setSendsFromAddress = function(value) 
  * optional string receives_to_address = 8;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getReceivesToAddress = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setReceivesToAddress = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
 };
 
@@ -4203,13 +4546,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setReceivesToAddress = function(value)
  * optional string sends_unit = 9;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getSendsUnit = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getSendsUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setSendsUnit = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setSendsUnit = function(value) {
   jspb.Message.setProto3StringField(this, 9, value);
 };
 
@@ -4218,13 +4561,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setSendsUnit = function(value) {
  * optional string receives_unit = 10;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getReceivesUnit = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getReceivesUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setReceivesUnit = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setReceivesUnit = function(value) {
   jspb.Message.setProto3StringField(this, 10, value);
 };
 
@@ -4233,13 +4576,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setReceivesUnit = function(value) {
  * optional string bc_address = 11;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getBcAddress = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setBcAddress = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 11, value);
 };
 
@@ -4248,13 +4591,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setBcAddress = function(value) {
  * optional string bc_private_key_hex = 12;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getBcPrivateKeyHex = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getBcPrivateKeyHex = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 12, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setBcPrivateKeyHex = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setBcPrivateKeyHex = function(value) {
   jspb.Message.setProto3StringField(this, 12, value);
 };
 
@@ -4263,13 +4606,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setBcPrivateKeyHex = function(value) {
  * optional string collateralized_nrg = 13;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getCollateralizedNrg = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getCollateralizedNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setCollateralizedNrg = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setCollateralizedNrg = function(value) {
   jspb.Message.setProto3StringField(this, 13, value);
 };
 
@@ -4278,13 +4621,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setCollateralizedNrg = function(value)
  * optional string nrg_unit = 14;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getNrgUnit = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getNrgUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setNrgUnit = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setNrgUnit = function(value) {
   jspb.Message.setProto3StringField(this, 14, value);
 };
 
@@ -4293,13 +4636,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setNrgUnit = function(value) {
  * optional string fixed_unit_fee = 15;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getFixedUnitFee = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getFixedUnitFee = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setFixedUnitFee = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setFixedUnitFee = function(value) {
   jspb.Message.setProto3StringField(this, 15, value);
 };
 
@@ -4308,13 +4651,13 @@ proto.bc.PlaceMakerOrderRequest.prototype.setFixedUnitFee = function(value) {
  * optional string tx_fee = 16;
  * @return {string}
  */
-proto.bc.PlaceMakerOrderRequest.prototype.getTxFee = function() {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.getTxFee = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 16, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceMakerOrderRequest.prototype.setTxFee = function(value) {
+proto.bcsdk.PlaceMakerOrderRequest.prototype.setTxFee = function(value) {
   jspb.Message.setProto3StringField(this, 16, value);
 };
 
@@ -4330,12 +4673,12 @@ proto.bc.PlaceMakerOrderRequest.prototype.setTxFee = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.PlaceTakerOrderRequest = function(opt_data) {
+proto.bcsdk.PlaceTakerOrderRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.PlaceTakerOrderRequest, jspb.Message);
+goog.inherits(proto.bcsdk.PlaceTakerOrderRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.PlaceTakerOrderRequest.displayName = 'proto.bc.PlaceTakerOrderRequest';
+  proto.bcsdk.PlaceTakerOrderRequest.displayName = 'proto.bcsdk.PlaceTakerOrderRequest';
 }
 
 
@@ -4350,8 +4693,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.PlaceTakerOrderRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.PlaceTakerOrderRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.PlaceTakerOrderRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -4360,11 +4703,11 @@ proto.bc.PlaceTakerOrderRequest.prototype.toObject = function(opt_includeInstanc
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.PlaceTakerOrderRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.PlaceTakerOrderRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.PlaceTakerOrderRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.PlaceTakerOrderRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     sendsFromAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     receivesToAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -4387,23 +4730,23 @@ proto.bc.PlaceTakerOrderRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.PlaceTakerOrderRequest}
+ * @return {!proto.bcsdk.PlaceTakerOrderRequest}
  */
-proto.bc.PlaceTakerOrderRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.PlaceTakerOrderRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.PlaceTakerOrderRequest;
-  return proto.bc.PlaceTakerOrderRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.PlaceTakerOrderRequest;
+  return proto.bcsdk.PlaceTakerOrderRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.PlaceTakerOrderRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.PlaceTakerOrderRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.PlaceTakerOrderRequest}
+ * @return {!proto.bcsdk.PlaceTakerOrderRequest}
  */
-proto.bc.PlaceTakerOrderRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.PlaceTakerOrderRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4455,9 +4798,9 @@ proto.bc.PlaceTakerOrderRequest.deserializeBinaryFromReader = function(msg, read
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.serializeBinary = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.PlaceTakerOrderRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.PlaceTakerOrderRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4465,11 +4808,11 @@ proto.bc.PlaceTakerOrderRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.PlaceTakerOrderRequest} message
+ * @param {!proto.bcsdk.PlaceTakerOrderRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.PlaceTakerOrderRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.PlaceTakerOrderRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getSendsFromAddress();
   if (f.length > 0) {
@@ -4534,13 +4877,13 @@ proto.bc.PlaceTakerOrderRequest.serializeBinaryToWriter = function(message, writ
  * optional string sends_from_address = 1;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getSendsFromAddress = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setSendsFromAddress = function(value) {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4549,13 +4892,13 @@ proto.bc.PlaceTakerOrderRequest.prototype.setSendsFromAddress = function(value) 
  * optional string receives_to_address = 2;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getReceivesToAddress = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setReceivesToAddress = function(value) {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -4564,13 +4907,13 @@ proto.bc.PlaceTakerOrderRequest.prototype.setReceivesToAddress = function(value)
  * optional string maker_tx_hash = 3;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getMakerTxHash = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.getMakerTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setMakerTxHash = function(value) {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.setMakerTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -4579,13 +4922,13 @@ proto.bc.PlaceTakerOrderRequest.prototype.setMakerTxHash = function(value) {
  * optional uint32 maker_tx_output_index = 4;
  * @return {number}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getMakerTxOutputIndex = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.getMakerTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setMakerTxOutputIndex = function(value) {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.setMakerTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -4594,13 +4937,13 @@ proto.bc.PlaceTakerOrderRequest.prototype.setMakerTxOutputIndex = function(value
  * optional string bc_address = 5;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getBcAddress = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.getBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setBcAddress = function(value) {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.setBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
 };
 
@@ -4609,13 +4952,13 @@ proto.bc.PlaceTakerOrderRequest.prototype.setBcAddress = function(value) {
  * optional string bc_private_key_hex = 6;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getBcPrivateKeyHex = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.getBcPrivateKeyHex = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setBcPrivateKeyHex = function(value) {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.setBcPrivateKeyHex = function(value) {
   jspb.Message.setProto3StringField(this, 6, value);
 };
 
@@ -4624,13 +4967,13 @@ proto.bc.PlaceTakerOrderRequest.prototype.setBcPrivateKeyHex = function(value) {
  * optional string collateralized_nrg = 7;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getCollateralizedNrg = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.getCollateralizedNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setCollateralizedNrg = function(value) {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.setCollateralizedNrg = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
 };
 
@@ -4639,13 +4982,13 @@ proto.bc.PlaceTakerOrderRequest.prototype.setCollateralizedNrg = function(value)
  * optional string tx_fee = 8;
  * @return {string}
  */
-proto.bc.PlaceTakerOrderRequest.prototype.getTxFee = function() {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.getTxFee = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrderRequest.prototype.setTxFee = function(value) {
+proto.bcsdk.PlaceTakerOrderRequest.prototype.setTxFee = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
 };
 
@@ -4661,12 +5004,12 @@ proto.bc.PlaceTakerOrderRequest.prototype.setTxFee = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.TakerOrder = function(opt_data) {
+proto.bcsdk.TakerOrder = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.TakerOrder, jspb.Message);
+goog.inherits(proto.bcsdk.TakerOrder, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.TakerOrder.displayName = 'proto.bc.TakerOrder';
+  proto.bcsdk.TakerOrder.displayName = 'proto.bcsdk.TakerOrder';
 }
 
 
@@ -4681,8 +5024,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.TakerOrder.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.TakerOrder.toObject(opt_includeInstance, this);
+proto.bcsdk.TakerOrder.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.TakerOrder.toObject(opt_includeInstance, this);
 };
 
 
@@ -4691,11 +5034,11 @@ proto.bc.TakerOrder.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.TakerOrder} msg The msg instance to transform.
+ * @param {!proto.bcsdk.TakerOrder} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.TakerOrder.toObject = function(includeInstance, msg) {
+proto.bcsdk.TakerOrder.toObject = function(includeInstance, msg) {
   var f, obj = {
     sendsFromAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     receivesToAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -4715,23 +5058,23 @@ proto.bc.TakerOrder.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.TakerOrder}
+ * @return {!proto.bcsdk.TakerOrder}
  */
-proto.bc.TakerOrder.deserializeBinary = function(bytes) {
+proto.bcsdk.TakerOrder.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.TakerOrder;
-  return proto.bc.TakerOrder.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.TakerOrder;
+  return proto.bcsdk.TakerOrder.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.TakerOrder} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.TakerOrder} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.TakerOrder}
+ * @return {!proto.bcsdk.TakerOrder}
  */
-proto.bc.TakerOrder.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.TakerOrder.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4771,9 +5114,9 @@ proto.bc.TakerOrder.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.TakerOrder.prototype.serializeBinary = function() {
+proto.bcsdk.TakerOrder.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.TakerOrder.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.TakerOrder.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -4781,11 +5124,11 @@ proto.bc.TakerOrder.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.TakerOrder} message
+ * @param {!proto.bcsdk.TakerOrder} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.TakerOrder.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.TakerOrder.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getSendsFromAddress();
   if (f.length > 0) {
@@ -4829,13 +5172,13 @@ proto.bc.TakerOrder.serializeBinaryToWriter = function(message, writer) {
  * optional string sends_from_address = 1;
  * @return {string}
  */
-proto.bc.TakerOrder.prototype.getSendsFromAddress = function() {
+proto.bcsdk.TakerOrder.prototype.getSendsFromAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrder.prototype.setSendsFromAddress = function(value) {
+proto.bcsdk.TakerOrder.prototype.setSendsFromAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -4844,13 +5187,13 @@ proto.bc.TakerOrder.prototype.setSendsFromAddress = function(value) {
  * optional string receives_to_address = 2;
  * @return {string}
  */
-proto.bc.TakerOrder.prototype.getReceivesToAddress = function() {
+proto.bcsdk.TakerOrder.prototype.getReceivesToAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrder.prototype.setReceivesToAddress = function(value) {
+proto.bcsdk.TakerOrder.prototype.setReceivesToAddress = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -4859,13 +5202,13 @@ proto.bc.TakerOrder.prototype.setReceivesToAddress = function(value) {
  * optional string maker_tx_hash = 3;
  * @return {string}
  */
-proto.bc.TakerOrder.prototype.getMakerTxHash = function() {
+proto.bcsdk.TakerOrder.prototype.getMakerTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrder.prototype.setMakerTxHash = function(value) {
+proto.bcsdk.TakerOrder.prototype.setMakerTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -4874,13 +5217,13 @@ proto.bc.TakerOrder.prototype.setMakerTxHash = function(value) {
  * optional uint32 maker_tx_output_index = 4;
  * @return {number}
  */
-proto.bc.TakerOrder.prototype.getMakerTxOutputIndex = function() {
+proto.bcsdk.TakerOrder.prototype.getMakerTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.TakerOrder.prototype.setMakerTxOutputIndex = function(value) {
+proto.bcsdk.TakerOrder.prototype.setMakerTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -4889,13 +5232,13 @@ proto.bc.TakerOrder.prototype.setMakerTxOutputIndex = function(value) {
  * optional string collateralized_nrg = 5;
  * @return {string}
  */
-proto.bc.TakerOrder.prototype.getCollateralizedNrg = function() {
+proto.bcsdk.TakerOrder.prototype.getCollateralizedNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TakerOrder.prototype.setCollateralizedNrg = function(value) {
+proto.bcsdk.TakerOrder.prototype.setCollateralizedNrg = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
 };
 
@@ -4911,19 +5254,19 @@ proto.bc.TakerOrder.prototype.setCollateralizedNrg = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.PlaceTakerOrdersRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.PlaceTakerOrdersRequest.repeatedFields_, null);
+proto.bcsdk.PlaceTakerOrdersRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.PlaceTakerOrdersRequest.repeatedFields_, null);
 };
-goog.inherits(proto.bc.PlaceTakerOrdersRequest, jspb.Message);
+goog.inherits(proto.bcsdk.PlaceTakerOrdersRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.PlaceTakerOrdersRequest.displayName = 'proto.bc.PlaceTakerOrdersRequest';
+  proto.bcsdk.PlaceTakerOrdersRequest.displayName = 'proto.bcsdk.PlaceTakerOrdersRequest';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.PlaceTakerOrdersRequest.repeatedFields_ = [1];
+proto.bcsdk.PlaceTakerOrdersRequest.repeatedFields_ = [1];
 
 
 
@@ -4938,8 +5281,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.PlaceTakerOrdersRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.PlaceTakerOrdersRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.PlaceTakerOrdersRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -4948,14 +5291,14 @@ proto.bc.PlaceTakerOrdersRequest.prototype.toObject = function(opt_includeInstan
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.PlaceTakerOrdersRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.PlaceTakerOrdersRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.PlaceTakerOrdersRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.PlaceTakerOrdersRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     ordersList: jspb.Message.toObjectList(msg.getOrdersList(),
-    proto.bc.TakerOrder.toObject, includeInstance),
+    proto.bcsdk.TakerOrder.toObject, includeInstance),
     bcAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
     bcPrivateKeyHex: jspb.Message.getFieldWithDefault(msg, 3, ""),
     txFee: jspb.Message.getFieldWithDefault(msg, 4, "")
@@ -4972,23 +5315,23 @@ proto.bc.PlaceTakerOrdersRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.PlaceTakerOrdersRequest}
+ * @return {!proto.bcsdk.PlaceTakerOrdersRequest}
  */
-proto.bc.PlaceTakerOrdersRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.PlaceTakerOrdersRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.PlaceTakerOrdersRequest;
-  return proto.bc.PlaceTakerOrdersRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.PlaceTakerOrdersRequest;
+  return proto.bcsdk.PlaceTakerOrdersRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.PlaceTakerOrdersRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.PlaceTakerOrdersRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.PlaceTakerOrdersRequest}
+ * @return {!proto.bcsdk.PlaceTakerOrdersRequest}
  */
-proto.bc.PlaceTakerOrdersRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.PlaceTakerOrdersRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -4996,8 +5339,8 @@ proto.bc.PlaceTakerOrdersRequest.deserializeBinaryFromReader = function(msg, rea
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.bc.TakerOrder;
-      reader.readMessage(value,proto.bc.TakerOrder.deserializeBinaryFromReader);
+      var value = new proto.bcsdk.TakerOrder;
+      reader.readMessage(value,proto.bcsdk.TakerOrder.deserializeBinaryFromReader);
       msg.addOrders(value);
       break;
     case 2:
@@ -5025,9 +5368,9 @@ proto.bc.PlaceTakerOrdersRequest.deserializeBinaryFromReader = function(msg, rea
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.PlaceTakerOrdersRequest.prototype.serializeBinary = function() {
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.PlaceTakerOrdersRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.PlaceTakerOrdersRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5035,18 +5378,18 @@ proto.bc.PlaceTakerOrdersRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.PlaceTakerOrdersRequest} message
+ * @param {!proto.bcsdk.PlaceTakerOrdersRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.PlaceTakerOrdersRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.PlaceTakerOrdersRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getOrdersList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.bc.TakerOrder.serializeBinaryToWriter
+      proto.bcsdk.TakerOrder.serializeBinaryToWriter
     );
   }
   f = message.getBcAddress();
@@ -5075,31 +5418,31 @@ proto.bc.PlaceTakerOrdersRequest.serializeBinaryToWriter = function(message, wri
 
 /**
  * repeated TakerOrder orders = 1;
- * @return {!Array<!proto.bc.TakerOrder>}
+ * @return {!Array<!proto.bcsdk.TakerOrder>}
  */
-proto.bc.PlaceTakerOrdersRequest.prototype.getOrdersList = function() {
-  return /** @type{!Array<!proto.bc.TakerOrder>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.bc.TakerOrder, 1));
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.getOrdersList = function() {
+  return /** @type{!Array<!proto.bcsdk.TakerOrder>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.TakerOrder, 1));
 };
 
 
-/** @param {!Array<!proto.bc.TakerOrder>} value */
-proto.bc.PlaceTakerOrdersRequest.prototype.setOrdersList = function(value) {
+/** @param {!Array<!proto.bcsdk.TakerOrder>} value */
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.setOrdersList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.bc.TakerOrder=} opt_value
+ * @param {!proto.bcsdk.TakerOrder=} opt_value
  * @param {number=} opt_index
- * @return {!proto.bc.TakerOrder}
+ * @return {!proto.bcsdk.TakerOrder}
  */
-proto.bc.PlaceTakerOrdersRequest.prototype.addOrders = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.TakerOrder, opt_index);
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.addOrders = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.TakerOrder, opt_index);
 };
 
 
-proto.bc.PlaceTakerOrdersRequest.prototype.clearOrdersList = function() {
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.clearOrdersList = function() {
   this.setOrdersList([]);
 };
 
@@ -5108,13 +5451,13 @@ proto.bc.PlaceTakerOrdersRequest.prototype.clearOrdersList = function() {
  * optional string bc_address = 2;
  * @return {string}
  */
-proto.bc.PlaceTakerOrdersRequest.prototype.getBcAddress = function() {
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.getBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrdersRequest.prototype.setBcAddress = function(value) {
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.setBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -5123,13 +5466,13 @@ proto.bc.PlaceTakerOrdersRequest.prototype.setBcAddress = function(value) {
  * optional string bc_private_key_hex = 3;
  * @return {string}
  */
-proto.bc.PlaceTakerOrdersRequest.prototype.getBcPrivateKeyHex = function() {
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.getBcPrivateKeyHex = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrdersRequest.prototype.setBcPrivateKeyHex = function(value) {
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.setBcPrivateKeyHex = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -5138,13 +5481,13 @@ proto.bc.PlaceTakerOrdersRequest.prototype.setBcPrivateKeyHex = function(value) 
  * optional string tx_fee = 4;
  * @return {string}
  */
-proto.bc.PlaceTakerOrdersRequest.prototype.getTxFee = function() {
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.getTxFee = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.PlaceTakerOrdersRequest.prototype.setTxFee = function(value) {
+proto.bcsdk.PlaceTakerOrdersRequest.prototype.setTxFee = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -5160,12 +5503,12 @@ proto.bc.PlaceTakerOrdersRequest.prototype.setTxFee = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.CalculateMakerFeeRequest = function(opt_data) {
+proto.bcsdk.CalculateMakerFeeRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.CalculateMakerFeeRequest, jspb.Message);
+goog.inherits(proto.bcsdk.CalculateMakerFeeRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.CalculateMakerFeeRequest.displayName = 'proto.bc.CalculateMakerFeeRequest';
+  proto.bcsdk.CalculateMakerFeeRequest.displayName = 'proto.bcsdk.CalculateMakerFeeRequest';
 }
 
 
@@ -5180,8 +5523,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.CalculateMakerFeeRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.CalculateMakerFeeRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.CalculateMakerFeeRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -5190,11 +5533,11 @@ proto.bc.CalculateMakerFeeRequest.prototype.toObject = function(opt_includeInsta
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.CalculateMakerFeeRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.CalculateMakerFeeRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.CalculateMakerFeeRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.CalculateMakerFeeRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     shiftStartsAt: jspb.Message.getFieldWithDefault(msg, 1, 0),
     depositEndsAt: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -5218,23 +5561,23 @@ proto.bc.CalculateMakerFeeRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.CalculateMakerFeeRequest}
+ * @return {!proto.bcsdk.CalculateMakerFeeRequest}
  */
-proto.bc.CalculateMakerFeeRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.CalculateMakerFeeRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.CalculateMakerFeeRequest;
-  return proto.bc.CalculateMakerFeeRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.CalculateMakerFeeRequest;
+  return proto.bcsdk.CalculateMakerFeeRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.CalculateMakerFeeRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.CalculateMakerFeeRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.CalculateMakerFeeRequest}
+ * @return {!proto.bcsdk.CalculateMakerFeeRequest}
  */
-proto.bc.CalculateMakerFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.CalculateMakerFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5290,9 +5633,9 @@ proto.bc.CalculateMakerFeeRequest.deserializeBinaryFromReader = function(msg, re
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.serializeBinary = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.CalculateMakerFeeRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.CalculateMakerFeeRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5300,11 +5643,11 @@ proto.bc.CalculateMakerFeeRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.CalculateMakerFeeRequest} message
+ * @param {!proto.bcsdk.CalculateMakerFeeRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.CalculateMakerFeeRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.CalculateMakerFeeRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getShiftStartsAt();
   if (f !== 0) {
@@ -5376,13 +5719,13 @@ proto.bc.CalculateMakerFeeRequest.serializeBinaryToWriter = function(message, wr
  * optional uint64 shift_starts_at = 1;
  * @return {number}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getShiftStartsAt = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getShiftStartsAt = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setShiftStartsAt = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setShiftStartsAt = function(value) {
   jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -5391,13 +5734,13 @@ proto.bc.CalculateMakerFeeRequest.prototype.setShiftStartsAt = function(value) {
  * optional uint64 deposit_ends_at = 2;
  * @return {number}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getDepositEndsAt = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getDepositEndsAt = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setDepositEndsAt = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setDepositEndsAt = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -5406,13 +5749,13 @@ proto.bc.CalculateMakerFeeRequest.prototype.setDepositEndsAt = function(value) {
  * optional uint64 settle_ends_at = 3;
  * @return {number}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getSettleEndsAt = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getSettleEndsAt = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setSettleEndsAt = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setSettleEndsAt = function(value) {
   jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -5421,13 +5764,13 @@ proto.bc.CalculateMakerFeeRequest.prototype.setSettleEndsAt = function(value) {
  * optional string pays_with_chain_id = 4;
  * @return {string}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getPaysWithChainId = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getPaysWithChainId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setPaysWithChainId = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setPaysWithChainId = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -5436,13 +5779,13 @@ proto.bc.CalculateMakerFeeRequest.prototype.setPaysWithChainId = function(value)
  * optional string pays_unit = 5;
  * @return {string}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getPaysUnit = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getPaysUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setPaysUnit = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setPaysUnit = function(value) {
   jspb.Message.setProto3StringField(this, 5, value);
 };
 
@@ -5451,13 +5794,13 @@ proto.bc.CalculateMakerFeeRequest.prototype.setPaysUnit = function(value) {
  * optional string wants_chain_id = 6;
  * @return {string}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getWantsChainId = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getWantsChainId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setWantsChainId = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setWantsChainId = function(value) {
   jspb.Message.setProto3StringField(this, 6, value);
 };
 
@@ -5466,13 +5809,13 @@ proto.bc.CalculateMakerFeeRequest.prototype.setWantsChainId = function(value) {
  * optional string wants_unit = 7;
  * @return {string}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getWantsUnit = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getWantsUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setWantsUnit = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setWantsUnit = function(value) {
   jspb.Message.setProto3StringField(this, 7, value);
 };
 
@@ -5481,13 +5824,13 @@ proto.bc.CalculateMakerFeeRequest.prototype.setWantsUnit = function(value) {
  * optional string collateralized_nrg = 8;
  * @return {string}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getCollateralizedNrg = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getCollateralizedNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setCollateralizedNrg = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setCollateralizedNrg = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
 };
 
@@ -5496,13 +5839,13 @@ proto.bc.CalculateMakerFeeRequest.prototype.setCollateralizedNrg = function(valu
  * optional string nrg_unit = 9;
  * @return {string}
  */
-proto.bc.CalculateMakerFeeRequest.prototype.getNrgUnit = function() {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.getNrgUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.CalculateMakerFeeRequest.prototype.setNrgUnit = function(value) {
+proto.bcsdk.CalculateMakerFeeRequest.prototype.setNrgUnit = function(value) {
   jspb.Message.setProto3StringField(this, 9, value);
 };
 
@@ -5518,12 +5861,12 @@ proto.bc.CalculateMakerFeeRequest.prototype.setNrgUnit = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.CalculateTakerFeeRequest = function(opt_data) {
+proto.bcsdk.CalculateTakerFeeRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.CalculateTakerFeeRequest, jspb.Message);
+goog.inherits(proto.bcsdk.CalculateTakerFeeRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.CalculateTakerFeeRequest.displayName = 'proto.bc.CalculateTakerFeeRequest';
+  proto.bcsdk.CalculateTakerFeeRequest.displayName = 'proto.bcsdk.CalculateTakerFeeRequest';
 }
 
 
@@ -5538,8 +5881,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.CalculateTakerFeeRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.CalculateTakerFeeRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.CalculateTakerFeeRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.CalculateTakerFeeRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -5548,11 +5891,11 @@ proto.bc.CalculateTakerFeeRequest.prototype.toObject = function(opt_includeInsta
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.CalculateTakerFeeRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.CalculateTakerFeeRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.CalculateTakerFeeRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.CalculateTakerFeeRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     makerTxHash: jspb.Message.getFieldWithDefault(msg, 1, ""),
     makerTxOutputIndex: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -5570,23 +5913,23 @@ proto.bc.CalculateTakerFeeRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.CalculateTakerFeeRequest}
+ * @return {!proto.bcsdk.CalculateTakerFeeRequest}
  */
-proto.bc.CalculateTakerFeeRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.CalculateTakerFeeRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.CalculateTakerFeeRequest;
-  return proto.bc.CalculateTakerFeeRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.CalculateTakerFeeRequest;
+  return proto.bcsdk.CalculateTakerFeeRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.CalculateTakerFeeRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.CalculateTakerFeeRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.CalculateTakerFeeRequest}
+ * @return {!proto.bcsdk.CalculateTakerFeeRequest}
  */
-proto.bc.CalculateTakerFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.CalculateTakerFeeRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5618,9 +5961,9 @@ proto.bc.CalculateTakerFeeRequest.deserializeBinaryFromReader = function(msg, re
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.CalculateTakerFeeRequest.prototype.serializeBinary = function() {
+proto.bcsdk.CalculateTakerFeeRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.CalculateTakerFeeRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.CalculateTakerFeeRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5628,11 +5971,11 @@ proto.bc.CalculateTakerFeeRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.CalculateTakerFeeRequest} message
+ * @param {!proto.bcsdk.CalculateTakerFeeRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.CalculateTakerFeeRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.CalculateTakerFeeRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getMakerTxHash();
   if (f.length > 0) {
@@ -5662,13 +6005,13 @@ proto.bc.CalculateTakerFeeRequest.serializeBinaryToWriter = function(message, wr
  * optional string maker_tx_hash = 1;
  * @return {string}
  */
-proto.bc.CalculateTakerFeeRequest.prototype.getMakerTxHash = function() {
+proto.bcsdk.CalculateTakerFeeRequest.prototype.getMakerTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.CalculateTakerFeeRequest.prototype.setMakerTxHash = function(value) {
+proto.bcsdk.CalculateTakerFeeRequest.prototype.setMakerTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -5677,13 +6020,13 @@ proto.bc.CalculateTakerFeeRequest.prototype.setMakerTxHash = function(value) {
  * optional uint32 maker_tx_output_index = 2;
  * @return {number}
  */
-proto.bc.CalculateTakerFeeRequest.prototype.getMakerTxOutputIndex = function() {
+proto.bcsdk.CalculateTakerFeeRequest.prototype.getMakerTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.CalculateTakerFeeRequest.prototype.setMakerTxOutputIndex = function(value) {
+proto.bcsdk.CalculateTakerFeeRequest.prototype.setMakerTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -5692,13 +6035,13 @@ proto.bc.CalculateTakerFeeRequest.prototype.setMakerTxOutputIndex = function(val
  * optional string collateralized_nrg = 3;
  * @return {string}
  */
-proto.bc.CalculateTakerFeeRequest.prototype.getCollateralizedNrg = function() {
+proto.bcsdk.CalculateTakerFeeRequest.prototype.getCollateralizedNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.CalculateTakerFeeRequest.prototype.setCollateralizedNrg = function(value) {
+proto.bcsdk.CalculateTakerFeeRequest.prototype.setCollateralizedNrg = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -5714,12 +6057,12 @@ proto.bc.CalculateTakerFeeRequest.prototype.setCollateralizedNrg = function(valu
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.FeeResponse = function(opt_data) {
+proto.bcsdk.FeeResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.FeeResponse, jspb.Message);
+goog.inherits(proto.bcsdk.FeeResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.FeeResponse.displayName = 'proto.bc.FeeResponse';
+  proto.bcsdk.FeeResponse.displayName = 'proto.bcsdk.FeeResponse';
 }
 
 
@@ -5734,8 +6077,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.FeeResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.FeeResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.FeeResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.FeeResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -5744,11 +6087,11 @@ proto.bc.FeeResponse.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.FeeResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.FeeResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.FeeResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.FeeResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     fee: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -5764,23 +6107,23 @@ proto.bc.FeeResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.FeeResponse}
+ * @return {!proto.bcsdk.FeeResponse}
  */
-proto.bc.FeeResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.FeeResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.FeeResponse;
-  return proto.bc.FeeResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.FeeResponse;
+  return proto.bcsdk.FeeResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.FeeResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.FeeResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.FeeResponse}
+ * @return {!proto.bcsdk.FeeResponse}
  */
-proto.bc.FeeResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.FeeResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5804,9 +6147,9 @@ proto.bc.FeeResponse.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.FeeResponse.prototype.serializeBinary = function() {
+proto.bcsdk.FeeResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.FeeResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.FeeResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5814,11 +6157,11 @@ proto.bc.FeeResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.FeeResponse} message
+ * @param {!proto.bcsdk.FeeResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.FeeResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.FeeResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getFee();
   if (f.length > 0) {
@@ -5834,13 +6177,13 @@ proto.bc.FeeResponse.serializeBinaryToWriter = function(message, writer) {
  * optional string fee = 1;
  * @return {string}
  */
-proto.bc.FeeResponse.prototype.getFee = function() {
+proto.bcsdk.FeeResponse.prototype.getFee = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.FeeResponse.prototype.setFee = function(value) {
+proto.bcsdk.FeeResponse.prototype.setFee = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -5856,12 +6199,12 @@ proto.bc.FeeResponse.prototype.setFee = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetBlake2blRequest = function(opt_data) {
+proto.bcsdk.GetBlake2blRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetBlake2blRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetBlake2blRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetBlake2blRequest.displayName = 'proto.bc.GetBlake2blRequest';
+  proto.bcsdk.GetBlake2blRequest.displayName = 'proto.bcsdk.GetBlake2blRequest';
 }
 
 
@@ -5876,8 +6219,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetBlake2blRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetBlake2blRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetBlake2blRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetBlake2blRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -5886,11 +6229,11 @@ proto.bc.GetBlake2blRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetBlake2blRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetBlake2blRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlake2blRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetBlake2blRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     toBeHashed: jspb.Message.getFieldWithDefault(msg, 1, ""),
     times: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -5907,23 +6250,23 @@ proto.bc.GetBlake2blRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetBlake2blRequest}
+ * @return {!proto.bcsdk.GetBlake2blRequest}
  */
-proto.bc.GetBlake2blRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetBlake2blRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetBlake2blRequest;
-  return proto.bc.GetBlake2blRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetBlake2blRequest;
+  return proto.bcsdk.GetBlake2blRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetBlake2blRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetBlake2blRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetBlake2blRequest}
+ * @return {!proto.bcsdk.GetBlake2blRequest}
  */
-proto.bc.GetBlake2blRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetBlake2blRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -5951,9 +6294,9 @@ proto.bc.GetBlake2blRequest.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetBlake2blRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetBlake2blRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetBlake2blRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetBlake2blRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -5961,11 +6304,11 @@ proto.bc.GetBlake2blRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetBlake2blRequest} message
+ * @param {!proto.bcsdk.GetBlake2blRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlake2blRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetBlake2blRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getToBeHashed();
   if (f.length > 0) {
@@ -5988,13 +6331,13 @@ proto.bc.GetBlake2blRequest.serializeBinaryToWriter = function(message, writer) 
  * optional string to_be_hashed = 1;
  * @return {string}
  */
-proto.bc.GetBlake2blRequest.prototype.getToBeHashed = function() {
+proto.bcsdk.GetBlake2blRequest.prototype.getToBeHashed = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetBlake2blRequest.prototype.setToBeHashed = function(value) {
+proto.bcsdk.GetBlake2blRequest.prototype.setToBeHashed = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -6003,13 +6346,13 @@ proto.bc.GetBlake2blRequest.prototype.setToBeHashed = function(value) {
  * optional uint32 times = 2;
  * @return {number}
  */
-proto.bc.GetBlake2blRequest.prototype.getTimes = function() {
+proto.bcsdk.GetBlake2blRequest.prototype.getTimes = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetBlake2blRequest.prototype.setTimes = function(value) {
+proto.bcsdk.GetBlake2blRequest.prototype.setTimes = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -6025,12 +6368,12 @@ proto.bc.GetBlake2blRequest.prototype.setTimes = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetBlake2blResponse = function(opt_data) {
+proto.bcsdk.GetBlake2blResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetBlake2blResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetBlake2blResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetBlake2blResponse.displayName = 'proto.bc.GetBlake2blResponse';
+  proto.bcsdk.GetBlake2blResponse.displayName = 'proto.bcsdk.GetBlake2blResponse';
 }
 
 
@@ -6045,8 +6388,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetBlake2blResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetBlake2blResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetBlake2blResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetBlake2blResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -6055,11 +6398,11 @@ proto.bc.GetBlake2blResponse.prototype.toObject = function(opt_includeInstance) 
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetBlake2blResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetBlake2blResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlake2blResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetBlake2blResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     hash: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -6075,23 +6418,23 @@ proto.bc.GetBlake2blResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetBlake2blResponse}
+ * @return {!proto.bcsdk.GetBlake2blResponse}
  */
-proto.bc.GetBlake2blResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetBlake2blResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetBlake2blResponse;
-  return proto.bc.GetBlake2blResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetBlake2blResponse;
+  return proto.bcsdk.GetBlake2blResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetBlake2blResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetBlake2blResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetBlake2blResponse}
+ * @return {!proto.bcsdk.GetBlake2blResponse}
  */
-proto.bc.GetBlake2blResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetBlake2blResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6115,9 +6458,9 @@ proto.bc.GetBlake2blResponse.deserializeBinaryFromReader = function(msg, reader)
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetBlake2blResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetBlake2blResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetBlake2blResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetBlake2blResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6125,11 +6468,11 @@ proto.bc.GetBlake2blResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetBlake2blResponse} message
+ * @param {!proto.bcsdk.GetBlake2blResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlake2blResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetBlake2blResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getHash();
   if (f.length > 0) {
@@ -6145,13 +6488,13 @@ proto.bc.GetBlake2blResponse.serializeBinaryToWriter = function(message, writer)
  * optional string hash = 1;
  * @return {string}
  */
-proto.bc.GetBlake2blResponse.prototype.getHash = function() {
+proto.bcsdk.GetBlake2blResponse.prototype.getHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetBlake2blResponse.prototype.setHash = function(value) {
+proto.bcsdk.GetBlake2blResponse.prototype.setHash = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -6167,12 +6510,12 @@ proto.bc.GetBlake2blResponse.prototype.setHash = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.VanityConvertRequest = function(opt_data) {
+proto.bcsdk.VanityConvertRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.VanityConvertRequest, jspb.Message);
+goog.inherits(proto.bcsdk.VanityConvertRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.VanityConvertRequest.displayName = 'proto.bc.VanityConvertRequest';
+  proto.bcsdk.VanityConvertRequest.displayName = 'proto.bcsdk.VanityConvertRequest';
 }
 
 
@@ -6187,8 +6530,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.VanityConvertRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.VanityConvertRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.VanityConvertRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.VanityConvertRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6197,11 +6540,11 @@ proto.bc.VanityConvertRequest.prototype.toObject = function(opt_includeInstance)
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.VanityConvertRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.VanityConvertRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.VanityConvertRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.VanityConvertRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     vanity: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -6217,23 +6560,23 @@ proto.bc.VanityConvertRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.VanityConvertRequest}
+ * @return {!proto.bcsdk.VanityConvertRequest}
  */
-proto.bc.VanityConvertRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.VanityConvertRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.VanityConvertRequest;
-  return proto.bc.VanityConvertRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.VanityConvertRequest;
+  return proto.bcsdk.VanityConvertRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.VanityConvertRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.VanityConvertRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.VanityConvertRequest}
+ * @return {!proto.bcsdk.VanityConvertRequest}
  */
-proto.bc.VanityConvertRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.VanityConvertRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6257,9 +6600,9 @@ proto.bc.VanityConvertRequest.deserializeBinaryFromReader = function(msg, reader
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.VanityConvertRequest.prototype.serializeBinary = function() {
+proto.bcsdk.VanityConvertRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.VanityConvertRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.VanityConvertRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6267,11 +6610,11 @@ proto.bc.VanityConvertRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.VanityConvertRequest} message
+ * @param {!proto.bcsdk.VanityConvertRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.VanityConvertRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.VanityConvertRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getVanity();
   if (f.length > 0) {
@@ -6287,13 +6630,13 @@ proto.bc.VanityConvertRequest.serializeBinaryToWriter = function(message, writer
  * optional string vanity = 1;
  * @return {string}
  */
-proto.bc.VanityConvertRequest.prototype.getVanity = function() {
+proto.bcsdk.VanityConvertRequest.prototype.getVanity = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.VanityConvertRequest.prototype.setVanity = function(value) {
+proto.bcsdk.VanityConvertRequest.prototype.setVanity = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -6309,12 +6652,12 @@ proto.bc.VanityConvertRequest.prototype.setVanity = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.VanityConvertResponse = function(opt_data) {
+proto.bcsdk.VanityConvertResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.VanityConvertResponse, jspb.Message);
+goog.inherits(proto.bcsdk.VanityConvertResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.VanityConvertResponse.displayName = 'proto.bc.VanityConvertResponse';
+  proto.bcsdk.VanityConvertResponse.displayName = 'proto.bcsdk.VanityConvertResponse';
 }
 
 
@@ -6329,8 +6672,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.VanityConvertResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.VanityConvertResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.VanityConvertResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.VanityConvertResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -6339,11 +6682,11 @@ proto.bc.VanityConvertResponse.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.VanityConvertResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.VanityConvertResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.VanityConvertResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.VanityConvertResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     bcAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     error: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -6360,23 +6703,23 @@ proto.bc.VanityConvertResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.VanityConvertResponse}
+ * @return {!proto.bcsdk.VanityConvertResponse}
  */
-proto.bc.VanityConvertResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.VanityConvertResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.VanityConvertResponse;
-  return proto.bc.VanityConvertResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.VanityConvertResponse;
+  return proto.bcsdk.VanityConvertResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.VanityConvertResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.VanityConvertResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.VanityConvertResponse}
+ * @return {!proto.bcsdk.VanityConvertResponse}
  */
-proto.bc.VanityConvertResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.VanityConvertResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6404,9 +6747,9 @@ proto.bc.VanityConvertResponse.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.VanityConvertResponse.prototype.serializeBinary = function() {
+proto.bcsdk.VanityConvertResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.VanityConvertResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.VanityConvertResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6414,11 +6757,11 @@ proto.bc.VanityConvertResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.VanityConvertResponse} message
+ * @param {!proto.bcsdk.VanityConvertResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.VanityConvertResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.VanityConvertResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBcAddress();
   if (f.length > 0) {
@@ -6441,13 +6784,13 @@ proto.bc.VanityConvertResponse.serializeBinaryToWriter = function(message, write
  * optional string bc_address = 1;
  * @return {string}
  */
-proto.bc.VanityConvertResponse.prototype.getBcAddress = function() {
+proto.bcsdk.VanityConvertResponse.prototype.getBcAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.VanityConvertResponse.prototype.setBcAddress = function(value) {
+proto.bcsdk.VanityConvertResponse.prototype.setBcAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -6456,13 +6799,13 @@ proto.bc.VanityConvertResponse.prototype.setBcAddress = function(value) {
  * optional string error = 2;
  * @return {string}
  */
-proto.bc.VanityConvertResponse.prototype.getError = function() {
+proto.bcsdk.VanityConvertResponse.prototype.getError = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.VanityConvertResponse.prototype.setError = function(value) {
+proto.bcsdk.VanityConvertResponse.prototype.setError = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -6478,12 +6821,12 @@ proto.bc.VanityConvertResponse.prototype.setError = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetRoveredBlockHashRequest = function(opt_data) {
+proto.bcsdk.GetRoveredBlockHashRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetRoveredBlockHashRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetRoveredBlockHashRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetRoveredBlockHashRequest.displayName = 'proto.bc.GetRoveredBlockHashRequest';
+  proto.bcsdk.GetRoveredBlockHashRequest.displayName = 'proto.bcsdk.GetRoveredBlockHashRequest';
 }
 
 
@@ -6498,8 +6841,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetRoveredBlockHashRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetRoveredBlockHashRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetRoveredBlockHashRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetRoveredBlockHashRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6508,11 +6851,11 @@ proto.bc.GetRoveredBlockHashRequest.prototype.toObject = function(opt_includeIns
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetRoveredBlockHashRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetRoveredBlockHashRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRoveredBlockHashRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetRoveredBlockHashRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     blockchain: jspb.Message.getFieldWithDefault(msg, 1, ""),
     hash: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -6529,23 +6872,23 @@ proto.bc.GetRoveredBlockHashRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetRoveredBlockHashRequest}
+ * @return {!proto.bcsdk.GetRoveredBlockHashRequest}
  */
-proto.bc.GetRoveredBlockHashRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetRoveredBlockHashRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetRoveredBlockHashRequest;
-  return proto.bc.GetRoveredBlockHashRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetRoveredBlockHashRequest;
+  return proto.bcsdk.GetRoveredBlockHashRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetRoveredBlockHashRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetRoveredBlockHashRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetRoveredBlockHashRequest}
+ * @return {!proto.bcsdk.GetRoveredBlockHashRequest}
  */
-proto.bc.GetRoveredBlockHashRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetRoveredBlockHashRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6573,9 +6916,9 @@ proto.bc.GetRoveredBlockHashRequest.deserializeBinaryFromReader = function(msg, 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetRoveredBlockHashRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetRoveredBlockHashRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetRoveredBlockHashRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetRoveredBlockHashRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6583,11 +6926,11 @@ proto.bc.GetRoveredBlockHashRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetRoveredBlockHashRequest} message
+ * @param {!proto.bcsdk.GetRoveredBlockHashRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRoveredBlockHashRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetRoveredBlockHashRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBlockchain();
   if (f.length > 0) {
@@ -6610,13 +6953,13 @@ proto.bc.GetRoveredBlockHashRequest.serializeBinaryToWriter = function(message, 
  * optional string blockchain = 1;
  * @return {string}
  */
-proto.bc.GetRoveredBlockHashRequest.prototype.getBlockchain = function() {
+proto.bcsdk.GetRoveredBlockHashRequest.prototype.getBlockchain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetRoveredBlockHashRequest.prototype.setBlockchain = function(value) {
+proto.bcsdk.GetRoveredBlockHashRequest.prototype.setBlockchain = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -6625,13 +6968,13 @@ proto.bc.GetRoveredBlockHashRequest.prototype.setBlockchain = function(value) {
  * optional string hash = 2;
  * @return {string}
  */
-proto.bc.GetRoveredBlockHashRequest.prototype.getHash = function() {
+proto.bcsdk.GetRoveredBlockHashRequest.prototype.getHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetRoveredBlockHashRequest.prototype.setHash = function(value) {
+proto.bcsdk.GetRoveredBlockHashRequest.prototype.setHash = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -6647,12 +6990,12 @@ proto.bc.GetRoveredBlockHashRequest.prototype.setHash = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetRoveredBlockHeightRequest = function(opt_data) {
+proto.bcsdk.GetRoveredBlockHeightRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetRoveredBlockHeightRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetRoveredBlockHeightRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetRoveredBlockHeightRequest.displayName = 'proto.bc.GetRoveredBlockHeightRequest';
+  proto.bcsdk.GetRoveredBlockHeightRequest.displayName = 'proto.bcsdk.GetRoveredBlockHeightRequest';
 }
 
 
@@ -6667,8 +7010,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetRoveredBlockHeightRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetRoveredBlockHeightRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetRoveredBlockHeightRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetRoveredBlockHeightRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6677,11 +7020,11 @@ proto.bc.GetRoveredBlockHeightRequest.prototype.toObject = function(opt_includeI
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetRoveredBlockHeightRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetRoveredBlockHeightRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRoveredBlockHeightRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetRoveredBlockHeightRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     blockchain: jspb.Message.getFieldWithDefault(msg, 1, ""),
     height: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -6698,23 +7041,23 @@ proto.bc.GetRoveredBlockHeightRequest.toObject = function(includeInstance, msg) 
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetRoveredBlockHeightRequest}
+ * @return {!proto.bcsdk.GetRoveredBlockHeightRequest}
  */
-proto.bc.GetRoveredBlockHeightRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetRoveredBlockHeightRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetRoveredBlockHeightRequest;
-  return proto.bc.GetRoveredBlockHeightRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetRoveredBlockHeightRequest;
+  return proto.bcsdk.GetRoveredBlockHeightRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetRoveredBlockHeightRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetRoveredBlockHeightRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetRoveredBlockHeightRequest}
+ * @return {!proto.bcsdk.GetRoveredBlockHeightRequest}
  */
-proto.bc.GetRoveredBlockHeightRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetRoveredBlockHeightRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6742,9 +7085,9 @@ proto.bc.GetRoveredBlockHeightRequest.deserializeBinaryFromReader = function(msg
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetRoveredBlockHeightRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetRoveredBlockHeightRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetRoveredBlockHeightRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetRoveredBlockHeightRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6752,11 +7095,11 @@ proto.bc.GetRoveredBlockHeightRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetRoveredBlockHeightRequest} message
+ * @param {!proto.bcsdk.GetRoveredBlockHeightRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRoveredBlockHeightRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetRoveredBlockHeightRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBlockchain();
   if (f.length > 0) {
@@ -6779,13 +7122,13 @@ proto.bc.GetRoveredBlockHeightRequest.serializeBinaryToWriter = function(message
  * optional string blockchain = 1;
  * @return {string}
  */
-proto.bc.GetRoveredBlockHeightRequest.prototype.getBlockchain = function() {
+proto.bcsdk.GetRoveredBlockHeightRequest.prototype.getBlockchain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetRoveredBlockHeightRequest.prototype.setBlockchain = function(value) {
+proto.bcsdk.GetRoveredBlockHeightRequest.prototype.setBlockchain = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -6794,13 +7137,13 @@ proto.bc.GetRoveredBlockHeightRequest.prototype.setBlockchain = function(value) 
  * optional uint32 height = 2;
  * @return {number}
  */
-proto.bc.GetRoveredBlockHeightRequest.prototype.getHeight = function() {
+proto.bcsdk.GetRoveredBlockHeightRequest.prototype.getHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetRoveredBlockHeightRequest.prototype.setHeight = function(value) {
+proto.bcsdk.GetRoveredBlockHeightRequest.prototype.setHeight = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -6816,12 +7159,12 @@ proto.bc.GetRoveredBlockHeightRequest.prototype.setHeight = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetBlockHashRequest = function(opt_data) {
+proto.bcsdk.GetBlockHashRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetBlockHashRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetBlockHashRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetBlockHashRequest.displayName = 'proto.bc.GetBlockHashRequest';
+  proto.bcsdk.GetBlockHashRequest.displayName = 'proto.bcsdk.GetBlockHashRequest';
 }
 
 
@@ -6836,8 +7179,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetBlockHashRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetBlockHashRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetBlockHashRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetBlockHashRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6846,11 +7189,11 @@ proto.bc.GetBlockHashRequest.prototype.toObject = function(opt_includeInstance) 
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetBlockHashRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetBlockHashRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlockHashRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetBlockHashRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     hash: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -6866,23 +7209,23 @@ proto.bc.GetBlockHashRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetBlockHashRequest}
+ * @return {!proto.bcsdk.GetBlockHashRequest}
  */
-proto.bc.GetBlockHashRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetBlockHashRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetBlockHashRequest;
-  return proto.bc.GetBlockHashRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetBlockHashRequest;
+  return proto.bcsdk.GetBlockHashRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetBlockHashRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetBlockHashRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetBlockHashRequest}
+ * @return {!proto.bcsdk.GetBlockHashRequest}
  */
-proto.bc.GetBlockHashRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetBlockHashRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -6906,9 +7249,9 @@ proto.bc.GetBlockHashRequest.deserializeBinaryFromReader = function(msg, reader)
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetBlockHashRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetBlockHashRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetBlockHashRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetBlockHashRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -6916,11 +7259,11 @@ proto.bc.GetBlockHashRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetBlockHashRequest} message
+ * @param {!proto.bcsdk.GetBlockHashRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlockHashRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetBlockHashRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getHash();
   if (f.length > 0) {
@@ -6936,13 +7279,13 @@ proto.bc.GetBlockHashRequest.serializeBinaryToWriter = function(message, writer)
  * optional string hash = 1;
  * @return {string}
  */
-proto.bc.GetBlockHashRequest.prototype.getHash = function() {
+proto.bcsdk.GetBlockHashRequest.prototype.getHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetBlockHashRequest.prototype.setHash = function(value) {
+proto.bcsdk.GetBlockHashRequest.prototype.setHash = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -6958,12 +7301,12 @@ proto.bc.GetBlockHashRequest.prototype.setHash = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetBlockHeightRequest = function(opt_data) {
+proto.bcsdk.GetBlockHeightRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetBlockHeightRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetBlockHeightRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetBlockHeightRequest.displayName = 'proto.bc.GetBlockHeightRequest';
+  proto.bcsdk.GetBlockHeightRequest.displayName = 'proto.bcsdk.GetBlockHeightRequest';
 }
 
 
@@ -6978,8 +7321,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetBlockHeightRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetBlockHeightRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetBlockHeightRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetBlockHeightRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -6988,11 +7331,11 @@ proto.bc.GetBlockHeightRequest.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetBlockHeightRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetBlockHeightRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlockHeightRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetBlockHeightRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     height: jspb.Message.getFieldWithDefault(msg, 1, 0)
   };
@@ -7008,23 +7351,23 @@ proto.bc.GetBlockHeightRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetBlockHeightRequest}
+ * @return {!proto.bcsdk.GetBlockHeightRequest}
  */
-proto.bc.GetBlockHeightRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetBlockHeightRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetBlockHeightRequest;
-  return proto.bc.GetBlockHeightRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetBlockHeightRequest;
+  return proto.bcsdk.GetBlockHeightRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetBlockHeightRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetBlockHeightRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetBlockHeightRequest}
+ * @return {!proto.bcsdk.GetBlockHeightRequest}
  */
-proto.bc.GetBlockHeightRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetBlockHeightRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7048,9 +7391,9 @@ proto.bc.GetBlockHeightRequest.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetBlockHeightRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetBlockHeightRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetBlockHeightRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetBlockHeightRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7058,11 +7401,11 @@ proto.bc.GetBlockHeightRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetBlockHeightRequest} message
+ * @param {!proto.bcsdk.GetBlockHeightRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlockHeightRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetBlockHeightRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getHeight();
   if (f !== 0) {
@@ -7078,13 +7421,13 @@ proto.bc.GetBlockHeightRequest.serializeBinaryToWriter = function(message, write
  * optional uint32 height = 1;
  * @return {number}
  */
-proto.bc.GetBlockHeightRequest.prototype.getHeight = function() {
+proto.bcsdk.GetBlockHeightRequest.prototype.getHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetBlockHeightRequest.prototype.setHeight = function(value) {
+proto.bcsdk.GetBlockHeightRequest.prototype.setHeight = function(value) {
   jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -7100,12 +7443,12 @@ proto.bc.GetBlockHeightRequest.prototype.setHeight = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetBlocksRequest = function(opt_data) {
+proto.bcsdk.GetBlocksRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetBlocksRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetBlocksRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetBlocksRequest.displayName = 'proto.bc.GetBlocksRequest';
+  proto.bcsdk.GetBlocksRequest.displayName = 'proto.bcsdk.GetBlocksRequest';
 }
 
 
@@ -7120,8 +7463,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetBlocksRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetBlocksRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetBlocksRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetBlocksRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -7130,11 +7473,11 @@ proto.bc.GetBlocksRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetBlocksRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetBlocksRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlocksRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetBlocksRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     startHeight: jspb.Message.getFieldWithDefault(msg, 1, 0),
     endHeight: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -7151,23 +7494,23 @@ proto.bc.GetBlocksRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetBlocksRequest}
+ * @return {!proto.bcsdk.GetBlocksRequest}
  */
-proto.bc.GetBlocksRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetBlocksRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetBlocksRequest;
-  return proto.bc.GetBlocksRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetBlocksRequest;
+  return proto.bcsdk.GetBlocksRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetBlocksRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetBlocksRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetBlocksRequest}
+ * @return {!proto.bcsdk.GetBlocksRequest}
  */
-proto.bc.GetBlocksRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetBlocksRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7195,9 +7538,9 @@ proto.bc.GetBlocksRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetBlocksRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetBlocksRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetBlocksRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetBlocksRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7205,11 +7548,11 @@ proto.bc.GetBlocksRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetBlocksRequest} message
+ * @param {!proto.bcsdk.GetBlocksRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlocksRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetBlocksRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getStartHeight();
   if (f !== 0) {
@@ -7232,13 +7575,13 @@ proto.bc.GetBlocksRequest.serializeBinaryToWriter = function(message, writer) {
  * optional uint32 start_height = 1;
  * @return {number}
  */
-proto.bc.GetBlocksRequest.prototype.getStartHeight = function() {
+proto.bcsdk.GetBlocksRequest.prototype.getStartHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetBlocksRequest.prototype.setStartHeight = function(value) {
+proto.bcsdk.GetBlocksRequest.prototype.setStartHeight = function(value) {
   jspb.Message.setProto3IntField(this, 1, value);
 };
 
@@ -7247,13 +7590,13 @@ proto.bc.GetBlocksRequest.prototype.setStartHeight = function(value) {
  * optional uint32 end_height = 2;
  * @return {number}
  */
-proto.bc.GetBlocksRequest.prototype.getEndHeight = function() {
+proto.bcsdk.GetBlocksRequest.prototype.getEndHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetBlocksRequest.prototype.setEndHeight = function(value) {
+proto.bcsdk.GetBlocksRequest.prototype.setEndHeight = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -7269,19 +7612,19 @@ proto.bc.GetBlocksRequest.prototype.setEndHeight = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetBlocksResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetBlocksResponse.repeatedFields_, null);
+proto.bcsdk.GetBlocksResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetBlocksResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.GetBlocksResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetBlocksResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetBlocksResponse.displayName = 'proto.bc.GetBlocksResponse';
+  proto.bcsdk.GetBlocksResponse.displayName = 'proto.bcsdk.GetBlocksResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.GetBlocksResponse.repeatedFields_ = [1];
+proto.bcsdk.GetBlocksResponse.repeatedFields_ = [1];
 
 
 
@@ -7296,8 +7639,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetBlocksResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetBlocksResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetBlocksResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetBlocksResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -7306,11 +7649,11 @@ proto.bc.GetBlocksResponse.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetBlocksResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetBlocksResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlocksResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetBlocksResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     blocksList: jspb.Message.toObjectList(msg.getBlocksList(),
     core_pb.BcBlock.toObject, includeInstance)
@@ -7327,23 +7670,23 @@ proto.bc.GetBlocksResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetBlocksResponse}
+ * @return {!proto.bcsdk.GetBlocksResponse}
  */
-proto.bc.GetBlocksResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetBlocksResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetBlocksResponse;
-  return proto.bc.GetBlocksResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetBlocksResponse;
+  return proto.bcsdk.GetBlocksResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetBlocksResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetBlocksResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetBlocksResponse}
+ * @return {!proto.bcsdk.GetBlocksResponse}
  */
-proto.bc.GetBlocksResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetBlocksResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7368,9 +7711,9 @@ proto.bc.GetBlocksResponse.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetBlocksResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetBlocksResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetBlocksResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetBlocksResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7378,11 +7721,11 @@ proto.bc.GetBlocksResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetBlocksResponse} message
+ * @param {!proto.bcsdk.GetBlocksResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetBlocksResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetBlocksResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBlocksList();
   if (f.length > 0) {
@@ -7397,31 +7740,31 @@ proto.bc.GetBlocksResponse.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * repeated BcBlock blocks = 1;
- * @return {!Array<!proto.bc.BcBlock>}
+ * @return {!Array<!proto.bcsdk.BcBlock>}
  */
-proto.bc.GetBlocksResponse.prototype.getBlocksList = function() {
-  return /** @type{!Array<!proto.bc.BcBlock>} */ (
+proto.bcsdk.GetBlocksResponse.prototype.getBlocksList = function() {
+  return /** @type{!Array<!proto.bcsdk.BcBlock>} */ (
     jspb.Message.getRepeatedWrapperField(this, core_pb.BcBlock, 1));
 };
 
 
-/** @param {!Array<!proto.bc.BcBlock>} value */
-proto.bc.GetBlocksResponse.prototype.setBlocksList = function(value) {
+/** @param {!Array<!proto.bcsdk.BcBlock>} value */
+proto.bcsdk.GetBlocksResponse.prototype.setBlocksList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.bc.BcBlock=} opt_value
+ * @param {!proto.bcsdk.BcBlock=} opt_value
  * @param {number=} opt_index
- * @return {!proto.bc.BcBlock}
+ * @return {!proto.bcsdk.BcBlock}
  */
-proto.bc.GetBlocksResponse.prototype.addBlocks = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.BcBlock, opt_index);
+proto.bcsdk.GetBlocksResponse.prototype.addBlocks = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.BcBlock, opt_index);
 };
 
 
-proto.bc.GetBlocksResponse.prototype.clearBlocksList = function() {
+proto.bcsdk.GetBlocksResponse.prototype.clearBlocksList = function() {
   this.setBlocksList([]);
 };
 
@@ -7437,12 +7780,12 @@ proto.bc.GetBlocksResponse.prototype.clearBlocksList = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.Transfer = function(opt_data) {
+proto.bcsdk.Transfer = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.Transfer, jspb.Message);
+goog.inherits(proto.bcsdk.Transfer, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.Transfer.displayName = 'proto.bc.Transfer';
+  proto.bcsdk.Transfer.displayName = 'proto.bcsdk.Transfer';
 }
 
 
@@ -7457,8 +7800,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.Transfer.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.Transfer.toObject(opt_includeInstance, this);
+proto.bcsdk.Transfer.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.Transfer.toObject(opt_includeInstance, this);
 };
 
 
@@ -7467,11 +7810,11 @@ proto.bc.Transfer.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.Transfer} msg The msg instance to transform.
+ * @param {!proto.bcsdk.Transfer} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.Transfer.toObject = function(includeInstance, msg) {
+proto.bcsdk.Transfer.toObject = function(includeInstance, msg) {
   var f, obj = {
     from: jspb.Message.getFieldWithDefault(msg, 1, ""),
     to: jspb.Message.getFieldWithDefault(msg, 2, ""),
@@ -7493,23 +7836,23 @@ proto.bc.Transfer.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.Transfer}
+ * @return {!proto.bcsdk.Transfer}
  */
-proto.bc.Transfer.deserializeBinary = function(bytes) {
+proto.bcsdk.Transfer.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.Transfer;
-  return proto.bc.Transfer.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.Transfer;
+  return proto.bcsdk.Transfer.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.Transfer} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.Transfer} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.Transfer}
+ * @return {!proto.bcsdk.Transfer}
  */
-proto.bc.Transfer.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.Transfer.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7557,9 +7900,9 @@ proto.bc.Transfer.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.Transfer.prototype.serializeBinary = function() {
+proto.bcsdk.Transfer.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.Transfer.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.Transfer.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7567,11 +7910,11 @@ proto.bc.Transfer.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.Transfer} message
+ * @param {!proto.bcsdk.Transfer} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.Transfer.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.Transfer.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getFrom();
   if (f.length > 0) {
@@ -7629,13 +7972,13 @@ proto.bc.Transfer.serializeBinaryToWriter = function(message, writer) {
  * optional string from = 1;
  * @return {string}
  */
-proto.bc.Transfer.prototype.getFrom = function() {
+proto.bcsdk.Transfer.prototype.getFrom = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.Transfer.prototype.setFrom = function(value) {
+proto.bcsdk.Transfer.prototype.setFrom = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -7644,13 +7987,13 @@ proto.bc.Transfer.prototype.setFrom = function(value) {
  * optional string to = 2;
  * @return {string}
  */
-proto.bc.Transfer.prototype.getTo = function() {
+proto.bcsdk.Transfer.prototype.getTo = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.Transfer.prototype.setTo = function(value) {
+proto.bcsdk.Transfer.prototype.setTo = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -7659,13 +8002,13 @@ proto.bc.Transfer.prototype.setTo = function(value) {
  * optional string amount = 3;
  * @return {string}
  */
-proto.bc.Transfer.prototype.getAmount = function() {
+proto.bcsdk.Transfer.prototype.getAmount = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.Transfer.prototype.setAmount = function(value) {
+proto.bcsdk.Transfer.prototype.setAmount = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -7674,13 +8017,13 @@ proto.bc.Transfer.prototype.setAmount = function(value) {
  * optional string tx_hash = 4;
  * @return {string}
  */
-proto.bc.Transfer.prototype.getTxHash = function() {
+proto.bcsdk.Transfer.prototype.getTxHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.Transfer.prototype.setTxHash = function(value) {
+proto.bcsdk.Transfer.prototype.setTxHash = function(value) {
   jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -7689,13 +8032,13 @@ proto.bc.Transfer.prototype.setTxHash = function(value) {
  * optional uint32 tx_output_index = 5;
  * @return {number}
  */
-proto.bc.Transfer.prototype.getTxOutputIndex = function() {
+proto.bcsdk.Transfer.prototype.getTxOutputIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.Transfer.prototype.setTxOutputIndex = function(value) {
+proto.bcsdk.Transfer.prototype.setTxOutputIndex = function(value) {
   jspb.Message.setProto3IntField(this, 5, value);
 };
 
@@ -7704,13 +8047,13 @@ proto.bc.Transfer.prototype.setTxOutputIndex = function(value) {
  * optional uint64 timestamp = 6;
  * @return {number}
  */
-proto.bc.Transfer.prototype.getTimestamp = function() {
+proto.bcsdk.Transfer.prototype.getTimestamp = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.Transfer.prototype.setTimestamp = function(value) {
+proto.bcsdk.Transfer.prototype.setTimestamp = function(value) {
   jspb.Message.setProto3IntField(this, 6, value);
 };
 
@@ -7719,13 +8062,13 @@ proto.bc.Transfer.prototype.setTimestamp = function(value) {
  * optional uint64 height = 7;
  * @return {number}
  */
-proto.bc.Transfer.prototype.getHeight = function() {
+proto.bcsdk.Transfer.prototype.getHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.Transfer.prototype.setHeight = function(value) {
+proto.bcsdk.Transfer.prototype.setHeight = function(value) {
   jspb.Message.setProto3IntField(this, 7, value);
 };
 
@@ -7741,19 +8084,19 @@ proto.bc.Transfer.prototype.setHeight = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.TransferResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.TransferResponse.repeatedFields_, null);
+proto.bcsdk.TransferResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.TransferResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.TransferResponse, jspb.Message);
+goog.inherits(proto.bcsdk.TransferResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.TransferResponse.displayName = 'proto.bc.TransferResponse';
+  proto.bcsdk.TransferResponse.displayName = 'proto.bcsdk.TransferResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.TransferResponse.repeatedFields_ = [1];
+proto.bcsdk.TransferResponse.repeatedFields_ = [1];
 
 
 
@@ -7768,8 +8111,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.TransferResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.TransferResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.TransferResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.TransferResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -7778,14 +8121,14 @@ proto.bc.TransferResponse.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.TransferResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.TransferResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.TransferResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.TransferResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     transfersList: jspb.Message.toObjectList(msg.getTransfersList(),
-    proto.bc.Transfer.toObject, includeInstance)
+    proto.bcsdk.Transfer.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -7799,23 +8142,23 @@ proto.bc.TransferResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.TransferResponse}
+ * @return {!proto.bcsdk.TransferResponse}
  */
-proto.bc.TransferResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.TransferResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.TransferResponse;
-  return proto.bc.TransferResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.TransferResponse;
+  return proto.bcsdk.TransferResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.TransferResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.TransferResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.TransferResponse}
+ * @return {!proto.bcsdk.TransferResponse}
  */
-proto.bc.TransferResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.TransferResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7823,8 +8166,8 @@ proto.bc.TransferResponse.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.bc.Transfer;
-      reader.readMessage(value,proto.bc.Transfer.deserializeBinaryFromReader);
+      var value = new proto.bcsdk.Transfer;
+      reader.readMessage(value,proto.bcsdk.Transfer.deserializeBinaryFromReader);
       msg.addTransfers(value);
       break;
     default:
@@ -7840,9 +8183,9 @@ proto.bc.TransferResponse.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.TransferResponse.prototype.serializeBinary = function() {
+proto.bcsdk.TransferResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.TransferResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.TransferResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -7850,18 +8193,18 @@ proto.bc.TransferResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.TransferResponse} message
+ * @param {!proto.bcsdk.TransferResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.TransferResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.TransferResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTransfersList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.bc.Transfer.serializeBinaryToWriter
+      proto.bcsdk.Transfer.serializeBinaryToWriter
     );
   }
 };
@@ -7869,31 +8212,31 @@ proto.bc.TransferResponse.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * repeated Transfer transfers = 1;
- * @return {!Array<!proto.bc.Transfer>}
+ * @return {!Array<!proto.bcsdk.Transfer>}
  */
-proto.bc.TransferResponse.prototype.getTransfersList = function() {
-  return /** @type{!Array<!proto.bc.Transfer>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.bc.Transfer, 1));
+proto.bcsdk.TransferResponse.prototype.getTransfersList = function() {
+  return /** @type{!Array<!proto.bcsdk.Transfer>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.Transfer, 1));
 };
 
 
-/** @param {!Array<!proto.bc.Transfer>} value */
-proto.bc.TransferResponse.prototype.setTransfersList = function(value) {
+/** @param {!Array<!proto.bcsdk.Transfer>} value */
+proto.bcsdk.TransferResponse.prototype.setTransfersList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.bc.Transfer=} opt_value
+ * @param {!proto.bcsdk.Transfer=} opt_value
  * @param {number=} opt_index
- * @return {!proto.bc.Transfer}
+ * @return {!proto.bcsdk.Transfer}
  */
-proto.bc.TransferResponse.prototype.addTransfers = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.Transfer, opt_index);
+proto.bcsdk.TransferResponse.prototype.addTransfers = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.Transfer, opt_index);
 };
 
 
-proto.bc.TransferResponse.prototype.clearTransfersList = function() {
+proto.bcsdk.TransferResponse.prototype.clearTransfersList = function() {
   this.setTransfersList([]);
 };
 
@@ -7909,12 +8252,12 @@ proto.bc.TransferResponse.prototype.clearTransfersList = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.TransferRequest = function(opt_data) {
+proto.bcsdk.TransferRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.TransferRequest, jspb.Message);
+goog.inherits(proto.bcsdk.TransferRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.TransferRequest.displayName = 'proto.bc.TransferRequest';
+  proto.bcsdk.TransferRequest.displayName = 'proto.bcsdk.TransferRequest';
 }
 
 
@@ -7929,8 +8272,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.TransferRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.TransferRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.TransferRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.TransferRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -7939,11 +8282,11 @@ proto.bc.TransferRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.TransferRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.TransferRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.TransferRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.TransferRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     address: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -7959,23 +8302,23 @@ proto.bc.TransferRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.TransferRequest}
+ * @return {!proto.bcsdk.TransferRequest}
  */
-proto.bc.TransferRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.TransferRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.TransferRequest;
-  return proto.bc.TransferRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.TransferRequest;
+  return proto.bcsdk.TransferRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.TransferRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.TransferRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.TransferRequest}
+ * @return {!proto.bcsdk.TransferRequest}
  */
-proto.bc.TransferRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.TransferRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -7999,9 +8342,9 @@ proto.bc.TransferRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.TransferRequest.prototype.serializeBinary = function() {
+proto.bcsdk.TransferRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.TransferRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.TransferRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8009,11 +8352,11 @@ proto.bc.TransferRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.TransferRequest} message
+ * @param {!proto.bcsdk.TransferRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.TransferRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.TransferRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAddress();
   if (f.length > 0) {
@@ -8029,13 +8372,13 @@ proto.bc.TransferRequest.serializeBinaryToWriter = function(message, writer) {
  * optional string address = 1;
  * @return {string}
  */
-proto.bc.TransferRequest.prototype.getAddress = function() {
+proto.bcsdk.TransferRequest.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.TransferRequest.prototype.setAddress = function(value) {
+proto.bcsdk.TransferRequest.prototype.setAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -8051,12 +8394,12 @@ proto.bc.TransferRequest.prototype.setAddress = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetRoveredBlocksRequest = function(opt_data) {
+proto.bcsdk.GetRoveredBlocksRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetRoveredBlocksRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetRoveredBlocksRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetRoveredBlocksRequest.displayName = 'proto.bc.GetRoveredBlocksRequest';
+  proto.bcsdk.GetRoveredBlocksRequest.displayName = 'proto.bcsdk.GetRoveredBlocksRequest';
 }
 
 
@@ -8071,8 +8414,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetRoveredBlocksRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetRoveredBlocksRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetRoveredBlocksRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetRoveredBlocksRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -8081,11 +8424,11 @@ proto.bc.GetRoveredBlocksRequest.prototype.toObject = function(opt_includeInstan
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetRoveredBlocksRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetRoveredBlocksRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRoveredBlocksRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetRoveredBlocksRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     blockchain: jspb.Message.getFieldWithDefault(msg, 1, ""),
     startHeight: jspb.Message.getFieldWithDefault(msg, 2, 0),
@@ -8103,23 +8446,23 @@ proto.bc.GetRoveredBlocksRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetRoveredBlocksRequest}
+ * @return {!proto.bcsdk.GetRoveredBlocksRequest}
  */
-proto.bc.GetRoveredBlocksRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetRoveredBlocksRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetRoveredBlocksRequest;
-  return proto.bc.GetRoveredBlocksRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetRoveredBlocksRequest;
+  return proto.bcsdk.GetRoveredBlocksRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetRoveredBlocksRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetRoveredBlocksRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetRoveredBlocksRequest}
+ * @return {!proto.bcsdk.GetRoveredBlocksRequest}
  */
-proto.bc.GetRoveredBlocksRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetRoveredBlocksRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8151,9 +8494,9 @@ proto.bc.GetRoveredBlocksRequest.deserializeBinaryFromReader = function(msg, rea
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetRoveredBlocksRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetRoveredBlocksRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetRoveredBlocksRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetRoveredBlocksRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8161,11 +8504,11 @@ proto.bc.GetRoveredBlocksRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetRoveredBlocksRequest} message
+ * @param {!proto.bcsdk.GetRoveredBlocksRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRoveredBlocksRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetRoveredBlocksRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBlockchain();
   if (f.length > 0) {
@@ -8195,13 +8538,13 @@ proto.bc.GetRoveredBlocksRequest.serializeBinaryToWriter = function(message, wri
  * optional string blockchain = 1;
  * @return {string}
  */
-proto.bc.GetRoveredBlocksRequest.prototype.getBlockchain = function() {
+proto.bcsdk.GetRoveredBlocksRequest.prototype.getBlockchain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetRoveredBlocksRequest.prototype.setBlockchain = function(value) {
+proto.bcsdk.GetRoveredBlocksRequest.prototype.setBlockchain = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -8210,13 +8553,13 @@ proto.bc.GetRoveredBlocksRequest.prototype.setBlockchain = function(value) {
  * optional uint32 start_height = 2;
  * @return {number}
  */
-proto.bc.GetRoveredBlocksRequest.prototype.getStartHeight = function() {
+proto.bcsdk.GetRoveredBlocksRequest.prototype.getStartHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetRoveredBlocksRequest.prototype.setStartHeight = function(value) {
+proto.bcsdk.GetRoveredBlocksRequest.prototype.setStartHeight = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -8225,13 +8568,13 @@ proto.bc.GetRoveredBlocksRequest.prototype.setStartHeight = function(value) {
  * optional uint32 end_height = 3;
  * @return {number}
  */
-proto.bc.GetRoveredBlocksRequest.prototype.getEndHeight = function() {
+proto.bcsdk.GetRoveredBlocksRequest.prototype.getEndHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetRoveredBlocksRequest.prototype.setEndHeight = function(value) {
+proto.bcsdk.GetRoveredBlocksRequest.prototype.setEndHeight = function(value) {
   jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -8247,19 +8590,19 @@ proto.bc.GetRoveredBlocksRequest.prototype.setEndHeight = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetRawMempoolResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetRawMempoolResponse.repeatedFields_, null);
+proto.bcsdk.GetRawMempoolResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetRawMempoolResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.GetRawMempoolResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetRawMempoolResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetRawMempoolResponse.displayName = 'proto.bc.GetRawMempoolResponse';
+  proto.bcsdk.GetRawMempoolResponse.displayName = 'proto.bcsdk.GetRawMempoolResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.GetRawMempoolResponse.repeatedFields_ = [1];
+proto.bcsdk.GetRawMempoolResponse.repeatedFields_ = [1];
 
 
 
@@ -8274,8 +8617,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetRawMempoolResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetRawMempoolResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetRawMempoolResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetRawMempoolResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -8284,11 +8627,11 @@ proto.bc.GetRawMempoolResponse.prototype.toObject = function(opt_includeInstance
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetRawMempoolResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetRawMempoolResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRawMempoolResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetRawMempoolResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     transactionsList: jspb.Message.toObjectList(msg.getTransactionsList(),
     core_pb.Transaction.toObject, includeInstance)
@@ -8305,23 +8648,23 @@ proto.bc.GetRawMempoolResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetRawMempoolResponse}
+ * @return {!proto.bcsdk.GetRawMempoolResponse}
  */
-proto.bc.GetRawMempoolResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetRawMempoolResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetRawMempoolResponse;
-  return proto.bc.GetRawMempoolResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetRawMempoolResponse;
+  return proto.bcsdk.GetRawMempoolResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetRawMempoolResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetRawMempoolResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetRawMempoolResponse}
+ * @return {!proto.bcsdk.GetRawMempoolResponse}
  */
-proto.bc.GetRawMempoolResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetRawMempoolResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8346,9 +8689,9 @@ proto.bc.GetRawMempoolResponse.deserializeBinaryFromReader = function(msg, reade
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetRawMempoolResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetRawMempoolResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetRawMempoolResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetRawMempoolResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8356,11 +8699,11 @@ proto.bc.GetRawMempoolResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetRawMempoolResponse} message
+ * @param {!proto.bcsdk.GetRawMempoolResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRawMempoolResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetRawMempoolResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getTransactionsList();
   if (f.length > 0) {
@@ -8375,31 +8718,31 @@ proto.bc.GetRawMempoolResponse.serializeBinaryToWriter = function(message, write
 
 /**
  * repeated Transaction transactions = 1;
- * @return {!Array<!proto.bc.Transaction>}
+ * @return {!Array<!proto.bcsdk.Transaction>}
  */
-proto.bc.GetRawMempoolResponse.prototype.getTransactionsList = function() {
-  return /** @type{!Array<!proto.bc.Transaction>} */ (
+proto.bcsdk.GetRawMempoolResponse.prototype.getTransactionsList = function() {
+  return /** @type{!Array<!proto.bcsdk.Transaction>} */ (
     jspb.Message.getRepeatedWrapperField(this, core_pb.Transaction, 1));
 };
 
 
-/** @param {!Array<!proto.bc.Transaction>} value */
-proto.bc.GetRawMempoolResponse.prototype.setTransactionsList = function(value) {
+/** @param {!Array<!proto.bcsdk.Transaction>} value */
+proto.bcsdk.GetRawMempoolResponse.prototype.setTransactionsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.bc.Transaction=} opt_value
+ * @param {!proto.bcsdk.Transaction=} opt_value
  * @param {number=} opt_index
- * @return {!proto.bc.Transaction}
+ * @return {!proto.bcsdk.Transaction}
  */
-proto.bc.GetRawMempoolResponse.prototype.addTransactions = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.Transaction, opt_index);
+proto.bcsdk.GetRawMempoolResponse.prototype.addTransactions = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.Transaction, opt_index);
 };
 
 
-proto.bc.GetRawMempoolResponse.prototype.clearTransactionsList = function() {
+proto.bcsdk.GetRawMempoolResponse.prototype.clearTransactionsList = function() {
   this.setTransactionsList([]);
 };
 
@@ -8415,19 +8758,19 @@ proto.bc.GetRawMempoolResponse.prototype.clearTransactionsList = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetRoveredBlocksResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.bc.GetRoveredBlocksResponse.repeatedFields_, null);
+proto.bcsdk.GetRoveredBlocksResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetRoveredBlocksResponse.repeatedFields_, null);
 };
-goog.inherits(proto.bc.GetRoveredBlocksResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetRoveredBlocksResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetRoveredBlocksResponse.displayName = 'proto.bc.GetRoveredBlocksResponse';
+  proto.bcsdk.GetRoveredBlocksResponse.displayName = 'proto.bcsdk.GetRoveredBlocksResponse';
 }
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
-proto.bc.GetRoveredBlocksResponse.repeatedFields_ = [1];
+proto.bcsdk.GetRoveredBlocksResponse.repeatedFields_ = [1];
 
 
 
@@ -8442,8 +8785,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetRoveredBlocksResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetRoveredBlocksResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetRoveredBlocksResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetRoveredBlocksResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -8452,11 +8795,11 @@ proto.bc.GetRoveredBlocksResponse.prototype.toObject = function(opt_includeInsta
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetRoveredBlocksResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetRoveredBlocksResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRoveredBlocksResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetRoveredBlocksResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     blocksList: jspb.Message.toObjectList(msg.getBlocksList(),
     core_pb.Block.toObject, includeInstance)
@@ -8473,23 +8816,23 @@ proto.bc.GetRoveredBlocksResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetRoveredBlocksResponse}
+ * @return {!proto.bcsdk.GetRoveredBlocksResponse}
  */
-proto.bc.GetRoveredBlocksResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetRoveredBlocksResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetRoveredBlocksResponse;
-  return proto.bc.GetRoveredBlocksResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetRoveredBlocksResponse;
+  return proto.bcsdk.GetRoveredBlocksResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetRoveredBlocksResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetRoveredBlocksResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetRoveredBlocksResponse}
+ * @return {!proto.bcsdk.GetRoveredBlocksResponse}
  */
-proto.bc.GetRoveredBlocksResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetRoveredBlocksResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8514,9 +8857,9 @@ proto.bc.GetRoveredBlocksResponse.deserializeBinaryFromReader = function(msg, re
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetRoveredBlocksResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetRoveredBlocksResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetRoveredBlocksResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetRoveredBlocksResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8524,11 +8867,11 @@ proto.bc.GetRoveredBlocksResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetRoveredBlocksResponse} message
+ * @param {!proto.bcsdk.GetRoveredBlocksResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetRoveredBlocksResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetRoveredBlocksResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBlocksList();
   if (f.length > 0) {
@@ -8543,31 +8886,31 @@ proto.bc.GetRoveredBlocksResponse.serializeBinaryToWriter = function(message, wr
 
 /**
  * repeated Block blocks = 1;
- * @return {!Array<!proto.bc.Block>}
+ * @return {!Array<!proto.bcsdk.Block>}
  */
-proto.bc.GetRoveredBlocksResponse.prototype.getBlocksList = function() {
-  return /** @type{!Array<!proto.bc.Block>} */ (
+proto.bcsdk.GetRoveredBlocksResponse.prototype.getBlocksList = function() {
+  return /** @type{!Array<!proto.bcsdk.Block>} */ (
     jspb.Message.getRepeatedWrapperField(this, core_pb.Block, 1));
 };
 
 
-/** @param {!Array<!proto.bc.Block>} value */
-proto.bc.GetRoveredBlocksResponse.prototype.setBlocksList = function(value) {
+/** @param {!Array<!proto.bcsdk.Block>} value */
+proto.bcsdk.GetRoveredBlocksResponse.prototype.setBlocksList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.bc.Block=} opt_value
+ * @param {!proto.bcsdk.Block=} opt_value
  * @param {number=} opt_index
- * @return {!proto.bc.Block}
+ * @return {!proto.bcsdk.Block}
  */
-proto.bc.GetRoveredBlocksResponse.prototype.addBlocks = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bc.Block, opt_index);
+proto.bcsdk.GetRoveredBlocksResponse.prototype.addBlocks = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.Block, opt_index);
 };
 
 
-proto.bc.GetRoveredBlocksResponse.prototype.clearBlocksList = function() {
+proto.bcsdk.GetRoveredBlocksResponse.prototype.clearBlocksList = function() {
   this.setBlocksList([]);
 };
 
@@ -8583,12 +8926,12 @@ proto.bc.GetRoveredBlocksResponse.prototype.clearBlocksList = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetTxRequest = function(opt_data) {
+proto.bcsdk.GetTxRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetTxRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetTxRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetTxRequest.displayName = 'proto.bc.GetTxRequest';
+  proto.bcsdk.GetTxRequest.displayName = 'proto.bcsdk.GetTxRequest';
 }
 
 
@@ -8603,8 +8946,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetTxRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetTxRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetTxRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetTxRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -8613,11 +8956,11 @@ proto.bc.GetTxRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetTxRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetTxRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetTxRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetTxRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     hash: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -8633,23 +8976,23 @@ proto.bc.GetTxRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetTxRequest}
+ * @return {!proto.bcsdk.GetTxRequest}
  */
-proto.bc.GetTxRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetTxRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetTxRequest;
-  return proto.bc.GetTxRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetTxRequest;
+  return proto.bcsdk.GetTxRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetTxRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetTxRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetTxRequest}
+ * @return {!proto.bcsdk.GetTxRequest}
  */
-proto.bc.GetTxRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetTxRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8673,9 +9016,9 @@ proto.bc.GetTxRequest.deserializeBinaryFromReader = function(msg, reader) {
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetTxRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetTxRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetTxRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetTxRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8683,11 +9026,11 @@ proto.bc.GetTxRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetTxRequest} message
+ * @param {!proto.bcsdk.GetTxRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetTxRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetTxRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getHash();
   if (f.length > 0) {
@@ -8703,13 +9046,13 @@ proto.bc.GetTxRequest.serializeBinaryToWriter = function(message, writer) {
  * optional string hash = 1;
  * @return {string}
  */
-proto.bc.GetTxRequest.prototype.getHash = function() {
+proto.bcsdk.GetTxRequest.prototype.getHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetTxRequest.prototype.setHash = function(value) {
+proto.bcsdk.GetTxRequest.prototype.setHash = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -8725,12 +9068,12 @@ proto.bc.GetTxRequest.prototype.setHash = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetMarkedTxRequest = function(opt_data) {
+proto.bcsdk.GetMarkedTxRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetMarkedTxRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetMarkedTxRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetMarkedTxRequest.displayName = 'proto.bc.GetMarkedTxRequest';
+  proto.bcsdk.GetMarkedTxRequest.displayName = 'proto.bcsdk.GetMarkedTxRequest';
 }
 
 
@@ -8745,8 +9088,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetMarkedTxRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetMarkedTxRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetMarkedTxRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetMarkedTxRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -8755,11 +9098,11 @@ proto.bc.GetMarkedTxRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetMarkedTxRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetMarkedTxRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetMarkedTxRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetMarkedTxRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     blockchain: jspb.Message.getFieldWithDefault(msg, 1, ""),
     hash: jspb.Message.getFieldWithDefault(msg, 2, "")
@@ -8776,23 +9119,23 @@ proto.bc.GetMarkedTxRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetMarkedTxRequest}
+ * @return {!proto.bcsdk.GetMarkedTxRequest}
  */
-proto.bc.GetMarkedTxRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetMarkedTxRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetMarkedTxRequest;
-  return proto.bc.GetMarkedTxRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetMarkedTxRequest;
+  return proto.bcsdk.GetMarkedTxRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetMarkedTxRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetMarkedTxRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetMarkedTxRequest}
+ * @return {!proto.bcsdk.GetMarkedTxRequest}
  */
-proto.bc.GetMarkedTxRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetMarkedTxRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8820,9 +9163,9 @@ proto.bc.GetMarkedTxRequest.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetMarkedTxRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetMarkedTxRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetMarkedTxRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetMarkedTxRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8830,11 +9173,11 @@ proto.bc.GetMarkedTxRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetMarkedTxRequest} message
+ * @param {!proto.bcsdk.GetMarkedTxRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetMarkedTxRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetMarkedTxRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getBlockchain();
   if (f.length > 0) {
@@ -8857,13 +9200,13 @@ proto.bc.GetMarkedTxRequest.serializeBinaryToWriter = function(message, writer) 
  * optional string blockchain = 1;
  * @return {string}
  */
-proto.bc.GetMarkedTxRequest.prototype.getBlockchain = function() {
+proto.bcsdk.GetMarkedTxRequest.prototype.getBlockchain = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetMarkedTxRequest.prototype.setBlockchain = function(value) {
+proto.bcsdk.GetMarkedTxRequest.prototype.setBlockchain = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -8872,13 +9215,13 @@ proto.bc.GetMarkedTxRequest.prototype.setBlockchain = function(value) {
  * optional string hash = 2;
  * @return {string}
  */
-proto.bc.GetMarkedTxRequest.prototype.getHash = function() {
+proto.bcsdk.GetMarkedTxRequest.prototype.getHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetMarkedTxRequest.prototype.setHash = function(value) {
+proto.bcsdk.GetMarkedTxRequest.prototype.setHash = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -8894,12 +9237,12 @@ proto.bc.GetMarkedTxRequest.prototype.setHash = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetOutPointRequest = function(opt_data) {
+proto.bcsdk.GetOutPointRequest = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetOutPointRequest, jspb.Message);
+goog.inherits(proto.bcsdk.GetOutPointRequest, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetOutPointRequest.displayName = 'proto.bc.GetOutPointRequest';
+  proto.bcsdk.GetOutPointRequest.displayName = 'proto.bcsdk.GetOutPointRequest';
 }
 
 
@@ -8914,8 +9257,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetOutPointRequest.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetOutPointRequest.toObject(opt_includeInstance, this);
+proto.bcsdk.GetOutPointRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetOutPointRequest.toObject(opt_includeInstance, this);
 };
 
 
@@ -8924,11 +9267,11 @@ proto.bc.GetOutPointRequest.prototype.toObject = function(opt_includeInstance) {
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetOutPointRequest} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetOutPointRequest} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetOutPointRequest.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetOutPointRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     hash: jspb.Message.getFieldWithDefault(msg, 1, ""),
     index: jspb.Message.getFieldWithDefault(msg, 2, 0)
@@ -8945,23 +9288,23 @@ proto.bc.GetOutPointRequest.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetOutPointRequest}
+ * @return {!proto.bcsdk.GetOutPointRequest}
  */
-proto.bc.GetOutPointRequest.deserializeBinary = function(bytes) {
+proto.bcsdk.GetOutPointRequest.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetOutPointRequest;
-  return proto.bc.GetOutPointRequest.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetOutPointRequest;
+  return proto.bcsdk.GetOutPointRequest.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetOutPointRequest} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetOutPointRequest} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetOutPointRequest}
+ * @return {!proto.bcsdk.GetOutPointRequest}
  */
-proto.bc.GetOutPointRequest.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetOutPointRequest.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -8989,9 +9332,9 @@ proto.bc.GetOutPointRequest.deserializeBinaryFromReader = function(msg, reader) 
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetOutPointRequest.prototype.serializeBinary = function() {
+proto.bcsdk.GetOutPointRequest.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetOutPointRequest.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetOutPointRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -8999,11 +9342,11 @@ proto.bc.GetOutPointRequest.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetOutPointRequest} message
+ * @param {!proto.bcsdk.GetOutPointRequest} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetOutPointRequest.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetOutPointRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getHash();
   if (f.length > 0) {
@@ -9026,13 +9369,13 @@ proto.bc.GetOutPointRequest.serializeBinaryToWriter = function(message, writer) 
  * optional string hash = 1;
  * @return {string}
  */
-proto.bc.GetOutPointRequest.prototype.getHash = function() {
+proto.bcsdk.GetOutPointRequest.prototype.getHash = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.bc.GetOutPointRequest.prototype.setHash = function(value) {
+proto.bcsdk.GetOutPointRequest.prototype.setHash = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -9041,13 +9384,13 @@ proto.bc.GetOutPointRequest.prototype.setHash = function(value) {
  * optional uint32 index = 2;
  * @return {number}
  */
-proto.bc.GetOutPointRequest.prototype.getIndex = function() {
+proto.bcsdk.GetOutPointRequest.prototype.getIndex = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /** @param {number} value */
-proto.bc.GetOutPointRequest.prototype.setIndex = function(value) {
+proto.bcsdk.GetOutPointRequest.prototype.setIndex = function(value) {
   jspb.Message.setProto3IntField(this, 2, value);
 };
 
@@ -9063,12 +9406,12 @@ proto.bc.GetOutPointRequest.prototype.setIndex = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetTradeStatusResponse = function(opt_data) {
+proto.bcsdk.GetTradeStatusResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetTradeStatusResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetTradeStatusResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetTradeStatusResponse.displayName = 'proto.bc.GetTradeStatusResponse';
+  proto.bcsdk.GetTradeStatusResponse.displayName = 'proto.bcsdk.GetTradeStatusResponse';
 }
 
 
@@ -9083,8 +9426,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetTradeStatusResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetTradeStatusResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetTradeStatusResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetTradeStatusResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -9093,11 +9436,11 @@ proto.bc.GetTradeStatusResponse.prototype.toObject = function(opt_includeInstanc
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetTradeStatusResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetTradeStatusResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetTradeStatusResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetTradeStatusResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     sent: jspb.Message.getFieldWithDefault(msg, 1, false)
   };
@@ -9113,23 +9456,23 @@ proto.bc.GetTradeStatusResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetTradeStatusResponse}
+ * @return {!proto.bcsdk.GetTradeStatusResponse}
  */
-proto.bc.GetTradeStatusResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetTradeStatusResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetTradeStatusResponse;
-  return proto.bc.GetTradeStatusResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetTradeStatusResponse;
+  return proto.bcsdk.GetTradeStatusResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetTradeStatusResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetTradeStatusResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetTradeStatusResponse}
+ * @return {!proto.bcsdk.GetTradeStatusResponse}
  */
-proto.bc.GetTradeStatusResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetTradeStatusResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9153,9 +9496,9 @@ proto.bc.GetTradeStatusResponse.deserializeBinaryFromReader = function(msg, read
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetTradeStatusResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetTradeStatusResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetTradeStatusResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetTradeStatusResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9163,11 +9506,11 @@ proto.bc.GetTradeStatusResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetTradeStatusResponse} message
+ * @param {!proto.bcsdk.GetTradeStatusResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetTradeStatusResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetTradeStatusResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getSent();
   if (f) {
@@ -9185,13 +9528,13 @@ proto.bc.GetTradeStatusResponse.serializeBinaryToWriter = function(message, writ
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
-proto.bc.GetTradeStatusResponse.prototype.getSent = function() {
+proto.bcsdk.GetTradeStatusResponse.prototype.getSent = function() {
   return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 1, false));
 };
 
 
 /** @param {boolean} value */
-proto.bc.GetTradeStatusResponse.prototype.setSent = function(value) {
+proto.bcsdk.GetTradeStatusResponse.prototype.setSent = function(value) {
   jspb.Message.setProto3BooleanField(this, 1, value);
 };
 
@@ -9207,12 +9550,12 @@ proto.bc.GetTradeStatusResponse.prototype.setSent = function(value) {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.bc.GetOutPointStatusResponse = function(opt_data) {
+proto.bcsdk.GetOutPointStatusResponse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.bc.GetOutPointStatusResponse, jspb.Message);
+goog.inherits(proto.bcsdk.GetOutPointStatusResponse, jspb.Message);
 if (true || goog.DEBUG && !COMPILED) {
-  proto.bc.GetOutPointStatusResponse.displayName = 'proto.bc.GetOutPointStatusResponse';
+  proto.bcsdk.GetOutPointStatusResponse.displayName = 'proto.bcsdk.GetOutPointStatusResponse';
 }
 
 
@@ -9227,8 +9570,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.bc.GetOutPointStatusResponse.prototype.toObject = function(opt_includeInstance) {
-  return proto.bc.GetOutPointStatusResponse.toObject(opt_includeInstance, this);
+proto.bcsdk.GetOutPointStatusResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetOutPointStatusResponse.toObject(opt_includeInstance, this);
 };
 
 
@@ -9237,11 +9580,11 @@ proto.bc.GetOutPointStatusResponse.prototype.toObject = function(opt_includeInst
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.bc.GetOutPointStatusResponse} msg The msg instance to transform.
+ * @param {!proto.bcsdk.GetOutPointStatusResponse} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetOutPointStatusResponse.toObject = function(includeInstance, msg) {
+proto.bcsdk.GetOutPointStatusResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     unspent: jspb.Message.getFieldWithDefault(msg, 1, false)
   };
@@ -9257,23 +9600,23 @@ proto.bc.GetOutPointStatusResponse.toObject = function(includeInstance, msg) {
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bc.GetOutPointStatusResponse}
+ * @return {!proto.bcsdk.GetOutPointStatusResponse}
  */
-proto.bc.GetOutPointStatusResponse.deserializeBinary = function(bytes) {
+proto.bcsdk.GetOutPointStatusResponse.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bc.GetOutPointStatusResponse;
-  return proto.bc.GetOutPointStatusResponse.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.bcsdk.GetOutPointStatusResponse;
+  return proto.bcsdk.GetOutPointStatusResponse.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.bc.GetOutPointStatusResponse} msg The message object to deserialize into.
+ * @param {!proto.bcsdk.GetOutPointStatusResponse} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bc.GetOutPointStatusResponse}
+ * @return {!proto.bcsdk.GetOutPointStatusResponse}
  */
-proto.bc.GetOutPointStatusResponse.deserializeBinaryFromReader = function(msg, reader) {
+proto.bcsdk.GetOutPointStatusResponse.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -9297,9 +9640,9 @@ proto.bc.GetOutPointStatusResponse.deserializeBinaryFromReader = function(msg, r
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.bc.GetOutPointStatusResponse.prototype.serializeBinary = function() {
+proto.bcsdk.GetOutPointStatusResponse.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.bc.GetOutPointStatusResponse.serializeBinaryToWriter(this, writer);
+  proto.bcsdk.GetOutPointStatusResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -9307,11 +9650,11 @@ proto.bc.GetOutPointStatusResponse.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.bc.GetOutPointStatusResponse} message
+ * @param {!proto.bcsdk.GetOutPointStatusResponse} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.bc.GetOutPointStatusResponse.serializeBinaryToWriter = function(message, writer) {
+proto.bcsdk.GetOutPointStatusResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getUnspent();
   if (f) {
@@ -9329,13 +9672,13 @@ proto.bc.GetOutPointStatusResponse.serializeBinaryToWriter = function(message, w
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
-proto.bc.GetOutPointStatusResponse.prototype.getUnspent = function() {
+proto.bcsdk.GetOutPointStatusResponse.prototype.getUnspent = function() {
   return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 1, false));
 };
 
 
 /** @param {boolean} value */
-proto.bc.GetOutPointStatusResponse.prototype.setUnspent = function(value) {
+proto.bcsdk.GetOutPointStatusResponse.prototype.setUnspent = function(value) {
   jspb.Message.setProto3BooleanField(this, 1, value);
 };
 
@@ -9343,9 +9686,9 @@ proto.bc.GetOutPointStatusResponse.prototype.setUnspent = function(value) {
 /**
  * @enum {number}
  */
-proto.bc.RpcTransactionResponseStatus = {
+proto.bcsdk.RpcTransactionResponseStatus = {
   SUCCESS: 0,
   FAILURE: 1
 };
 
-goog.object.extend(exports, proto.bc);
+goog.object.extend(exports, proto.bcsdk);

@@ -1,4 +1,4 @@
-// package: bc
+// package: bcsdk
 // file: bc.proto
 
 import * as jspb from "google-protobuf";
@@ -481,6 +481,52 @@ export class GetOpenOrdersResponse extends jspb.Message {
 export namespace GetOpenOrdersResponse {
   export type AsObject = {
     ordersList: Array<MakerOrderInfo.AsObject>,
+  }
+}
+
+export class GetOrderbookUpdateResponse extends jspb.Message {
+  clearOpenOrdersToRemoveList(): void;
+  getOpenOrdersToRemoveList(): Array<string>;
+  setOpenOrdersToRemoveList(value: Array<string>): void;
+  addOpenOrdersToRemove(value: string, index?: number): string;
+
+  clearMatchedOrdersToRemoveList(): void;
+  getMatchedOrdersToRemoveList(): Array<string>;
+  setMatchedOrdersToRemoveList(value: Array<string>): void;
+  addMatchedOrdersToRemove(value: string, index?: number): string;
+
+  clearOpenOrdersToAddList(): void;
+  getOpenOrdersToAddList(): Array<MakerOrderInfo>;
+  setOpenOrdersToAddList(value: Array<MakerOrderInfo>): void;
+  addOpenOrdersToAdd(value?: MakerOrderInfo, index?: number): MakerOrderInfo;
+
+  clearMatchedOrdersToAddList(): void;
+  getMatchedOrdersToAddList(): Array<MatchedOrderInfo>;
+  setMatchedOrdersToAddList(value: Array<MatchedOrderInfo>): void;
+  addMatchedOrdersToAdd(value?: MatchedOrderInfo, index?: number): MatchedOrderInfo;
+
+  clearHistoricalOrdersToAddList(): void;
+  getHistoricalOrdersToAddList(): Array<MatchedOrderInfo>;
+  setHistoricalOrdersToAddList(value: Array<MatchedOrderInfo>): void;
+  addHistoricalOrdersToAdd(value?: MatchedOrderInfo, index?: number): MatchedOrderInfo;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetOrderbookUpdateResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetOrderbookUpdateResponse): GetOrderbookUpdateResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetOrderbookUpdateResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetOrderbookUpdateResponse;
+  static deserializeBinaryFromReader(message: GetOrderbookUpdateResponse, reader: jspb.BinaryReader): GetOrderbookUpdateResponse;
+}
+
+export namespace GetOrderbookUpdateResponse {
+  export type AsObject = {
+    openOrdersToRemoveList: Array<string>,
+    matchedOrdersToRemoveList: Array<string>,
+    openOrdersToAddList: Array<MakerOrderInfo.AsObject>,
+    matchedOrdersToAddList: Array<MatchedOrderInfo.AsObject>,
+    historicalOrdersToAddList: Array<MatchedOrderInfo.AsObject>,
   }
 }
 

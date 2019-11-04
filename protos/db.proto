@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package bc;
+package bcsdk;
 
 // Represents value stored in key/value database
 // User provided value is automatically (de)serialized

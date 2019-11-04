@@ -1,4 +1,4 @@
-// package: bc
+// package: bcsdk
 // file: miner.proto
 
 var miner_pb = require("./miner_pb");
@@ -6,7 +6,7 @@ var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Miner = (function () {
   function Miner() {}
-  Miner.serviceName = "bc.Miner";
+  Miner.serviceName = "bcsdk.Miner";
   return Miner;
 }());
 

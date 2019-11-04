@@ -1,4 +1,4 @@
-// package: bc
+// package: bcsdk
 // file: rover.proto
 
 import * as rover_pb from "./rover_pb";

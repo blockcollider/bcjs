@@ -1,4 +1,4 @@
-// package: bc
+// package: bcsdk
 // file: core.proto
 
 import * as jspb from "google-protobuf";
