@@ -55,48 +55,48 @@ async function testMaker({sendsFromChain,receivesToChain,sendsFromAddress,receiv
 }
 
 let assetPrices = [
-  {asset:'USDT',denomination:'EMB'},
-  {asset:'DAI',denomination:'EMB'},
-  {asset:'BTC',denomination:'EMB'},
-  {asset:'ETH',denomination:'EMB'},
-  {asset:'NEO',denomination:'EMB'},
-  {asset:'WAV',denomination:'EMB'},
-  {asset:'LSK',denomination:'EMB'},
-  {asset:'DAI',denomination:'USDT'},
-  {asset:'BTC',denomination:'USDT'},
-  {asset:'ETH',denomination:'USDT'},
-  {asset:'NEO',denomination:'USDT'},
-  {asset:'WAV',denomination:'USDT'},
-  {asset:'LSK',denomination:'USDT'},
+  {asset:'USDT',denomination:'EMB',price:0},
+  {asset:'DAI',denomination:'EMB',price:0},
+  {asset:'BTC',denomination:'EMB',price:0},
+  {asset:'ETH',denomination:'EMB',price:0},
+  {asset:'NEO',denomination:'EMB',price:0},
+  {asset:'WAV',denomination:'EMB',price:0},
+  {asset:'LSK',denomination:'EMB',price:0},
+  {asset:'DAI',denomination:'USDT',price:0},
+  {asset:'BTC',denomination:'USDT',price:0},
+  {asset:'ETH',denomination:'USDT',price:0},
+  {asset:'NEO',denomination:'USDT',price:0},
+  {asset:'WAV',denomination:'USDT',price:0},
+  {asset:'LSK',denomination:'USDT',price:0},
 
-  {asset:'BTC',denomination:'DAI'},
-  {asset:'ETH',denomination:'DAI'},
-  {asset:'NEO',denomination:'DAI'},
-  {asset:'WAV',denomination:'DAI'},
-  {asset:'LSK',denomination:'DAI'},
+  {asset:'BTC',denomination:'DAI',price:0},
+  {asset:'ETH',denomination:'DAI',price:0},
+  {asset:'NEO',denomination:'DAI',price:0},
+  {asset:'WAV',denomination:'DAI',price:0},
+  {asset:'LSK',denomination:'DAI',price:0},
 
-  {asset:'ETH',denomination:'BTC'},
-  {asset:'NEO',denomination:'BTC'},
-  {asset:'WAV',denomination:'BTC'},
-  {asset:'LSK',denomination:'BTC'},
+  {asset:'ETH',denomination:'BTC',price:0},
+  {asset:'NEO',denomination:'BTC',price:0},
+  {asset:'WAV',denomination:'BTC',price:0},
+  {asset:'LSK',denomination:'BTC',price:0},
 
-  {asset:'NEO',denomination:'ETH'},
-  {asset:'WAV',denomination:'ETH'},
-  {asset:'LSK',denomination:'ETH'},
+  {asset:'NEO',denomination:'ETH',price:0},
+  {asset:'WAV',denomination:'ETH',price:0},
+  {asset:'LSK',denomination:'ETH',price:0},
 
-  {asset:'WAV',denomination:'NEO'},
-  {asset:'LSK',denomination:'NEO'},
+  {asset:'WAV',denomination:'NEO',price:0},
+  {asset:'LSK',denomination:'NEO',price:0},
 
-  {asset:'LSK',denomination:'WAV'},
+  {asset:'LSK',denomination:'WAV',price:0},
 
-  {asset:'EMB',denomination:'NRG'},
-  {asset:'USDT',denomination:'NRG'},
-  {asset:'DAI',denomination:'NRG'},
-  {asset:'BTC',denomination:'NRG'},
-  {asset:'ETH',denomination:'NRG'},
-  {asset:'NEO',denomination:'NRG'},
-  {asset:'WAV',denomination:'NRG'},
-  {asset:'LSK',denomination:'NRG'}
+  {asset:'EMB',denomination:'NRG',price:0},
+  {asset:'USDT',denomination:'NRG',price:0},
+  {asset:'DAI',denomination:'NRG',price:0},
+  {asset:'BTC',denomination:'NRG',price:0},
+  {asset:'ETH',denomination:'NRG',price:0},
+  {asset:'NEO',denomination:'NRG',price:0},
+  {asset:'WAV',denomination:'NRG',price:0},
+  {asset:'LSK',denomination:'NRG',price:0}
 ]
 
 async function getPrices(){
@@ -121,6 +121,7 @@ async function getPrices(){
 
   fs.writeFile("prices.json", JSON.stringify(jsonData, null, 4), function(err) {});
   fs.writeFile("assetPrices.json", JSON.stringify({assetPrices}, null, 4),function(err) {});
+  return assetPrices;
 }
 
 let addresses={
@@ -136,8 +137,8 @@ let addresses={
 }
 
 async function fillOrderbook(){
-  await getPrices()
-  let {assetPrices} = require('./assetPrices.json')
+  let assetPrices = await getPrices()
+  console.log({assetPrices})
   for(let i = 0; i < assetPrices.length;i++){
     let {asset,denomination,price} = assetPrices[i];
     let increment = Math.random()/300*price;
