@@ -40,7 +40,7 @@ function getDivisor(unit: string): number {
 }
 
 function calcStringMulPowerTen(val: string, powTen: number): string {
-  const parts = val.split('.')
+  const parts = val.toString().split('.')
   if (parts.length === 1) {
     return new BN(val).mul(new BN(10).pow(new BN(powTen))).toString(10)
   } else if (parts.length === 2) {
@@ -99,7 +99,7 @@ export const humanToInternalAsBN = (val: string, unit: string): BN => {
   if (val.startsWith('-')) {
     throw new Error(val + ' must be positive')
   }
-
+  console.log({val,unit})
   const divisor = getDivisor(unit)
   if (unit === COIN_FRACS.BOSON && val.includes('.')) {
     throw new Error(
@@ -171,6 +171,12 @@ export const CurrencyInfo: CurrencyInfoInterface = {
     minUnit: 'boson',
     humanUnit: 'nrg',
   },
+  emb: {
+    EMB: 'emb',
+    DIA: 'dia',
+    minUnit: 'dia',
+    humanUnit: 'emb',
+  },
   eth: {
     ETH: 'eth',
     WEI: 'wei',
@@ -200,6 +206,12 @@ export const CurrencyInfo: CurrencyInfoInterface = {
     minUnit: 'mwav',
     humanUnit: 'wav',
   },
+  usdt: {
+    USDT: 'usdt',
+    minUsdt: 'ausdt',
+    minUnit: 'ausdt',
+    humanUnit: 'usdt',
+  },
   dai: {
     DAI: 'dai',
     minDai: 'adai',
@@ -217,6 +229,17 @@ export const CurrencyConverter: CurrencyConverterInterface = {
       return calcStringMulPowerTen(val, power) // 1 NRG = 10^18 BOSON
     } else if (from === 'boson' && to === 'nrg') {
       return calcStringDivPowerTen(val, power) // 1 NRG = 10^18 BOSON
+    }
+    throw new Error('invalid unit')
+  },
+  emb: function(val: string, from: string, to: string): string | never {
+    const power = 18
+    if (from === to) {
+      return val
+    } else if (from === 'emb' && to === 'dia') {
+      return calcStringMulPowerTen(val, power) // 1 ETH = 10^18 WEI
+    } else if (from === 'dia' && to === 'emb') {
+      return calcStringDivPowerTen(val, power) // 1 ETH = 10^18 WEI
     }
     throw new Error('invalid unit')
   },
@@ -243,6 +266,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     throw new Error('invalid unit')
   },
   neo: function(val: string, from: string, to: string): string | never {
+    console.log({val})
     if (val.includes('.')) {
       throw new Error('invalid value, NEO is indivisible')
     }
@@ -267,6 +291,17 @@ export const CurrencyConverter: CurrencyConverterInterface = {
       return calcStringMulPowerTen(val, power)
     } else if (from === 'mwav' && to === 'wav') {
       return calcStringDivPowerTen(val, power)
+    }
+    throw new Error('invalid unit')
+  },
+  usdt: function (val: string, from: string, to: string): string | never {
+    const power = 6
+    if (from === to) {
+      return val
+    } else if (from === 'usdt' && to === 'ausdt') {
+      return calcStringMulPowerTen(val, power) // 1 DAI = 10^18 aDAI
+    } else if (from === 'ausdt' && to === 'usdt') {
+      return calcStringDivPowerTen(val, power) // 1 DAI = 10^18 aDAI
     }
     throw new Error('invalid unit')
   },

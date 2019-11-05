@@ -231,7 +231,7 @@ export function toASM (bytecode: Buffer, version: number): string {
   }
   bytecode = bytecode.slice(bytecodeVersion.length)
 
-  let result = []
+  let result: string[] = []
   let consume
   while (bytecode.length !== 0) {
     consume = 0

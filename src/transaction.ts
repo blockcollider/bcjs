@@ -236,7 +236,7 @@ export const createUnlockTakerTx = async function(
                                      COIN_FRACS.BOSON)
     const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 
-    let outputs = []
+    let outputs: coreProtobuf.TransactionOutput[] = []
     if (unlockScripts.length === 2) { // both settled
       outputs = unlockScripts.map(unlockScript => createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new BN(2))))
     } else { // one party settled
@@ -274,8 +274,8 @@ const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs
   spentOutPoints: coreProtobuf.OutPoint[], leftoverOutPoint: coreProtobuf.OutPoint | null
 } {
   let sumBN = new BN(0)
-  const spentOutPoints = []
-  let leftoverOutPoint = null
+  const spentOutPoints:coreProtobuf.OutPoint[] = []
+  let leftoverOutPoint:coreProtobuf.OutPoint = new coreProtobuf.OutPoint()
   for (let walletOutPoint of spendableWalletOutPointObjs) {
     const outPointObj: coreProtobuf.OutPoint.AsObject | undefined = walletOutPoint.outpoint
     if (!outPointObj) {
