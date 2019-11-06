@@ -22,15 +22,25 @@ const privateKeyHex = process.argv[3]
 async function testMaker({
   sendsFromChain, receivesToChain, sendsFromAddress,
   receivesToAddress, sendsUnit, receivesUnit}) {
-  const spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+
+  function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  while(spendableOutpointsList.length == 0) {
+    await timeout(10000)
+    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  }
+
   // console.log({spendableOutpointsList})
   const shiftMaker = 0
   const shiftTaker = 0
   const depositLength = 100
-  const settleLength = 300
+  const settleLength = 200
   const additionalTxFee = '0'
-  const collateralizedNrg = '10'
-  const nrgUnit = '1'
+  const collateralizedNrg = '1'
+  const nrgUnit = '0.1'
   let tx: coreProtobuf.Transaction = new coreProtobuf.Transaction()
 
   if (sendsFromChain.toLowerCase() === 'nrg') {
@@ -101,8 +111,8 @@ const assetPrices = [
 ]
 
 async function getPrices() {
-  const jsonData: { usdt: number, dai: number, emb: number, nrg: number, btc?: number, wav?: number }
-    = {usdt: 1, dai: 1, emb: 1, nrg: 0.1}
+  const jsonData: { usdt: number, dai: number, emb: number, nrg: number, btc: number, wav: number, eth: number, neo: number, lsk:number }
+    = {usdt: 1, dai: 1, emb: 1, nrg: 0.1, btc:0,wav:0,lsk:0,eth:0,neo:0}
 
   let response = await fetch('https://api.cryptowat.ch/markets/binance/btcusdt/price')
   let json = await response.json()
@@ -149,37 +159,48 @@ async function fillOrderbook() {
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
     let increment = Math.random() / 300 * price
-    if ((asset == 'BTC' || denomination == 'BTC') && (asset != 'NRG' && denomination != 'NRG')) {
-      for (let j = 0; j < 24; j++) {
-        const priceAbove = Math.round((price + increment) * Math.pow(10, 8)) / Math.pow(10, 8)
-        const priceBelow = Math.round((price - increment) * Math.pow(10, 8)) / Math.pow(10, 8)
-        increment = Math.random() / 300 * price + increment
+    for (let j = 0; j < 24; j++) {
+      const priceAbove = Math.round((price + increment) * Math.pow(10, 8)) / Math.pow(10, 8)
+      const priceBelow = Math.round((price - increment) * Math.pow(10, 8)) / Math.pow(10, 8)
+      increment = Math.random()/300*price + increment;
 
-        const sendAmount = Math.floor(Math.random() * Math.floor(10)) + 0.1
-        const recAmount = Math.floor(Math.random() * Math.floor(10)) + 0.1
+      let sendAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
+      let recAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
 
-        asset = asset.toLowerCase()
-        denomination = denomination.toLowerCase()
 
-        console.log({
-          sendsFromChain: asset, receivesToChain: denomination,
-          sendsFromAddress: addresses[asset.toLowerCase()], receivesToAddress: addresses[denomination.toLowerCase()],
-          sendsUnit: sendAmount, receivesUnit: priceAbove * sendAmount,
-        })
+      let sendUnit1 = sendAmount;
+      let recUnit1 = priceAbove*sendAmount;
 
-        if (denomination !== 'nrg') {
-          await testMaker({sendsFromChain: asset, receivesToChain: denomination,
-          sendsFromAddress: addresses[asset.toLowerCase()], receivesToAddress: addresses[denomination.toLowerCase()],
-          sendsUnit: sendAmount, receivesUnit: priceAbove * sendAmount})
-        }
+      let sendUnit2 = priceBelow*recAmount;
+      let recUnit2 = recAmount;
 
-        await testMaker({sendsFromChain: denomination, receivesToChain: asset,
-        sendsFromAddress: addresses[denomination.toLowerCase()], receivesToAddress: addresses[asset.toLowerCase()],
-        receivesUnit: recAmount, sendsUnit: priceBelow * recAmount})
+      if(asset.toLowerCase() == 'neo'){
+        sendUnit1 = Math.round(sendUnit1)+1;
+        recUnit2 = Math.round(recUnit2)+1;
       }
+
+      if(denomination.toLowerCase() == 'neo'){
+        sendUnit2 = Math.round(sendUnit2)+1;
+        recUnit1 = Math.round(recUnit1)+1;
+      }
+
+      console.log({
+        sendsFromChain:asset,receivesToChain:denomination,
+        sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
+        sendsUnit:sendUnit1,receivesUnit:recUnit1
+      })
+
+      if(denomination != 'nrg'){
+        await testMaker({sendsFromChain:asset,receivesToChain:denomination,
+        sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
+        sendsUnit:sendUnit1,receivesUnit:recUnit1});
+      }
+
+      await testMaker({sendsFromChain:denomination,receivesToChain:asset,
+      sendsFromAddress:addresses[denomination.toLowerCase()],receivesToAddress:addresses[asset.toLowerCase()],
+      receivesUnit:recUnit2,sendsUnit:sendUnit2});
     }
   }
 }
 
 fillOrderbook()
-
