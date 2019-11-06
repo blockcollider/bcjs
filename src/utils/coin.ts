@@ -96,10 +96,9 @@ export const humanToInternalAsBN = (val: string, unit: string): BN => {
   if (Number.isNaN(Number(val))) {
     throw new Error(val + ' is not number')
   }
-  if (val.startsWith('-')) {
+  if (val.toString().startsWith('-')) {
     throw new Error(val + ' must be positive')
   }
-  console.log({val,unit})
   const divisor = getDivisor(unit)
   if (unit === COIN_FRACS.BOSON && val.includes('.')) {
     throw new Error(
@@ -266,8 +265,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     throw new Error('invalid unit')
   },
   neo: function(val: string, from: string, to: string): string | never {
-    console.log({val})
-    if (val.includes('.')) {
+    if (val.toString().includes('.')) {
       throw new Error('invalid value, NEO is indivisible')
     }
     return val
