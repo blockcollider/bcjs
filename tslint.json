@@ -7,7 +7,10 @@
     "rules": {
         "no-console": true,
         "quotemark": [true, "single", "avoid-escape", "avoid-template"],
-        "semicolon": [true, "never"]
+        "semicolon": [true, "never"],
+        "space-before-function-paren": [true, "always"],
+        "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
+        "arrow-parens": [true, "ban-single-arg-parens"]
     },
     "rulesDirectory": []
 }

@@ -7,7 +7,7 @@
  */
 
 import { equals } from 'ramda'
-import { intToBuffer, bufferToInt } from '../utils/buffer'
+import { bufferToInt, intToBuffer } from '../utils/buffer'
 
 export const OPS: Map<number, string> = new Map([
   [0x01, 'OP_MONOID'],
@@ -153,7 +153,7 @@ export const OPS: Map<number, string> = new Map([
   [0x91, 'OP_15'],
   [0x92, 'OP_16'],
   [0x93, 'CHAIN_NAME_LOOKUP'], // lookup to chain table
-  [0x94, 'OP_PUSHSTR']
+  [0x94, 'OP_PUSHSTR'],
 ])
 
 export const REVERSE_OPS: Map<string, number> = new Map([...OPS].map(([byte, name]) => [name, byte]))
@@ -161,14 +161,14 @@ const DATA_OPS = [
   'OP_PUSHDATA1',
   'OP_PUSHDATA2',
   'OP_PUSHDATA4',
-  'OP_PUSHSTR'
+  'OP_PUSHSTR',
 ]
 
 const NULL_BYTE = 0x00
 const BC_BYTES = [0x2a, 0x2b]
 
 export const BYTECODE_VERSIONS: Map<number, Buffer> = new Map([
-  [0x1, Buffer.from([NULL_BYTE, ...BC_BYTES, 0x01])]
+  [0x1, Buffer.from([NULL_BYTE, ...BC_BYTES, 0x01])],
 ])
 
 export function fromASM (asm: string, version: number): Buffer {
@@ -209,13 +209,13 @@ export function fromASM (asm: string, version: number): Buffer {
     return Buffer.concat([
       Buffer.from([pushOp]),
       intToBuffer(encoded.length),
-      encoded
+      encoded,
     ])
   })
 
   return Buffer.concat([
     byteCodeVersion,
-    ...byteBuffers
+    ...byteBuffers,
   ])
 }
 
@@ -231,7 +231,7 @@ export function toASM (bytecode: Buffer, version: number): string {
   }
   bytecode = bytecode.slice(bytecodeVersion.length)
 
-  let result: string[] = []
+  const result: string[] = []
   let consume
   while (bytecode.length !== 0) {
     consume = 0

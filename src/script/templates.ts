@@ -1,16 +1,15 @@
 import BN from 'bn.js'
+import secp256k1 = require('secp256k1')
 
-const secp256k1 = require('secp256k1')
-
-import * as coreProtobuf from '../protos/core_pb'
 import * as bcProtobuf from '../protos/bc_pb'
+import * as coreProtobuf from '../protos/core_pb'
 
-import { createTransactionInput } from '../utils/protoUtil'
-import { toASM } from './bytecode'
-import { blake2blTwice, blake2bl } from '../utils/crypto'
+import { intToBuffer, toBuffer } from '../utils/buffer'
 import * as Coin from '../utils/coin'
-import { toBuffer, intToBuffer } from '../utils/buffer'
+import { blake2bl, blake2blTwice } from '../utils/crypto'
+import { createTransactionInput } from '../utils/protoUtil'
 import { normalizeHexString } from '../utils/string'
+import { toASM } from './bytecode'
 
 export enum ScriptType {
     NRG_TRANSFER = 'nrg_transfer',
@@ -25,14 +24,17 @@ export enum ScriptType {
  * @param txOutputs: transaction outputs in the transaction that is spending the spendableOutPoint
  * @return a hash signature of spendableOutPoint and txOutputs
  */
-function createOutPointOutputsHash(spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string {
+function createOutPointOutputsHash (
+  spendableOutPoint: coreProtobuf.OutPoint,
+  txOutputs: coreProtobuf.TransactionOutput[],
+): string {
   const outputsData = txOutputs.map(output => {
-    var obj = output.toObject()
+    const obj = output.toObject()
     return [
       obj.value,
       obj.unit,
       obj.scriptLength,
-      obj.outputScript
+      obj.outputScript,
     ].join('')
   }).join('')
 
@@ -40,7 +42,7 @@ function createOutPointOutputsHash(spendableOutPoint: coreProtobuf.OutPoint, txO
     Coin.internalToHuman(Buffer.from(spendableOutPoint.getValue() as Uint8Array), Coin.COIN_FRACS.NRG),
     spendableOutPoint.getHash(),
     spendableOutPoint.getIndex(),
-    outputsData
+    outputsData,
   ]
 
   const hash = blake2bl(parts.join(''))
@@ -49,7 +51,7 @@ function createOutPointOutputsHash(spendableOutPoint: coreProtobuf.OutPoint, txO
 
 // sign data ANY with private key Buffer
 // return 65B long signature with recovery number as the last byte
-function signData(data: string|Buffer, privateKey: Buffer): Buffer | never {
+function signData (data: string|Buffer, privateKey: Buffer): Buffer | never {
   data = toBuffer(data)
   const dataHash = blake2bl(data)
   const sig = secp256k1.sign(Buffer.from(dataHash, 'hex'), privateKey)
@@ -59,26 +61,31 @@ function signData(data: string|Buffer, privateKey: Buffer): Buffer | never {
   }
   const signatureWithRecovery = Buffer.concat([
     sig.signature,
-    intToBuffer(sig.recovery)
+    intToBuffer(sig.recovery),
   ])
 
   return signatureWithRecovery
 }
-
 
 /*
  * @param spendableOutPoint: an outpoint that is to be spent in the tx
  * @param tx: transaction is spending the spendableOutPoint
  * @return a signature of the tx input
  */
-function createUnlockSig (spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer | never {
+function createUnlockSig (
+  spendableOutPoint: coreProtobuf.OutPoint,
+  tx: coreProtobuf.Transaction, privateKey: Buffer,
+): Buffer | never {
   const dataToSign = generateDataToSignForSig(spendableOutPoint, tx.getOutputsList())
   const sig = signData(dataToSign, privateKey)
 
   return sig
 }
 
-function generateDataToSignForSig (spendableOutPoint: coreProtobuf.OutPoint, txOutputs: coreProtobuf.TransactionOutput[]): string {
+function generateDataToSignForSig (
+  spendableOutPoint: coreProtobuf.OutPoint,
+  txOutputs: coreProtobuf.TransactionOutput[],
+): string {
   return createOutPointOutputsHash(spendableOutPoint, txOutputs)
 }
 
@@ -90,30 +97,30 @@ function generateDataToSignForSig (spendableOutPoint: coreProtobuf.OutPoint, txO
  * @param spentOutPoints: outPoints to be spent in the txTemplate
  * @return a list of signed transaction inputs
  */
-export function createSignedNRGUnlockInputs(
+export function createSignedNRGUnlockInputs (
   bcAddress: string, bcPrivateKeyHex: string,
-  txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]
-): Array<coreProtobuf.TransactionInput> {
+  txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[],
+): coreProtobuf.TransactionInput[] {
   const txOutputs = txTemplate.getOutputsList()
   if (!txOutputs) {
-    throw new Error("outputs has to be set to txTemplate before signing the inputs")
+    throw new Error('outputs has to be set to txTemplate before signing the inputs')
   }
 
-  return spentOutPoints.map((outPoint) => {
+  return spentOutPoints.map(outPoint => {
     const signature = createUnlockSig(outPoint, txTemplate, Buffer.from(bcPrivateKeyHex, 'hex'))
     const pubKey = secp256k1.publicKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true)
 
     const inputUnlockScript = [
       signature.toString('hex'),
       pubKey.toString('hex'),
-      blake2bl(bcAddress)
+      blake2bl(bcAddress),
     ].map(normalizeHexString).join(' ')
 
     return createTransactionInput(outPoint, inputUnlockScript)
   })
 }
 
-export function createNRGLockScript(address: string, addressDoubleHashed: boolean = false): string {
+export function createNRGLockScript (address: string, addressDoubleHashed: boolean = false): string {
   address = address.toLowerCase()
   if (!addressDoubleHashed) {
     address = blake2blTwice(address)
@@ -122,85 +129,87 @@ export function createNRGLockScript(address: string, addressDoubleHashed: boolea
     'OP_BLAKE2BL',
     normalizeHexString(address),
     'OP_EQUALVERIFY',
-    'OP_CHECKSIGVERIFY'
+    'OP_CHECKSIGVERIFY',
   ]
   return script.join(' ')
 }
 
-export function parseNRGLockScript(script: Uint8Array):{
-  doubleHashedBcAddress:string
-}{
+export function parseNRGLockScript (script: Uint8Array): {
+  doubleHashedBcAddress: string,
+} {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
   const doubleHashedBcAddress = scriptStr.split(' ')[1]
   return {
-    doubleHashedBcAddress
+    doubleHashedBcAddress,
   }
 }
 
-export function createMakerLockScript(
+export function createMakerLockScript (
   shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
   sendsFromChain: string, receivesToChain: string,
   sendsFromAddress: string, receivesToAddress: string,
   sendsUnit: string, receivesUnit: string, fixedUnitFee: string,
-  bcAddress: string, addressDoubleHashed: boolean = false
-) : string {
+  bcAddress: string, addressDoubleHashed: boolean = false,
+): string {
   bcAddress = bcAddress.toLowerCase()
   if (!addressDoubleHashed) {
     bcAddress = blake2blTwice(bcAddress)
   }
-  let unlockMonadScript = ['OP_BLAKE2BL', normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY']
-  let depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength]
-  let makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit]
+  const unlockMonadScript = ['OP_BLAKE2BL', normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY']
+  const depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength]
+  const makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit]
 
   const script = fixedUnitFee === '' ?
     [
       ['OP_MONOID'], depsetArgs, ['OP_DEPSET'], // 6
       // depset failure - return
-      ['OP_0', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'], // 4
+      ['OP_0', 'OP_IFEQ', 'OP_RETURN', 'OP_ENDIFEQ'], // 4
 
       // before deposit period ends - taker can take order
-      ['OP_2', 'OP_IFEQ','OP_TAKERPAIR', '2', '0', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 8
+      ['OP_2', 'OP_IFEQ', 'OP_TAKERPAIR', '2', '0', 'OP_MINUNITVALUE', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 8
 
       // between deposit and settlement - return
-      ['OP_3', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'], // 4
+      ['OP_3', 'OP_IFEQ', 'OP_RETURN', 'OP_ENDIFEQ'], // 4
 
-      //after settlement period - calculate who sent their asset
+      // after settlement period - calculate who sent their asset
       ['OP_DROP'], makerCollArgs, ['OP_MAKERCOLL'], // 8
 
       // maker succeeded, taker failed - maker can spend
-      ['OP_3', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD','OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
+      ['OP_3', 'OP_IFEQ', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
 
       // taker & maker succeeded -  both can spend
-      ['OP_2', 'OP_IFEQ','1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'], // 11
+      ['OP_2', 'OP_IFEQ', '1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'], // 11
 
       // taker & maker failed - both can spend
-      ['OP_5', 'OP_IFEQ','1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'] // 11
+      ['OP_5', 'OP_IFEQ', '1', 'OP_MONADSPLIT', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_ENDIFEQ'], // 11
     ] : // 62
     [
       ['OP_MONOID'], depsetArgs, ['OP_DEPSET'], // 6
       // depset failure - return
-      ['OP_0', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'], // 4
+      ['OP_0', 'OP_IFEQ', 'OP_RETURN', 'OP_ENDIFEQ'], // 4
 
       // before deposit period ends - taker can take order and has to pay maker the fixed unit fee
-      ['OP_2', 'OP_IFEQ','OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD','OP_RETURN_RESULT','OP_ENDIFEQ'], // 14
+      ['OP_2', 'OP_IFEQ', 'OP_TAKERPAIR', '1', fixedUnitFee, 'OP_MINUNITVALUE', 'OP_MONAD'],
+      unlockMonadScript,
+      ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 14
 
       // between deposit and settlement - return
-      ['OP_3', 'OP_IFEQ','OP_RETURN', 'OP_ENDIFEQ'], // 4
+      ['OP_3', 'OP_IFEQ', 'OP_RETURN', 'OP_ENDIFEQ'], // 4
 
-      //after settlement period - calculate who sent their asset
+      // after settlement period - calculate who sent their asset
       ['OP_DROP'], makerCollArgs, ['OP_MAKERCOLL'], // 8
 
       // maker succeed, taker failed - maker can spend
-      ['OP_3', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
+      ['OP_3', 'OP_IFEQ', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
 
       // taker & maker fail - maker can spend
-      ['OP_5', 'OP_IFEQ','OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
+      ['OP_5', 'OP_IFEQ', 'OP_MONAD'], unlockMonadScript, ['OP_ENDMONAD', 'OP_RETURN_RESULT', 'OP_ENDIFEQ'], // 10
     ] // 56
   return script.map(part => part.join(' ')).join(' ')
 }
 
-export function parseMakerLockScript(script: Uint8Array): {
+export function parseMakerLockScript (script: Uint8Array): {
   shiftMaker: number,
     shiftTaker: number,
     deposit: number,
@@ -213,58 +222,61 @@ export function parseMakerLockScript(script: Uint8Array): {
     receivesUnit: string,
     doubleHashedBcAddress: string,
     fixedUnitFee: number,
-    base: number
+    base: number,
 } {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
   const [shiftMaker, shiftTaker, deposit, settlement] = scriptStr.split(' OP_DEPSET ')[0].split(' ').slice(1)
-  const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] = scriptStr.split(' OP_MAKERCOLL ')[0].split(' OP_DROP ')[1].split(' ')
+  const [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit] =
+    scriptStr.split(' OP_MAKERCOLL ')[0].split(' OP_DROP ')[1].split(' ')
 
-  let [fixedUnitFee,base] = scriptStr.split(' OP_MINUNITVALUE')[0].split(' ').reverse().slice(0,2)
+  const [fixedUnitFee, base] = scriptStr.split(' OP_MINUNITVALUE')[0].split(' ').reverse().slice(0, 2)
 
   const fixedUnitFeeNum = isNaN(parseInt(fixedUnitFee, 10)) ? 0 : parseInt(fixedUnitFee, 10)
   const baseNum = isNaN(parseInt(base, 10)) ? 0 : parseInt(base, 10)
 
-
-  const splitBy = scriptStr.includes('OP_MONADSPLIT') ? ' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL ' : ' OP_5 OP_IFEQ OP_MONAD OP_BLAKE2BL '
+  const splitBy = scriptStr.includes('OP_MONADSPLIT') ?
+    ' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL ' :
+    ' OP_5 OP_IFEQ OP_MONAD OP_BLAKE2BL '
   const doubleHashedBcAddress = scriptStr.split(splitBy)[1].split(' ')[0]
 
   return {
+    base: baseNum,
+    deposit: parseInt(deposit, 10),
+    doubleHashedBcAddress,
+    fixedUnitFee: fixedUnitFeeNum,
+    receivesToAddress,
+    receivesToChain,
+    receivesUnit,
+    sendsFromAddress,
+    sendsFromChain,
+    sendsUnit,
+    settlement: parseInt(settlement, 10),
     shiftMaker: parseInt(shiftMaker, 10),
     shiftTaker: parseInt(shiftTaker, 10),
-    deposit: parseInt(deposit, 10),
-    settlement: parseInt(settlement, 10),
-    sendsFromChain: sendsFromChain,
-    receivesToChain: receivesToChain,
-    sendsFromAddress: sendsFromAddress,
-    receivesToAddress: receivesToAddress,
-    sendsUnit: sendsUnit,
-    receivesUnit: receivesUnit,
-    doubleHashedBcAddress: doubleHashedBcAddress,
-    fixedUnitFee:fixedUnitFeeNum,
-    base:baseNum
   }
 }
 
-
-export function createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string {
+export function createTakerUnlockScript (takerWantsAddress: string, takerSendsAddress: string): string {
   return [takerWantsAddress, takerSendsAddress].join(' ')
 }
 
-export function parseTakerUnlockScript(script: Uint8Array):{
+export function parseTakerUnlockScript (script: Uint8Array): {
   takerWantsAddress: string,
-  takerSendsAddress: string
-}{
+  takerSendsAddress: string,
+} {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
   const [takerWantsAddress, takerSendsAddress] = scriptStr.split(' ')
   return {
+    takerSendsAddress,
     takerWantsAddress,
-    takerSendsAddress
   }
 }
 
-export function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string, addressDoubleHashed: boolean = false): string {
+export function createTakerLockScript (
+  makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string, addressDoubleHashed: boolean = false,
+): string {
   takerBCAddress = takerBCAddress.toLowerCase()
   if (!addressDoubleHashed) {
     takerBCAddress = blake2blTwice(takerBCAddress)
@@ -272,17 +284,21 @@ export function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: s
   const script = [
     [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
     // 4: taker succeed, maker failed, taker can spend the outpoint
-    ['4','OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(takerBCAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY','OP_ENDMONAD', 'OP_ENDIFEQ'],
+    ['4', 'OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL',
+      normalizeHexString(takerBCAddress),
+      'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
     // this.OP_0() // both failed,
-    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL', normalizeHexString(takerBCAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD']
+    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL',
+      normalizeHexString(takerBCAddress),
+      'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD'],
   ]
   return script.map(part => part.join(' ')).join(' ')
 }
 
-export function parseTakerLockScript(script: Uint8Array): {
+export function parseTakerLockScript (script: Uint8Array): {
   makerTxHash: string,
     makerTxOutputIndex: number,
-    doubleHashedBcAddress: string
+    doubleHashedBcAddress: string,
 } {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
@@ -293,39 +309,39 @@ export function parseTakerLockScript(script: Uint8Array): {
   const doubleHashedBcAddress = scriptStr.split(' OP_BLAKE2BL ')[1].split(' ')[0]
 
   return {
+    doubleHashedBcAddress,
     makerTxHash,
     makerTxOutputIndex: parseInt(makerTxOutputIndex, 10),
-    doubleHashedBcAddress
   }
 }
 
-export function createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string {
+export function createTakerCallbackLockScript (makerTxHash: string, makerTxOutputIndex: number): string {
   return [normalizeHexString(makerTxHash), makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
 }
 
-export function parseTakerCallbackLockScript(script: Uint8Array): {
+export function parseTakerCallbackLockScript (script: Uint8Array): {
   makerTxHash: string,
-    makerTxOutputIndex: string
+    makerTxOutputIndex: string,
 } {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
-  const [makerTxHash, makerTxOutputIndex, OP_Callback] = scriptStr.split(' ')
+  const [makerTxHash, makerTxOutputIndex, opCallback] = scriptStr.split(' ')
   return {
     makerTxHash,
-    makerTxOutputIndex
+    makerTxOutputIndex,
   }
 }
 
-export function getScriptType(script: Uint8Array): ScriptType {
+export function getScriptType (script: Uint8Array): ScriptType {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
-  if (scriptStr.startsWith('OP_MONOID')){
+  if (scriptStr.startsWith('OP_MONOID')) {
     return ScriptType.MAKER_OUTPUT // IS_MAKER_ORDER
-  } else if (scriptStr.endsWith('OP_CALLBACK')){
+  } else if (scriptStr.endsWith('OP_CALLBACK')) {
     return ScriptType.TAKER_CALLBACK // IS_MAKER_CALLBACK_ORDER
-  } else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1){
+  } else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1) {
     return ScriptType.TAKER_OUTPUT // IS_TAKER_ORDER
-  } else if (scriptStr.startsWith('OP_BLAKE2BL')){
+  } else if (scriptStr.startsWith('OP_BLAKE2BL')) {
     return ScriptType.NRG_TRANSFER // IS_NRG_TRANSFER
-  } else return ScriptType.TAKER_INPUT
+  } else { return ScriptType.TAKER_INPUT }
 }
