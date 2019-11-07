@@ -1,0 +1,39 @@
+{
+    "assetPrices": [
+        {
+            "asset": "EMB",
+            "denomination": "NRG",
+            "price": 10
+        },
+        {
+            "asset": "DAI",
+            "denomination": "NRG",
+            "price": 0.1
+        },
+        {
+            "asset": "BTC",
+            "denomination": "NRG",
+            "price": 923.801
+        },
+        {
+            "asset": "ETH",
+            "denomination": "NRG",
+            "price": 18.72914147
+        },
+        {
+            "asset": "NEO",
+            "denomination": "NRG",
+            "price": 1.1104088
+        },
+        {
+            "asset": "WAV",
+            "denomination": "NRG",
+            "price": 0.08083259
+        },
+        {
+            "asset": "LSK",
+            "denomination": "NRG",
+            "price": 0.07916975
+        }
+    ]
+}

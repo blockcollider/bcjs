@@ -10,6 +10,8 @@ import RpcClient from '../src/client'
 import * as bcProtobuf from '../src/protos/bc_pb'
 import * as coreProtobuf from '../src/protos/core_pb'
 import Wallet from '../src/wallet'
+import {parseMakerLockScript} from '../dist/script/templates';
+import {toASM} from '../dist/script/bytecode'
 
 const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3001'
 const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
@@ -39,7 +41,7 @@ async function testMaker({
   const depositLength = 100
   const settleLength = 200
   const additionalTxFee = '0'
-  const collateralizedNrg = '1'
+  const collateralizedNrg = '0.1'
   const nrgUnit = '0.1'
   let tx: coreProtobuf.Transaction = new coreProtobuf.Transaction()
 
@@ -47,61 +49,61 @@ async function testMaker({
     tx = createMakerOrderTransaction(
       spendableOutpointsList, shiftMaker, shiftTaker, depositLength, settleLength,
       sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress,
-      sendsUnit, receivesUnit, bcAddress.toString(), privateKeyHex,
-      sendsUnit, nrgUnit, collateralizedNrg, '0',
+      sendsUnit, receivesUnit, bcAddress.toLowerCase(), privateKeyHex,
+      sendsUnit, sendsUnit, collateralizedNrg, additionalTxFee,
     )
   } else {
     tx = createMakerOrderTransaction(
       spendableOutpointsList, shiftMaker, shiftTaker, depositLength, settleLength,
       sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress,
       sendsUnit, receivesUnit, bcAddress.toLowerCase(), privateKeyHex,
-      collateralizedNrg, nrgUnit, '', additionalTxFee,
+      collateralizedNrg, collateralizedNrg, '', additionalTxFee,
     )
   }
 
   // console.log(JSON.stringify(tx.toObject(), null, 2))
   const res = await client.sendTx(tx)
-  // console.log('sendTx', res)
+  console.log('sendTx', res)
   return true
 }
 
 const assetPrices = [
-  {asset: 'USDT', denomination: 'EMB', price: 0},
-  {asset: 'DAI', denomination: 'EMB', price: 0},
-  {asset: 'BTC', denomination: 'EMB', price: 0},
-  {asset: 'ETH', denomination: 'EMB', price: 0},
-  {asset: 'NEO', denomination: 'EMB', price: 0},
-  {asset: 'WAV', denomination: 'EMB', price: 0},
-  {asset: 'LSK', denomination: 'EMB', price: 0},
-  {asset: 'DAI', denomination: 'USDT', price: 0},
-  {asset: 'BTC', denomination: 'USDT', price: 0},
-  {asset: 'ETH', denomination: 'USDT', price: 0},
-  {asset: 'NEO', denomination: 'USDT', price: 0},
-  {asset: 'WAV', denomination: 'USDT', price: 0},
-  {asset: 'LSK', denomination: 'USDT', price: 0},
+  // {asset: 'USDT', denomination: 'EMB', price: 0},
+  // {asset: 'DAI', denomination: 'EMB', price: 0},
+  // {asset: 'BTC', denomination: 'EMB', price: 0},
+  // {asset: 'ETH', denomination: 'EMB', price: 0},
+  // {asset: 'NEO', denomination: 'EMB', price: 0},
+  // {asset: 'WAV', denomination: 'EMB', price: 0},
+  // {asset: 'LSK', denomination: 'EMB', price: 0},
+  // {asset: 'DAI', denomination: 'USDT', price: 0},
+  // {asset: 'BTC', denomination: 'USDT', price: 0},
+  // {asset: 'ETH', denomination: 'USDT', price: 0},
+  // {asset: 'NEO', denomination: 'USDT', price: 0},
+  // {asset: 'WAV', denomination: 'USDT', price: 0},
+  // {asset: 'LSK', denomination: 'USDT', price: 0},
 
-  {asset: 'BTC', denomination: 'DAI', price: 0},
-  {asset: 'ETH', denomination: 'DAI', price: 0},
-  {asset: 'NEO', denomination: 'DAI', price: 0},
-  {asset: 'WAV', denomination: 'DAI', price: 0},
-  {asset: 'LSK', denomination: 'DAI', price: 0},
-
-  {asset: 'ETH', denomination: 'BTC', price: 0},
-  {asset: 'NEO', denomination: 'BTC', price: 0},
-  {asset: 'WAV', denomination: 'BTC', price: 0},
-  {asset: 'LSK', denomination: 'BTC', price: 0},
-
-  {asset: 'NEO', denomination: 'ETH', price: 0},
-  {asset: 'WAV', denomination: 'ETH', price: 0},
-  {asset: 'LSK', denomination: 'ETH', price: 0},
-
-  {asset: 'WAV', denomination: 'NEO', price: 0},
-  {asset: 'LSK', denomination: 'NEO', price: 0},
-
-  {asset: 'LSK', denomination: 'WAV', price: 0},
+  // {asset: 'BTC', denomination: 'DAI', price: 0},
+  // {asset: 'ETH', denomination: 'DAI', price: 0},
+  // {asset: 'NEO', denomination: 'DAI', price: 0},
+  // {asset: 'WAV', denomination: 'DAI', price: 0},
+  // {asset: 'LSK', denomination: 'DAI', price: 0},
+  //
+  // {asset: 'ETH', denomination: 'BTC', price: 0},
+  // {asset: 'NEO', denomination: 'BTC', price: 0},
+  // {asset: 'WAV', denomination: 'BTC', price: 0},
+  // {asset: 'LSK', denomination: 'BTC', price: 0},
+  //
+  // {asset: 'NEO', denomination: 'ETH', price: 0},
+  // {asset: 'WAV', denomination: 'ETH', price: 0},
+  // {asset: 'LSK', denomination: 'ETH', price: 0},
+  //
+  // {asset: 'WAV', denomination: 'NEO', price: 0},
+  // {asset: 'LSK', denomination: 'NEO', price: 0},
+  //
+  // {asset: 'LSK', denomination: 'WAV', price: 0},
 
   {asset: 'EMB', denomination: 'NRG', price: 0},
-  {asset: 'USDT', denomination: 'NRG', price: 0},
+  // {asset: 'USDT', denomination: 'NRG', price: 0},
   {asset: 'DAI', denomination: 'NRG', price: 0},
   {asset: 'BTC', denomination: 'NRG', price: 0},
   {asset: 'ETH', denomination: 'NRG', price: 0},
@@ -112,7 +114,7 @@ const assetPrices = [
 
 async function getPrices() {
   const jsonData: { usdt: number, dai: number, emb: number, nrg: number, btc: number, wav: number, eth: number, neo: number, lsk:number }
-    = {usdt: 1, dai: 1, emb: 1, nrg: 0.1, btc:0,wav:0,lsk:0,eth:0,neo:0}
+    = {usdt: 1, dai: 1, emb: 100, nrg: 10, btc:0,wav:0,lsk:0,eth:0,neo:0}
 
   let response = await fetch('https://api.cryptowat.ch/markets/binance/btcusdt/price')
   let json = await response.json()
@@ -159,14 +161,13 @@ async function fillOrderbook() {
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
     let increment = Math.random() / 300 * price
-    for (let j = 0; j < 24; j++) {
+    for (let j = 0; j < 25; j++) {
       const priceAbove = Math.round((price + increment) * Math.pow(10, 8)) / Math.pow(10, 8)
       const priceBelow = Math.round((price - increment) * Math.pow(10, 8)) / Math.pow(10, 8)
       increment = Math.random()/300*price + increment;
 
       let sendAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
       let recAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
-
 
       let sendUnit1 = sendAmount;
       let recUnit1 = priceAbove*sendAmount;
@@ -176,25 +177,45 @@ async function fillOrderbook() {
 
       if(asset.toLowerCase() == 'neo'){
         sendUnit1 = Math.round(sendUnit1)+1;
+        recUnit1 = priceAbove*sendUnit1;
+
         recUnit2 = Math.round(recUnit2)+1;
+        sendUnit2 = priceBelow*recUnit2
       }
 
       if(denomination.toLowerCase() == 'neo'){
         sendUnit2 = Math.round(sendUnit2)+1;
+        recUnit2 = sendUnit2/priceBelow;
+
         recUnit1 = Math.round(recUnit1)+1;
+        sendUnit1 = recUnit1 / priceAbove;
       }
 
-      console.log({
-        sendsFromChain:asset,receivesToChain:denomination,
-        sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
-        sendsUnit:sendUnit1,receivesUnit:recUnit1
-      })
+      if(denomination.toLowerCase() != 'nrg'){
+        console.log({
+          sendsFromChain:asset,receivesToChain:denomination,
+          sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
+          sendsUnit:sendUnit1,receivesUnit:recUnit1
+        })
 
-      if(denomination != 'nrg'){
         await testMaker({sendsFromChain:asset,receivesToChain:denomination,
         sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
         sendsUnit:sendUnit1,receivesUnit:recUnit1});
       }
+
+
+      if(denomination.toLowerCase() == 'nrg'){
+        while(sendUnit2 > 10){
+          sendUnit2 = sendUnit2 / 10;
+          recUnit2 = recUnit2 / 10;
+        }
+      }
+
+      console.log({
+        sendsFromChain:denomination,receivesToChain:asset,
+        sendsFromAddress:addresses[denomination.toLowerCase()],receivesToAddress:addresses[asset.toLowerCase()],
+        receivesUnit:recUnit2,sendsUnit:sendUnit2
+      })
 
       await testMaker({sendsFromChain:denomination,receivesToChain:asset,
       sendsFromAddress:addresses[denomination.toLowerCase()],receivesToAddress:addresses[asset.toLowerCase()],
