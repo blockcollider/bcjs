@@ -130,6 +130,10 @@ export const createMakerOrderTransaction = function(
     receivesToChain, receivesUnit, CurrencyInfo[receivesToChain].humanUnit
   )
 
+  if(fixedUnitFee != '') fixedUnitFee = Currency.toMinimumUnitAsStr(
+    'nrg', fixedUnitFee, 'nrg'
+  )
+
   const outputLockScript = createMakerLockScript(
     shiftMaker, shiftTaker, depositLength, settleLength,
     sendsFromChain, receivesToChain,
@@ -156,7 +160,7 @@ export const createMakerOrderTransaction = function(
 export const createTakerOrderTransaction = function(
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, receivesToAddress: string,
-  makerOpenOrder: {doubleHashedBcAddress:string,base:number, fixedUnitFee: number, nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
+  makerOpenOrder: {doubleHashedBcAddress:string,base:number, fixedUnitFee: string, nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, additionalTxFee: string
 ) {
@@ -165,11 +169,14 @@ export const createTakerOrderTransaction = function(
   }
   let fixedUnitFee = makerOpenOrder.fixedUnitFee
   let base = makerOpenOrder.base
+
   // if op min unit fixedFee set this amount only equals fixed fee
-  let spendingNRG = (fixedUnitFee !== 0 && fixedUnitFee !== null) ? fixedUnitFee.toString() : collateralizedNrg
+  let spendingNRG = (fixedUnitFee !== '0')
+    ? humanToInternalAsBN(fixedUnitFee, COIN_FRACS.BOSON)
+    : humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
 
   const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
-  const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(spendingNRG, COIN_FRACS.NRG))
+  const totalAmountBN = totalFeeBN.add(spendingNRG)
 
   const makerUnitBN = humanToInternalAsBN(makerOpenOrder.nrgUnit, COIN_FRACS.NRG)
   const makerCollateralBN = humanToInternalAsBN(makerOpenOrder.collateralizedNrg, COIN_FRACS.NRG)
@@ -196,12 +203,12 @@ export const createTakerOrderTransaction = function(
     createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString())))
   ]
 
-  if (fixedUnitFee && fixedUnitFee !== 0) {
+  if (fixedUnitFee && fixedUnitFee !== '0') {
     const makerFeeScript = ['OP_BLAKE2BL',makerOpenOrder.doubleHashedBcAddress,'OP_EQUALVERIFY','OP_CHECKSIGVERIFY'].join(' ')
     txOutputs.push(createTransactionOutput(
       makerFeeScript,
       makerUnitBN,
-      humanToInternalAsBN(fixedUnitFee.toString(), COIN_FRACS.NRG)
+      humanToInternalAsBN(fixedUnitFee, COIN_FRACS.BOSON)
     ))
   }
 
@@ -214,7 +221,6 @@ export const createTakerOrderTransaction = function(
   return _compileTransaction(
     spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex
   )
-
 }
 
 export const createUnlockTakerTx = async function(

@@ -210,7 +210,7 @@ export function createMakerLockScript (
 }
 
 export function parseMakerLockScript (script: Uint8Array): {
-  shiftMaker: number,
+    shiftMaker: number,
     shiftTaker: number,
     deposit: number,
     settlement: number,
@@ -221,7 +221,7 @@ export function parseMakerLockScript (script: Uint8Array): {
     sendsUnit: string,
     receivesUnit: string,
     doubleHashedBcAddress: string,
-    fixedUnitFee: number,
+    fixedUnitFee: string,
     base: number,
 } {
   const scriptStr = toASM(Buffer.from(script), 0x01)
@@ -231,8 +231,6 @@ export function parseMakerLockScript (script: Uint8Array): {
     scriptStr.split(' OP_MAKERCOLL ')[0].split(' OP_DROP ')[1].split(' ')
 
   const [fixedUnitFee, base] = scriptStr.split(' OP_MINUNITVALUE')[0].split(' ').reverse().slice(0, 2)
-
-  const fixedUnitFeeNum = isNaN(parseInt(fixedUnitFee, 10)) ? 0 : parseInt(fixedUnitFee, 10)
   const baseNum = isNaN(parseInt(base, 10)) ? 0 : parseInt(base, 10)
 
   const splitBy = scriptStr.includes('OP_MONADSPLIT') ?
@@ -241,36 +239,36 @@ export function parseMakerLockScript (script: Uint8Array): {
   const doubleHashedBcAddress = scriptStr.split(splitBy)[1].split(' ')[0]
 
   return {
-    base: baseNum,
-    deposit: parseInt(deposit, 10),
+    base:baseNum,
+    fixedUnitFee,
     doubleHashedBcAddress,
-    fixedUnitFee: fixedUnitFeeNum,
     receivesToAddress,
     receivesToChain,
     receivesUnit,
     sendsFromAddress,
     sendsFromChain,
     sendsUnit,
+    deposit: parseInt(deposit, 10),
     settlement: parseInt(settlement, 10),
     shiftMaker: parseInt(shiftMaker, 10),
     shiftTaker: parseInt(shiftTaker, 10),
   }
 }
 
-export function createTakerUnlockScript (takerWantsAddress: string, takerSendsAddress: string): string {
-  return [takerWantsAddress, takerSendsAddress].join(' ')
+export function createTakerUnlockScript (sendsFromAddress:string, receivesToAddress:string): string {
+  return [sendsFromAddress, receivesToAddress].join(' ')
 }
 
 export function parseTakerUnlockScript (script: Uint8Array): {
-  takerWantsAddress: string,
-  takerSendsAddress: string,
+  sendsFromAddress: string,
+  receivesToAddress: string
 } {
   const scriptStr = toASM(Buffer.from(script), 0x01)
+  const [sendsFromAddress, receivesToAddress] = scriptStr.split(' ')
 
-  const [takerWantsAddress, takerSendsAddress] = scriptStr.split(' ')
   return {
-    takerSendsAddress,
-    takerWantsAddress,
+    sendsFromAddress,
+    receivesToAddress
   }
 }
 
