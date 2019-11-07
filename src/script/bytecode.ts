@@ -157,6 +157,12 @@ export const OPS: Map<number, string> = new Map([
 ])
 
 export const REVERSE_OPS: Map<string, number> = new Map([...OPS].map(([byte, name]) => [name, byte]))
+
+const CHAIN_TABLE: Map<number, string> = new Map([
+  [0x01, 'usdt'],
+])
+const REVERSE_CHAIN_TABLE: Map<string, number> = new Map([...CHAIN_TABLE].map(([byte, name]) => [name, byte]))
+
 const DATA_OPS = [
   'OP_PUSHDATA1',
   'OP_PUSHDATA2',
@@ -183,6 +189,12 @@ export function fromASM (asm: string, version: number): Buffer {
     // proper OP_CODE
     if (REVERSE_OPS.has(chunk)) {
       return Buffer.from([REVERSE_OPS.get(chunk)])
+    }
+
+    if (REVERSE_CHAIN_TABLE.has(chunk)) {
+      const LOOKUP_OP = REVERSE_OPS.get('CHAIN_NAME_LOOKUP') as number
+      const chainNameByte = REVERSE_CHAIN_TABLE.get(chunk) as number
+      return Buffer.from([LOOKUP_OP, chainNameByte])
     }
 
     let pushOp
@@ -263,6 +275,15 @@ export function toASM (bytecode: Buffer, version: number): string {
         } else {
           throw new Error(`unknown data op: ${String(op)}`)
         }
+      } else if (op === 'CHAIN_NAME_LOOKUP') {
+        consume += 1
+        const chainByte = bufferToInt(bytecode.slice(1, 2))
+        if (!CHAIN_TABLE.has(chainByte)) {
+          throw new Error(`Cannot lookup chain name: byte: ${chainByte}`)
+        }
+
+        const chainName = CHAIN_TABLE.get(chainByte) as string
+        result.push(chainName)
       } else {
         result.push(op)
       }

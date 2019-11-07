@@ -91,4 +91,20 @@ describe('bytecode', () => {
     to.setOutputScript(new Uint8Array(fromASM(asm1, 0x01)))
     expect(toASM(Buffer.from(to.getOutputScript() as Uint8Array), 0x01)).toEqual(asm1)
   })
+
+  it('can de/encode chain name using lookup table', () => {
+    const version = 0x01
+    // should be translated to simple 'usdt' as asm
+    const bytecode = Buffer.from([
+      0x00, 0x2a, 0x2b, 0x01, // preamble with 0x01 version
+      0x0d, // OP_NOP
+      0x93, 0x01, // usdt
+      0x7e, // btc
+      0x85, // emb
+    ])
+
+    expect(toASM(bytecode, version)).toEqual('OP_NOP usdt btc emb')
+
+    expect(fromASM('OP_NOP usdt btc emb', version)).toEqual(bytecode)
+  })
 })
