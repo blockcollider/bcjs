@@ -1,15 +1,15 @@
 import BN from 'bn.js'
 
-interface CurrencyConverterInterface {
-  [key:string]: (val: string, from: string, to: string) => string | never
+interface ICurrencyConverterInterface {
+  [key: string]: (val: string, from: string, to: string) => string | never
 }
 
-interface CurrencyInterface {
-  [key:string]: string
+interface ICurrencyInterface {
+  [key: string]: string
 }
 
-interface CurrencyInfoInterface {
-  [key:string]: CurrencyInterface
+interface ICurrencyInfoInterface {
+  [key: string]: ICurrencyInterface
 }
 
 export const COIN_FRACS = {
@@ -32,14 +32,14 @@ export const MAX_POSSIBLE_VALUE = new BN(MAX_NRG_VALUE).mul(
   new BN(10).pow(new BN(18)),
 )
 
-function getDivisor(unit: string): number {
+function getDivisor (unit: string): number {
   if (unit in COIN_DIVISORS) {
     return COIN_DIVISORS[unit]
   }
   throw new Error('invalid unit')
 }
 
-function calcStringMulPowerTen(val: string, powTen: number): string {
+function calcStringMulPowerTen (val: string, powTen: number): string {
   const parts = val.toString().split('.')
   if (parts.length === 1) {
     return new BN(val).mul(new BN(10).pow(new BN(powTen))).toString(10)
@@ -60,9 +60,9 @@ function calcStringMulPowerTen(val: string, powTen: number): string {
 }
 
 // val has to be in int string, no decimal
-function calcStringDivPowerTen(valStr: string, powTen: number): string {
+function calcStringDivPowerTen (valStr: string, powTen: number): string {
   if (valStr.includes('.')) {
-    throw new Error(`val does not support decimal div yet`)
+    throw new Error('val does not support decimal div yet')
   }
   if (powTen === 0) {
     return valStr
@@ -163,7 +163,8 @@ export const internalToBN = (internal: Buffer|Uint8Array, unit: string): BN => {
   return new BN(internal)
 }
 
-export const CurrencyInfo: CurrencyInfoInterface = {
+/* tslint:disable:object-literal-sort-keys */
+export const CurrencyInfo: ICurrencyInfoInterface = {
   nrg: {
     NRG: 'nrg',
     BOSON: 'boson',
@@ -216,11 +217,12 @@ export const CurrencyInfo: CurrencyInfoInterface = {
     minDai: 'adai',
     minUnit: 'adai',
     humanUnit: 'dai',
-  }
+  },
 }
+/* tslint:enable:object-literal-sort-keys */
 
-export const CurrencyConverter: CurrencyConverterInterface = {
-  nrg: function(val: string, from: string, to: string): string | never {
+export const CurrencyConverter: ICurrencyConverterInterface = {
+  nrg (val: string, from: string, to: string): string | never {
     const power = 18
     if (from === to) {
       return val
@@ -231,7 +233,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  emb: function(val: string, from: string, to: string): string | never {
+  emb (val: string, from: string, to: string): string | never {
     const power = 18
     if (from === to) {
       return val
@@ -242,7 +244,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  eth: function(val: string, from: string, to: string): string | never {
+  eth (val: string, from: string, to: string): string | never {
     const power = 18
     if (from === to) {
       return val
@@ -253,7 +255,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  btc: function(val: string, from: string, to: string): string | never {
+  btc (val: string, from: string, to: string): string | never {
     const power = 8
     if (from === to) {
       return val
@@ -264,13 +266,13 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  neo: function(val: string, from: string, to: string): string | never {
+  neo (val: string, from: string, to: string): string | never {
     if (val.toString().includes('.')) {
       throw new Error('invalid value, NEO is indivisible')
     }
     return val
   },
-  lsk: function(val: string, from: string, to: string): string | never {
+  lsk (val: string, from: string, to: string): string | never {
     const power = 8
     if (from === to) {
       return val
@@ -281,7 +283,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  wav: function(val: string, from: string, to: string): string | never {
+  wav (val: string, from: string, to: string): string | never {
     const power = 8
     if (from === to) {
       return val
@@ -292,7 +294,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  usdt: function (val: string, from: string, to: string): string | never {
+  usdt (val: string, from: string, to: string): string | never {
     const power = 6
     if (from === to) {
       return val
@@ -303,7 +305,7 @@ export const CurrencyConverter: CurrencyConverterInterface = {
     }
     throw new Error('invalid unit')
   },
-  dai: function (val: string, from: string, to: string): string | never {
+  dai (val: string, from: string, to: string): string | never {
     const power = 18
     if (from === to) {
       return val
@@ -313,12 +315,12 @@ export const CurrencyConverter: CurrencyConverterInterface = {
       return calcStringDivPowerTen(val, power) // 1 DAI = 10^18 aDAI
     }
     throw new Error('invalid unit')
-  }
+  },
 }
 
 export class Currency {
 
-  static toMinimumUnitAsStr(
+  public static toMinimumUnitAsStr (
     currency: string,
     value: string,
     from: string,
@@ -330,11 +332,11 @@ export class Currency {
     )
   }
 
-  static toMinimumUnitAsBN(currency: string, value: string, from: string): BN | never {
+  public static toMinimumUnitAsBN (currency: string, value: string, from: string): BN | never {
     return new BN(Currency.toMinimumUnitAsStr(currency, value, from))
   }
 
-  static fromMinimumUnitToHuman(
+  public static fromMinimumUnitToHuman (
     currency: string,
     value: string,
     from: string,
