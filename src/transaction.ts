@@ -172,7 +172,7 @@ export const createTakerOrderTransaction = function(
 
   // if op min unit fixedFee set this amount only equals fixed fee
   let spendingNRG = (fixedUnitFee !== '0')
-    ? humanToInternalAsBN(fixedUnitFee, COIN_FRACS.BOSON)
+    ? humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
     : humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
 
   const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
@@ -208,7 +208,7 @@ export const createTakerOrderTransaction = function(
     txOutputs.push(createTransactionOutput(
       makerFeeScript,
       makerUnitBN,
-      humanToInternalAsBN(fixedUnitFee, COIN_FRACS.BOSON)
+      humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
     ))
   }
 
