@@ -25,7 +25,7 @@ function getDivisor(unit) {
     throw new Error('invalid unit');
 }
 function calcStringMulPowerTen(val, powTen) {
-    const parts = val.split('.');
+    const parts = val.toString().split('.');
     if (parts.length === 1) {
         return new bn_js_1.default(val).mul(new bn_js_1.default(10).pow(new bn_js_1.default(powTen))).toString(10);
     }
@@ -49,7 +49,7 @@ function calcStringMulPowerTen(val, powTen) {
 // val has to be in int string, no decimal
 function calcStringDivPowerTen(valStr, powTen) {
     if (valStr.includes('.')) {
-        throw new Error(`val does not support decimal div yet`);
+        throw new Error('val does not support decimal div yet');
     }
     if (powTen === 0) {
         return valStr;
@@ -83,7 +83,7 @@ exports.humanToInternalAsBN = (val, unit) => {
     if (Number.isNaN(Number(val))) {
         throw new Error(val + ' is not number');
     }
-    if (val.startsWith('-')) {
+    if (val.toString().startsWith('-')) {
         throw new Error(val + ' must be positive');
     }
     const divisor = getDivisor(unit);
@@ -142,12 +142,19 @@ exports.internalToBN = (internal, unit) => {
     }
     return new bn_js_1.default(internal);
 };
+/* tslint:disable:object-literal-sort-keys */
 exports.CurrencyInfo = {
     nrg: {
         NRG: 'nrg',
         BOSON: 'boson',
         minUnit: 'boson',
         humanUnit: 'nrg',
+    },
+    emb: {
+        EMB: 'emb',
+        DIA: 'dia',
+        minUnit: 'dia',
+        humanUnit: 'emb',
     },
     eth: {
         ETH: 'eth',
@@ -178,15 +185,22 @@ exports.CurrencyInfo = {
         minUnit: 'mwav',
         humanUnit: 'wav',
     },
+    usdt: {
+        USDT: 'usdt',
+        minUsdt: 'ausdt',
+        minUnit: 'ausdt',
+        humanUnit: 'usdt',
+    },
     dai: {
         DAI: 'dai',
         minDai: 'adai',
         minUnit: 'adai',
         humanUnit: 'dai',
-    }
+    },
 };
+/* tslint:enable:object-literal-sort-keys */
 exports.CurrencyConverter = {
-    nrg: function (val, from, to) {
+    nrg(val, from, to) {
         const power = 18;
         if (from === to) {
             return val;
@@ -199,7 +213,20 @@ exports.CurrencyConverter = {
         }
         throw new Error('invalid unit');
     },
-    eth: function (val, from, to) {
+    emb(val, from, to) {
+        const power = 18;
+        if (from === to) {
+            return val;
+        }
+        else if (from === 'emb' && to === 'dia') {
+            return calcStringMulPowerTen(val, power); // 1 ETH = 10^18 WEI
+        }
+        else if (from === 'dia' && to === 'emb') {
+            return calcStringDivPowerTen(val, power); // 1 ETH = 10^18 WEI
+        }
+        throw new Error('invalid unit');
+    },
+    eth(val, from, to) {
         const power = 18;
         if (from === to) {
             return val;
@@ -212,7 +239,7 @@ exports.CurrencyConverter = {
         }
         throw new Error('invalid unit');
     },
-    btc: function (val, from, to) {
+    btc(val, from, to) {
         const power = 8;
         if (from === to) {
             return val;
@@ -225,13 +252,13 @@ exports.CurrencyConverter = {
         }
         throw new Error('invalid unit');
     },
-    neo: function (val, from, to) {
-        if (val.includes('.')) {
+    neo(val, from, to) {
+        if (val.toString().includes('.')) {
             throw new Error('invalid value, NEO is indivisible');
         }
         return val;
     },
-    lsk: function (val, from, to) {
+    lsk(val, from, to) {
         const power = 8;
         if (from === to) {
             return val;
@@ -244,7 +271,7 @@ exports.CurrencyConverter = {
         }
         throw new Error('invalid unit');
     },
-    wav: function (val, from, to) {
+    wav(val, from, to) {
         const power = 8;
         if (from === to) {
             return val;
@@ -257,7 +284,20 @@ exports.CurrencyConverter = {
         }
         throw new Error('invalid unit');
     },
-    dai: function (val, from, to) {
+    usdt(val, from, to) {
+        const power = 6;
+        if (from === to) {
+            return val;
+        }
+        else if (from === 'usdt' && to === 'ausdt') {
+            return calcStringMulPowerTen(val, power); // 1 DAI = 10^18 aDAI
+        }
+        else if (from === 'ausdt' && to === 'usdt') {
+            return calcStringDivPowerTen(val, power); // 1 DAI = 10^18 aDAI
+        }
+        throw new Error('invalid unit');
+    },
+    dai(val, from, to) {
         const power = 18;
         if (from === to) {
             return val;
@@ -269,7 +309,7 @@ exports.CurrencyConverter = {
             return calcStringDivPowerTen(val, power); // 1 DAI = 10^18 aDAI
         }
         throw new Error('invalid unit');
-    }
+    },
 };
 class Currency {
     static toMinimumUnitAsStr(currency, value, from) {

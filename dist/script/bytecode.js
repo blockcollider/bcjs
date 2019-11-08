@@ -153,19 +153,23 @@ exports.OPS = new Map([
     [0x91, 'OP_15'],
     [0x92, 'OP_16'],
     [0x93, 'CHAIN_NAME_LOOKUP'],
-    [0x94, 'OP_PUSHSTR']
+    [0x94, 'OP_PUSHSTR'],
 ]);
 exports.REVERSE_OPS = new Map([...exports.OPS].map(([byte, name]) => [name, byte]));
+const CHAIN_TABLE = new Map([
+    [0x01, 'usdt'],
+]);
+const REVERSE_CHAIN_TABLE = new Map([...CHAIN_TABLE].map(([byte, name]) => [name, byte]));
 const DATA_OPS = [
     'OP_PUSHDATA1',
     'OP_PUSHDATA2',
     'OP_PUSHDATA4',
-    'OP_PUSHSTR'
+    'OP_PUSHSTR',
 ];
 const NULL_BYTE = 0x00;
 const BC_BYTES = [0x2a, 0x2b];
 exports.BYTECODE_VERSIONS = new Map([
-    [0x1, Buffer.from([NULL_BYTE, ...BC_BYTES, 0x01])]
+    [0x1, Buffer.from([NULL_BYTE, ...BC_BYTES, 0x01])],
 ]);
 function fromASM(asm, version) {
     const byteCodeVersion = exports.BYTECODE_VERSIONS.get(version);
@@ -178,6 +182,11 @@ function fromASM(asm, version) {
         // proper OP_CODE
         if (exports.REVERSE_OPS.has(chunk)) {
             return Buffer.from([exports.REVERSE_OPS.get(chunk)]);
+        }
+        if (REVERSE_CHAIN_TABLE.has(chunk)) {
+            const LOOKUP_OP = exports.REVERSE_OPS.get('CHAIN_NAME_LOOKUP');
+            const chainNameByte = REVERSE_CHAIN_TABLE.get(chunk);
+            return Buffer.from([LOOKUP_OP, chainNameByte]);
         }
         let pushOp;
         let encoded;
@@ -205,12 +214,12 @@ function fromASM(asm, version) {
         return Buffer.concat([
             Buffer.from([pushOp]),
             buffer_1.intToBuffer(encoded.length),
-            encoded
+            encoded,
         ]);
     });
     return Buffer.concat([
         byteCodeVersion,
-        ...byteBuffers
+        ...byteBuffers,
     ]);
 }
 exports.fromASM = fromASM;
@@ -224,7 +233,7 @@ function toASM(bytecode, version) {
         throw new Error(`Expected version: ${version} (bytes: ${bytecodeVersion}), got encoded version: ${encodedVersion}`);
     }
     bytecode = bytecode.slice(bytecodeVersion.length);
-    let result = [];
+    const result = [];
     let consume;
     while (bytecode.length !== 0) {
         consume = 0;
@@ -259,6 +268,15 @@ function toASM(bytecode, version) {
                 else {
                     throw new Error(`unknown data op: ${String(op)}`);
                 }
+            }
+            else if (op === 'CHAIN_NAME_LOOKUP') {
+                consume += 1;
+                const chainByte = buffer_1.bufferToInt(bytecode.slice(1, 2));
+                if (!CHAIN_TABLE.has(chainByte)) {
+                    throw new Error(`Cannot lookup chain name: byte: ${chainByte}`);
+                }
+                const chainName = CHAIN_TABLE.get(chainByte);
+                result.push(chainName);
             }
             else {
                 result.push(op);

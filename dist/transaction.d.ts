@@ -7,7 +7,7 @@ export declare const createMakerOrderTransaction: (spendableWalletOutPointObjs: 
 export declare const createTakerOrderTransaction: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], sendsFromAddress: string, receivesToAddress: string, makerOpenOrder: {
     doubleHashedBcAddress: string;
     base: number;
-    fixedUnitFee: number;
+    fixedUnitFee: string;
     nrgUnit: string;
     collateralizedNrg: string;
     txHash: string;

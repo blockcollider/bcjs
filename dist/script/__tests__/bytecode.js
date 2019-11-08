@@ -7,9 +7,10 @@
  *
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-const bytecode_1 = require("../bytecode");
 const core_pb_1 = require("../../protos/core_pb");
-const asm1 = `OP_MONOID 2 3 100 100 OP_DEPSET OP_0 OP_IFEQ OP_RETURN OP_ENDIFEQ OP_2 OP_IFEQ OP_TAKERPAIR OP_2 OP_0 OP_MINUNITVALUE OP_RETURN_RESULT OP_ENDIFEQ OP_3 OP_IFEQ OP_RETURN OP_ENDIFEQ OP_DROP eth dai 0x7efbb13383757ca1f581dd5e20cb2e9f24448608 0x7efbb13383757ca1f581dd5e20cb2e9f24448608 0.1 10 OP_MAKERCOLL OP_3 OP_IFEQ OP_BLAKE2BL 0x3266bbec0ac0899e8a42a264465e0d04a576e57192382f63b74434c2a65277c2 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_RETURN_RESULT OP_ENDIFEQ OP_2 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL 0x3266bbec0ac0899e8a42a264465e0d04a576e57192382f63b74434c2a65277c2 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_ENDMONAD OP_ENDIFEQ`;
+const bytecode_1 = require("../bytecode");
+/* tslint:disable:max-line-length */
+const asm1 = 'OP_MONOID 2 3 100 100 OP_DEPSET OP_0 OP_IFEQ OP_RETURN OP_ENDIFEQ OP_2 OP_IFEQ OP_TAKERPAIR OP_2 OP_0 OP_MINUNITVALUE OP_RETURN_RESULT OP_ENDIFEQ OP_3 OP_IFEQ OP_RETURN OP_ENDIFEQ OP_DROP eth dai 0x7efbb13383757ca1f581dd5e20cb2e9f24448608 0x7efbb13383757ca1f581dd5e20cb2e9f24448608 0.1 10 OP_MAKERCOLL OP_3 OP_IFEQ OP_BLAKE2BL 0x3266bbec0ac0899e8a42a264465e0d04a576e57192382f63b74434c2a65277c2 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_RETURN_RESULT OP_ENDIFEQ OP_2 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL 0x3266bbec0ac0899e8a42a264465e0d04a576e57192382f63b74434c2a65277c2 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_ENDMONAD OP_ENDIFEQ';
 const asm2 = '0x721439679277836f4dd2bc0044d0ba57febe960db3a27dcd439cb36d13c37f15 0 OP_CALLBACK 4 OP_IFEQ OP_BLAKE2BL 0xce1dac37eee16fe55f9f2fe47d4462068801341854e18d3f542712d56d712362 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_ENDIFEQ OP_DROP OP_MONAD OP_BLAKE2BL 0xce1dac37eee16fe55f9f2fe47d4462068801341854e18d3f542712d56d712362 OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_ENDMONAD';
 const asm3 = 'OP_BLAKE2BL 0xce1dac37eee16fe55f9f2fe47d4462068801341854e18d3f542712d56d712362 OP_EQUALVERIFY OP_CHECKSIGVERIFY';
 const asm4 = '0x1c68ea6c3fdbca3a25cb09d927f35d78a9fce2d665152fdf7d9eaef1c803431a138783e2394102e6e79708681e09bfe91adf9637c775a38f4227be719746260101 0x0310b246a658340fb447920f0f759e3eb88eec733d3757bcfa65b1bc71ce045096 0xd41e9c23e519907c61a43051d895bc3d136c747ea81edf5347c7025ca61d9ef5';
@@ -55,13 +56,15 @@ const binary = Buffer.from([
     // 0x3266bbec0ac0899e8a42a264465e0d04a576e57192382f63b74434c2a65277c2
     0x02, 0x20, 0x32, 0x66, 0xbb, 0xec, 0x0a, 0xc0, 0x89, 0x9e, 0x8a, 0x42, 0xa2, 0x64, 0x46, 0x5e, 0x0d, 0x04, 0xa5, 0x76, 0xe5, 0x71, 0x92, 0x38, 0x2f, 0x63, 0xb7, 0x44, 0x34, 0xc2, 0xa6, 0x52, 0x77, 0xc2,
     // OP_EQUALVERIFY OP_CHECKSIGVERIFY OP_ENDMONAD OP_ENDIFEQ
-    0x18, 0x19, 0x78, 0x10
+    0x18, 0x19, 0x78, 0x10,
 ]);
+/* tslint:enable:max-line-length */
 describe('bytecode', () => {
     it('is able to transform from asm to bytecode and back', () => {
         const version = 0x01;
         expect(bytecode_1.fromASM(asm1, version)).toEqual(binary);
         expect(bytecode_1.toASM(binary, version)).toEqual(asm1);
+        /* tslint:disable:no-console */
         console.log(asm1, bytecode_1.fromASM(asm1, version).length, asm1.length);
         expect(bytecode_1.toASM(bytecode_1.fromASM(asm1, version), version)).toEqual(asm1);
         console.log(asm2, bytecode_1.fromASM(asm2, version).length, asm2.length);
@@ -73,11 +76,25 @@ describe('bytecode', () => {
         expect(bytecode_1.toASM(bytecode_1.fromASM(asm5, version), version)).toEqual(asm5);
         const bytes = Array.from(bytecode_1.fromASM(asm2, version));
         console.log(bytes.map(b => `0x${b.toString(16)}`).join(' '));
+        /* tslint:enable:no-console */
     });
     it('works with protocol buffers', () => {
         const to = new core_pb_1.TransactionOutput();
         to.setOutputScript(new Uint8Array(bytecode_1.fromASM(asm1, 0x01)));
         expect(bytecode_1.toASM(Buffer.from(to.getOutputScript()), 0x01)).toEqual(asm1);
+    });
+    it('can de/encode chain name using lookup table', () => {
+        const version = 0x01;
+        // should be translated to simple 'usdt' as asm
+        const bytecode = Buffer.from([
+            0x00, 0x2a, 0x2b, 0x01,
+            0x0d,
+            0x93, 0x01,
+            0x7e,
+            0x85,
+        ]);
+        expect(bytecode_1.toASM(bytecode, version)).toEqual('OP_NOP usdt btc emb');
+        expect(bytecode_1.fromASM('OP_NOP usdt btc emb', version)).toEqual(bytecode);
     });
 });
 //# sourceMappingURL=bytecode.js.map

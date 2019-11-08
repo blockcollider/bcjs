@@ -6,7 +6,7 @@ export declare enum ScriptType {
     TAKER_OUTPUT = "taker_output",
     TAKER_CALLBACK = "taker_callback"
 }
-export declare function createSignedNRGUnlockInputs(bcAddress: string, bcPrivateKeyHex: string, txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]): Array<coreProtobuf.TransactionInput>;
+export declare function createSignedNRGUnlockInputs(bcAddress: string, bcPrivateKeyHex: string, txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]): coreProtobuf.TransactionInput[];
 export declare function createNRGLockScript(address: string, addressDoubleHashed?: boolean): string;
 export declare function parseNRGLockScript(script: Uint8Array): {
     doubleHashedBcAddress: string;
@@ -24,13 +24,13 @@ export declare function parseMakerLockScript(script: Uint8Array): {
     sendsUnit: string;
     receivesUnit: string;
     doubleHashedBcAddress: string;
-    fixedUnitFee: number;
+    fixedUnitFee: string;
     base: number;
 };
-export declare function createTakerUnlockScript(takerWantsAddress: string, takerSendsAddress: string): string;
+export declare function createTakerUnlockScript(sendsFromAddress: string, receivesToAddress: string): string;
 export declare function parseTakerUnlockScript(script: Uint8Array): {
-    takerWantsAddress: string;
-    takerSendsAddress: string;
+    sendsFromAddress: string;
+    receivesToAddress: string;
 };
 export declare function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string | number, takerBCAddress: string, addressDoubleHashed?: boolean): string;
 export declare function parseTakerLockScript(script: Uint8Array): {

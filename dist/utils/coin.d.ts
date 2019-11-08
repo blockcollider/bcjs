@@ -1,13 +1,13 @@
 /// <reference types="node" />
 import BN from 'bn.js';
-interface CurrencyConverterInterface {
+interface ICurrencyConverterInterface {
     [key: string]: (val: string, from: string, to: string) => string | never;
 }
-interface CurrencyInterface {
+interface ICurrencyInterface {
     [key: string]: string;
 }
-interface CurrencyInfoInterface {
-    [key: string]: CurrencyInterface;
+interface ICurrencyInfoInterface {
+    [key: string]: ICurrencyInterface;
 }
 export declare const COIN_FRACS: {
     BOSON: string;
@@ -25,8 +25,8 @@ export declare const humanToInternal: (val: string, unit: string) => Buffer;
 export declare const internalBNToHuman: (val: BN, unit: string) => string;
 export declare const internalToHuman: (internal: Buffer, unit: string) => string;
 export declare const internalToBN: (internal: Uint8Array | Buffer, unit: string) => BN;
-export declare const CurrencyInfo: CurrencyInfoInterface;
-export declare const CurrencyConverter: CurrencyConverterInterface;
+export declare const CurrencyInfo: ICurrencyInfoInterface;
+export declare const CurrencyConverter: ICurrencyConverterInterface;
 export declare class Currency {
     static toMinimumUnitAsStr(currency: string, value: string, from: string): string | never;
     static toMinimumUnitAsBN(currency: string, value: string, from: string): BN | never;
