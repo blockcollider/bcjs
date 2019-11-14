@@ -35,7 +35,7 @@ export default class Wallet {
         const req = new bc.GetBalanceRequest()
         req.setAddress(address)
 
-        let a = await this.rpcClient.getWallet(req)
+        let a = await this.rpcClient.getSpendableOutpoints(req)
         return a.spendableOutpointsList
     }
 

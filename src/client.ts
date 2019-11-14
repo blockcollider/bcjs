@@ -33,6 +33,7 @@ enum BcRpcMethod {
     NewTx  = "newTx",
 
     GetBalance  = "getBalance",
+    GetSpendableOutpoints = "getSpendableOutpoints",
     GetWallet  = "getWallet",
     GetSpendableCollateral  = "getSpendableCollateral",
 
@@ -228,6 +229,12 @@ export default class RpcClient {
 
     public async getWallet(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetWallet, request.toArray())
+        return result as core.WalletData.AsObject
+    }
+
+    public async getSpendableOutpoints(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject> {
+        console.log({method:BcRpcMethod.GetSpendableOutpoints})
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetSpendableOutpoints, request.toArray())
         return result as core.WalletData.AsObject
     }
 
