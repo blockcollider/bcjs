@@ -12,14 +12,6 @@ message StatsResponse {
     int64 calls = 1;
 }
 
-message RpcTransaction {
-    string from_addr = 1;
-    string to_addr = 2;
-    string amount = 3;
-    string tx_fee = 4;
-    string private_key_hex = 5;
-}
-
 enum RpcTransactionResponseStatus {
     Success = 0;
     Failure = 1;
@@ -29,6 +21,24 @@ message RpcTransactionResponse {
     RpcTransactionResponseStatus  status    = 1;
     string  tx_hash   = 2;
     string  error     = 3;
+}
+
+message Transfer{
+    string from = 1;
+    string to = 2;
+    string amount = 3;
+    string tx_hash = 4;
+    uint32 tx_output_index = 5;
+    uint64 timestamp = 6;
+    uint64 height = 7;
+}
+
+message TransferRequest {
+    string address = 1;
+}
+
+message TransferResponse {
+    repeated Transfer transfers = 1;
 }
 
 message GetSpendableCollateralRequest {
@@ -85,7 +95,7 @@ message MakerOrderInfo {
     string  tx_hash = 15;
     uint32  tx_output_index = 16;
     bool    is_settled = 17;
-    uint32  fixed_unit_fee = 18;
+    string  fixed_unit_fee = 18;
     uint32  base = 19;
 }
 
@@ -127,80 +137,12 @@ message GetMatchedOrdersResponse {
     repeated MatchedOrderInfo orders = 1;
 }
 
-message PlaceMakerOrderRequest {
-
-    uint64  shift_maker = 1;
-    uint64  shift_taker = 2;
-
-    uint64  deposit_length = 3;
-    uint64  settlement_length = 4;
-
-    string  sends_from_chain = 5;
-    string  receives_to_chain = 6;
-
-    string  sends_from_address = 7;
-    string  receives_to_address = 8;
-
-    string  sends_unit = 9;
-    string  receives_unit = 10;
-
-    string  bc_address = 11;
-    string  bc_private_key_hex = 12;
-
-    string  collateralized_nrg = 13;
-    string  nrg_unit = 14;
-
-    string  fixed_unit_fee = 15;
-
-    string  tx_fee = 16;
-}
-
-message PlaceTakerOrderRequest {
-    string  sends_from_address = 1;
-    string  receives_to_address = 2;
-    string  maker_tx_hash = 3;
-    uint32  maker_tx_output_index = 4;
-    string  bc_address = 5;
-    string  bc_private_key_hex = 6;
-    string  collateralized_nrg = 7;
-    string  tx_fee = 8;
-}
-
 message TakerOrder {
     string  sends_from_address = 1;
     string  receives_to_address = 2;
     string  maker_tx_hash = 3;
     uint32  maker_tx_output_index = 4;
     string  collateralized_nrg = 5;
-}
-
-message PlaceTakerOrdersRequest {
-    repeated TakerOrder orders = 1;
-    string  bc_address = 2;
-    string  bc_private_key_hex = 3;
-    string  tx_fee = 4;
-}
-
-message CalculateMakerFeeRequest {
-    uint64  shift_starts_at = 1;
-    uint64  deposit_ends_at = 2;
-    uint64  settle_ends_at = 3;
-    string  pays_with_chain_id = 4;
-    string  pays_unit = 5;
-    string  wants_chain_id = 6;
-    string  wants_unit = 7;
-    string  collateralized_nrg = 8;
-    string  nrg_unit = 9;
-}
-
-message CalculateTakerFeeRequest {
-    string  maker_tx_hash = 1;
-    uint32  maker_tx_output_index = 2;
-    string  collateralized_nrg = 3;
-}
-
-message FeeResponse {
-    string fee = 1;
 }
 
 message GetBlake2blRequest {
@@ -246,24 +188,6 @@ message GetBlocksRequest {
 
 message GetBlocksResponse {
     repeated BcBlock blocks = 1;
-}
-
-message Transfer{
-    string from = 1;
-    string to = 2;
-    string amount = 3;
-    string tx_hash = 4;
-    uint32 tx_output_index = 5;
-    uint64 timestamp = 6;
-    uint64 height = 7;
-}
-
-message TransferResponse {
-    repeated Transfer transfers = 1;
-}
-
-message TransferRequest {
-    string address = 1;
 }
 
 message GetRoveredBlocksRequest {
@@ -326,7 +250,6 @@ service Bc {
 
     rpc Help (Null) returns (HelpResponse) {}
     rpc Stats (Null) returns (StatsResponse) {}
-    rpc NewTx (RpcTransaction) returns (RpcTransactionResponse) {}
     rpc SendTx (Transaction) returns (RpcTransactionResponse) {}
 
     rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
@@ -338,13 +261,6 @@ service Bc {
     rpc GetUnlockTakerTxParams (GetUnlockTakerTxParamsRequest) returns (GetUnlockTakerTxParamsResponse) {}
 
     rpc GetTransfers (TransferRequest) returns (TransferResponse) {}
-
-    rpc PlaceMakerOrder (PlaceMakerOrderRequest) returns (RpcTransactionResponse) {}
-    rpc PlaceTakerOrder (PlaceTakerOrderRequest) returns (RpcTransactionResponse) {}
-    rpc PlaceTakerOrders (PlaceTakerOrdersRequest) returns (RpcTransactionResponse) {}
-
-    rpc CalculateMakerFee (CalculateMakerFeeRequest) returns (FeeResponse) {}
-    rpc CalculateTakerFee (CalculateTakerFeeRequest) returns (FeeResponse) {}
 
     rpc GetOpenOrders (Null) returns (GetOpenOrdersResponse) {}
     rpc GetUnmatchedOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}

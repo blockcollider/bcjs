@@ -5,7 +5,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 require('isomorphic-fetch') // fetch for both node and old browsers
 /* tslint:enable */
 import * as fs from 'fs'
-import {createMakerOrderTransaction} from '../dist/transaction'
+import {createMakerOrderTransaction,createMultiNRGTransferTransaction} from '../dist/transaction'
 import RpcClient from '../src/client'
 import * as bcProtobuf from '../src/protos/bc_pb'
 import * as coreProtobuf from '../src/protos/core_pb'
@@ -17,29 +17,53 @@ const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3001'
 const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
 const client = new RpcClient(address, scookie)
 const wallet = new Wallet(client)
-const bcAddress = process.argv[2]
+const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
 // console.log({bcAddress, privateKeyHex})
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function sendMany(){
+  let tx: coreProtobuf.Transaction = new coreProtobuf.Transaction()
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  let balance: any = await wallet.getBalance(bcAddress)
+  let confirmed = balance.confirmed ? parseFloat(balance.confirmed): 0;
+  while(confirmed < 100) {
+    await timeout(1000)
+    balance = await wallet.getBalance(bcAddress)
+    confirmed = balance.confirmed ? parseFloat(balance.confirmed): 0;
+    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  }
+
+  let toAddress : Array<string> = Array(50).fill(bcAddress)
+  let transferAmount : Array<string> = Array(50).fill('2')
+
+  // if(spendableOutpointsList.length < 50){
+    tx = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
+    const res = await client.sendTx(tx)
+    console.log('sendTx', res)
+  // }
+}
 
 async function testMaker({
   sendsFromChain, receivesToChain, sendsFromAddress,
   receivesToAddress, sendsUnit, receivesUnit}) {
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
 
-  function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
 
   while(spendableOutpointsList.length == 0) {
-    await timeout(10000)
+    await timeout(1000)
     spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
   }
+  // console.log({spendableOutpointsList})
+  console.log({spendablelength:spendableOutpointsList.length})
 
   // console.log({spendableOutpointsList})
   const shiftMaker = 0
   const shiftTaker = 0
-  const depositLength = 100
-  const settleLength = 200
+  const depositLength = 10000
+  const settleLength = 11000
   const additionalTxFee = '0'
   const collateralizedNrg = '0.1'
   const nrgUnit = '0.1'
@@ -61,7 +85,6 @@ async function testMaker({
     )
   }
 
-  // console.log(JSON.stringify(tx.toObject(), null, 2))
   const res = await client.sendTx(tx)
   console.log('sendTx', res)
   return true
@@ -157,8 +180,9 @@ const addresses = {
 
 async function fillOrderbook() {
   const assetPrices = await getPrices()
-  console.log({assetPrices})
+
   for (let i = 0; i < assetPrices.length; i++) {
+    await sendMany()
     let {asset, denomination, price} = assetPrices[i]
     let increment = Math.random() / 300 * price
     for (let j = 0; j < 25; j++) {
@@ -205,7 +229,7 @@ async function fillOrderbook() {
 
 
       if(denomination.toLowerCase() == 'nrg'){
-        while(sendUnit2 > 10){
+        while(sendUnit2 > 12){
           sendUnit2 = sendUnit2 / 10;
           recUnit2 = recUnit2 / 10;
         }

@@ -8,13 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+/* tslint:disable:max-line-length */
+/* tslint:disable:interface-name */
+require('es6-promise').polyfill(); /* tslint:disable-line */
+require('isomorphic-fetch'); /* tslint:disable-line */
 var BcRpcMethod;
 (function (BcRpcMethod) {
     // Help  = "help",
     // Stats  = "stats",
-    BcRpcMethod["NewTx"] = "newTx";
     BcRpcMethod["GetBalance"] = "getBalance";
     BcRpcMethod["GetWallet"] = "getWallet";
     BcRpcMethod["GetSpendableCollateral"] = "getSpendableCollateral";
@@ -42,7 +43,7 @@ var BcRpcMethod;
     BcRpcMethod["SendTx"] = "sendTx";
 })(BcRpcMethod || (BcRpcMethod = {}));
 function btoa(str) {
-    var buffer;
+    let buffer;
     if (str instanceof Buffer) {
         buffer = str;
     }
@@ -55,7 +56,7 @@ class RpcClient {
     constructor(nodeUrl, authToken) {
         this.rpcUrl = new URL(nodeUrl);
         if (authToken) {
-            this.defaultHeaders = { 'Content-Type': 'application/json', authorization: 'Basic ' + btoa(`:${authToken}`) };
+            this.defaultHeaders = { 'Content-Type': 'application/json', 'authorization': 'Basic ' + btoa(`:${authToken}`) };
         }
         else {
             if (this.rpcUrl.protocol === 'https:') {
@@ -63,48 +64,6 @@ class RpcClient {
             }
             this.defaultHeaders = { 'Content-Type': 'application/json' };
         }
-    }
-    makeJsonRpcRequest(method, rpcParams) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const id = Math.abs(Math.random() * 1e6 | 0);
-            const rpcBody = {
-                id,
-                jsonrpc: '2.0',
-                method,
-                params: rpcParams
-            };
-            let res;
-            try {
-                res = yield fetch(`${this.rpcUrl.origin}/rpc`, {
-                    method: 'post',
-                    body: JSON.stringify(rpcBody),
-                    headers: this.defaultHeaders
-                });
-            }
-            catch (e) {
-                return {
-                    code: -1,
-                    message: e.toString()
-                };
-            }
-            if (res.status !== 200) {
-                return {
-                    code: res.status,
-                    message: res.statusText
-                };
-            }
-            let jsonResult = yield res.json();
-            if ("code" in jsonResult) {
-                return jsonResult;
-            }
-            if (jsonResult.id !== id) {
-                return {
-                    message: `Ids didn't match - sent ${id}, got ${jsonResult.id}`,
-                    code: -32603,
-                };
-            }
-            return jsonResult.result;
-        });
     }
     getRoveredBlockHash(request) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -166,12 +125,6 @@ class RpcClient {
             return result;
         });
     }
-    newTx(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.NewTx, request.toArray());
-            return result;
-        });
-    }
     getBalance(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBalance, request.toArray());
@@ -199,36 +152,6 @@ class RpcClient {
     getUnlockTakerTxParams(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetUnlockTakerTxParams, request.toArray());
-            return result;
-        });
-    }
-    createMakerOrder(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.PlaceMakerOrder, request.toArray());
-            return result;
-        });
-    }
-    createTakeOrder(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.PlaceTakerOrder, request.toArray());
-            return result;
-        });
-    }
-    createTakerOrders(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.PlaceTakerOrders, request.toArray());
-            return result;
-        });
-    }
-    calculateMakerFee(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.CalculateMakerFee, request.toArray());
-            return result;
-        });
-    }
-    calculateTakerFee(request) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.CalculateTakerFee, request.toArray());
             return result;
         });
     }
@@ -260,6 +183,48 @@ class RpcClient {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBcAddressViaVanity, request.toArray());
             return result;
+        });
+    }
+    makeJsonRpcRequest(method, rpcParams) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = Math.abs(Math.random() * 1e6 | 0); /* tslint:disable-line */ // this bitwise operation is intentional
+            const rpcBody = {
+                id,
+                jsonrpc: '2.0',
+                method,
+                params: rpcParams,
+            };
+            let res;
+            try {
+                res = yield fetch(`${this.rpcUrl.origin}/rpc`, {
+                    body: JSON.stringify(rpcBody),
+                    headers: this.defaultHeaders,
+                    method: 'post',
+                });
+            }
+            catch (e) {
+                return {
+                    code: -1,
+                    message: e.toString(),
+                };
+            }
+            if (res.status !== 200) {
+                return {
+                    code: res.status,
+                    message: res.statusText,
+                };
+            }
+            const jsonResult = yield res.json();
+            if ('code' in jsonResult) {
+                return jsonResult;
+            }
+            if (jsonResult.id !== id) {
+                return {
+                    code: -32603,
+                    message: `Ids didn't match - sent ${id}, got ${jsonResult.id}`,
+                };
+            }
+            return jsonResult.result;
         });
     }
 }

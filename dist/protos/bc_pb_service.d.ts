@@ -158,15 +158,6 @@ type BcStats = {
   readonly responseType: typeof bc_pb.StatsResponse;
 };
 
-type BcNewTx = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.RpcTransaction;
-  readonly responseType: typeof bc_pb.RpcTransactionResponse;
-};
-
 type BcSendTx = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -228,51 +219,6 @@ type BcGetTransfers = {
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.TransferRequest;
   readonly responseType: typeof bc_pb.TransferResponse;
-};
-
-type BcPlaceMakerOrder = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.PlaceMakerOrderRequest;
-  readonly responseType: typeof bc_pb.RpcTransactionResponse;
-};
-
-type BcPlaceTakerOrder = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.PlaceTakerOrderRequest;
-  readonly responseType: typeof bc_pb.RpcTransactionResponse;
-};
-
-type BcPlaceTakerOrders = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.PlaceTakerOrdersRequest;
-  readonly responseType: typeof bc_pb.RpcTransactionResponse;
-};
-
-type BcCalculateMakerFee = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.CalculateMakerFeeRequest;
-  readonly responseType: typeof bc_pb.FeeResponse;
-};
-
-type BcCalculateTakerFee = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.CalculateTakerFeeRequest;
-  readonly responseType: typeof bc_pb.FeeResponse;
 };
 
 type BcGetOpenOrders = {
@@ -348,7 +294,6 @@ export class Bc {
   static readonly GetRoveredBlockForMarkedTx: BcGetRoveredBlockForMarkedTx;
   static readonly Help: BcHelp;
   static readonly Stats: BcStats;
-  static readonly NewTx: BcNewTx;
   static readonly SendTx: BcSendTx;
   static readonly GetBalance: BcGetBalance;
   static readonly GetWallet: BcGetWallet;
@@ -356,11 +301,6 @@ export class Bc {
   static readonly UnlockCollateral: BcUnlockCollateral;
   static readonly GetUnlockTakerTxParams: BcGetUnlockTakerTxParams;
   static readonly GetTransfers: BcGetTransfers;
-  static readonly PlaceMakerOrder: BcPlaceMakerOrder;
-  static readonly PlaceTakerOrder: BcPlaceTakerOrder;
-  static readonly PlaceTakerOrders: BcPlaceTakerOrders;
-  static readonly CalculateMakerFee: BcCalculateMakerFee;
-  static readonly CalculateTakerFee: BcCalculateTakerFee;
   static readonly GetOpenOrders: BcGetOpenOrders;
   static readonly GetUnmatchedOrders: BcGetUnmatchedOrders;
   static readonly GetMatchedOrders: BcGetMatchedOrders;
@@ -554,15 +494,6 @@ export class BcClient {
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.StatsResponse|null) => void
   ): UnaryResponse;
-  newTx(
-    requestMessage: bc_pb.RpcTransaction,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  newTx(
-    requestMessage: bc_pb.RpcTransaction,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
   sendTx(
     requestMessage: core_pb.Transaction,
     metadata: grpc.Metadata,
@@ -625,51 +556,6 @@ export class BcClient {
   getTransfers(
     requestMessage: bc_pb.TransferRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.TransferResponse|null) => void
-  ): UnaryResponse;
-  placeMakerOrder(
-    requestMessage: bc_pb.PlaceMakerOrderRequest,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  placeMakerOrder(
-    requestMessage: bc_pb.PlaceMakerOrderRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  placeTakerOrder(
-    requestMessage: bc_pb.PlaceTakerOrderRequest,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  placeTakerOrder(
-    requestMessage: bc_pb.PlaceTakerOrderRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  placeTakerOrders(
-    requestMessage: bc_pb.PlaceTakerOrdersRequest,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  placeTakerOrders(
-    requestMessage: bc_pb.PlaceTakerOrdersRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  calculateMakerFee(
-    requestMessage: bc_pb.CalculateMakerFeeRequest,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.FeeResponse|null) => void
-  ): UnaryResponse;
-  calculateMakerFee(
-    requestMessage: bc_pb.CalculateMakerFeeRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.FeeResponse|null) => void
-  ): UnaryResponse;
-  calculateTakerFee(
-    requestMessage: bc_pb.CalculateTakerFeeRequest,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.FeeResponse|null) => void
-  ): UnaryResponse;
-  calculateTakerFee(
-    requestMessage: bc_pb.CalculateTakerFeeRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.FeeResponse|null) => void
   ): UnaryResponse;
   getOpenOrders(
     requestMessage: core_pb.Null,

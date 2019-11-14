@@ -1,10 +1,9 @@
-import * as core from './protos/core_pb';
 import * as bc from './protos/bc_pb';
+import * as core from './protos/core_pb';
 export default class RpcClient {
     private rpcUrl;
     private defaultHeaders;
     constructor(nodeUrl: string, authToken?: string);
-    private makeJsonRpcRequest;
     getRoveredBlockHash(request: bc.GetRoveredBlockHashRequest): Promise<core.Block.AsObject | Error>;
     getRoveredBlockHeight(request: bc.GetRoveredBlockHeightRequest): Promise<core.Block.AsObject | Error>;
     getRoveredBlocks(request: bc.GetRoveredBlocksRequest): Promise<bc.GetRoveredBlocksResponse.AsObject | Error>;
@@ -15,20 +14,15 @@ export default class RpcClient {
     getLatestBlock(): Promise<core.BcBlock.AsObject | Error>;
     getTx(request: bc.GetTxRequest): Promise<core.Transaction.AsObject | Error>;
     getMarkedTx(request: bc.GetMarkedTxRequest): Promise<core.MarkedTransaction.AsObject | Error>;
-    newTx(request: bc.RpcTransaction): Promise<bc.RpcTransactionResponse.AsObject | Error>;
     getBalance(request: bc.GetBalanceRequest): Promise<bc.GetBalanceResponse.AsObject | Error>;
     getWallet(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject>;
     getSpendableCollateral(request: bc.GetSpendableCollateralRequest): Promise<bc.GetSpendableCollateralResponse.AsObject | Error>;
     unlockCollateral(request: bc.UnlockCollateralRequest): Promise<bc.RpcTransactionResponse.AsObject | Error>;
     getUnlockTakerTxParams(request: bc.GetUnlockTakerTxParamsRequest): Promise<bc.GetUnlockTakerTxParamsResponse.AsObject>;
-    createMakerOrder(request: bc.PlaceMakerOrderRequest): Promise<bc.RpcTransactionResponse.AsObject | Error>;
-    createTakeOrder(request: bc.PlaceTakerOrderRequest): Promise<bc.RpcTransactionResponse.AsObject | Error>;
-    createTakerOrders(request: bc.PlaceTakerOrdersRequest): Promise<bc.RpcTransactionResponse.AsObject | Error>;
-    calculateMakerFee(request: bc.CalculateMakerFeeRequest): Promise<bc.FeeResponse.AsObject | Error>;
-    calculateTakerFee(request: bc.CalculateTakerFeeRequest): Promise<bc.FeeResponse.AsObject | Error>;
     getOpenOrders(): Promise<bc.GetOpenOrdersResponse.AsObject>;
     sendTx(request: core.Transaction): Promise<bc.RpcTransactionResponse.AsObject | Error>;
     getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject>;
     getBlake2Bl(request: bc.GetBlake2blRequest): Promise<bc.GetBlake2blResponse.AsObject | Error>;
     getBcAddressViaVanity(request: bc.VanityConvertRequest): Promise<bc.VanityConvertResponse.AsObject | Error>;
+    private makeJsonRpcRequest;
 }

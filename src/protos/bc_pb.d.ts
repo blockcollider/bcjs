@@ -44,42 +44,6 @@ export namespace StatsResponse {
   }
 }
 
-export class RpcTransaction extends jspb.Message {
-  getFromAddr(): string;
-  setFromAddr(value: string): void;
-
-  getToAddr(): string;
-  setToAddr(value: string): void;
-
-  getAmount(): string;
-  setAmount(value: string): void;
-
-  getTxFee(): string;
-  setTxFee(value: string): void;
-
-  getPrivateKeyHex(): string;
-  setPrivateKeyHex(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): RpcTransaction.AsObject;
-  static toObject(includeInstance: boolean, msg: RpcTransaction): RpcTransaction.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: RpcTransaction, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): RpcTransaction;
-  static deserializeBinaryFromReader(message: RpcTransaction, reader: jspb.BinaryReader): RpcTransaction;
-}
-
-export namespace RpcTransaction {
-  export type AsObject = {
-    fromAddr: string,
-    toAddr: string,
-    amount: string,
-    txFee: string,
-    privateKeyHex: string,
-  }
-}
-
 export class RpcTransactionResponse extends jspb.Message {
   getStatus(): RpcTransactionResponseStatusMap[keyof RpcTransactionResponseStatusMap];
   setStatus(value: RpcTransactionResponseStatusMap[keyof RpcTransactionResponseStatusMap]): void;
@@ -105,6 +69,92 @@ export namespace RpcTransactionResponse {
     status: RpcTransactionResponseStatusMap[keyof RpcTransactionResponseStatusMap],
     txHash: string,
     error: string,
+  }
+}
+
+export class Transfer extends jspb.Message {
+  getFrom(): string;
+  setFrom(value: string): void;
+
+  getTo(): string;
+  setTo(value: string): void;
+
+  getAmount(): string;
+  setAmount(value: string): void;
+
+  getTxHash(): string;
+  setTxHash(value: string): void;
+
+  getTxOutputIndex(): number;
+  setTxOutputIndex(value: number): void;
+
+  getTimestamp(): number;
+  setTimestamp(value: number): void;
+
+  getHeight(): number;
+  setHeight(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Transfer.AsObject;
+  static toObject(includeInstance: boolean, msg: Transfer): Transfer.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Transfer, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Transfer;
+  static deserializeBinaryFromReader(message: Transfer, reader: jspb.BinaryReader): Transfer;
+}
+
+export namespace Transfer {
+  export type AsObject = {
+    from: string,
+    to: string,
+    amount: string,
+    txHash: string,
+    txOutputIndex: number,
+    timestamp: number,
+    height: number,
+  }
+}
+
+export class TransferRequest extends jspb.Message {
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TransferRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: TransferRequest): TransferRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TransferRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TransferRequest;
+  static deserializeBinaryFromReader(message: TransferRequest, reader: jspb.BinaryReader): TransferRequest;
+}
+
+export namespace TransferRequest {
+  export type AsObject = {
+    address: string,
+  }
+}
+
+export class TransferResponse extends jspb.Message {
+  clearTransfersList(): void;
+  getTransfersList(): Array<Transfer>;
+  setTransfersList(value: Array<Transfer>): void;
+  addTransfers(value?: Transfer, index?: number): Transfer;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TransferResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: TransferResponse): TransferResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: TransferResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TransferResponse;
+  static deserializeBinaryFromReader(message: TransferResponse, reader: jspb.BinaryReader): TransferResponse;
+}
+
+export namespace TransferResponse {
+  export type AsObject = {
+    transfersList: Array<Transfer.AsObject>,
   }
 }
 
@@ -338,8 +388,8 @@ export class MakerOrderInfo extends jspb.Message {
   getIsSettled(): boolean;
   setIsSettled(value: boolean): void;
 
-  getFixedUnitFee(): number;
-  setFixedUnitFee(value: number): void;
+  getFixedUnitFee(): string;
+  setFixedUnitFee(value: string): void;
 
   getBase(): number;
   setBase(value: number): void;
@@ -373,7 +423,7 @@ export namespace MakerOrderInfo {
     txHash: string,
     txOutputIndex: number,
     isSettled: boolean,
-    fixedUnitFee: number,
+    fixedUnitFee: string,
     base: number,
   }
 }
@@ -572,134 +622,6 @@ export namespace GetMatchedOrdersResponse {
   }
 }
 
-export class PlaceMakerOrderRequest extends jspb.Message {
-  getShiftMaker(): number;
-  setShiftMaker(value: number): void;
-
-  getShiftTaker(): number;
-  setShiftTaker(value: number): void;
-
-  getDepositLength(): number;
-  setDepositLength(value: number): void;
-
-  getSettlementLength(): number;
-  setSettlementLength(value: number): void;
-
-  getSendsFromChain(): string;
-  setSendsFromChain(value: string): void;
-
-  getReceivesToChain(): string;
-  setReceivesToChain(value: string): void;
-
-  getSendsFromAddress(): string;
-  setSendsFromAddress(value: string): void;
-
-  getReceivesToAddress(): string;
-  setReceivesToAddress(value: string): void;
-
-  getSendsUnit(): string;
-  setSendsUnit(value: string): void;
-
-  getReceivesUnit(): string;
-  setReceivesUnit(value: string): void;
-
-  getBcAddress(): string;
-  setBcAddress(value: string): void;
-
-  getBcPrivateKeyHex(): string;
-  setBcPrivateKeyHex(value: string): void;
-
-  getCollateralizedNrg(): string;
-  setCollateralizedNrg(value: string): void;
-
-  getNrgUnit(): string;
-  setNrgUnit(value: string): void;
-
-  getFixedUnitFee(): string;
-  setFixedUnitFee(value: string): void;
-
-  getTxFee(): string;
-  setTxFee(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PlaceMakerOrderRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: PlaceMakerOrderRequest): PlaceMakerOrderRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: PlaceMakerOrderRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PlaceMakerOrderRequest;
-  static deserializeBinaryFromReader(message: PlaceMakerOrderRequest, reader: jspb.BinaryReader): PlaceMakerOrderRequest;
-}
-
-export namespace PlaceMakerOrderRequest {
-  export type AsObject = {
-    shiftMaker: number,
-    shiftTaker: number,
-    depositLength: number,
-    settlementLength: number,
-    sendsFromChain: string,
-    receivesToChain: string,
-    sendsFromAddress: string,
-    receivesToAddress: string,
-    sendsUnit: string,
-    receivesUnit: string,
-    bcAddress: string,
-    bcPrivateKeyHex: string,
-    collateralizedNrg: string,
-    nrgUnit: string,
-    fixedUnitFee: string,
-    txFee: string,
-  }
-}
-
-export class PlaceTakerOrderRequest extends jspb.Message {
-  getSendsFromAddress(): string;
-  setSendsFromAddress(value: string): void;
-
-  getReceivesToAddress(): string;
-  setReceivesToAddress(value: string): void;
-
-  getMakerTxHash(): string;
-  setMakerTxHash(value: string): void;
-
-  getMakerTxOutputIndex(): number;
-  setMakerTxOutputIndex(value: number): void;
-
-  getBcAddress(): string;
-  setBcAddress(value: string): void;
-
-  getBcPrivateKeyHex(): string;
-  setBcPrivateKeyHex(value: string): void;
-
-  getCollateralizedNrg(): string;
-  setCollateralizedNrg(value: string): void;
-
-  getTxFee(): string;
-  setTxFee(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PlaceTakerOrderRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: PlaceTakerOrderRequest): PlaceTakerOrderRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: PlaceTakerOrderRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PlaceTakerOrderRequest;
-  static deserializeBinaryFromReader(message: PlaceTakerOrderRequest, reader: jspb.BinaryReader): PlaceTakerOrderRequest;
-}
-
-export namespace PlaceTakerOrderRequest {
-  export type AsObject = {
-    sendsFromAddress: string,
-    receivesToAddress: string,
-    makerTxHash: string,
-    makerTxOutputIndex: number,
-    bcAddress: string,
-    bcPrivateKeyHex: string,
-    collateralizedNrg: string,
-    txFee: string,
-  }
-}
-
 export class TakerOrder extends jspb.Message {
   getSendsFromAddress(): string;
   setSendsFromAddress(value: string): void;
@@ -733,140 +655,6 @@ export namespace TakerOrder {
     makerTxHash: string,
     makerTxOutputIndex: number,
     collateralizedNrg: string,
-  }
-}
-
-export class PlaceTakerOrdersRequest extends jspb.Message {
-  clearOrdersList(): void;
-  getOrdersList(): Array<TakerOrder>;
-  setOrdersList(value: Array<TakerOrder>): void;
-  addOrders(value?: TakerOrder, index?: number): TakerOrder;
-
-  getBcAddress(): string;
-  setBcAddress(value: string): void;
-
-  getBcPrivateKeyHex(): string;
-  setBcPrivateKeyHex(value: string): void;
-
-  getTxFee(): string;
-  setTxFee(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PlaceTakerOrdersRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: PlaceTakerOrdersRequest): PlaceTakerOrdersRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: PlaceTakerOrdersRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PlaceTakerOrdersRequest;
-  static deserializeBinaryFromReader(message: PlaceTakerOrdersRequest, reader: jspb.BinaryReader): PlaceTakerOrdersRequest;
-}
-
-export namespace PlaceTakerOrdersRequest {
-  export type AsObject = {
-    ordersList: Array<TakerOrder.AsObject>,
-    bcAddress: string,
-    bcPrivateKeyHex: string,
-    txFee: string,
-  }
-}
-
-export class CalculateMakerFeeRequest extends jspb.Message {
-  getShiftStartsAt(): number;
-  setShiftStartsAt(value: number): void;
-
-  getDepositEndsAt(): number;
-  setDepositEndsAt(value: number): void;
-
-  getSettleEndsAt(): number;
-  setSettleEndsAt(value: number): void;
-
-  getPaysWithChainId(): string;
-  setPaysWithChainId(value: string): void;
-
-  getPaysUnit(): string;
-  setPaysUnit(value: string): void;
-
-  getWantsChainId(): string;
-  setWantsChainId(value: string): void;
-
-  getWantsUnit(): string;
-  setWantsUnit(value: string): void;
-
-  getCollateralizedNrg(): string;
-  setCollateralizedNrg(value: string): void;
-
-  getNrgUnit(): string;
-  setNrgUnit(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): CalculateMakerFeeRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: CalculateMakerFeeRequest): CalculateMakerFeeRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: CalculateMakerFeeRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): CalculateMakerFeeRequest;
-  static deserializeBinaryFromReader(message: CalculateMakerFeeRequest, reader: jspb.BinaryReader): CalculateMakerFeeRequest;
-}
-
-export namespace CalculateMakerFeeRequest {
-  export type AsObject = {
-    shiftStartsAt: number,
-    depositEndsAt: number,
-    settleEndsAt: number,
-    paysWithChainId: string,
-    paysUnit: string,
-    wantsChainId: string,
-    wantsUnit: string,
-    collateralizedNrg: string,
-    nrgUnit: string,
-  }
-}
-
-export class CalculateTakerFeeRequest extends jspb.Message {
-  getMakerTxHash(): string;
-  setMakerTxHash(value: string): void;
-
-  getMakerTxOutputIndex(): number;
-  setMakerTxOutputIndex(value: number): void;
-
-  getCollateralizedNrg(): string;
-  setCollateralizedNrg(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): CalculateTakerFeeRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: CalculateTakerFeeRequest): CalculateTakerFeeRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: CalculateTakerFeeRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): CalculateTakerFeeRequest;
-  static deserializeBinaryFromReader(message: CalculateTakerFeeRequest, reader: jspb.BinaryReader): CalculateTakerFeeRequest;
-}
-
-export namespace CalculateTakerFeeRequest {
-  export type AsObject = {
-    makerTxHash: string,
-    makerTxOutputIndex: number,
-    collateralizedNrg: string,
-  }
-}
-
-export class FeeResponse extends jspb.Message {
-  getFee(): string;
-  setFee(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): FeeResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: FeeResponse): FeeResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: FeeResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): FeeResponse;
-  static deserializeBinaryFromReader(message: FeeResponse, reader: jspb.BinaryReader): FeeResponse;
-}
-
-export namespace FeeResponse {
-  export type AsObject = {
-    fee: string,
   }
 }
 
@@ -1089,92 +877,6 @@ export class GetBlocksResponse extends jspb.Message {
 export namespace GetBlocksResponse {
   export type AsObject = {
     blocksList: Array<core_pb.BcBlock.AsObject>,
-  }
-}
-
-export class Transfer extends jspb.Message {
-  getFrom(): string;
-  setFrom(value: string): void;
-
-  getTo(): string;
-  setTo(value: string): void;
-
-  getAmount(): string;
-  setAmount(value: string): void;
-
-  getTxHash(): string;
-  setTxHash(value: string): void;
-
-  getTxOutputIndex(): number;
-  setTxOutputIndex(value: number): void;
-
-  getTimestamp(): number;
-  setTimestamp(value: number): void;
-
-  getHeight(): number;
-  setHeight(value: number): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Transfer.AsObject;
-  static toObject(includeInstance: boolean, msg: Transfer): Transfer.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: Transfer, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Transfer;
-  static deserializeBinaryFromReader(message: Transfer, reader: jspb.BinaryReader): Transfer;
-}
-
-export namespace Transfer {
-  export type AsObject = {
-    from: string,
-    to: string,
-    amount: string,
-    txHash: string,
-    txOutputIndex: number,
-    timestamp: number,
-    height: number,
-  }
-}
-
-export class TransferResponse extends jspb.Message {
-  clearTransfersList(): void;
-  getTransfersList(): Array<Transfer>;
-  setTransfersList(value: Array<Transfer>): void;
-  addTransfers(value?: Transfer, index?: number): Transfer;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TransferResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: TransferResponse): TransferResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: TransferResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TransferResponse;
-  static deserializeBinaryFromReader(message: TransferResponse, reader: jspb.BinaryReader): TransferResponse;
-}
-
-export namespace TransferResponse {
-  export type AsObject = {
-    transfersList: Array<Transfer.AsObject>,
-  }
-}
-
-export class TransferRequest extends jspb.Message {
-  getAddress(): string;
-  setAddress(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TransferRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: TransferRequest): TransferRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: TransferRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TransferRequest;
-  static deserializeBinaryFromReader(message: TransferRequest, reader: jspb.BinaryReader): TransferRequest;
-}
-
-export namespace TransferRequest {
-  export type AsObject = {
-    address: string,
   }
 }
 

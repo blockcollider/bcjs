@@ -164,15 +164,6 @@ Bc.Stats = {
   responseType: bc_pb.StatsResponse
 };
 
-Bc.NewTx = {
-  methodName: "NewTx",
-  service: Bc,
-  requestStream: false,
-  responseStream: false,
-  requestType: bc_pb.RpcTransaction,
-  responseType: bc_pb.RpcTransactionResponse
-};
-
 Bc.SendTx = {
   methodName: "SendTx",
   service: Bc,
@@ -234,51 +225,6 @@ Bc.GetTransfers = {
   responseStream: false,
   requestType: bc_pb.TransferRequest,
   responseType: bc_pb.TransferResponse
-};
-
-Bc.PlaceMakerOrder = {
-  methodName: "PlaceMakerOrder",
-  service: Bc,
-  requestStream: false,
-  responseStream: false,
-  requestType: bc_pb.PlaceMakerOrderRequest,
-  responseType: bc_pb.RpcTransactionResponse
-};
-
-Bc.PlaceTakerOrder = {
-  methodName: "PlaceTakerOrder",
-  service: Bc,
-  requestStream: false,
-  responseStream: false,
-  requestType: bc_pb.PlaceTakerOrderRequest,
-  responseType: bc_pb.RpcTransactionResponse
-};
-
-Bc.PlaceTakerOrders = {
-  methodName: "PlaceTakerOrders",
-  service: Bc,
-  requestStream: false,
-  responseStream: false,
-  requestType: bc_pb.PlaceTakerOrdersRequest,
-  responseType: bc_pb.RpcTransactionResponse
-};
-
-Bc.CalculateMakerFee = {
-  methodName: "CalculateMakerFee",
-  service: Bc,
-  requestStream: false,
-  responseStream: false,
-  requestType: bc_pb.CalculateMakerFeeRequest,
-  responseType: bc_pb.FeeResponse
-};
-
-Bc.CalculateTakerFee = {
-  methodName: "CalculateTakerFee",
-  service: Bc,
-  requestStream: false,
-  responseStream: false,
-  requestType: bc_pb.CalculateTakerFeeRequest,
-  responseType: bc_pb.FeeResponse
 };
 
 Bc.GetOpenOrders = {
@@ -869,37 +815,6 @@ BcClient.prototype.stats = function stats(requestMessage, metadata, callback) {
   };
 };
 
-BcClient.prototype.newTx = function newTx(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Bc.NewTx, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
 BcClient.prototype.sendTx = function sendTx(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
@@ -1091,161 +1006,6 @@ BcClient.prototype.getTransfers = function getTransfers(requestMessage, metadata
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetTransfers, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-BcClient.prototype.placeMakerOrder = function placeMakerOrder(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Bc.PlaceMakerOrder, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-BcClient.prototype.placeTakerOrder = function placeTakerOrder(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Bc.PlaceTakerOrder, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-BcClient.prototype.placeTakerOrders = function placeTakerOrders(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Bc.PlaceTakerOrders, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-BcClient.prototype.calculateMakerFee = function calculateMakerFee(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Bc.CalculateMakerFee, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
-BcClient.prototype.calculateTakerFee = function calculateTakerFee(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Bc.CalculateTakerFee, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
