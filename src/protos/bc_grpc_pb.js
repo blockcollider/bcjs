@@ -667,6 +667,17 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_WalletData,
     responseDeserialize: deserialize_bcsdk_WalletData,
   },
+  getSpendableOutpoints: {
+    path: '/bcsdk.Bc/GetSpendableOutpoints',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBalanceRequest,
+    responseType: core_pb.WalletData,
+    requestSerialize: serialize_bcsdk_GetBalanceRequest,
+    requestDeserialize: deserialize_bcsdk_GetBalanceRequest,
+    responseSerialize: serialize_bcsdk_WalletData,
+    responseDeserialize: deserialize_bcsdk_WalletData,
+  },
   getSpendableCollateral: {
     path: '/bcsdk.Bc/GetSpendableCollateral',
     requestStream: false,

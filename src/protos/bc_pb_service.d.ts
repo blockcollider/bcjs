@@ -185,6 +185,15 @@ type BcGetWallet = {
   readonly responseType: typeof core_pb.WalletData;
 };
 
+type BcGetSpendableOutpoints = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly responseType: typeof core_pb.WalletData;
+};
+
 type BcGetSpendableCollateral = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -297,6 +306,7 @@ export class Bc {
   static readonly SendTx: BcSendTx;
   static readonly GetBalance: BcGetBalance;
   static readonly GetWallet: BcGetWallet;
+  static readonly GetSpendableOutpoints: BcGetSpendableOutpoints;
   static readonly GetSpendableCollateral: BcGetSpendableCollateral;
   static readonly UnlockCollateral: BcUnlockCollateral;
   static readonly GetUnlockTakerTxParams: BcGetUnlockTakerTxParams;
@@ -518,6 +528,15 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
   ): UnaryResponse;
   getWallet(
+    requestMessage: bc_pb.GetBalanceRequest,
+    callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
+  ): UnaryResponse;
+  getSpendableOutpoints(
+    requestMessage: bc_pb.GetBalanceRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
+  ): UnaryResponse;
+  getSpendableOutpoints(
     requestMessage: bc_pb.GetBalanceRequest,
     callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
   ): UnaryResponse;
