@@ -777,6 +777,28 @@ export namespace Transaction {
   }
 }
 
+export class UnspentTransactions extends jspb.Message {
+  clearUtxoList(): void;
+  getUtxoList(): Array<string>;
+  setUtxoList(value: Array<string>): void;
+  addUtxo(value: string, index?: number): string;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UnspentTransactions.AsObject;
+  static toObject(includeInstance: boolean, msg: UnspentTransactions): UnspentTransactions.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UnspentTransactions, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UnspentTransactions;
+  static deserializeBinaryFromReader(message: UnspentTransactions, reader: jspb.BinaryReader): UnspentTransactions;
+}
+
+export namespace UnspentTransactions {
+  export type AsObject = {
+    utxoList: Array<string>,
+  }
+}
+
 export class TransactionInput extends jspb.Message {
   hasOutPoint(): boolean;
   clearOutPoint(): void;

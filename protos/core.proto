@@ -161,6 +161,10 @@ message Transaction {
   uint32 lock_time = 9;
 }
 
+message UnspentTransactions {
+  repeated string utxo = 1;
+}
+
 message TransactionInput {
   OutPoint out_point = 1;
   uint32 script_length = 2;

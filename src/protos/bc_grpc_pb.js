@@ -27,39 +27,6 @@ function deserialize_bcsdk_Block(buffer_arg) {
   return core_pb.Block.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bcsdk_CalculateMakerFeeRequest(arg) {
-  if (!(arg instanceof bc_pb.CalculateMakerFeeRequest)) {
-    throw new Error('Expected argument of type bcsdk.CalculateMakerFeeRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_CalculateMakerFeeRequest(buffer_arg) {
-  return bc_pb.CalculateMakerFeeRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_bcsdk_CalculateTakerFeeRequest(arg) {
-  if (!(arg instanceof bc_pb.CalculateTakerFeeRequest)) {
-    throw new Error('Expected argument of type bcsdk.CalculateTakerFeeRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_CalculateTakerFeeRequest(buffer_arg) {
-  return bc_pb.CalculateTakerFeeRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_bcsdk_FeeResponse(arg) {
-  if (!(arg instanceof bc_pb.FeeResponse)) {
-    throw new Error('Expected argument of type bcsdk.FeeResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_FeeResponse(buffer_arg) {
-  return bc_pb.FeeResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_bcsdk_GetBalanceRequest(arg) {
   if (!(arg instanceof bc_pb.GetBalanceRequest)) {
     throw new Error('Expected argument of type bcsdk.GetBalanceRequest');
@@ -379,50 +346,6 @@ function deserialize_bcsdk_Null(buffer_arg) {
   return core_pb.Null.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bcsdk_PlaceMakerOrderRequest(arg) {
-  if (!(arg instanceof bc_pb.PlaceMakerOrderRequest)) {
-    throw new Error('Expected argument of type bcsdk.PlaceMakerOrderRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_PlaceMakerOrderRequest(buffer_arg) {
-  return bc_pb.PlaceMakerOrderRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_bcsdk_PlaceTakerOrderRequest(arg) {
-  if (!(arg instanceof bc_pb.PlaceTakerOrderRequest)) {
-    throw new Error('Expected argument of type bcsdk.PlaceTakerOrderRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_PlaceTakerOrderRequest(buffer_arg) {
-  return bc_pb.PlaceTakerOrderRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_bcsdk_PlaceTakerOrdersRequest(arg) {
-  if (!(arg instanceof bc_pb.PlaceTakerOrdersRequest)) {
-    throw new Error('Expected argument of type bcsdk.PlaceTakerOrdersRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_PlaceTakerOrdersRequest(buffer_arg) {
-  return bc_pb.PlaceTakerOrdersRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_bcsdk_RpcTransaction(arg) {
-  if (!(arg instanceof bc_pb.RpcTransaction)) {
-    throw new Error('Expected argument of type bcsdk.RpcTransaction');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_RpcTransaction(buffer_arg) {
-  return bc_pb.RpcTransaction.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_bcsdk_RpcTransactionResponse(arg) {
   if (!(arg instanceof bc_pb.RpcTransactionResponse)) {
     throw new Error('Expected argument of type bcsdk.RpcTransactionResponse');
@@ -711,17 +634,6 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_StatsResponse,
     responseDeserialize: deserialize_bcsdk_StatsResponse,
   },
-  newTx: {
-    path: '/bcsdk.Bc/NewTx',
-    requestStream: false,
-    responseStream: false,
-    requestType: bc_pb.RpcTransaction,
-    responseType: bc_pb.RpcTransactionResponse,
-    requestSerialize: serialize_bcsdk_RpcTransaction,
-    requestDeserialize: deserialize_bcsdk_RpcTransaction,
-    responseSerialize: serialize_bcsdk_RpcTransactionResponse,
-    responseDeserialize: deserialize_bcsdk_RpcTransactionResponse,
-  },
   sendTx: {
     path: '/bcsdk.Bc/SendTx',
     requestStream: false,
@@ -798,61 +710,6 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bcsdk_TransferRequest,
     responseSerialize: serialize_bcsdk_TransferResponse,
     responseDeserialize: deserialize_bcsdk_TransferResponse,
-  },
-  placeMakerOrder: {
-    path: '/bcsdk.Bc/PlaceMakerOrder',
-    requestStream: false,
-    responseStream: false,
-    requestType: bc_pb.PlaceMakerOrderRequest,
-    responseType: bc_pb.RpcTransactionResponse,
-    requestSerialize: serialize_bcsdk_PlaceMakerOrderRequest,
-    requestDeserialize: deserialize_bcsdk_PlaceMakerOrderRequest,
-    responseSerialize: serialize_bcsdk_RpcTransactionResponse,
-    responseDeserialize: deserialize_bcsdk_RpcTransactionResponse,
-  },
-  placeTakerOrder: {
-    path: '/bcsdk.Bc/PlaceTakerOrder',
-    requestStream: false,
-    responseStream: false,
-    requestType: bc_pb.PlaceTakerOrderRequest,
-    responseType: bc_pb.RpcTransactionResponse,
-    requestSerialize: serialize_bcsdk_PlaceTakerOrderRequest,
-    requestDeserialize: deserialize_bcsdk_PlaceTakerOrderRequest,
-    responseSerialize: serialize_bcsdk_RpcTransactionResponse,
-    responseDeserialize: deserialize_bcsdk_RpcTransactionResponse,
-  },
-  placeTakerOrders: {
-    path: '/bcsdk.Bc/PlaceTakerOrders',
-    requestStream: false,
-    responseStream: false,
-    requestType: bc_pb.PlaceTakerOrdersRequest,
-    responseType: bc_pb.RpcTransactionResponse,
-    requestSerialize: serialize_bcsdk_PlaceTakerOrdersRequest,
-    requestDeserialize: deserialize_bcsdk_PlaceTakerOrdersRequest,
-    responseSerialize: serialize_bcsdk_RpcTransactionResponse,
-    responseDeserialize: deserialize_bcsdk_RpcTransactionResponse,
-  },
-  calculateMakerFee: {
-    path: '/bcsdk.Bc/CalculateMakerFee',
-    requestStream: false,
-    responseStream: false,
-    requestType: bc_pb.CalculateMakerFeeRequest,
-    responseType: bc_pb.FeeResponse,
-    requestSerialize: serialize_bcsdk_CalculateMakerFeeRequest,
-    requestDeserialize: deserialize_bcsdk_CalculateMakerFeeRequest,
-    responseSerialize: serialize_bcsdk_FeeResponse,
-    responseDeserialize: deserialize_bcsdk_FeeResponse,
-  },
-  calculateTakerFee: {
-    path: '/bcsdk.Bc/CalculateTakerFee',
-    requestStream: false,
-    responseStream: false,
-    requestType: bc_pb.CalculateTakerFeeRequest,
-    responseType: bc_pb.FeeResponse,
-    requestSerialize: serialize_bcsdk_CalculateTakerFeeRequest,
-    requestDeserialize: deserialize_bcsdk_CalculateTakerFeeRequest,
-    responseSerialize: serialize_bcsdk_FeeResponse,
-    responseDeserialize: deserialize_bcsdk_FeeResponse,
   },
   getOpenOrders: {
     path: '/bcsdk.Bc/GetOpenOrders',

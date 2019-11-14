@@ -12,7 +12,6 @@ type BcRpcResponse =
     core.MarkedTransaction.AsObject |
     core.Transaction.AsObject |
     core.WalletData.AsObject |
-    bc.FeeResponse.AsObject |
     bc.GetBalanceResponse.AsObject |
     bc.GetBlake2blResponse.AsObject |
     bc.GetBlocksResponse.AsObject |
@@ -171,11 +170,6 @@ export default class RpcClient {
         return result as core.MarkedTransaction.AsObject
     }
 
-    public async newTx(request: bc.RpcTransaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.NewTx, request.toArray())
-        return result as bc.RpcTransactionResponse.AsObject
-    }
-
     public async getBalance (request: bc.GetBalanceRequest): Promise<bc.GetBalanceResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBalance, request.toArray())
         return result as bc.GetBalanceResponse.AsObject
@@ -199,31 +193,6 @@ export default class RpcClient {
     public async getUnlockTakerTxParams (request: bc.GetUnlockTakerTxParamsRequest): Promise<bc.GetUnlockTakerTxParamsResponse.AsObject> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetUnlockTakerTxParams, request.toArray())
         return result as bc.GetUnlockTakerTxParamsResponse.AsObject
-    }
-
-    public async createMakerOrder(request: bc.PlaceMakerOrderRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.PlaceMakerOrder, request.toArray())
-        return result as bc.RpcTransactionResponse.AsObject
-    }
-
-    public async createTakeOrder(request: bc.PlaceTakerOrderRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.PlaceTakerOrder, request.toArray())
-        return result as bc.RpcTransactionResponse.AsObject
-    }
-
-    public async createTakerOrders(request: bc.PlaceTakerOrdersRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.PlaceTakerOrders, request.toArray())
-        return result as bc.RpcTransactionResponse.AsObject
-    }
-
-    public async calculateMakerFee(request: bc.CalculateMakerFeeRequest): Promise<bc.FeeResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.CalculateMakerFee, request.toArray())
-        return result as bc.FeeResponse.AsObject
-    }
-
-    public async calculateTakerFee(request: bc.CalculateTakerFeeRequest): Promise<bc.FeeResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.CalculateTakerFee, request.toArray())
-        return result as bc.FeeResponse.AsObject
     }
 
     public async getOpenOrders (): Promise<bc.GetOpenOrdersResponse.AsObject> {
