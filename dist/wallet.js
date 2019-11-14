@@ -31,7 +31,7 @@ class Wallet {
         return __awaiter(this, void 0, void 0, function* () {
             const req = new bc.GetBalanceRequest();
             req.setAddress(address);
-            let a = yield this.rpcClient.getWallet(req);
+            const a = yield this.rpcClient.getWallet(req);
             return a.spendableOutpointsList;
         });
     }
