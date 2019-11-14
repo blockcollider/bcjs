@@ -55,6 +55,34 @@ function validateBtcAddress(btcAddress) {
  * @param transferAmount: string,
  * @param txFee: string
  */
+exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG) {
+    if (toAddress.length != transferAmountNRG.length)
+        throw new Error('incorrect length of args');
+    const transferAmountBN = transferAmountNRG.reduce((all, nrg) => {
+        return all.add(coin_1.humanToInternalAsBN(nrg, coin_1.COIN_FRACS.NRG));
+    }, new bn_js_1.default(0));
+    const txFeeBN = coin_1.humanToInternalAsBN(txFeeNRG, coin_1.COIN_FRACS.NRG);
+    const totalAmountBN = transferAmountBN.add(txFeeBN);
+    const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
+    if (privateKeyHex.startsWith('0x')) {
+        privateKeyHex = privateKeyHex.slice(2);
+    }
+    let txOutputs = [] = [];
+    for (let i = 0; i < toAddress.length; i++) {
+        txOutputs.push(protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(toAddress[i]), unitBN, coin_1.humanToInternalAsBN(transferAmountNRG[i], coin_1.COIN_FRACS.NRG)));
+    }
+    const nonNRGInputs = [];
+    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex);
+};
+/*
+ * Create NRG transfer transaction
+ * @param spendableWalletOutPointObjs:
+ * @param fromAddress: string,
+ * @param privateKeyHex: string,
+ * @param toAddress: string,
+ * @param transferAmount: string,
+ * @param txFee: string
+ */
 exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG) {
     const transferAmountBN = coin_1.humanToInternalAsBN(transferAmountNRG, coin_1.COIN_FRACS.NRG);
     const txFeeBN = coin_1.humanToInternalAsBN(txFeeNRG, coin_1.COIN_FRACS.NRG);

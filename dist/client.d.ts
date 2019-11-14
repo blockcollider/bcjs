@@ -16,6 +16,7 @@ export default class RpcClient {
     getMarkedTx(request: bc.GetMarkedTxRequest): Promise<core.MarkedTransaction.AsObject | Error>;
     getBalance(request: bc.GetBalanceRequest): Promise<bc.GetBalanceResponse.AsObject | Error>;
     getWallet(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject>;
+    getSpendableOutpoints(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject>;
     getSpendableCollateral(request: bc.GetSpendableCollateralRequest): Promise<bc.GetSpendableCollateralResponse.AsObject | Error>;
     unlockCollateral(request: bc.UnlockCollateralRequest): Promise<bc.RpcTransactionResponse.AsObject | Error>;
     getUnlockTakerTxParams(request: bc.GetUnlockTakerTxParamsRequest): Promise<bc.GetUnlockTakerTxParamsResponse.AsObject>;

@@ -13,7 +13,7 @@ import {
 } from '../src/transaction';
 
 
-const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3000'
+const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3001'
 const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
 const client = new RpcClient(address, scookie);
 
@@ -27,6 +27,7 @@ wallet.getBalance(bcAddress).then(balance => {
 // Tested
 async function testTransfer() {
   const spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  console.log({spendableOutpointsList})
   const fromAddress = bcAddress
   const privateKeyHex = '9a603f04c501d1ac830ef1e2b526618fd8855160afa60a96d8e9484b332f9f33'
   const toAddress = '0xf1d1b778a4f76d27480de333c522abe97825ac16'
@@ -45,4 +46,3 @@ async function testTransfer() {
   return true
 }
 testTransfer().then(() => {})
-
