@@ -12,6 +12,14 @@ message StatsResponse {
     int64 calls = 1;
 }
 
+message RpcTransaction {
+    string from_addr = 1;
+    string to_addr = 2;
+    string amount = 3;
+    string tx_fee = 4;
+    string private_key_hex = 5;
+}
+
 enum RpcTransactionResponseStatus {
     Success = 0;
     Failure = 1;
@@ -250,6 +258,7 @@ service Bc {
 
     rpc Help (Null) returns (HelpResponse) {}
     rpc Stats (Null) returns (StatsResponse) {}
+    rpc NewTx (RpcTransaction) returns (RpcTransactionResponse) {}
     rpc SendTx (Transaction) returns (RpcTransactionResponse) {}
 
     rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}

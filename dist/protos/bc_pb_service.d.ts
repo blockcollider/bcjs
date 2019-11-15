@@ -158,6 +158,15 @@ type BcStats = {
   readonly responseType: typeof bc_pb.StatsResponse;
 };
 
+type BcNewTx = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.RpcTransaction;
+  readonly responseType: typeof bc_pb.RpcTransactionResponse;
+};
+
 type BcSendTx = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -303,6 +312,7 @@ export class Bc {
   static readonly GetRoveredBlockForMarkedTx: BcGetRoveredBlockForMarkedTx;
   static readonly Help: BcHelp;
   static readonly Stats: BcStats;
+  static readonly NewTx: BcNewTx;
   static readonly SendTx: BcSendTx;
   static readonly GetBalance: BcGetBalance;
   static readonly GetWallet: BcGetWallet;
@@ -503,6 +513,15 @@ export class BcClient {
   stats(
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.StatsResponse|null) => void
+  ): UnaryResponse;
+  newTx(
+    requestMessage: bc_pb.RpcTransaction,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
+  ): UnaryResponse;
+  newTx(
+    requestMessage: bc_pb.RpcTransaction,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
   ): UnaryResponse;
   sendTx(
     requestMessage: core_pb.Transaction,

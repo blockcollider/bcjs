@@ -346,6 +346,17 @@ function deserialize_bcsdk_Null(buffer_arg) {
   return core_pb.Null.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bcsdk_RpcTransaction(arg) {
+  if (!(arg instanceof bc_pb.RpcTransaction)) {
+    throw new Error('Expected argument of type bcsdk.RpcTransaction');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_RpcTransaction(buffer_arg) {
+  return bc_pb.RpcTransaction.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bcsdk_RpcTransactionResponse(arg) {
   if (!(arg instanceof bc_pb.RpcTransactionResponse)) {
     throw new Error('Expected argument of type bcsdk.RpcTransactionResponse');
@@ -633,6 +644,17 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bcsdk_Null,
     responseSerialize: serialize_bcsdk_StatsResponse,
     responseDeserialize: deserialize_bcsdk_StatsResponse,
+  },
+  newTx: {
+    path: '/bcsdk.Bc/NewTx',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.RpcTransaction,
+    responseType: bc_pb.RpcTransactionResponse,
+    requestSerialize: serialize_bcsdk_RpcTransaction,
+    requestDeserialize: deserialize_bcsdk_RpcTransaction,
+    responseSerialize: serialize_bcsdk_RpcTransactionResponse,
+    responseDeserialize: deserialize_bcsdk_RpcTransactionResponse,
   },
   sendTx: {
     path: '/bcsdk.Bc/SendTx',

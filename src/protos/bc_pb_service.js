@@ -164,6 +164,15 @@ Bc.Stats = {
   responseType: bc_pb.StatsResponse
 };
 
+Bc.NewTx = {
+  methodName: "NewTx",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.RpcTransaction,
+  responseType: bc_pb.RpcTransactionResponse
+};
+
 Bc.SendTx = {
   methodName: "SendTx",
   service: Bc,
@@ -798,6 +807,37 @@ BcClient.prototype.stats = function stats(requestMessage, metadata, callback) {
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.Stats, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.newTx = function newTx(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.NewTx, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

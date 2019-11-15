@@ -44,6 +44,42 @@ export namespace StatsResponse {
   }
 }
 
+export class RpcTransaction extends jspb.Message {
+  getFromAddr(): string;
+  setFromAddr(value: string): void;
+
+  getToAddr(): string;
+  setToAddr(value: string): void;
+
+  getAmount(): string;
+  setAmount(value: string): void;
+
+  getTxFee(): string;
+  setTxFee(value: string): void;
+
+  getPrivateKeyHex(): string;
+  setPrivateKeyHex(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RpcTransaction.AsObject;
+  static toObject(includeInstance: boolean, msg: RpcTransaction): RpcTransaction.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: RpcTransaction, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RpcTransaction;
+  static deserializeBinaryFromReader(message: RpcTransaction, reader: jspb.BinaryReader): RpcTransaction;
+}
+
+export namespace RpcTransaction {
+  export type AsObject = {
+    fromAddr: string,
+    toAddr: string,
+    amount: string,
+    txFee: string,
+    privateKeyHex: string,
+  }
+}
+
 export class RpcTransactionResponse extends jspb.Message {
   getStatus(): RpcTransactionResponseStatusMap[keyof RpcTransactionResponseStatusMap];
   setStatus(value: RpcTransactionResponseStatusMap[keyof RpcTransactionResponseStatusMap]): void;
