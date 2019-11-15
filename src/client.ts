@@ -29,9 +29,9 @@ type JsonRpcReservedMethod = string
 type JsonRpcId = number | string | void
 
 enum BcRpcMethod {
-    // Help  = "help",
-    // Stats  = "stats",
-    GetSpendableOutpoints  = "getSpendableOutpoints",
+    // Help  = 'help',
+    // Stats  = 'stats',
+    GetSpendableOutpoints  = 'getSpendableOutpoints',
     GetBalance  = 'getBalance',
     GetWallet  = 'getWallet',
     GetSpendableCollateral  = 'getSpendableCollateral',
