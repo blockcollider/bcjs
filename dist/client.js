@@ -14,8 +14,7 @@ require('es6-promise').polyfill(); /* tslint:disable-line */
 require('isomorphic-fetch'); /* tslint:disable-line */
 var BcRpcMethod;
 (function (BcRpcMethod) {
-    // Help  = "help",
-    // Stats  = "stats",
+    BcRpcMethod["NewTx"] = "newTx";
     BcRpcMethod["GetSpendableOutpoints"] = "getSpendableOutpoints";
     BcRpcMethod["GetBalance"] = "getBalance";
     BcRpcMethod["GetWallet"] = "getWallet";
@@ -123,6 +122,12 @@ class RpcClient {
     getMarkedTx(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetMarkedTx, request.toArray());
+            return result;
+        });
+    }
+    newTx(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.NewTx, request.toArray());
             return result;
         });
     }

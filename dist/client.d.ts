@@ -14,6 +14,7 @@ export default class RpcClient {
     getLatestBlock(): Promise<core.BcBlock.AsObject | Error>;
     getTx(request: bc.GetTxRequest): Promise<core.Transaction.AsObject | Error>;
     getMarkedTx(request: bc.GetMarkedTxRequest): Promise<core.MarkedTransaction.AsObject | Error>;
+    newTx(request: bc.RpcTransaction): Promise<bc.RpcTransactionResponse.AsObject | Error>;
     getBalance(request: bc.GetBalanceRequest): Promise<bc.GetBalanceResponse.AsObject | Error>;
     getWallet(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject>;
     getSpendableOutpoints(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject>;
