@@ -24,6 +24,7 @@
     "bitcoinjs-lib": "^5.1.6",
     "blakejs": "^1.1.0",
     "bn.js": "^5.0.0",
+    "commander": "^4.0.1",
     "es6-promise": "^4.2.8",
     "google-protobuf": "^3.7.1",
     "grpc-web": "^1.0.6",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@improbable-eng/grpc-web": "^0.9.6",
     "@types/bn.js": "^4.11.5",
+    "@types/commander": "^2.12.2",
     "@types/google-protobuf": "^3.7.1",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^24.0.18",

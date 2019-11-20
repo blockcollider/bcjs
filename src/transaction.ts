@@ -131,14 +131,14 @@ export const createNRGTransferTransaction = function(
   )
 }
 
-export const createMakerOrderTransaction = function(
+export const createMakerOrderTransaction = function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
   sendsFromChain: string, receivesToChain: string,
   sendsFromAddress: string, receivesToAddress: string,
   sendsUnit: string, receivesUnit: string,
   bcAddress: string, bcPrivateKeyHex: string,
-  collateralizedNrg: string, nrgUnit:string, fixedUnitFee:string, additionalTxFee: string
+  collateralizedNrg: string, nrgUnit: string, fixedUnitFee: string, additionalTxFee: string
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -159,7 +159,7 @@ export const createMakerOrderTransaction = function(
     throw err
   }
 
-  let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
+  const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'maker')
   const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
 
   const indivisibleSendsUnit = Currency.toMinimumUnitAsStr(
@@ -170,15 +170,15 @@ export const createMakerOrderTransaction = function(
     receivesToChain, receivesUnit, CurrencyInfo[receivesToChain].humanUnit
   )
 
-  if(fixedUnitFee != '') fixedUnitFee = Currency.toMinimumUnitAsStr(
-    'nrg', fixedUnitFee, 'nrg'
-  )
+  if (fixedUnitFee !== '') {
+    fixedUnitFee = Currency.toMinimumUnitAsStr('nrg', fixedUnitFee, 'nrg')
+  }
 
   const outputLockScript = createMakerLockScript(
     shiftMaker, shiftTaker, depositLength, settleLength,
     sendsFromChain, receivesToChain,
     sendsFromAddress, receivesToAddress,
-    indivisibleSendsUnit, indivisibleReceivesUnit,fixedUnitFee,
+    indivisibleSendsUnit, indivisibleReceivesUnit, fixedUnitFee,
     bcAddress
   )
 
