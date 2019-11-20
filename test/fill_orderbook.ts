@@ -29,15 +29,15 @@ async function sendMany(){
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
   let balance: any = await wallet.getBalance(bcAddress)
   let confirmed = balance.confirmed ? parseFloat(balance.confirmed): 0;
-  while(confirmed < 100) {
+  while(confirmed < 400) {
     await timeout(1000)
     balance = await wallet.getBalance(bcAddress)
     confirmed = balance.confirmed ? parseFloat(balance.confirmed): 0;
     spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
   }
 
-  let toAddress : Array<string> = Array(50).fill(bcAddress)
-  let transferAmount : Array<string> = Array(50).fill('2')
+  let toAddress : Array<string> = Array(200).fill(bcAddress)
+  let transferAmount : Array<string> = Array(200).fill('2')
 
   // if(spendableOutpointsList.length < 50){
     tx = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
@@ -50,7 +50,6 @@ async function testMaker({
   sendsFromChain, receivesToChain, sendsFromAddress,
   receivesToAddress, sendsUnit, receivesUnit}) {
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-
 
   while(spendableOutpointsList.length == 0) {
     await timeout(1000)
@@ -180,9 +179,11 @@ const addresses = {
 
 async function fillOrderbook() {
   const assetPrices = await getPrices()
+  await sendMany()
+  await sendMany()
+  
 
   for (let i = 0; i < assetPrices.length; i++) {
-    await sendMany()
     let {asset, denomination, price} = assetPrices[i]
     let increment = Math.random() / 300 * price
     for (let j = 0; j < 25; j++) {
