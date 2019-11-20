@@ -412,17 +412,6 @@ function deserialize_bcsdk_TransferResponse(buffer_arg) {
   return bc_pb.TransferResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bcsdk_UnlockCollateralRequest(arg) {
-  if (!(arg instanceof bc_pb.UnlockCollateralRequest)) {
-    throw new Error('Expected argument of type bcsdk.UnlockCollateralRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_UnlockCollateralRequest(buffer_arg) {
-  return bc_pb.UnlockCollateralRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_bcsdk_VanityConvertRequest(arg) {
   if (!(arg instanceof bc_pb.VanityConvertRequest)) {
     throw new Error('Expected argument of type bcsdk.VanityConvertRequest');
@@ -710,17 +699,6 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bcsdk_GetSpendableCollateralRequest,
     responseSerialize: serialize_bcsdk_GetSpendableCollateralResponse,
     responseDeserialize: deserialize_bcsdk_GetSpendableCollateralResponse,
-  },
-  unlockCollateral: {
-    path: '/bcsdk.Bc/UnlockCollateral',
-    requestStream: false,
-    responseStream: false,
-    requestType: bc_pb.UnlockCollateralRequest,
-    responseType: bc_pb.RpcTransactionResponse,
-    requestSerialize: serialize_bcsdk_UnlockCollateralRequest,
-    requestDeserialize: deserialize_bcsdk_UnlockCollateralRequest,
-    responseSerialize: serialize_bcsdk_RpcTransactionResponse,
-    responseDeserialize: deserialize_bcsdk_RpcTransactionResponse,
   },
   getUnlockTakerTxParams: {
     path: '/bcsdk.Bc/GetUnlockTakerTxParams',

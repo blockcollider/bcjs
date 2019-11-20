@@ -288,38 +288,6 @@ export namespace GetBalanceResponse {
   }
 }
 
-export class UnlockCollateralRequest extends jspb.Message {
-  getTxHash(): string;
-  setTxHash(value: string): void;
-
-  getTxOutputIndex(): number;
-  setTxOutputIndex(value: number): void;
-
-  getBcAddress(): string;
-  setBcAddress(value: string): void;
-
-  getBcPrivateKeyHex(): string;
-  setBcPrivateKeyHex(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): UnlockCollateralRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: UnlockCollateralRequest): UnlockCollateralRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: UnlockCollateralRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): UnlockCollateralRequest;
-  static deserializeBinaryFromReader(message: UnlockCollateralRequest, reader: jspb.BinaryReader): UnlockCollateralRequest;
-}
-
-export namespace UnlockCollateralRequest {
-  export type AsObject = {
-    txHash: string,
-    txOutputIndex: number,
-    bcAddress: string,
-    bcPrivateKeyHex: string,
-  }
-}
-
 export class GetUnlockTakerTxParamsRequest extends jspb.Message {
   getTxHash(): string;
   setTxHash(value: string): void;

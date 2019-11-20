@@ -68,13 +68,6 @@ message GetBalanceResponse {
     string unlockable = 4;
 }
 
-message UnlockCollateralRequest {
-  string  tx_hash = 1;
-  uint32  tx_output_index = 2;
-  string  bc_address = 3;
-  string  bc_private_key_hex = 4;
-}
-
 message GetUnlockTakerTxParamsRequest {
   string tx_hash = 1;
   uint32  tx_output_index = 2;
@@ -266,7 +259,6 @@ service Bc {
     rpc GetSpendableOutpoints(GetBalanceRequest) returns (WalletData) {}
     rpc GetSpendableCollateral (GetSpendableCollateralRequest) returns (GetSpendableCollateralResponse) {}
 
-    rpc UnlockCollateral (UnlockCollateralRequest) returns (RpcTransactionResponse) {}
     rpc GetUnlockTakerTxParams (GetUnlockTakerTxParamsRequest) returns (GetUnlockTakerTxParamsResponse) {}
 
     rpc GetTransfers (TransferRequest) returns (TransferResponse) {}

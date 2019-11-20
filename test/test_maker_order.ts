@@ -173,4 +173,3 @@ wallet.getBalance(bcAddress).then(balance => {
   /*   testTaker(orders[0]).then(() => {}) */
   /* }) */
 })
-

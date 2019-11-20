@@ -13,27 +13,27 @@
         {
             "asset": "BTC",
             "denomination": "EMB",
-            "price": 86.659
+            "price": 80.8322
         },
         {
             "asset": "ETH",
             "denomination": "EMB",
-            "price": 1.84791652
+            "price": 1.74209557
         },
         {
             "asset": "NEO",
             "denomination": "EMB",
-            "price": 0.1266088
+            "price": 0.11405423
         },
         {
             "asset": "WAV",
             "denomination": "EMB",
-            "price": 0.00766066
+            "price": 0.00705665
         },
         {
             "asset": "LSK",
             "denomination": "EMB",
-            "price": 0.00765199
+            "price": 0.00750123
         },
         {
             "asset": "DAI",
@@ -43,102 +43,102 @@
         {
             "asset": "BTC",
             "denomination": "USDT",
-            "price": 8665.9
+            "price": 8083.22
         },
         {
             "asset": "ETH",
             "denomination": "USDT",
-            "price": 184.7916516
+            "price": 174.20955744
         },
         {
             "asset": "NEO",
             "denomination": "USDT",
-            "price": 12.6608799
+            "price": 11.40542342
         },
         {
             "asset": "WAV",
             "denomination": "USDT",
-            "price": 0.76606556
+            "price": 0.70566511
         },
         {
             "asset": "LSK",
             "denomination": "USDT",
-            "price": 0.76519897
+            "price": 0.75012282
         },
         {
             "asset": "BTC",
             "denomination": "DAI",
-            "price": 8665.9
+            "price": 8083.22
         },
         {
             "asset": "ETH",
             "denomination": "DAI",
-            "price": 184.7916516
+            "price": 174.20955744
         },
         {
             "asset": "NEO",
             "denomination": "DAI",
-            "price": 12.6608799
+            "price": 11.40542342
         },
         {
             "asset": "WAV",
             "denomination": "DAI",
-            "price": 0.76606556
+            "price": 0.70566511
         },
         {
             "asset": "LSK",
             "denomination": "DAI",
-            "price": 0.76519897
+            "price": 0.75012282
         },
         {
             "asset": "ETH",
             "denomination": "BTC",
-            "price": 0.021324
+            "price": 0.021552
         },
         {
             "asset": "NEO",
             "denomination": "BTC",
-            "price": 0.001461
+            "price": 0.001411
         },
         {
             "asset": "WAV",
             "denomination": "BTC",
-            "price": 0.0000884
+            "price": 0.0000873
         },
         {
             "asset": "LSK",
             "denomination": "BTC",
-            "price": 0.0000883
+            "price": 0.0000928
         },
         {
             "asset": "NEO",
             "denomination": "ETH",
-            "price": 0.06851435
+            "price": 0.06546956
         },
         {
             "asset": "WAV",
             "denomination": "ETH",
-            "price": 0.00414556
+            "price": 0.00405067
         },
         {
             "asset": "LSK",
             "denomination": "ETH",
-            "price": 0.00414087
+            "price": 0.00430586
         },
         {
             "asset": "WAV",
             "denomination": "NEO",
-            "price": 0.0605065
+            "price": 0.06187101
         },
         {
             "asset": "LSK",
             "denomination": "NEO",
-            "price": 0.06043806
+            "price": 0.06576896
         },
         {
             "asset": "LSK",
             "denomination": "WAV",
-            "price": 0.99886878
+            "price": 1.06300115
         },
         {
             "asset": "EMB",
@@ -158,27 +158,27 @@
         {
             "asset": "BTC",
             "denomination": "NRG",
-            "price": 866.59
+            "price": 808.322
         },
         {
             "asset": "ETH",
             "denomination": "NRG",
-            "price": 18.47916516
+            "price": 17.42095574
         },
         {
             "asset": "NEO",
             "denomination": "NRG",
-            "price": 1.26608799
+            "price": 1.14054234
         },
         {
             "asset": "WAV",
             "denomination": "NRG",
-            "price": 0.07660656
+            "price": 0.07056651
         },
         {
             "asset": "LSK",
             "denomination": "NRG",
-            "price": 0.0765199
+            "price": 0.07501228
         }
     ]
 }

@@ -212,15 +212,6 @@ type BcGetSpendableCollateral = {
   readonly responseType: typeof bc_pb.GetSpendableCollateralResponse;
 };
 
-type BcUnlockCollateral = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.UnlockCollateralRequest;
-  readonly responseType: typeof bc_pb.RpcTransactionResponse;
-};
-
 type BcGetUnlockTakerTxParams = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -318,7 +309,6 @@ export class Bc {
   static readonly GetWallet: BcGetWallet;
   static readonly GetSpendableOutpoints: BcGetSpendableOutpoints;
   static readonly GetSpendableCollateral: BcGetSpendableCollateral;
-  static readonly UnlockCollateral: BcUnlockCollateral;
   static readonly GetUnlockTakerTxParams: BcGetUnlockTakerTxParams;
   static readonly GetTransfers: BcGetTransfers;
   static readonly GetOpenOrders: BcGetOpenOrders;
@@ -567,15 +557,6 @@ export class BcClient {
   getSpendableCollateral(
     requestMessage: bc_pb.GetSpendableCollateralRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetSpendableCollateralResponse|null) => void
-  ): UnaryResponse;
-  unlockCollateral(
-    requestMessage: bc_pb.UnlockCollateralRequest,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
-  ): UnaryResponse;
-  unlockCollateral(
-    requestMessage: bc_pb.UnlockCollateralRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
   ): UnaryResponse;
   getUnlockTakerTxParams(
     requestMessage: bc_pb.GetUnlockTakerTxParamsRequest,

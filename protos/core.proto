@@ -101,12 +101,6 @@ message OpenOrder {
   uint64 block_height = 5;
 }
 
-message OpenOrders {
-  repeated OpenOrder orders = 1;
-  uint64 block_height = 2;
-  string block_hash = 3;
-}
-
 message MatchedOrder {
   OutPoint taker_outpoint = 1;
   bytes taker_output_script = 2;
@@ -116,23 +110,11 @@ message MatchedOrder {
   uint64 timestamp = 6;
 }
 
-message MatchedOrders {
-  repeated MatchedOrder orders = 1;
-  uint64 block_height = 2;
-  string block_hash = 3;
-}
-
 message HistoricalOrder {
   MatchedOrder order = 1;
   bool taker_settled = 2;
   bool maker_settled = 3;
   bool unlocked = 4;
-}
-
-message HistoricalOrders {
-  repeated HistoricalOrder orders = 1;
-  uint64 block_height = 2;
-  string block_hash = 3;
 }
 
 message MatchedTx {

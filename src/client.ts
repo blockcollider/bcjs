@@ -35,7 +35,6 @@ enum BcRpcMethod {
     GetWallet  = 'getWallet',
     GetSpendableCollateral  = 'getSpendableCollateral',
 
-    UnlockCollateral  = 'unlockCollateral',
     GetUnlockTakerTxParams = 'getUnlockTakerTxParams',
 
     PlaceMakerOrder  = 'placeMakerOrder',
@@ -191,11 +190,6 @@ export default class RpcClient {
     public async getSpendableCollateral (request: bc.GetSpendableCollateralRequest): Promise<bc.GetSpendableCollateralResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetSpendableCollateral, request.toArray())
         return result as bc.GetSpendableCollateralResponse.AsObject
-    }
-
-    public async unlockCollateral (request: bc.UnlockCollateralRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.UnlockCollateral, request.toArray())
-        return result as bc.RpcTransactionResponse.AsObject
     }
 
     public async getUnlockTakerTxParams (request: bc.GetUnlockTakerTxParamsRequest): Promise<bc.GetUnlockTakerTxParamsResponse.AsObject> {

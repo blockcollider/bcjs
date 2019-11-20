@@ -483,36 +483,6 @@ export namespace OpenOrder {
   }
 }
 
-export class OpenOrders extends jspb.Message {
-  clearOrdersList(): void;
-  getOrdersList(): Array<OpenOrder>;
-  setOrdersList(value: Array<OpenOrder>): void;
-  addOrders(value?: OpenOrder, index?: number): OpenOrder;
-
-  getBlockHeight(): number;
-  setBlockHeight(value: number): void;
-
-  getBlockHash(): string;
-  setBlockHash(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): OpenOrders.AsObject;
-  static toObject(includeInstance: boolean, msg: OpenOrders): OpenOrders.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: OpenOrders, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): OpenOrders;
-  static deserializeBinaryFromReader(message: OpenOrders, reader: jspb.BinaryReader): OpenOrders;
-}
-
-export namespace OpenOrders {
-  export type AsObject = {
-    ordersList: Array<OpenOrder.AsObject>,
-    blockHeight: number,
-    blockHash: string,
-  }
-}
-
 export class MatchedOrder extends jspb.Message {
   hasTakerOutpoint(): boolean;
   clearTakerOutpoint(): void;
@@ -561,36 +531,6 @@ export namespace MatchedOrder {
   }
 }
 
-export class MatchedOrders extends jspb.Message {
-  clearOrdersList(): void;
-  getOrdersList(): Array<MatchedOrder>;
-  setOrdersList(value: Array<MatchedOrder>): void;
-  addOrders(value?: MatchedOrder, index?: number): MatchedOrder;
-
-  getBlockHeight(): number;
-  setBlockHeight(value: number): void;
-
-  getBlockHash(): string;
-  setBlockHash(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MatchedOrders.AsObject;
-  static toObject(includeInstance: boolean, msg: MatchedOrders): MatchedOrders.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: MatchedOrders, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MatchedOrders;
-  static deserializeBinaryFromReader(message: MatchedOrders, reader: jspb.BinaryReader): MatchedOrders;
-}
-
-export namespace MatchedOrders {
-  export type AsObject = {
-    ordersList: Array<MatchedOrder.AsObject>,
-    blockHeight: number,
-    blockHash: string,
-  }
-}
-
 export class HistoricalOrder extends jspb.Message {
   hasOrder(): boolean;
   clearOrder(): void;
@@ -622,36 +562,6 @@ export namespace HistoricalOrder {
     takerSettled: boolean,
     makerSettled: boolean,
     unlocked: boolean,
-  }
-}
-
-export class HistoricalOrders extends jspb.Message {
-  clearOrdersList(): void;
-  getOrdersList(): Array<HistoricalOrder>;
-  setOrdersList(value: Array<HistoricalOrder>): void;
-  addOrders(value?: HistoricalOrder, index?: number): HistoricalOrder;
-
-  getBlockHeight(): number;
-  setBlockHeight(value: number): void;
-
-  getBlockHash(): string;
-  setBlockHash(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): HistoricalOrders.AsObject;
-  static toObject(includeInstance: boolean, msg: HistoricalOrders): HistoricalOrders.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: HistoricalOrders, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): HistoricalOrders;
-  static deserializeBinaryFromReader(message: HistoricalOrders, reader: jspb.BinaryReader): HistoricalOrders;
-}
-
-export namespace HistoricalOrders {
-  export type AsObject = {
-    ordersList: Array<HistoricalOrder.AsObject>,
-    blockHeight: number,
-    blockHash: string,
   }
 }
 

@@ -52,9 +52,9 @@ async function testTaker(makerOpenOrder: bcProtobuf.MakerOrderInfo.AsObject) {
     collateralizedNrg, additionalTxFee
   )
   const res:any = await client.sendTx(tx)
-  if(res.txHash == ''){
+  // if(res.txHash == ''){
     console.log({makerOpenOrder})
-  }
+  // }
   console.log('send taker', res)
   return true
 }
@@ -69,6 +69,7 @@ async function takeOrderbook(){
   let orders = await getOpenOrders();
   for(let i = 0; i < orders.length; i++){
     await testTaker(orders[i])
+    // await timeout(2000)
   }
 }
 
