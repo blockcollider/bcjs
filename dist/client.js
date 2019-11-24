@@ -162,9 +162,9 @@ class RpcClient {
             return result;
         });
     }
-    getOpenOrders() {
+    getOpenOrders(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, []);
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, request.toArray());
             return result;
         });
     }

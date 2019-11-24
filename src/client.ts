@@ -201,8 +201,8 @@ export default class RpcClient {
         return result as bc.GetUnlockTakerTxParamsResponse.AsObject
     }
 
-    public async getOpenOrders (): Promise<bc.GetOpenOrdersResponse.AsObject> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, [])
+    public async getOpenOrders (request: bc.GetBalanceRequest): Promise<bc.GetOpenOrdersResponse.AsObject> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, request.toArray())
         return result as bc.GetOpenOrdersResponse.AsObject
     }
 
