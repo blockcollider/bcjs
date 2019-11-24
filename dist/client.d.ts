@@ -20,7 +20,7 @@ export default class RpcClient {
     getSpendableOutpoints(request: bc.GetBalanceRequest): Promise<core.WalletData.AsObject>;
     getSpendableCollateral(request: bc.GetSpendableCollateralRequest): Promise<bc.GetSpendableCollateralResponse.AsObject | Error>;
     getUnlockTakerTxParams(request: bc.GetUnlockTakerTxParamsRequest): Promise<bc.GetUnlockTakerTxParamsResponse.AsObject>;
-    getOpenOrders(): Promise<bc.GetOpenOrdersResponse.AsObject>;
+    getOpenOrders(request: bc.GetBalanceRequest): Promise<bc.GetOpenOrdersResponse.AsObject>;
     sendTx(request: core.Transaction): Promise<bc.RpcTransactionResponse.AsObject | Error>;
     getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject>;
     getBlake2Bl(request: bc.GetBlake2blRequest): Promise<bc.GetBlake2blResponse.AsObject | Error>;
