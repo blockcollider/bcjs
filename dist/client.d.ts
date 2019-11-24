@@ -24,6 +24,8 @@ export default class RpcClient {
     sendTx(request: core.Transaction): Promise<bc.RpcTransactionResponse.AsObject | Error>;
     getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject>;
     getBlake2Bl(request: bc.GetBlake2blRequest): Promise<bc.GetBlake2blResponse.AsObject | Error>;
+    getTradeStatus(request: bc.GetOutPointRequest): Promise<bc.GetTradeStatusResponse.AsObject | Error>;
+    getOutpointStatus(request: bc.GetOutPointRequest): Promise<bc.GetOutPointStatusResponse.AsObject | Error>;
     getBcAddressViaVanity(request: bc.VanityConvertRequest): Promise<bc.VanityConvertResponse.AsObject | Error>;
     private makeJsonRpcRequest;
 }

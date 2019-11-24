@@ -28,6 +28,8 @@ var BcRpcMethod;
     BcRpcMethod["GetOpenOrders"] = "getOpenOrders";
     BcRpcMethod["GetMatchedOrders"] = "getMatchedOrders";
     BcRpcMethod["GetBlake2bl"] = "getBlake2bl";
+    BcRpcMethod["GetTradeStatus"] = "getTradeStatus";
+    BcRpcMethod["GetOutpointStatus"] = "getOutpointStatus";
     BcRpcMethod["GetBcAddressViaVanity"] = "getBcAddressViaVanity";
     BcRpcMethod["GetLatestBlock"] = "getLatestBlock";
     BcRpcMethod["GetLatestRoveredBlocks"] = "getLatestRoveredBlocks";
@@ -181,6 +183,18 @@ class RpcClient {
     getBlake2Bl(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetBlake2bl, request.toArray());
+            return result;
+        });
+    }
+    getTradeStatus(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetTradeStatus, request.toArray());
+            return result;
+        });
+    }
+    getOutpointStatus(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOutpointStatus, request.toArray());
             return result;
         });
     }
