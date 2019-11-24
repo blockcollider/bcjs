@@ -14,6 +14,8 @@ type BcRpcResponse =
     core.WalletData.AsObject |
     bc.GetBalanceResponse.AsObject |
     bc.GetBlake2blResponse.AsObject |
+    bc.GetTradeStatusResponse.AsObject |
+    bc.GetOutPointStatusResponse.AsObject |
     bc.GetBlocksResponse.AsObject |
     bc.GetMatchedOrdersResponse.AsObject |
     bc.GetRoveredBlocksResponse.AsObject |
@@ -47,6 +49,8 @@ enum BcRpcMethod {
     GetOpenOrders = 'getOpenOrders',
     GetMatchedOrders  = 'getMatchedOrders',
     GetBlake2bl  = 'getBlake2bl',
+    GetTradeStatus  = 'getTradeStatus',
+    GetOutpointStatus  = 'getOutpointStatus',
     GetBcAddressViaVanity  = 'getBcAddressViaVanity',
 
     GetLatestBlock = 'getLatestBlock',
@@ -215,6 +219,16 @@ export default class RpcClient {
     public async getBlake2Bl (request: bc.GetBlake2blRequest): Promise<bc.GetBlake2blResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlake2bl, request.toArray())
         return result as bc.GetBlake2blResponse.AsObject
+    }
+
+    public async getTradeStatus (request: bc.GetOutPointRequest): Promise<bc.GetTradeStatusResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetTradeStatus, request.toArray())
+        return result as bc.GetTradeStatusResponse.AsObject
+    }
+
+    public async getOutpointStatus (request: bc.GetOutPointRequest): Promise<bc.GetOutPointStatusResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOutpointStatus, request.toArray())
+        return result as bc.GetOutPointStatusResponse.AsObject
     }
 
     public async getBcAddressViaVanity (request: bc.VanityConvertRequest): Promise<bc.VanityConvertResponse.AsObject|Error> {
