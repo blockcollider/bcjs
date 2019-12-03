@@ -49,6 +49,14 @@ message TransferResponse {
     repeated Transfer transfers = 1;
 }
 
+message GetUtxoLengthRequest{
+    string script_type = 1;
+}
+
+message GetUtxoLengthResponse{
+    uint32 length = 1;
+}
+
 message GetSpendableCollateralRequest {
     string address = 1;
 }
@@ -128,10 +136,6 @@ message GetOrderbookUpdateResponse {
     repeated MakerOrderInfo open_orders_to_add = 3;
     repeated MatchedOrderInfo matched_orders_to_add = 4;
     repeated MatchedOrderInfo historical_orders_to_add = 5;
-}
-
-message GetMatchedOrdersRequest {
-    bool only_settled = 1;
 }
 
 message GetMatchedOrdersResponse {
@@ -220,7 +224,7 @@ message GetOutPointRequest {
 }
 
 message GetTradeStatusResponse {
-    bool sent = 1;
+    uint32 status = 1;
 }
 
 message GetOutPointStatusResponse {
@@ -244,6 +248,7 @@ service Bc {
 
     rpc GetTradeStatus(GetOutPointRequest) returns (GetTradeStatusResponse) {}
     rpc GetOutpointStatus(GetOutPointRequest) returns (GetOutPointStatusResponse) {}
+    rpc GetTxClaimedBy(GetOutPointRequest) returns (Transaction) {}
 
     rpc GetRawMempool(Null) returns (GetRawMempoolResponse) {}
     rpc GetBlockByTx(GetTxRequest) returns (BcBlock) {}
@@ -258,15 +263,19 @@ service Bc {
     rpc GetWallet (GetBalanceRequest) returns (WalletData) {}
     rpc GetSpendableOutpoints(GetBalanceRequest) returns (WalletData) {}
     rpc GetSpendableCollateral (GetSpendableCollateralRequest) returns (GetSpendableCollateralResponse) {}
-
     rpc GetUnlockTakerTxParams (GetUnlockTakerTxParamsRequest) returns (GetUnlockTakerTxParamsResponse) {}
+
 
     rpc GetTransfers (TransferRequest) returns (TransferResponse) {}
 
-    rpc GetOpenOrders (Null) returns (GetOpenOrdersResponse) {}
+    rpc GetOpenOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
+    rpc GetMatchedOrders (GetBalanceRequest) returns (GetMatchedOrdersResponse) {}
     rpc GetUnmatchedOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
-    rpc GetMatchedOrders (GetMatchedOrdersRequest) returns (GetMatchedOrdersResponse) {}
+
     rpc GetOrderbookUpdate (Null) returns (GetOrderbookUpdateResponse) {}
+
+    rpc GetUtxoLength (GetUtxoLengthRequest) returns (GetUtxoLengthResponse) {}
+    rpc GetStxoLength (GetUtxoLengthRequest) returns (GetUtxoLengthResponse) {}
 
     rpc GetBlake2bl (GetBlake2blRequest) returns (GetBlake2blResponse) {}
     rpc GetBcAddressViaVanity (VanityConvertRequest) returns (VanityConvertResponse) {}

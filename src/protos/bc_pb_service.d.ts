@@ -113,6 +113,15 @@ type BcGetOutpointStatus = {
   readonly responseType: typeof bc_pb.GetOutPointStatusResponse;
 };
 
+type BcGetTxClaimedBy = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetOutPointRequest;
+  readonly responseType: typeof core_pb.Transaction;
+};
+
 type BcGetRawMempool = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -235,8 +244,17 @@ type BcGetOpenOrders = {
   readonly service: typeof Bc;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof core_pb.Null;
+  readonly requestType: typeof bc_pb.GetBalanceRequest;
   readonly responseType: typeof bc_pb.GetOpenOrdersResponse;
+};
+
+type BcGetMatchedOrders = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly responseType: typeof bc_pb.GetMatchedOrdersResponse;
 };
 
 type BcGetUnmatchedOrders = {
@@ -248,15 +266,6 @@ type BcGetUnmatchedOrders = {
   readonly responseType: typeof bc_pb.GetOpenOrdersResponse;
 };
 
-type BcGetMatchedOrders = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof bc_pb.GetMatchedOrdersRequest;
-  readonly responseType: typeof bc_pb.GetMatchedOrdersResponse;
-};
-
 type BcGetOrderbookUpdate = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -264,6 +273,24 @@ type BcGetOrderbookUpdate = {
   readonly responseStream: false;
   readonly requestType: typeof core_pb.Null;
   readonly responseType: typeof bc_pb.GetOrderbookUpdateResponse;
+};
+
+type BcGetUtxoLength = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetUtxoLengthRequest;
+  readonly responseType: typeof bc_pb.GetUtxoLengthResponse;
+};
+
+type BcGetStxoLength = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetUtxoLengthRequest;
+  readonly responseType: typeof bc_pb.GetUtxoLengthResponse;
 };
 
 type BcGetBlake2bl = {
@@ -298,6 +325,7 @@ export class Bc {
   static readonly GetMarkedTx: BcGetMarkedTx;
   static readonly GetTradeStatus: BcGetTradeStatus;
   static readonly GetOutpointStatus: BcGetOutpointStatus;
+  static readonly GetTxClaimedBy: BcGetTxClaimedBy;
   static readonly GetRawMempool: BcGetRawMempool;
   static readonly GetBlockByTx: BcGetBlockByTx;
   static readonly GetRoveredBlockForMarkedTx: BcGetRoveredBlockForMarkedTx;
@@ -312,9 +340,11 @@ export class Bc {
   static readonly GetUnlockTakerTxParams: BcGetUnlockTakerTxParams;
   static readonly GetTransfers: BcGetTransfers;
   static readonly GetOpenOrders: BcGetOpenOrders;
-  static readonly GetUnmatchedOrders: BcGetUnmatchedOrders;
   static readonly GetMatchedOrders: BcGetMatchedOrders;
+  static readonly GetUnmatchedOrders: BcGetUnmatchedOrders;
   static readonly GetOrderbookUpdate: BcGetOrderbookUpdate;
+  static readonly GetUtxoLength: BcGetUtxoLength;
+  static readonly GetStxoLength: BcGetStxoLength;
   static readonly GetBlake2bl: BcGetBlake2bl;
   static readonly GetBcAddressViaVanity: BcGetBcAddressViaVanity;
 }
@@ -459,6 +489,15 @@ export class BcClient {
     requestMessage: bc_pb.GetOutPointRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOutPointStatusResponse|null) => void
   ): UnaryResponse;
+  getTxClaimedBy(
+    requestMessage: bc_pb.GetOutPointRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: core_pb.Transaction|null) => void
+  ): UnaryResponse;
+  getTxClaimedBy(
+    requestMessage: bc_pb.GetOutPointRequest,
+    callback: (error: ServiceError|null, responseMessage: core_pb.Transaction|null) => void
+  ): UnaryResponse;
   getRawMempool(
     requestMessage: core_pb.Null,
     metadata: grpc.Metadata,
@@ -577,13 +616,22 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: bc_pb.TransferResponse|null) => void
   ): UnaryResponse;
   getOpenOrders(
-    requestMessage: core_pb.Null,
+    requestMessage: bc_pb.GetBalanceRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
   getOpenOrders(
-    requestMessage: core_pb.Null,
+    requestMessage: bc_pb.GetBalanceRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
+  ): UnaryResponse;
+  getMatchedOrders(
+    requestMessage: bc_pb.GetBalanceRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
+  ): UnaryResponse;
+  getMatchedOrders(
+    requestMessage: bc_pb.GetBalanceRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getUnmatchedOrders(
     requestMessage: bc_pb.GetBalanceRequest,
@@ -594,15 +642,6 @@ export class BcClient {
     requestMessage: bc_pb.GetBalanceRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
-  getMatchedOrders(
-    requestMessage: bc_pb.GetMatchedOrdersRequest,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
-  ): UnaryResponse;
-  getMatchedOrders(
-    requestMessage: bc_pb.GetMatchedOrdersRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
-  ): UnaryResponse;
   getOrderbookUpdate(
     requestMessage: core_pb.Null,
     metadata: grpc.Metadata,
@@ -611,6 +650,24 @@ export class BcClient {
   getOrderbookUpdate(
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOrderbookUpdateResponse|null) => void
+  ): UnaryResponse;
+  getUtxoLength(
+    requestMessage: bc_pb.GetUtxoLengthRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUtxoLengthResponse|null) => void
+  ): UnaryResponse;
+  getUtxoLength(
+    requestMessage: bc_pb.GetUtxoLengthRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUtxoLengthResponse|null) => void
+  ): UnaryResponse;
+  getStxoLength(
+    requestMessage: bc_pb.GetUtxoLengthRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUtxoLengthResponse|null) => void
+  ): UnaryResponse;
+  getStxoLength(
+    requestMessage: bc_pb.GetUtxoLengthRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetUtxoLengthResponse|null) => void
   ): UnaryResponse;
   getBlake2bl(
     requestMessage: bc_pb.GetBlake2blRequest,
