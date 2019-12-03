@@ -49,6 +49,7 @@ enum BcRpcMethod {
     GetOpenOrders = 'getOpenOrders',
     GetMatchedOrders  = 'getMatchedOrders',
     GetBlake2bl  = 'getBlake2bl',
+    GetTxClaimedBy = 'getTxClaimedBy',
     GetTradeStatus  = 'getTradeStatus',
     GetOutpointStatus  = 'getOutpointStatus',
     GetBcAddressViaVanity  = 'getBcAddressViaVanity',
@@ -211,7 +212,7 @@ export default class RpcClient {
         return result as bc.RpcTransactionResponse.AsObject
     }
 
-    public async getMatchedOrders (request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject> {
+    public async getMatchedOrders (request: bc.GetBalanceRequest): Promise<bc.GetMatchedOrdersResponse.AsObject> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, Buffer.from(request.serializeBinary()))
         return result as bc.GetMatchedOrdersResponse.AsObject
     }
@@ -219,6 +220,11 @@ export default class RpcClient {
     public async getBlake2Bl (request: bc.GetBlake2blRequest): Promise<bc.GetBlake2blResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBlake2bl, request.toArray())
         return result as bc.GetBlake2blResponse.AsObject
+    }
+
+    public async getTxClaimedBy (request: bc.GetOutPointRequest): Promise<core.Transaction.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetTxClaimedBy, request.toArray())
+        return result as core.Transaction.AsObject
     }
 
     public async getTradeStatus (request: bc.GetOutPointRequest): Promise<bc.GetTradeStatusResponse.AsObject|Error> {
