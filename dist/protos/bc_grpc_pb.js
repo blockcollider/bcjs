@@ -126,17 +126,6 @@ function deserialize_bcsdk_GetMarkedTxRequest(buffer_arg) {
   return bc_pb.GetMarkedTxRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_bcsdk_GetMatchedOrdersRequest(arg) {
-  if (!(arg instanceof bc_pb.GetMatchedOrdersRequest)) {
-    throw new Error('Expected argument of type bcsdk.GetMatchedOrdersRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_GetMatchedOrdersRequest(buffer_arg) {
-  return bc_pb.GetMatchedOrdersRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_bcsdk_GetMatchedOrdersResponse(arg) {
   if (!(arg instanceof bc_pb.GetMatchedOrdersResponse)) {
     throw new Error('Expected argument of type bcsdk.GetMatchedOrdersResponse');
@@ -311,6 +300,28 @@ function serialize_bcsdk_GetUnlockTakerTxParamsResponse(arg) {
 
 function deserialize_bcsdk_GetUnlockTakerTxParamsResponse(buffer_arg) {
   return bc_pb.GetUnlockTakerTxParamsResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bcsdk_GetUtxoLengthRequest(arg) {
+  if (!(arg instanceof bc_pb.GetUtxoLengthRequest)) {
+    throw new Error('Expected argument of type bcsdk.GetUtxoLengthRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_GetUtxoLengthRequest(buffer_arg) {
+  return bc_pb.GetUtxoLengthRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bcsdk_GetUtxoLengthResponse(arg) {
+  if (!(arg instanceof bc_pb.GetUtxoLengthResponse)) {
+    throw new Error('Expected argument of type bcsdk.GetUtxoLengthResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_GetUtxoLengthResponse(buffer_arg) {
+  return bc_pb.GetUtxoLengthResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bcsdk_HelpResponse(arg) {
@@ -579,6 +590,17 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_GetOutPointStatusResponse,
     responseDeserialize: deserialize_bcsdk_GetOutPointStatusResponse,
   },
+  getTxClaimedBy: {
+    path: '/bcsdk.Bc/GetTxClaimedBy',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetOutPointRequest,
+    responseType: core_pb.Transaction,
+    requestSerialize: serialize_bcsdk_GetOutPointRequest,
+    requestDeserialize: deserialize_bcsdk_GetOutPointRequest,
+    responseSerialize: serialize_bcsdk_Transaction,
+    responseDeserialize: deserialize_bcsdk_Transaction,
+  },
   getRawMempool: {
     path: '/bcsdk.Bc/GetRawMempool',
     requestStream: false,
@@ -726,12 +748,23 @@ var BcService = exports.BcService = {
     path: '/bcsdk.Bc/GetOpenOrders',
     requestStream: false,
     responseStream: false,
-    requestType: core_pb.Null,
+    requestType: bc_pb.GetBalanceRequest,
     responseType: bc_pb.GetOpenOrdersResponse,
-    requestSerialize: serialize_bcsdk_Null,
-    requestDeserialize: deserialize_bcsdk_Null,
+    requestSerialize: serialize_bcsdk_GetBalanceRequest,
+    requestDeserialize: deserialize_bcsdk_GetBalanceRequest,
     responseSerialize: serialize_bcsdk_GetOpenOrdersResponse,
     responseDeserialize: deserialize_bcsdk_GetOpenOrdersResponse,
+  },
+  getMatchedOrders: {
+    path: '/bcsdk.Bc/GetMatchedOrders',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBalanceRequest,
+    responseType: bc_pb.GetMatchedOrdersResponse,
+    requestSerialize: serialize_bcsdk_GetBalanceRequest,
+    requestDeserialize: deserialize_bcsdk_GetBalanceRequest,
+    responseSerialize: serialize_bcsdk_GetMatchedOrdersResponse,
+    responseDeserialize: deserialize_bcsdk_GetMatchedOrdersResponse,
   },
   getUnmatchedOrders: {
     path: '/bcsdk.Bc/GetUnmatchedOrders',
@@ -744,17 +777,6 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_GetOpenOrdersResponse,
     responseDeserialize: deserialize_bcsdk_GetOpenOrdersResponse,
   },
-  getMatchedOrders: {
-    path: '/bcsdk.Bc/GetMatchedOrders',
-    requestStream: false,
-    responseStream: false,
-    requestType: bc_pb.GetMatchedOrdersRequest,
-    responseType: bc_pb.GetMatchedOrdersResponse,
-    requestSerialize: serialize_bcsdk_GetMatchedOrdersRequest,
-    requestDeserialize: deserialize_bcsdk_GetMatchedOrdersRequest,
-    responseSerialize: serialize_bcsdk_GetMatchedOrdersResponse,
-    responseDeserialize: deserialize_bcsdk_GetMatchedOrdersResponse,
-  },
   getOrderbookUpdate: {
     path: '/bcsdk.Bc/GetOrderbookUpdate',
     requestStream: false,
@@ -765,6 +787,28 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bcsdk_Null,
     responseSerialize: serialize_bcsdk_GetOrderbookUpdateResponse,
     responseDeserialize: deserialize_bcsdk_GetOrderbookUpdateResponse,
+  },
+  getUtxoLength: {
+    path: '/bcsdk.Bc/GetUtxoLength',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetUtxoLengthRequest,
+    responseType: bc_pb.GetUtxoLengthResponse,
+    requestSerialize: serialize_bcsdk_GetUtxoLengthRequest,
+    requestDeserialize: deserialize_bcsdk_GetUtxoLengthRequest,
+    responseSerialize: serialize_bcsdk_GetUtxoLengthResponse,
+    responseDeserialize: deserialize_bcsdk_GetUtxoLengthResponse,
+  },
+  getStxoLength: {
+    path: '/bcsdk.Bc/GetStxoLength',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetUtxoLengthRequest,
+    responseType: bc_pb.GetUtxoLengthResponse,
+    requestSerialize: serialize_bcsdk_GetUtxoLengthRequest,
+    requestDeserialize: deserialize_bcsdk_GetUtxoLengthRequest,
+    responseSerialize: serialize_bcsdk_GetUtxoLengthResponse,
+    responseDeserialize: deserialize_bcsdk_GetUtxoLengthResponse,
   },
   getBlake2bl: {
     path: '/bcsdk.Bc/GetBlake2bl',

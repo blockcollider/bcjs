@@ -119,6 +119,15 @@ Bc.GetOutpointStatus = {
   responseType: bc_pb.GetOutPointStatusResponse
 };
 
+Bc.GetTxClaimedBy = {
+  methodName: "GetTxClaimedBy",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetOutPointRequest,
+  responseType: core_pb.Transaction
+};
+
 Bc.GetRawMempool = {
   methodName: "GetRawMempool",
   service: Bc,
@@ -241,8 +250,17 @@ Bc.GetOpenOrders = {
   service: Bc,
   requestStream: false,
   responseStream: false,
-  requestType: core_pb.Null,
+  requestType: bc_pb.GetBalanceRequest,
   responseType: bc_pb.GetOpenOrdersResponse
+};
+
+Bc.GetMatchedOrders = {
+  methodName: "GetMatchedOrders",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetBalanceRequest,
+  responseType: bc_pb.GetMatchedOrdersResponse
 };
 
 Bc.GetUnmatchedOrders = {
@@ -254,15 +272,6 @@ Bc.GetUnmatchedOrders = {
   responseType: bc_pb.GetOpenOrdersResponse
 };
 
-Bc.GetMatchedOrders = {
-  methodName: "GetMatchedOrders",
-  service: Bc,
-  requestStream: false,
-  responseStream: false,
-  requestType: bc_pb.GetMatchedOrdersRequest,
-  responseType: bc_pb.GetMatchedOrdersResponse
-};
-
 Bc.GetOrderbookUpdate = {
   methodName: "GetOrderbookUpdate",
   service: Bc,
@@ -270,6 +279,24 @@ Bc.GetOrderbookUpdate = {
   responseStream: false,
   requestType: core_pb.Null,
   responseType: bc_pb.GetOrderbookUpdateResponse
+};
+
+Bc.GetUtxoLength = {
+  methodName: "GetUtxoLength",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetUtxoLengthRequest,
+  responseType: bc_pb.GetUtxoLengthResponse
+};
+
+Bc.GetStxoLength = {
+  methodName: "GetStxoLength",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetUtxoLengthRequest,
+  responseType: bc_pb.GetUtxoLengthResponse
 };
 
 Bc.GetBlake2bl = {
@@ -643,6 +670,37 @@ BcClient.prototype.getOutpointStatus = function getOutpointStatus(requestMessage
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetOutpointStatus, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getTxClaimedBy = function getTxClaimedBy(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetTxClaimedBy, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -1103,37 +1161,6 @@ BcClient.prototype.getOpenOrders = function getOpenOrders(requestMessage, metada
   };
 };
 
-BcClient.prototype.getUnmatchedOrders = function getUnmatchedOrders(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Bc.GetUnmatchedOrders, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
 BcClient.prototype.getMatchedOrders = function getMatchedOrders(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
@@ -1165,11 +1192,104 @@ BcClient.prototype.getMatchedOrders = function getMatchedOrders(requestMessage, 
   };
 };
 
+BcClient.prototype.getUnmatchedOrders = function getUnmatchedOrders(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetUnmatchedOrders, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
 BcClient.prototype.getOrderbookUpdate = function getOrderbookUpdate(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetOrderbookUpdate, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getUtxoLength = function getUtxoLength(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetUtxoLength, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getStxoLength = function getStxoLength(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetStxoLength, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

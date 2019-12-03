@@ -194,6 +194,46 @@ export namespace TransferResponse {
   }
 }
 
+export class GetUtxoLengthRequest extends jspb.Message {
+  getScriptType(): string;
+  setScriptType(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetUtxoLengthRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetUtxoLengthRequest): GetUtxoLengthRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetUtxoLengthRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetUtxoLengthRequest;
+  static deserializeBinaryFromReader(message: GetUtxoLengthRequest, reader: jspb.BinaryReader): GetUtxoLengthRequest;
+}
+
+export namespace GetUtxoLengthRequest {
+  export type AsObject = {
+    scriptType: string,
+  }
+}
+
+export class GetUtxoLengthResponse extends jspb.Message {
+  getLength(): number;
+  setLength(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetUtxoLengthResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetUtxoLengthResponse): GetUtxoLengthResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetUtxoLengthResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetUtxoLengthResponse;
+  static deserializeBinaryFromReader(message: GetUtxoLengthResponse, reader: jspb.BinaryReader): GetUtxoLengthResponse;
+}
+
+export namespace GetUtxoLengthResponse {
+  export type AsObject = {
+    length: number,
+  }
+}
+
 export class GetSpendableCollateralRequest extends jspb.Message {
   getAddress(): string;
   setAddress(value: string): void;
@@ -581,26 +621,6 @@ export namespace GetOrderbookUpdateResponse {
     openOrdersToAddList: Array<MakerOrderInfo.AsObject>,
     matchedOrdersToAddList: Array<MatchedOrderInfo.AsObject>,
     historicalOrdersToAddList: Array<MatchedOrderInfo.AsObject>,
-  }
-}
-
-export class GetMatchedOrdersRequest extends jspb.Message {
-  getOnlySettled(): boolean;
-  setOnlySettled(value: boolean): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetMatchedOrdersRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: GetMatchedOrdersRequest): GetMatchedOrdersRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetMatchedOrdersRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetMatchedOrdersRequest;
-  static deserializeBinaryFromReader(message: GetMatchedOrdersRequest, reader: jspb.BinaryReader): GetMatchedOrdersRequest;
-}
-
-export namespace GetMatchedOrdersRequest {
-  export type AsObject = {
-    onlySettled: boolean,
   }
 }
 
@@ -1025,8 +1045,8 @@ export namespace GetOutPointRequest {
 }
 
 export class GetTradeStatusResponse extends jspb.Message {
-  getSent(): boolean;
-  setSent(value: boolean): void;
+  getStatus(): number;
+  setStatus(value: number): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetTradeStatusResponse.AsObject;
@@ -1040,7 +1060,7 @@ export class GetTradeStatusResponse extends jspb.Message {
 
 export namespace GetTradeStatusResponse {
   export type AsObject = {
-    sent: boolean,
+    status: number,
   }
 }
 

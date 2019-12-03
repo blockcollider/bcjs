@@ -22,8 +22,9 @@ export default class RpcClient {
     getUnlockTakerTxParams(request: bc.GetUnlockTakerTxParamsRequest): Promise<bc.GetUnlockTakerTxParamsResponse.AsObject>;
     getOpenOrders(request: bc.GetBalanceRequest): Promise<bc.GetOpenOrdersResponse.AsObject>;
     sendTx(request: core.Transaction): Promise<bc.RpcTransactionResponse.AsObject | Error>;
-    getMatchedOrders(request: bc.GetMatchedOrdersRequest): Promise<bc.GetMatchedOrdersResponse.AsObject>;
+    getMatchedOrders(request: bc.GetBalanceRequest): Promise<bc.GetMatchedOrdersResponse.AsObject>;
     getBlake2Bl(request: bc.GetBlake2blRequest): Promise<bc.GetBlake2blResponse.AsObject | Error>;
+    getTxClaimedBy(request: bc.GetOutPointRequest): Promise<core.Transaction.AsObject | Error>;
     getTradeStatus(request: bc.GetOutPointRequest): Promise<bc.GetTradeStatusResponse.AsObject | Error>;
     getOutpointStatus(request: bc.GetOutPointRequest): Promise<bc.GetOutPointStatusResponse.AsObject | Error>;
     getBcAddressViaVanity(request: bc.VanityConvertRequest): Promise<bc.VanityConvertResponse.AsObject | Error>;
