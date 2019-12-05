@@ -12,7 +12,7 @@ const web3_1 = require("./web3");
 exports.transferEMB = function (privateKey, from, amount, to) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let data = web3_1.EMB.methods.transfer(to, amount).encodeABI();
+            let data = web3_1.EMB.methods.transfer(to, web3_1.web3.utils.toHex(Math.floor(Math.pow(10, 8) * (parseFloat(amount))))).encodeABI();
             web3_1.submitTransaction({ to: web3_1.EMB._address, from, value: web3_1.web3.utils.toHex(0), data, privateKey }, (err, hash) => {
                 if (hash)
                     return hash;
