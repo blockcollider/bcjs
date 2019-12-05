@@ -84,7 +84,7 @@ export const createMultiNRGTransferTransaction = function(
   if (privateKeyHex.startsWith('0x')) {
     privateKeyHex = privateKeyHex.slice(2)
   }
-  let txOutputs: coreProtobuf.TransactionOutput[] = [] = [];
+  let txOutputs: coreProtobuf.TransactionOutput[] = [];
   for(let i = 0; i < toAddress.length; i++){
     txOutputs.push(createTransactionOutput(createNRGLockScript(toAddress[i]), unitBN, humanToInternalAsBN(transferAmountNRG[i], COIN_FRACS.NRG)))
   }

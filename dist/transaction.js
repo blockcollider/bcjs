@@ -67,7 +67,7 @@ exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObj
     if (privateKeyHex.startsWith('0x')) {
         privateKeyHex = privateKeyHex.slice(2);
     }
-    let txOutputs = [] = [];
+    let txOutputs = [];
     for (let i = 0; i < toAddress.length; i++) {
         txOutputs.push(protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(toAddress[i]), unitBN, coin_1.humanToInternalAsBN(transferAmountNRG[i], coin_1.COIN_FRACS.NRG)));
     }
