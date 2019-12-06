@@ -3,6 +3,7 @@
     "noImplicitAny": false,
     "module": "commonjs",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "target": "es2016",
     "declaration": true,
     "moduleResolution": "node",
@@ -14,9 +15,11 @@
   },
   "lib": ["es2015"],
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/**/**/*.json",
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "__tests__"
   ],
 }
