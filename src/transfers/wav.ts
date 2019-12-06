@@ -2,7 +2,7 @@ const WavesAPI = require('@waves/waves-api');
 const { transfer,broadcast } = require('@waves/waves-transactions')
 const Waves = WavesAPI.create(WavesAPI.MAINNET_CONFIG);
 
-export function payWAV(privateKey, from, to, amount){
+export async function payWAV(privateKey, from, to, amount){
   privateKey = Waves.Seed.fromExistingPhrase(privateKey);
   let signed = transfer({
       recipient: to,

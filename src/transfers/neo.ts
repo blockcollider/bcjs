@@ -1,6 +1,6 @@
 import Neon, { wallet as NeonWallet, api as NeonAPI} from "@cityofzion/neon-js";
 
-export function payNEO(privateKey, from, to, amount){
+export async function payNEO(privateKey, from, to, amount){
   try {
     const config = {
       api: new NeonAPI.neoscan.instance('MainNet'),
