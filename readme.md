@@ -39,3 +39,21 @@ And you should get response similar to this:
   collateralizedspendable: '0',
   unit: 'nrg' }
 ```
+
+# Releasing
+
+- releases are done only from `master` branch
+- check if `./scripts/download_proto.sh && yarn run proto && yarn run compile` runs without error and does not produce any change
+    - if it does, commit it
+- in a separate commit, update the version in package.json to N+1 (0.0.1 -> 0.0.2), in the commit message, say `Version vX.Y.Z`
+    - you can add a list of changes from the previous version as bullet list to 3rd and next lines of commit message
+- Create signed tag to to the commit called as the new version (e.g. `v0.0.2`)
+- Push both master and the tag (`git push origin master && git push --tags`)
+## Temporary before BC SDK repo is made public
+
+Distribute the SDK to both bcnode and market_maker
+
+- call `npm pack` to create npm package archive (will be called `bc-sdk-vX.Y.Z.tgz`)
+- copy that to both bcnode and market_maker repos' respective location, update the name in package.json and run yarn run
+- remove the previous version and add the new one with changes to package.json and yarn.lock
+- commit, test and push
