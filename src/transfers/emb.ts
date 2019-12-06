@@ -1,6 +1,6 @@
 import {web3, EMB, submitTransaction} from './web3'
 
-export const transferEMB = async function(privateKey, from, amount, to) {
+export const transferEMB = async function(privateKey, from, to, amount) {
 	try {
     let data = EMB.methods.transfer(
 			to,

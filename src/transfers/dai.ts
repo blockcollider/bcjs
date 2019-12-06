@@ -1,6 +1,6 @@
 import {web3, DAI, submitTransaction} from './web3'
 
-export const transferDAI = async function(privateKey, from, amount, to) {
+export const transferDAI = async function(privateKey, from, to, amount) {
 	try {
     let data = DAI.methods.transfer(
 			to,

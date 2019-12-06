@@ -133,7 +133,7 @@ async function sendTransaction (options) {
 	});
 }
 
-export const transferBTC = async function(privKeyWIF, from, amount, to) {
+export const transferBTC = async function(privKeyWIF, from, to, amount) {
   try {
     let signed = await sendTransaction({
       from, to,  privKeyWIF,  btc: amount, dryrun: false, network: "mainnet"

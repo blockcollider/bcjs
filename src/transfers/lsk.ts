@@ -2,7 +2,7 @@ const lisk = require('lisk-elements');
 var cryptography = require('@liskhq/lisk-cryptography');
 const client = lisk.APIClient.createMainnetAPIClient();
 
-function payLSK(privateKey, from, to, amount){
+export function payLSK(privateKey, from, to, amount){
   try {
     const transaction = lisk.transaction.transfer({
       amount: (amount*Math.pow(10,8)).toString(),
@@ -20,3 +20,4 @@ function payLSK(privateKey, from, to, amount){
     return err
   };
 }
+

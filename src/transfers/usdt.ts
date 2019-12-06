@@ -1,6 +1,6 @@
 import {web3, USDT, submitTransaction} from './web3'
 
-export const transferUSDT = async function(privateKey, from, amount, to) {
+export const transferUSDT = async function(privateKey, from, to, amount) {
 	try {
     let data = USDT.methods.transfer(
 			to,
