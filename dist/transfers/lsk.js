@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const lisk = require('lisk-elements');
 var cryptography = require('@liskhq/lisk-cryptography');
 const client = lisk.APIClient.createMainnetAPIClient();
@@ -20,4 +21,5 @@ function payLSK(privateKey, from, to, amount) {
     }
     ;
 }
+exports.payLSK = payLSK;
 //# sourceMappingURL=lsk.js.map

@@ -156,7 +156,7 @@ function sendTransaction(options) {
         });
     });
 }
-exports.transferBTC = function (privKeyWIF, from, amount, to) {
+exports.transferBTC = function (privKeyWIF, from, to, amount) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let signed = yield sendTransaction({

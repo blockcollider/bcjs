@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const web3_1 = require("./web3");
-exports.transferDAI = function (privateKey, from, amount, to) {
+exports.transferDAI = function (privateKey, from, to, amount) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let data = web3_1.DAI.methods.transfer(to, web3_1.web3.utils.toHex(Math.floor(Math.pow(10, 18) * (parseFloat(amount))))).encodeABI();
