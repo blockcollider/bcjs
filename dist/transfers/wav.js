@@ -7,23 +7,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const WavesAPI = require('@waves/waves-api');
-const { transfer, broadcast } = require('@waves/waves-transactions');
-const Waves = WavesAPI.create(WavesAPI.MAINNET_CONFIG);
-function payWAV(privateKey, from, to, amount) {
-    return __awaiter(this, void 0, void 0, function* () {
-        privateKey = Waves.Seed.fromExistingPhrase(privateKey);
-        let signed = transfer({
-            recipient: to,
-            amount: amount * Math.pow(10, 8),
-            fee: 100000,
-        }, privateKey.phrase);
-        let nodeUrl = 'https://nodes.wavesplatform.com';
-        broadcast(signed, nodeUrl).then((resp) => {
-            return resp;
-        });
-    });
-}
-exports.payWAV = payWAV;
+const waves_api_1 = __importDefault(require("@waves/waves-api"));
+const waves_transactions_1 = require("@waves/waves-transactions");
+const Waves = waves_api_1.default.create(waves_api_1.default.MAINNET_CONFIG);
+exports.payWAV = (privateKey, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
+    privateKey = Waves.Seed.fromExistingPhrase(privateKey);
+    const signed = waves_transactions_1.transfer({
+        amount: amount * Math.pow(10, 8),
+        fee: 100000,
+        recipient: to,
+    }, privateKey.phrase);
+    const nodeUrl = 'https://nodes.wavesplatform.com';
+    return yield waves_transactions_1.broadcast(signed, nodeUrl);
+});
 //# sourceMappingURL=wav.js.map

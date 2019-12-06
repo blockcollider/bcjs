@@ -16,25 +16,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const neon_js_1 = __importStar(require("@cityofzion/neon-js"));
-function payNEO(privateKey, from, to, amount) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const config = {
-                api: new neon_js_1.api.neoscan.instance('MainNet'),
-                account: privateKey,
-                intents: neon_js_1.api.makeIntent({ NEO: amount }, to)
-            };
-            neon_js_1.default.sendAsset(config).then(config => {
-                return config;
-            })
-                .catch(config => {
-                return config;
-            });
-        }
-        catch (err) {
-            return err;
-        }
-    });
-}
-exports.payNEO = payNEO;
+exports.payNEO = (privateKey, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        const config = {
+            account: privateKey,
+            api: new neon_js_1.api.neoscan.instance('MainNet'),
+            intents: neon_js_1.api.makeIntent({ NEO: amount }, to),
+        };
+        return yield neon_js_1.default.sendAsset(config);
+    }
+    catch (err) {
+        return err;
+    }
+});
 //# sourceMappingURL=neo.js.map

@@ -17,53 +17,68 @@ var providers = {
     fees: {
         mainnet: {
             earn: function (feeName) {
-                return request.get('https://bitcoinfees.earn.com/api/v1/fees/recommended').send().then(function (res) {
-                    return res.body[feeName + "Fee"];
+                return request
+                    .get('https://bitcoinfees.earn.com/api/v1/fees/recommended')
+                    .send()
+                    .then(function (res) {
+                    return res.body[feeName + 'Fee'];
                 });
-            }
-        }
+            },
+        },
     },
     utxo: {
         mainnet: {
             blockexplorer: function (addr) {
-                return axios.get('https://blockexplorer.com/api/addr/' + addr + '/utxo?noCache=1', { params: { cors: true } }).then(function (res) {
+                return axios
+                    .get('https://blockexplorer.com/api/addr/' + addr + '/utxo?noCache=1', { params: { cors: true } })
+                    .then(function (res) {
                     return res.body.map(function (e) {
                         return {
                             txid: e.txid,
                             vout: e.vout,
                             satoshis: e.satoshis,
-                            confirmations: e.confirmations
+                            confirmations: e.confirmations,
                         };
                     });
                 });
             },
             blockchain: function (addr) {
-                return axios.get('https://blockchain.info/unspent?active=' + addr, { params: { cors: true } }).then(function (res) {
+                return axios
+                    .get('https://blockchain.info/unspent?active=' + addr, {
+                    params: { cors: true },
+                })
+                    .then(function (res) {
                     return res.data.unspent_outputs.map(function (e) {
                         return {
                             txid: e.tx_hash_big_endian,
                             vout: e.tx_output_n,
                             satoshis: e.value,
-                            confirmations: e.confirmations
+                            confirmations: e.confirmations,
                         };
                     });
                 });
-            }
-        }
+            },
+        },
     },
     pushtx: {
         mainnet: {
             blockexplorer: function (hexTrans) {
-                return request.post('https://blockexplorer.com/api/tx/send').send('rawtx=' + hexTrans);
+                return request
+                    .post('https://blockexplorer.com/api/tx/send')
+                    .send('rawtx=' + hexTrans);
             },
             blockchain: function (hexTrans) {
-                return request.post('https://blockchain.info/pushtx').send('tx=' + hexTrans);
+                return request
+                    .post('https://blockchain.info/pushtx')
+                    .send('tx=' + hexTrans);
             },
             blockcypher: function (hexTrans) {
-                return request.post('https://api.blockcypher.com/v1/btc/main/txs/push').send('{"tx":"' + hexTrans + '"}');
-            }
-        }
-    }
+                return request
+                    .post('https://api.blockcypher.com/v1/btc/main/txs/push')
+                    .send('{"tx":"' + hexTrans + '"}');
+            },
+        },
+    },
 };
 function getTransactionSize(numInputs, numOutputs) {
     return numInputs * 180 + numOutputs * 34 + 10 + numInputs;
@@ -80,13 +95,13 @@ function sendTransaction(options) {
     return __awaiter(this, void 0, void 0, function* () {
         //Required
         if (options == null || typeof options !== 'object')
-            throw "Options must be specified and must be an object.";
+            throw 'Options must be specified and must be an object.';
         if (options.from == null)
-            throw "Must specify from address.";
+            throw 'Must specify from address.';
         if (options.to == null)
-            throw "Must specify to address.";
+            throw 'Must specify to address.';
         if (options.btc == null)
-            throw "Must specify amount of btc to send.";
+            throw 'Must specify amount of btc to send.';
         if (options.privKeyWIF == null)
             throw "Must specify the wallet's private key in WIF format.";
         //Optionals
@@ -109,7 +124,7 @@ function sendTransaction(options) {
         var bitcoinNetwork = bitcoin.networks.bitcoin;
         return Promise.all([
             getFees(options.feesProvider, options.fee),
-            options.utxoProvider(from)
+            options.utxoProvider(from),
         ]).then(function (res) {
             return __awaiter(this, void 0, void 0, function* () {
                 var feePerByte = res[0];
@@ -129,11 +144,11 @@ function sendTransaction(options) {
                     }
                 }
                 if (availableSat < amtSatoshi)
-                    throw "You do not have enough in your wallet to send that much.";
+                    throw 'You do not have enough in your wallet to send that much.';
                 var change = availableSat - amtSatoshi;
                 var fee = getTransactionSize(ninputs, change > 0 ? 2 : 1) * feePerByte;
                 if (fee > amtSatoshi)
-                    throw "BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)";
+                    throw 'BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)';
                 tx.addOutput(to, amtSatoshi);
                 if (change > 0)
                     tx.addOutput(from, change - fee);
@@ -147,8 +162,10 @@ function sendTransaction(options) {
                     }
                 }
                 var msg = tx.build().toHex();
-                let req = yield request.post('https://api.blockcypher.com/v1/btc/main/txs/push').send('{"tx":"' + msg + '"}');
-                if (req.statusText == "Created")
+                let req = yield request
+                    .post('https://api.blockcypher.com/v1/btc/main/txs/push')
+                    .send('{"tx":"' + msg + '"}');
+                if (req.statusText == 'Created')
                     return { msg };
                 else
                     return null;
@@ -160,14 +177,19 @@ exports.transferBTC = function (privKeyWIF, from, to, amount) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let signed = yield sendTransaction({
-                from, to, privKeyWIF, btc: amount, dryrun: false, network: "mainnet"
+                from,
+                to,
+                privKeyWIF,
+                btc: amount,
+                dryrun: false,
+                network: 'mainnet',
             });
             var txid = signed ? bitcoin.Transaction.fromHex(signed).getId() : null;
             return txid;
         }
         catch (err) {
             console.log({ err });
-            return (err);
+            return err;
         }
     });
 };

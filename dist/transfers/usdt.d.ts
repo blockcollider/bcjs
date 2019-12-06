@@ -1,1 +1,1 @@
-export declare const transferUSDT: (privateKey: any, from: any, to: any, amount: any) => Promise<any>;
+export declare const transferUSDT: (privateKey: any, from: any, to: any, amount: any) => Promise<unknown>;

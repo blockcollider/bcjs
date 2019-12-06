@@ -7,29 +7,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const lisk = require('lisk-elements');
-var cryptography = require('@liskhq/lisk-cryptography');
-const client = lisk.APIClient.createMainnetAPIClient();
-function payLSK(privateKey, from, to, amount) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const transaction = lisk.transaction.transfer({
-                amount: (amount * Math.pow(10, 8)).toString(),
-                recipientId: to,
-                passphrase: privateKey,
-            });
-            client.transactions.broadcast(transaction).then((info) => {
-                return transaction;
-            }).catch((err) => {
-                return err;
-            });
-        }
-        catch (err) {
-            return err;
-        }
-        ;
-    });
-}
-exports.payLSK = payLSK;
+const lisk_elements_1 = __importDefault(require("lisk-elements"));
+const client = lisk_elements_1.default.APIClient.createMainnetAPIClient();
+exports.payLSK = (privateKey, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        const transaction = lisk_elements_1.default.transaction.transfer({
+            amount: (amount * Math.pow(10, 8)).toString(),
+            passphrase: privateKey,
+            recipientId: to,
+        });
+        return yield client.transactions.broadcast(transaction);
+    }
+    catch (err) {
+        return err;
+    }
+});
 //# sourceMappingURL=lsk.js.map
