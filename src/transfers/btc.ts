@@ -91,19 +91,19 @@ function getFees (provider, feeName) {
 async function sendTransaction (options) {
   // Required
   if (options == null || typeof options !== 'object') {
-    throw 'Options must be specified and must be an object.'
+    throw new Error('Options must be specified and must be an object.')
   }
   if (options.from == null) {
-    throw 'Must specify from address.'
+    throw new Error('Must specify from address.')
   }
   if (options.to == null) {
-    throw 'Must specify to address.'
+    throw new Error('Must specify to address.')
   }
   if (options.btc == null) {
-    throw 'Must specify amount of btc to send.'
+    throw new Error('Must specify amount of btc to send.')
   }
   if (options.privKeyWIF == null) {
-    throw "Must specify the wallet's private key in WIF format."
+    throw new Error("Must specify the wallet's private key in WIF format.")
   }
 
   // Optionals
@@ -153,13 +153,13 @@ async function sendTransaction (options) {
       }
     }
     if (availableSat < amtSatoshi) {
-      throw 'You do not have enough in your wallet to send that much.'
+      throw new Error('You do not have enough in your wallet to send that much.')
     }
 
     const change = availableSat - amtSatoshi
     const fee = getTransactionSize(ninputs, change > 0 ? 2 : 1) * feePerByte
     if (fee > amtSatoshi) {
-      throw 'BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)'
+      throw new Error('BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)')
     }
     tx.addOutput(to, amtSatoshi)
     if (change > 0) {
