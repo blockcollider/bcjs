@@ -195,7 +195,7 @@ export const transferBTC = async (privKeyWIF, from, to, amount) => {
       dryrun: false,
       network: 'mainnet',
     })
-    const txid = signed ? bitcoin.Transaction.fromHex(signed).getId() : null
+    const txid = signed ? bitcoin.Transaction.fromHex(signed.msg).getId() : null
     return txid
   } catch (err) {
     console.log({ err })
