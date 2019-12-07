@@ -27,7 +27,7 @@ const providers = {
             { params: { cors: true } },
           )
           .then(res => {
-            return res.body.map(e => {
+            return res.data.map(e => {
               return {
                 confirmations: e.confirmations,
                 satoshis: e.satoshis,
