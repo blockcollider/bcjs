@@ -14,4 +14,3 @@ export const payLSK = async (privateKey, from, to, amount) => {
     return err
   }
 }
-
