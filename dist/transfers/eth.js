@@ -9,20 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const web3_1 = require("./web3");
-exports.transferETH = function (privateKey, from, to, amount) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            let value = web3_1.web3.utils.toHex(web3_1.web3.utils.toWei(amount.toString(), 'ether'));
-            web3_1.submitTransaction({ from, to, value, data: '0x0', privateKey }, (err, hash) => {
-                if (hash)
-                    return hash;
-                else
-                    return err;
-            });
-        }
-        catch (err) {
-            return err;
-        }
+exports.transferETH = (privateKey, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
+    const value = web3_1.web3.utils.toHex(web3_1.web3.utils.toWei(amount.toString(), 'ether'));
+    return new Promise((resolve, reject) => {
+        web3_1.submitTransaction({ from, to, value, data: '0x0', privateKey }, (err, hash) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(hash);
+            }
+        });
     });
-};
+});
 //# sourceMappingURL=eth.js.map
