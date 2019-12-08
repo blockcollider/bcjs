@@ -1,4 +1,4 @@
-import WavesAPI from '@waves/waves-api'
+import * as WavesAPI from '@waves/waves-api'
 import { broadcast, transfer } from '@waves/waves-transactions'
 
 const Waves = WavesAPI.create(WavesAPI.MAINNET_CONFIG)
