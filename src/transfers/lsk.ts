@@ -1,9 +1,9 @@
-import lisk from 'lisk-elements'
-const client = lisk.APIClient.createMainnetAPIClient()
+import { APIClient, transactions } from 'lisk-elements'
+const client = APIClient.createMainnetAPIClient()
 
 export const payLSK = async (privateKey, from, to, amount) => {
   try {
-    const transaction = lisk.transaction.transfer({
+    const transaction = transactions.transfer({
       amount: (amount * Math.pow(10, 8)).toString(),
       passphrase: privateKey,
       recipientId: to,
