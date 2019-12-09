@@ -109,7 +109,7 @@ function timeout(ms) {
 async function sendMany(){
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
   let toAddress : Array<string> = Array(100).fill(bcAddress)
-  let transferAmount : Array<string> = Array(100).fill('1')
+  let transferAmount : Array<string> = Array(100).fill('1.1')
 
   let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
 
@@ -206,7 +206,7 @@ async function fillOrderbook() {
         amount = sendUnit2
       }
 
-      let newOutPoints = await getOutPoints(spendableOutpointsList,collateralizedNrg)
+      let newOutPoints = await getOutPoints(spendableOutpointsList,amount)
       spendableOutpointsList = newOutPoints.spendableOutpointsList
 
       await testMaker({sendsFromChain:denomination,receivesToChain:asset,
@@ -216,8 +216,9 @@ async function fillOrderbook() {
   }
 }
 
-async function getOutPoints(spendableOutpointsList,collateralizedNrg) {
-  let totalAmountBN = new BN('1')
+async function getOutPoints(spendableOutpointsList,amount) {
+  amount = amount < 1 ? 1 : Math.ceil(amount)
+  let totalAmountBN = new BN((amount*Math.pow(10,18)).toString())
   let sumBN = new BN('0')
 
   let spendableOutpoints: Array<any> = []
@@ -237,11 +238,11 @@ async function getOutPoints(spendableOutpointsList,collateralizedNrg) {
       break
     }
   }
-
   if(!sumBN.gte(totalAmountBN)){
     await timeout(1000)
     spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-    return await getOutPoints(spendableOutpointsList,collateralizedNrg)
+    console.log("waiting")
+    return await getOutPoints(spendableOutpointsList,amount)
   }
   else {
     return {spendableOutpointsList:spendableOutpointsList.slice(i),newList:spendableOutpoints}
