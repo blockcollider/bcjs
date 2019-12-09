@@ -1,20 +1,15 @@
-import Neon, { wallet as NeonWallet, api as NeonAPI} from "@cityofzion/neon-js";
+import Neon, { api as NeonAPI, wallet as NeonWallet } from '@cityofzion/neon-js'
 
-export function payNEO(privateKey, from, to, amount){
+export const payNEO = async (privateKey, from, to, amount) => {
   try {
     const config = {
-      api: new NeonAPI.neoscan.instance('MainNet'),
       account: privateKey,
-      intents: NeonAPI.makeIntent({NEO:amount},to)
-    };
-    Neon.sendAsset(config).then(config => {
-			return config
-    })
-    .catch(config => {
-      return config
-    });
-  }
-  catch(err){
-		return err
+      api: new NeonAPI.neoscan.instance('MainNet'),
+      intents: NeonAPI.makeIntent({ NEO: amount }, to),
+    }
+
+    return await Neon.sendAsset(config)
+  } catch (err) {
+    return err
   }
 }

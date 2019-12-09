@@ -1,1 +1,1 @@
-export declare function payNEO(privateKey: any, from: any, to: any, amount: any): any;
+export declare const payNEO: (privateKey: any, from: any, to: any, amount: any) => Promise<any>;

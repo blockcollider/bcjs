@@ -1,1 +1,1 @@
-export declare const transferBTC: (privKeyWIF: any, from: any, amount: any, to: any) => Promise<any>;
+export declare const transferBTC: (privKeyWIF: any, from: any, to: any, amount: any) => Promise<any>;

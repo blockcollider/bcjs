@@ -9,20 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const web3_1 = require("./web3");
-exports.transferDAI = function (privateKey, from, amount, to) {
-    return __awaiter(this, void 0, void 0, function* () {
+exports.transferDAI = (privateKey, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
+    return new Promise((resolve, reject) => {
         try {
-            let data = web3_1.DAI.methods.transfer(to, web3_1.web3.utils.toHex(Math.floor(Math.pow(10, 18) * (parseFloat(amount))))).encodeABI();
+            const data = web3_1.DAI.methods
+                .transfer(to, web3_1.web3.utils.toHex(Math.floor(Math.pow(10, 18) * parseFloat(amount))))
+                .encodeABI();
             web3_1.submitTransaction({ to: web3_1.DAI._address, from, value: web3_1.web3.utils.toHex(0), data, privateKey }, (err, hash) => {
-                if (hash)
-                    return hash;
-                else
-                    return err;
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(hash);
+                }
             });
         }
         catch (err) {
-            return err;
+            reject(err);
         }
     });
-};
+});
 //# sourceMappingURL=dai.js.map

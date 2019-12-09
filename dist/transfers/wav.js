@@ -1,19 +1,31 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const WavesAPI = require('@waves/waves-api');
-const { transfer, broadcast } = require('@waves/waves-transactions');
+const WavesAPI = __importStar(require("@waves/waves-api"));
+const waves_transactions_1 = require("@waves/waves-transactions");
 const Waves = WavesAPI.create(WavesAPI.MAINNET_CONFIG);
-function payWAV(privateKey, from, to, amount) {
+exports.payWAV = (privateKey, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
     privateKey = Waves.Seed.fromExistingPhrase(privateKey);
-    let signed = transfer({
-        recipient: to,
+    const signed = waves_transactions_1.transfer({
         amount: amount * Math.pow(10, 8),
         fee: 100000,
+        recipient: to,
     }, privateKey.phrase);
-    let nodeUrl = 'https://nodes.wavesplatform.com';
-    broadcast(signed, nodeUrl).then((resp) => {
-        return resp;
-    });
-}
-exports.payWAV = payWAV;
+    const nodeUrl = 'https://nodes.wavesplatform.com';
+    return yield waves_transactions_1.broadcast(signed, nodeUrl);
+});
 //# sourceMappingURL=wav.js.map
