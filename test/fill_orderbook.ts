@@ -12,6 +12,24 @@ import * as coreProtobuf from '../src/protos/core_pb'
 import Wallet from '../src/wallet'
 import {parseMakerLockScript} from '../dist/script/templates';
 import {toASM} from '../dist/script/bytecode'
+import BN from 'bn.js'
+
+import {
+  humanToInternalAsBN,
+  COIN_FRACS,
+  internalToBN,
+  internalBNToHuman,
+  Currency,
+  CurrencyInfo
+} from '../src/utils/coin'
+
+import {
+  bytesToInternalBN,
+  createOutPoint,
+  createTransactionInput,
+  createTransactionOutput,
+  convertProtoBufSerializedBytesToBuffer
+} from '../src/utils/protoUtil'
 
 const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3001'
 const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
@@ -19,76 +37,13 @@ const client = new RpcClient(address, scookie)
 const wallet = new Wallet(client)
 const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
-// console.log({bcAddress, privateKeyHex})
-function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function sendMany(){
-  let tx: coreProtobuf.Transaction = new coreProtobuf.Transaction()
-  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-  let balance: any = await wallet.getBalance(bcAddress)
-  let confirmed = balance.confirmed ? parseFloat(balance.confirmed): 0;
-  while(confirmed < 400) {
-    await timeout(1000)
-    balance = await wallet.getBalance(bcAddress)
-    confirmed = balance.confirmed ? parseFloat(balance.confirmed): 0;
-    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-  }
-
-  let toAddress : Array<string> = Array(200).fill(bcAddress)
-  let transferAmount : Array<string> = Array(200).fill('2')
-
-  // if(spendableOutpointsList.length < 50){
-    tx = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
-    const res = await client.sendTx(tx)
-    console.log('sendTx', res)
-  // }
-}
-
-async function testMaker({
-  sendsFromChain, receivesToChain, sendsFromAddress,
-  receivesToAddress, sendsUnit, receivesUnit}) {
-  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-
-  while(spendableOutpointsList.length == 0) {
-    await timeout(1000)
-    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-  }
-  // console.log({spendableOutpointsList})
-  console.log({spendablelength:spendableOutpointsList.length})
-
-  // console.log({spendableOutpointsList})
-  const shiftMaker = 0
-  const shiftTaker = 0
-  const depositLength = 10000
-  const settleLength = 11000
-  const additionalTxFee = '0'
-  const collateralizedNrg = '0.1'
-  const nrgUnit = '0.1'
-  let tx: coreProtobuf.Transaction = new coreProtobuf.Transaction()
-
-  if (sendsFromChain.toLowerCase() === 'nrg') {
-    tx = createMakerOrderTransaction(
-      spendableOutpointsList, shiftMaker, shiftTaker, depositLength, settleLength,
-      sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress,
-      sendsUnit, receivesUnit, bcAddress.toLowerCase(), privateKeyHex,
-      sendsUnit, sendsUnit, collateralizedNrg, additionalTxFee,
-    )
-  } else {
-    tx = createMakerOrderTransaction(
-      spendableOutpointsList, shiftMaker, shiftTaker, depositLength, settleLength,
-      sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress,
-      sendsUnit, receivesUnit, bcAddress.toLowerCase(), privateKeyHex,
-      collateralizedNrg, collateralizedNrg, '', additionalTxFee,
-    )
-  }
-
-  const res = await client.sendTx(tx)
-  console.log('sendTx', res)
-  return true
-}
-
+const shiftMaker = 0
+const shiftTaker = 0
+const depositLength = 10
+const settleLength = 20
+const additionalTxFee = '0'
+const collateralizedNrg = '0.01'
+const nrgUnit = '0.01'
 const assetPrices = [
   {asset: 'USDT', denomination: 'EMB', price: 0},
   {asset: 'DAI', denomination: 'EMB', price: 0},
@@ -134,6 +89,62 @@ const assetPrices = [
   {asset: 'LSK', denomination: 'NRG', price: 0},
 ]
 
+const addresses = {
+  btc: '1PhDYLfZMfVP3LALNLhVgx5dhYbSbtJk62',
+  dai: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
+  emb: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
+  eth: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
+  lsk: '3106091506985389775L',
+  neo: 'AYkZtwR7MwxYwivRmpy75JPg9gffTaKaJf',
+  nrg: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
+  usdt: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
+  wav: '3P3epiCSAiyyEfytX5GSygm8j4kAK8yADGP',
+}
+
+// console.log({bcAddress, privateKeyHex})
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function sendMany(){
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  let toAddress : Array<string> = Array(100).fill(bcAddress)
+  let transferAmount : Array<string> = Array(100).fill('1')
+
+  let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
+
+  const res = await client.sendTx(tx)
+
+  console.log('sendTx', res)
+}
+
+async function testMaker({
+  sendsFromChain, receivesToChain, sendsFromAddress,
+  receivesToAddress, sendsUnit, receivesUnit, spendableOutpointsList}) {
+
+  let tx: coreProtobuf.Transaction = new coreProtobuf.Transaction()
+
+  if (sendsFromChain.toLowerCase() === 'nrg') {
+    tx = createMakerOrderTransaction(
+      spendableOutpointsList, shiftMaker, shiftTaker, depositLength, settleLength,
+      sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress,
+      sendsUnit, receivesUnit, bcAddress.toLowerCase(), privateKeyHex,
+      sendsUnit, sendsUnit, collateralizedNrg, additionalTxFee,
+    )
+  } else {
+    tx = createMakerOrderTransaction(
+      spendableOutpointsList, shiftMaker, shiftTaker, depositLength, settleLength,
+      sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress,
+      sendsUnit, receivesUnit, bcAddress.toLowerCase(), privateKeyHex,
+      collateralizedNrg, collateralizedNrg, '', additionalTxFee,
+    )
+  }
+
+  const res = await client.sendTx(tx)
+  console.log('sendTx', res)
+  return true
+}
+
 async function getPrices() {
   const jsonData: { usdt: number, dai: number, emb: number, nrg: number, btc: number, wav: number, eth: number, neo: number, lsk:number }
     = {usdt: 1, dai: 1, emb: 100, nrg: 10, btc:0,wav:0,lsk:0,eth:0,neo:0}
@@ -165,88 +176,110 @@ async function getPrices() {
   return assetPrices
 }
 
-const addresses = {
-  btc: '1PhDYLfZMfVP3LALNLhVgx5dhYbSbtJk62',
-  dai: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
-  emb: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
-  eth: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
-  lsk: '3106091506985389775L',
-  neo: 'AYkZtwR7MwxYwivRmpy75JPg9gffTaKaJf',
-  nrg: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
-  usdt: '0xd96690dae10BEC38e368E30714e228d240c1cbB2',
-  wav: '3P3epiCSAiyyEfytX5GSygm8j4kAK8yADGP',
-}
-
 async function fillOrderbook() {
   const assetPrices = await getPrices()
   await sendMany()
   await sendMany()
-  
 
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
-    let increment = Math.random() / 300 * price
     for (let j = 0; j < 25; j++) {
-      const priceAbove = Math.round((price + increment) * Math.pow(10, 8)) / Math.pow(10, 8)
-      const priceBelow = Math.round((price - increment) * Math.pow(10, 8)) / Math.pow(10, 8)
-      increment = Math.random()/300*price + increment;
-
-      let sendAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
-      let recAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
-
-      let sendUnit1 = sendAmount;
-      let recUnit1 = priceAbove*sendAmount;
-
-      let sendUnit2 = priceBelow*recAmount;
-      let recUnit2 = recAmount;
-
-      if(asset.toLowerCase() == 'neo'){
-        sendUnit1 = Math.round(sendUnit1)+1;
-        recUnit1 = priceAbove*sendUnit1;
-
-        recUnit2 = Math.round(recUnit2)+1;
-        sendUnit2 = priceBelow*recUnit2
-      }
-
-      if(denomination.toLowerCase() == 'neo'){
-        sendUnit2 = Math.round(sendUnit2)+1;
-        recUnit2 = sendUnit2/priceBelow;
-
-        recUnit1 = Math.round(recUnit1)+1;
-        sendUnit1 = recUnit1 / priceAbove;
-      }
+      let increment = Math.random() / 300 * price
+      let {sendUnit1,recUnit1,sendUnit2,recUnit2} = getSpecs(price,increment,asset,denomination)
 
       if(denomination.toLowerCase() != 'nrg'){
-        console.log({
-          sendsFromChain:asset,receivesToChain:denomination,
-          sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
-          sendsUnit:sendUnit1,receivesUnit:recUnit1
-        })
+        let newOutPoints = await getOutPoints(spendableOutpointsList,collateralizedNrg)
+        spendableOutpointsList = newOutPoints.spendableOutpointsList
 
         await testMaker({sendsFromChain:asset,receivesToChain:denomination,
         sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
-        sendsUnit:sendUnit1,receivesUnit:recUnit1});
+        sendsUnit:sendUnit1,receivesUnit:recUnit1,spendableOutpointsList:newOutPoints.newList});
       }
-
+      let amount:any = collateralizedNrg
 
       if(denomination.toLowerCase() == 'nrg'){
         while(sendUnit2 > 12){
           sendUnit2 = sendUnit2 / 10;
           recUnit2 = recUnit2 / 10;
         }
+        amount = sendUnit2
       }
 
-      console.log({
-        sendsFromChain:denomination,receivesToChain:asset,
-        sendsFromAddress:addresses[denomination.toLowerCase()],receivesToAddress:addresses[asset.toLowerCase()],
-        receivesUnit:recUnit2,sendsUnit:sendUnit2
-      })
+      let newOutPoints = await getOutPoints(spendableOutpointsList,collateralizedNrg)
+      spendableOutpointsList = newOutPoints.spendableOutpointsList
 
       await testMaker({sendsFromChain:denomination,receivesToChain:asset,
       sendsFromAddress:addresses[denomination.toLowerCase()],receivesToAddress:addresses[asset.toLowerCase()],
-      receivesUnit:recUnit2,sendsUnit:sendUnit2});
+      receivesUnit:recUnit2,sendsUnit:sendUnit2,spendableOutpointsList:newOutPoints.newList});
     }
   }
+}
+
+async function getOutPoints(spendableOutpointsList,collateralizedNrg) {
+  let totalAmountBN = new BN('1')
+  let sumBN = new BN('0')
+
+  let spendableOutpoints: Array<any> = []
+
+  let i = 0;
+  for (let walletOutPoint of spendableOutpointsList) {
+    const outPointObj: coreProtobuf.OutPoint.AsObject | undefined = walletOutPoint.outpoint
+    if (!outPointObj) {
+      continue
+    }
+    const currentBN = internalToBN(convertProtoBufSerializedBytesToBuffer(outPointObj.value as string), COIN_FRACS.BOSON)
+
+    sumBN = sumBN.add(currentBN)
+    spendableOutpoints.push(walletOutPoint)
+    i++;
+    if (sumBN.gte(totalAmountBN) ) {
+      break
+    }
+  }
+
+  if(!sumBN.gte(totalAmountBN)){
+    await timeout(1000)
+    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+    return await getOutPoints(spendableOutpointsList,collateralizedNrg)
+  }
+  else {
+    return {spendableOutpointsList:spendableOutpointsList.slice(i),newList:spendableOutpoints}
+  }
+}
+
+
+function getSpecs(price, increment,asset,denomination){
+
+  const priceAbove = Math.round((price + increment) * Math.pow(10, 8)) / Math.pow(10, 8)
+  const priceBelow = Math.round((price - increment) * Math.pow(10, 8)) / Math.pow(10, 8)
+  increment = Math.random()/300*price + increment;
+
+  let sendAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
+  let recAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
+
+  let sendUnit1 = sendAmount;
+  let recUnit1 = priceAbove*sendAmount;
+
+  let sendUnit2 = priceBelow*recAmount;
+  let recUnit2 = recAmount;
+
+  if(asset.toLowerCase() == 'neo'){
+    sendUnit1 = Math.round(sendUnit1)+1;
+    recUnit1 = priceAbove*sendUnit1;
+
+    recUnit2 = Math.round(recUnit2)+1;
+    sendUnit2 = priceBelow*recUnit2
+  }
+
+  if(denomination.toLowerCase() == 'neo'){
+    sendUnit2 = Math.round(sendUnit2)+1;
+    recUnit2 = sendUnit2/priceBelow;
+
+    recUnit1 = Math.round(recUnit1)+1;
+    sendUnit1 = recUnit1 / priceAbove;
+  }
+  return {sendUnit1,recUnit1,sendUnit2,recUnit2}
 }
 
 fillOrderbook()

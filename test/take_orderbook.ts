@@ -6,6 +6,9 @@ import * as bcProtobuf from '../src/protos/bc_pb'
 import RpcClient from '../src/client';
 import Wallet from '../src/wallet';
 import {createTakerOrderTransaction} from '../src/transaction';
+import {
+    GetBalanceRequest
+} from '../src/protos/bc_pb';
 
 const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3001'
 const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
@@ -33,9 +36,11 @@ function timeout(ms) {
 async function testTaker(makerOpenOrder: bcProtobuf.MakerOrderInfo.AsObject) {
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
 
+  console.log({length:spendableOutpointsList.length})
   while(spendableOutpointsList.length == 0) {
     await timeout(1000)
     spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+    console.log({spendableOutpointsList})
   }
 
   const sendsFromAddress = addresses[makerOpenOrder.receivesToChain] // eth
@@ -61,7 +66,9 @@ async function testTaker(makerOpenOrder: bcProtobuf.MakerOrderInfo.AsObject) {
 
 async function getOpenOrders() {
   console.log('Getting orders')
-  const res = await client.getOpenOrders()
+  const req = new GetBalanceRequest()
+
+  const res = await client.getOpenOrders(req)
   return res.ordersList
 }
 
