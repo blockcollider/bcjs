@@ -12,6 +12,7 @@
     "proto": "./node_modules/.bin/grpc_tools_node_protoc --plugin=./node_modules/.bin/protoc-gen-ts --proto_path=protos --js_out=import_style=commonjs,binary:src/protos protos/*.proto --grpc_out=src/protos --ts_out=\"service=true:src/protos\" --plugin=protoc-gen-grpc=./node_modules/grpc-tools/bin/grpc_node_plugin && ./scripts/proto-fix.sh",
     "start": "tsc && node dist/index.js",
     "test": "jest",
+    "benchmark": "node benchmarks/*",
     "example": "NODE_TLS_REJECT_UNAUTHORIZED=0 BC_RPC_ADDRESS=https://localhost:3001 BC_RPC_SCOOKIE=trololo ts-node examples/get-balance.ts"
   },
   "engines": {
@@ -43,11 +44,13 @@
   },
   "devDependencies": {
     "@improbable-eng/grpc-web": "^0.9.6",
+    "@types/benchmark": "^1.0.31",
     "@types/bn.js": "^4.11.5",
     "@types/google-protobuf": "^3.7.1",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^24.0.18",
     "@types/ramda": "^0.26.29",
+    "benchmark": "^2.1.4",
     "cpy-cli": "^2.0.0",
     "grpc-tools": "^1.8.0",
     "jest": "^24.9.0",
