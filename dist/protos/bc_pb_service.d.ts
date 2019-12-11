@@ -244,7 +244,7 @@ type BcGetOpenOrders = {
   readonly service: typeof Bc;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly requestType: typeof core_pb.Null;
   readonly responseType: typeof bc_pb.GetOpenOrdersResponse;
 };
 
@@ -616,12 +616,12 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: bc_pb.TransferResponse|null) => void
   ): UnaryResponse;
   getOpenOrders(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: core_pb.Null,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
   getOpenOrders(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
   getMatchedOrders(

@@ -250,7 +250,7 @@ Bc.GetOpenOrders = {
   service: Bc,
   requestStream: false,
   responseStream: false,
-  requestType: bc_pb.GetBalanceRequest,
+  requestType: core_pb.Null,
   responseType: bc_pb.GetOpenOrdersResponse
 };
 
