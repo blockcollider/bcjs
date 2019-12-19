@@ -252,7 +252,7 @@ const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, no
     // outputs
     const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN);
     let finalOutputs = txOutputs;
-    if (leftoverOutPoint) {
+    if (leftoverOutPoint && protoUtil_1.bytesToInternalBN(leftoverOutPoint.getValue()).gt(new bn_js_1.default(0))) {
         const leftoverOutput = protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(bcAddress), unitBN, protoUtil_1.bytesToInternalBN(leftoverOutPoint.getValue()));
         finalOutputs = txOutputs.concat([leftoverOutput]);
     }

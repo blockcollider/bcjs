@@ -373,7 +373,7 @@ const _compileTransaction = function(
   // outputs
   const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN)
   let finalOutputs = txOutputs
-  if (leftoverOutPoint) {
+  if (leftoverOutPoint && bytesToInternalBN(leftoverOutPoint.getValue() as Uint8Array).gt(new BN(0))) {
     const leftoverOutput = createTransactionOutput (
       createNRGLockScript(bcAddress), unitBN, bytesToInternalBN(leftoverOutPoint.getValue() as Uint8Array)
     )

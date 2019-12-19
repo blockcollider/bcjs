@@ -1,11 +1,29 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-import * as core from '../src/protos/core_pb'
+import * as coreProtobuf from '../src/protos/core_pb'
 import * as bcProtobuf from '../src/protos/bc_pb'
 
 import RpcClient from '../src/client';
 import Wallet from '../src/wallet';
 import {createTakerOrderTransaction} from '../src/transaction';
+import {createMakerOrderTransaction,createMultiNRGTransferTransaction} from '../dist/transaction'
+import BN from 'bn.js'
+import {
+  humanToInternalAsBN,
+  COIN_FRACS,
+  internalToBN,
+  internalBNToHuman,
+  Currency,
+  CurrencyInfo
+} from '../src/utils/coin'
+import {
+  bytesToInternalBN,
+  createOutPoint,
+  createTransactionInput,
+  createTransactionOutput,
+  convertProtoBufSerializedBytesToBuffer
+} from '../src/utils/protoUtil'
+
 import {
     GetBalanceRequest
 } from '../src/protos/bc_pb';
@@ -33,15 +51,19 @@ function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function testTaker(makerOpenOrder: bcProtobuf.MakerOrderInfo.AsObject) {
+async function sendMany(){
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  let toAddress : Array<string> = Array(50).fill(bcAddress)
+  let transferAmount : Array<string> = Array(50).fill('1.1')
 
-  console.log({length:spendableOutpointsList.length})
-  while(spendableOutpointsList.length == 0) {
-    await timeout(1000)
-    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-    console.log({spendableOutpointsList})
-  }
+  let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
+
+  const res = await client.sendTx(tx)
+
+  console.log('sendTx', res)
+}
+
+async function testTaker(makerOpenOrder: bcProtobuf.MakerOrderInfo.AsObject, spendableOutpointsList) {
 
   const sendsFromAddress = addresses[makerOpenOrder.receivesToChain] // eth
   const receivesToAddress = addresses[makerOpenOrder.sendsFromChain] // btc
@@ -72,10 +94,56 @@ async function getOpenOrders() {
   return res.ordersList
 }
 
+
+async function getOutPoints(spendableOutpointsList,amount) {
+  amount = amount < 1 ? 1 : Math.ceil(amount)
+  let totalAmountBN = new BN((amount*Math.pow(10,18)).toString())
+  let sumBN = new BN('0')
+
+  let spendableOutpoints: Array<any> = []
+
+  let i = 0;
+  for (let walletOutPoint of spendableOutpointsList) {
+    const outPointObj: coreProtobuf.OutPoint.AsObject | undefined = walletOutPoint.outpoint
+    if (!outPointObj) {
+      continue
+    }
+    const currentBN = internalToBN(convertProtoBufSerializedBytesToBuffer(outPointObj.value as string), COIN_FRACS.BOSON)
+
+    sumBN = sumBN.add(currentBN)
+    spendableOutpoints.push(walletOutPoint)
+    i++;
+    if (sumBN.gte(totalAmountBN) ) {
+      break
+    }
+  }
+  if(!sumBN.gte(totalAmountBN)){
+    await timeout(1000)
+    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+    console.log("waiting")
+    return await getOutPoints(spendableOutpointsList,amount)
+  }
+  else {
+    return {spendableOutpointsList:spendableOutpointsList.slice(i),newList:spendableOutpoints}
+  }
+}
+
 async function takeOrderbook(){
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
   let orders = await getOpenOrders();
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+
   for(let i = 0; i < orders.length; i++){
-    await testTaker(orders[i])
+
+    let newOutPoints = await getOutPoints(spendableOutpointsList,orders[i].collateralizedNrg)
+    spendableOutpointsList = newOutPoints.spendableOutpointsList
+
+    await testTaker(orders[i],newOutPoints.newList)
     // await timeout(2000)
   }
 }

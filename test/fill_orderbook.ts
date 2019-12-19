@@ -39,8 +39,8 @@ const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
 const shiftMaker = 0
 const shiftTaker = 0
-const depositLength = 10
-const settleLength = 20
+const depositLength = 20
+const settleLength = 30
 const additionalTxFee = '0'
 const collateralizedNrg = '0.01'
 const nrgUnit = '0.01'
@@ -108,8 +108,8 @@ function timeout(ms) {
 
 async function sendMany(){
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-  let toAddress : Array<string> = Array(100).fill(bcAddress)
-  let transferAmount : Array<string> = Array(100).fill('1.1')
+  let toAddress : Array<string> = Array(50).fill(bcAddress)
+  let transferAmount : Array<string> = Array(50).fill('1.1')
 
   let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
 
@@ -180,11 +180,15 @@ async function fillOrderbook() {
   const assetPrices = await getPrices()
   await sendMany()
   await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
 
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
-    for (let j = 0; j < 25; j++) {
+    for (let j = 0; j < 17; j++) {
       let increment = Math.random() / 300 * price
       let {sendUnit1,recUnit1,sendUnit2,recUnit2} = getSpecs(price,increment,asset,denomination)
 
