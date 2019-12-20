@@ -153,6 +153,15 @@ message TransactionInput {
   bytes input_script = 3;
 }
 
+message Utxo {
+  TransactionOutput output = 1;
+  string tx_hash = 2;
+  uint64 tx_index = 3;
+  string block_hash = 4;
+  uint64 block_height = 5;
+  bool coinbase = 6;
+}
+
 message TransactionOutput {
   bytes value = 1;
   bytes unit = 2;

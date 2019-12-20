@@ -27,6 +27,17 @@ function deserialize_bcsdk_Block(buffer_arg) {
   return core_pb.Block.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bcsdk_CurrentWork(arg) {
+  if (!(arg instanceof bc_pb.CurrentWork)) {
+    throw new Error('Expected argument of type bcsdk.CurrentWork');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_CurrentWork(buffer_arg) {
+  return bc_pb.CurrentWork.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bcsdk_GetBalanceRequest(arg) {
   if (!(arg instanceof bc_pb.GetBalanceRequest)) {
     throw new Error('Expected argument of type bcsdk.GetBalanceRequest');
@@ -146,17 +157,6 @@ function serialize_bcsdk_GetOpenOrdersResponse(arg) {
 
 function deserialize_bcsdk_GetOpenOrdersResponse(buffer_arg) {
   return bc_pb.GetOpenOrdersResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_bcsdk_GetOrderbookUpdateResponse(arg) {
-  if (!(arg instanceof bc_pb.GetOrderbookUpdateResponse)) {
-    throw new Error('Expected argument of type bcsdk.GetOrderbookUpdateResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_bcsdk_GetOrderbookUpdateResponse(buffer_arg) {
-  return bc_pb.GetOrderbookUpdateResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bcsdk_GetOutPointRequest(arg) {
@@ -777,17 +777,6 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_GetOpenOrdersResponse,
     responseDeserialize: deserialize_bcsdk_GetOpenOrdersResponse,
   },
-  getOrderbookUpdate: {
-    path: '/bcsdk.Bc/GetOrderbookUpdate',
-    requestStream: false,
-    responseStream: false,
-    requestType: core_pb.Null,
-    responseType: bc_pb.GetOrderbookUpdateResponse,
-    requestSerialize: serialize_bcsdk_Null,
-    requestDeserialize: deserialize_bcsdk_Null,
-    responseSerialize: serialize_bcsdk_GetOrderbookUpdateResponse,
-    responseDeserialize: deserialize_bcsdk_GetOrderbookUpdateResponse,
-  },
   getUtxoLength: {
     path: '/bcsdk.Bc/GetUtxoLength',
     requestStream: false,
@@ -831,6 +820,17 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bcsdk_VanityConvertRequest,
     responseSerialize: serialize_bcsdk_VanityConvertResponse,
     responseDeserialize: deserialize_bcsdk_VanityConvertResponse,
+  },
+  getCurrentWork: {
+    path: '/bcsdk.Bc/GetCurrentWork',
+    requestStream: false,
+    responseStream: false,
+    requestType: core_pb.Null,
+    responseType: bc_pb.CurrentWork,
+    requestSerialize: serialize_bcsdk_Null,
+    requestDeserialize: deserialize_bcsdk_Null,
+    responseSerialize: serialize_bcsdk_CurrentWork,
+    responseDeserialize: deserialize_bcsdk_CurrentWork,
   },
 };
 

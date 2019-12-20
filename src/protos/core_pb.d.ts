@@ -741,6 +741,48 @@ export namespace TransactionInput {
   }
 }
 
+export class Utxo extends jspb.Message {
+  hasOutput(): boolean;
+  clearOutput(): void;
+  getOutput(): TransactionOutput | undefined;
+  setOutput(value?: TransactionOutput): void;
+
+  getTxHash(): string;
+  setTxHash(value: string): void;
+
+  getTxIndex(): number;
+  setTxIndex(value: number): void;
+
+  getBlockHash(): string;
+  setBlockHash(value: string): void;
+
+  getBlockHeight(): number;
+  setBlockHeight(value: number): void;
+
+  getCoinbase(): boolean;
+  setCoinbase(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Utxo.AsObject;
+  static toObject(includeInstance: boolean, msg: Utxo): Utxo.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Utxo, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Utxo;
+  static deserializeBinaryFromReader(message: Utxo, reader: jspb.BinaryReader): Utxo;
+}
+
+export namespace Utxo {
+  export type AsObject = {
+    output?: TransactionOutput.AsObject,
+    txHash: string,
+    txIndex: number,
+    blockHash: string,
+    blockHeight: number,
+    coinbase: boolean,
+  }
+}
+
 export class TransactionOutput extends jspb.Message {
   getValue(): Uint8Array | string;
   getValue_asU8(): Uint8Array;

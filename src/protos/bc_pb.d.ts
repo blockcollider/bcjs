@@ -578,52 +578,6 @@ export namespace GetOpenOrdersResponse {
   }
 }
 
-export class GetOrderbookUpdateResponse extends jspb.Message {
-  clearOpenOrdersToRemoveList(): void;
-  getOpenOrdersToRemoveList(): Array<string>;
-  setOpenOrdersToRemoveList(value: Array<string>): void;
-  addOpenOrdersToRemove(value: string, index?: number): string;
-
-  clearMatchedOrdersToRemoveList(): void;
-  getMatchedOrdersToRemoveList(): Array<string>;
-  setMatchedOrdersToRemoveList(value: Array<string>): void;
-  addMatchedOrdersToRemove(value: string, index?: number): string;
-
-  clearOpenOrdersToAddList(): void;
-  getOpenOrdersToAddList(): Array<MakerOrderInfo>;
-  setOpenOrdersToAddList(value: Array<MakerOrderInfo>): void;
-  addOpenOrdersToAdd(value?: MakerOrderInfo, index?: number): MakerOrderInfo;
-
-  clearMatchedOrdersToAddList(): void;
-  getMatchedOrdersToAddList(): Array<MatchedOrderInfo>;
-  setMatchedOrdersToAddList(value: Array<MatchedOrderInfo>): void;
-  addMatchedOrdersToAdd(value?: MatchedOrderInfo, index?: number): MatchedOrderInfo;
-
-  clearHistoricalOrdersToAddList(): void;
-  getHistoricalOrdersToAddList(): Array<MatchedOrderInfo>;
-  setHistoricalOrdersToAddList(value: Array<MatchedOrderInfo>): void;
-  addHistoricalOrdersToAdd(value?: MatchedOrderInfo, index?: number): MatchedOrderInfo;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetOrderbookUpdateResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GetOrderbookUpdateResponse): GetOrderbookUpdateResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetOrderbookUpdateResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetOrderbookUpdateResponse;
-  static deserializeBinaryFromReader(message: GetOrderbookUpdateResponse, reader: jspb.BinaryReader): GetOrderbookUpdateResponse;
-}
-
-export namespace GetOrderbookUpdateResponse {
-  export type AsObject = {
-    openOrdersToRemoveList: Array<string>,
-    matchedOrdersToRemoveList: Array<string>,
-    openOrdersToAddList: Array<MakerOrderInfo.AsObject>,
-    matchedOrdersToAddList: Array<MatchedOrderInfo.AsObject>,
-    historicalOrdersToAddList: Array<MatchedOrderInfo.AsObject>,
-  }
-}
-
 export class GetMatchedOrdersResponse extends jspb.Message {
   clearOrdersList(): void;
   getOrdersList(): Array<MatchedOrderInfo>;
@@ -1081,6 +1035,26 @@ export class GetOutPointStatusResponse extends jspb.Message {
 export namespace GetOutPointStatusResponse {
   export type AsObject = {
     unspent: boolean,
+  }
+}
+
+export class CurrentWork extends jspb.Message {
+  getWork(): string;
+  setWork(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CurrentWork.AsObject;
+  static toObject(includeInstance: boolean, msg: CurrentWork): CurrentWork.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CurrentWork, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CurrentWork;
+  static deserializeBinaryFromReader(message: CurrentWork, reader: jspb.BinaryReader): CurrentWork;
+}
+
+export namespace CurrentWork {
+  export type AsObject = {
+    work: string,
   }
 }
 

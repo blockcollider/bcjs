@@ -272,15 +272,6 @@ Bc.GetUnmatchedOrders = {
   responseType: bc_pb.GetOpenOrdersResponse
 };
 
-Bc.GetOrderbookUpdate = {
-  methodName: "GetOrderbookUpdate",
-  service: Bc,
-  requestStream: false,
-  responseStream: false,
-  requestType: core_pb.Null,
-  responseType: bc_pb.GetOrderbookUpdateResponse
-};
-
 Bc.GetUtxoLength = {
   methodName: "GetUtxoLength",
   service: Bc,
@@ -315,6 +306,15 @@ Bc.GetBcAddressViaVanity = {
   responseStream: false,
   requestType: bc_pb.VanityConvertRequest,
   responseType: bc_pb.VanityConvertResponse
+};
+
+Bc.GetCurrentWork = {
+  methodName: "GetCurrentWork",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: bc_pb.CurrentWork
 };
 
 exports.Bc = Bc;
@@ -1223,37 +1223,6 @@ BcClient.prototype.getUnmatchedOrders = function getUnmatchedOrders(requestMessa
   };
 };
 
-BcClient.prototype.getOrderbookUpdate = function getOrderbookUpdate(requestMessage, metadata, callback) {
-  if (arguments.length === 2) {
-    callback = arguments[1];
-  }
-  var client = grpc.unary(Bc.GetOrderbookUpdate, {
-    request: requestMessage,
-    host: this.serviceHost,
-    metadata: metadata,
-    transport: this.options.transport,
-    debug: this.options.debug,
-    onEnd: function (response) {
-      if (callback) {
-        if (response.status !== grpc.Code.OK) {
-          var err = new Error(response.statusMessage);
-          err.code = response.status;
-          err.metadata = response.trailers;
-          callback(err, null);
-        } else {
-          callback(null, response.message);
-        }
-      }
-    }
-  });
-  return {
-    cancel: function () {
-      callback = null;
-      client.close();
-    }
-  };
-};
-
 BcClient.prototype.getUtxoLength = function getUtxoLength(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
@@ -1352,6 +1321,37 @@ BcClient.prototype.getBcAddressViaVanity = function getBcAddressViaVanity(reques
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetBcAddressViaVanity, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getCurrentWork = function getCurrentWork(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetCurrentWork, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
