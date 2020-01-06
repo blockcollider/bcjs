@@ -17,7 +17,7 @@ function isHexString(val) {
     const validHexChars = new Set('0123456789abcdefABCDEF'.split(''));
     for (let char of val) {
         if (!validHexChars.has(char)) {
-            return false;
+            // return false
         }
     }
     return true;

@@ -92,7 +92,6 @@ function createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spe
         const pubKey = secp256k1.publicKeyCreate(Buffer.from(bcPrivateKeyHex, 'hex'), true);
         const inputUnlockScript = [
             signature.toString('hex'),
-            pubKey.toString('hex'),
             crypto_1.blake2bl(bcAddress),
         ].map(string_1.normalizeHexString).join(' ');
         return protoUtil_1.createTransactionInput(outPoint, inputUnlockScript);
@@ -102,13 +101,13 @@ exports.createSignedNRGUnlockInputs = createSignedNRGUnlockInputs;
 function createNRGLockScript(address, addressDoubleHashed = false) {
     address = address.toLowerCase();
     if (!addressDoubleHashed) {
-        address = crypto_1.blake2blTwice(address);
+        address = crypto_1.blake2bl(crypto_1.blake2bl(address) + address);
     }
     const script = [
-        'OP_BLAKE2BL',
+        'OP_BLAKE2BLPRIV',
         string_1.normalizeHexString(address),
         'OP_EQUALVERIFY',
-        'OP_CHECKSIGVERIFY',
+        'OP_CHECKSIGNOPUBKEYVERIFY',
     ];
     return script.join(' ');
 }
@@ -124,9 +123,9 @@ exports.parseNRGLockScript = parseNRGLockScript;
 function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, fixedUnitFee, bcAddress, addressDoubleHashed = false) {
     bcAddress = bcAddress.toLowerCase();
     if (!addressDoubleHashed) {
-        bcAddress = crypto_1.blake2blTwice(bcAddress);
+        bcAddress = crypto_1.blake2bl(crypto_1.blake2bl(bcAddress) + bcAddress);
     }
-    const unlockMonadScript = ['OP_BLAKE2BL', string_1.normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY'];
+    const unlockMonadScript = ['OP_BLAKE2BLPRIV', string_1.normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'];
     const depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength];
     const makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit];
     const script = fixedUnitFee === '' ?
@@ -174,8 +173,8 @@ function parseMakerLockScript(script) {
     const [fixedUnitFee, base] = scriptStr.split(' OP_MINUNITVALUE')[0].split(' ').reverse().slice(0, 2);
     const baseNum = isNaN(parseInt(base, 10)) ? 0 : parseInt(base, 10);
     const splitBy = scriptStr.includes('OP_MONADSPLIT') ?
-        ' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BL ' :
-        ' OP_5 OP_IFEQ OP_MONAD OP_BLAKE2BL ';
+        ' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BLPRIV ' :
+        ' OP_5 OP_IFEQ OP_MONAD OP_BLAKE2BLPRIV ';
     const doubleHashedBcAddress = scriptStr.split(splitBy)[1].split(' ')[0];
     return {
         base: baseNum,
@@ -210,18 +209,18 @@ exports.parseTakerUnlockScript = parseTakerUnlockScript;
 function createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress, addressDoubleHashed = false) {
     takerBCAddress = takerBCAddress.toLowerCase();
     if (!addressDoubleHashed) {
-        takerBCAddress = crypto_1.blake2blTwice(takerBCAddress);
+        takerBCAddress = crypto_1.blake2bl(crypto_1.blake2bl(takerBCAddress) + takerBCAddress);
     }
     const script = [
         [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
         // 4: taker succeed, maker failed, taker can spend the outpoint
-        ['4', 'OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BL',
+        ['4', 'OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BLPRIV',
             string_1.normalizeHexString(takerBCAddress),
-            'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+            'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
         // this.OP_0() // both failed,
-        ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BL',
+        ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BLPRIV',
             string_1.normalizeHexString(takerBCAddress),
-            'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY', 'OP_ENDMONAD'],
+            'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD'],
     ];
     return script.map(part => part.join(' ')).join(' ');
 }
@@ -232,7 +231,7 @@ function parseTakerLockScript(script) {
         throw new Error('Invalid taker outpout script');
     }
     const [makerTxHash, makerTxOutputIndex] = scriptStr.split(' OP_CALLBACK')[0].split(' ');
-    const doubleHashedBcAddress = scriptStr.split(' OP_BLAKE2BL ')[1].split(' ')[0];
+    const doubleHashedBcAddress = scriptStr.split(' OP_BLAKE2BLPRIV ')[1].split(' ')[0];
     return {
         doubleHashedBcAddress,
         makerTxHash,
@@ -264,7 +263,7 @@ function getScriptType(script) {
     else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1) {
         return ScriptType.TAKER_OUTPUT; // IS_TAKER_ORDER
     }
-    else if (scriptStr.startsWith('OP_BLAKE2BL')) {
+    else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
         return ScriptType.NRG_TRANSFER; // IS_NRG_TRANSFER
     }
     else {
