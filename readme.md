@@ -43,7 +43,7 @@ And you should get response similar to this:
 # Releasing
 
 - releases are done only from `master` branch
-- check if `./scripts/download_proto.sh && yarn run proto && yarn run compile` runs without error and does not produce any change
+- check if `./scripts/download-proto.sh && yarn run proto && yarn run compile` runs without error and does not produce any change
     - if it does, commit it
 - in a separate commit, update the version in package.json to N+1 (0.0.1 -> 0.0.2), in the commit message, say `Version vX.Y.Z`
     - you can add a list of changes from the previous version as bullet list to 3rd and next lines of commit message

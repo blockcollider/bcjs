@@ -266,15 +266,6 @@ type BcGetUnmatchedOrders = {
   readonly responseType: typeof bc_pb.GetOpenOrdersResponse;
 };
 
-type BcGetOrderbookUpdate = {
-  readonly methodName: string;
-  readonly service: typeof Bc;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof core_pb.Null;
-  readonly responseType: typeof bc_pb.GetOrderbookUpdateResponse;
-};
-
 type BcGetUtxoLength = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -311,6 +302,15 @@ type BcGetBcAddressViaVanity = {
   readonly responseType: typeof bc_pb.VanityConvertResponse;
 };
 
+type BcGetCurrentWork = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof bc_pb.CurrentWork;
+};
+
 export class Bc {
   static readonly serviceName: string;
   static readonly GetRoveredBlockHash: BcGetRoveredBlockHash;
@@ -342,11 +342,11 @@ export class Bc {
   static readonly GetOpenOrders: BcGetOpenOrders;
   static readonly GetMatchedOrders: BcGetMatchedOrders;
   static readonly GetUnmatchedOrders: BcGetUnmatchedOrders;
-  static readonly GetOrderbookUpdate: BcGetOrderbookUpdate;
   static readonly GetUtxoLength: BcGetUtxoLength;
   static readonly GetStxoLength: BcGetStxoLength;
   static readonly GetBlake2bl: BcGetBlake2bl;
   static readonly GetBcAddressViaVanity: BcGetBcAddressViaVanity;
+  static readonly GetCurrentWork: BcGetCurrentWork;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -642,15 +642,6 @@ export class BcClient {
     requestMessage: bc_pb.GetBalanceRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
-  getOrderbookUpdate(
-    requestMessage: core_pb.Null,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetOrderbookUpdateResponse|null) => void
-  ): UnaryResponse;
-  getOrderbookUpdate(
-    requestMessage: core_pb.Null,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetOrderbookUpdateResponse|null) => void
-  ): UnaryResponse;
   getUtxoLength(
     requestMessage: bc_pb.GetUtxoLengthRequest,
     metadata: grpc.Metadata,
@@ -686,6 +677,15 @@ export class BcClient {
   getBcAddressViaVanity(
     requestMessage: bc_pb.VanityConvertRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.VanityConvertResponse|null) => void
+  ): UnaryResponse;
+  getCurrentWork(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.CurrentWork|null) => void
+  ): UnaryResponse;
+  getCurrentWork(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.CurrentWork|null) => void
   ): UnaryResponse;
 }
 
