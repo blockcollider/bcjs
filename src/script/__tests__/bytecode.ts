@@ -107,4 +107,12 @@ describe('bytecode', () => {
 
     expect(fromASM('OP_NOP usdt btc emb', version)).toEqual(bytecode)
   })
+
+  it('encodes OP_BLAKE2BLPRIV', () => {
+    const bytecode = Buffer.from([
+      0x00, 0x2a, 0x2b, 0x01, // preamble with 0x01 version
+      0x95, // OP_NOP
+    ])
+    expect(fromASM('OP_BLAKE2BLPRIV', 0x01)).toEqual(bytecode)
+  })
 })

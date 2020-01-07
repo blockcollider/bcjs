@@ -154,6 +154,7 @@ export const OPS: Map<number, string> = new Map([
   [0x92, 'OP_16'],
   [0x93, 'CHAIN_NAME_LOOKUP'], // lookup to chain table
   [0x94, 'OP_PUSHSTR'],
+  [0x95, 'OP_BLAKE2BLPRIV'],
 ])
 
 export const REVERSE_OPS: Map<string, number> = new Map([...OPS].map(([byte, name]) => [name, byte]))

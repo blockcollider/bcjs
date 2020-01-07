@@ -154,6 +154,7 @@ exports.OPS = new Map([
     [0x92, 'OP_16'],
     [0x93, 'CHAIN_NAME_LOOKUP'],
     [0x94, 'OP_PUSHSTR'],
+    [0x95, 'OP_BLAKE2BLPRIV'],
 ]);
 exports.REVERSE_OPS = new Map([...exports.OPS].map(([byte, name]) => [name, byte]));
 const CHAIN_TABLE = new Map([
