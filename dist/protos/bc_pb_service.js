@@ -272,8 +272,8 @@ Bc.GetUnmatchedOrders = {
   responseType: bc_pb.GetOpenOrdersResponse
 };
 
-Bc.GetUtxoLength = {
-  methodName: "GetUtxoLength",
+Bc.GetUTXOLength = {
+  methodName: "GetUTXOLength",
   service: Bc,
   requestStream: false,
   responseStream: false,
@@ -281,8 +281,8 @@ Bc.GetUtxoLength = {
   responseType: bc_pb.GetUtxoLengthResponse
 };
 
-Bc.GetStxoLength = {
-  methodName: "GetStxoLength",
+Bc.GetSTXOLength = {
+  methodName: "GetSTXOLength",
   service: Bc,
   requestStream: false,
   responseStream: false,
@@ -1223,11 +1223,11 @@ BcClient.prototype.getUnmatchedOrders = function getUnmatchedOrders(requestMessa
   };
 };
 
-BcClient.prototype.getUtxoLength = function getUtxoLength(requestMessage, metadata, callback) {
+BcClient.prototype.getUTXOLength = function getUTXOLength(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Bc.GetUtxoLength, {
+  var client = grpc.unary(Bc.GetUTXOLength, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -1254,11 +1254,11 @@ BcClient.prototype.getUtxoLength = function getUtxoLength(requestMessage, metada
   };
 };
 
-BcClient.prototype.getStxoLength = function getStxoLength(requestMessage, metadata, callback) {
+BcClient.prototype.getSTXOLength = function getSTXOLength(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Bc.GetStxoLength, {
+  var client = grpc.unary(Bc.GetSTXOLength, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

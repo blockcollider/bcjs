@@ -266,7 +266,7 @@ type BcGetUnmatchedOrders = {
   readonly responseType: typeof bc_pb.GetOpenOrdersResponse;
 };
 
-type BcGetUtxoLength = {
+type BcGetUTXOLength = {
   readonly methodName: string;
   readonly service: typeof Bc;
   readonly requestStream: false;
@@ -275,7 +275,7 @@ type BcGetUtxoLength = {
   readonly responseType: typeof bc_pb.GetUtxoLengthResponse;
 };
 
-type BcGetStxoLength = {
+type BcGetSTXOLength = {
   readonly methodName: string;
   readonly service: typeof Bc;
   readonly requestStream: false;
@@ -342,8 +342,8 @@ export class Bc {
   static readonly GetOpenOrders: BcGetOpenOrders;
   static readonly GetMatchedOrders: BcGetMatchedOrders;
   static readonly GetUnmatchedOrders: BcGetUnmatchedOrders;
-  static readonly GetUtxoLength: BcGetUtxoLength;
-  static readonly GetStxoLength: BcGetStxoLength;
+  static readonly GetUTXOLength: BcGetUTXOLength;
+  static readonly GetSTXOLength: BcGetSTXOLength;
   static readonly GetBlake2bl: BcGetBlake2bl;
   static readonly GetBcAddressViaVanity: BcGetBcAddressViaVanity;
   static readonly GetCurrentWork: BcGetCurrentWork;
@@ -642,21 +642,21 @@ export class BcClient {
     requestMessage: bc_pb.GetBalanceRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
-  getUtxoLength(
+  getUTXOLength(
     requestMessage: bc_pb.GetUtxoLengthRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetUtxoLengthResponse|null) => void
   ): UnaryResponse;
-  getUtxoLength(
+  getUTXOLength(
     requestMessage: bc_pb.GetUtxoLengthRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetUtxoLengthResponse|null) => void
   ): UnaryResponse;
-  getStxoLength(
+  getSTXOLength(
     requestMessage: bc_pb.GetUtxoLengthRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetUtxoLengthResponse|null) => void
   ): UnaryResponse;
-  getStxoLength(
+  getSTXOLength(
     requestMessage: bc_pb.GetUtxoLengthRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetUtxoLengthResponse|null) => void
   ): UnaryResponse;

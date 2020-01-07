@@ -777,8 +777,8 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_GetOpenOrdersResponse,
     responseDeserialize: deserialize_bcsdk_GetOpenOrdersResponse,
   },
-  getUtxoLength: {
-    path: '/bcsdk.Bc/GetUtxoLength',
+  getUTXOLength: {
+    path: '/bcsdk.Bc/GetUTXOLength',
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetUtxoLengthRequest,
@@ -788,8 +788,8 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_GetUtxoLengthResponse,
     responseDeserialize: deserialize_bcsdk_GetUtxoLengthResponse,
   },
-  getStxoLength: {
-    path: '/bcsdk.Bc/GetStxoLength',
+  getSTXOLength: {
+    path: '/bcsdk.Bc/GetSTXOLength',
     requestStream: false,
     responseStream: false,
     requestType: bc_pb.GetUtxoLengthRequest,
