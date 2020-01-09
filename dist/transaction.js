@@ -203,14 +203,16 @@ exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privat
     });
 };
 const _calculateCrossChainTradeFee = function (collateralizedNRG, additionalTxFee, side) {
-    const collateralizedBN = coin_1.humanToInternalAsBN(collateralizedNRG, coin_1.COIN_FRACS.NRG);
-    const txFeeBN = (side === 'maker') ? coin_1.humanToInternalAsBN('0.002', coin_1.COIN_FRACS.NRG) : collateralizedBN.div(new bn_js_1.default(1000));
-    if (additionalTxFee != '0') {
-        return txFeeBN.add(coin_1.humanToInternalAsBN(additionalTxFee, coin_1.COIN_FRACS.NRG));
-    }
-    else {
-        return txFeeBN;
-    }
+    return new bn_js_1.default(0);
+    // const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
+    //
+    // const txFeeBN = (side === 'maker') ? humanToInternalAsBN('0.002', COIN_FRACS.NRG) : collateralizedBN.div(new BN(1000))
+    //
+    // if (additionalTxFee != '0') {
+    //   return txFeeBN.add(humanToInternalAsBN(additionalTxFee, COIN_FRACS.NRG))
+    // } else {
+    //   return txFeeBN
+    // }
 };
 const _calculateSpentAndLeftoverOutPoints = function (spendableWalletOutPointObjs, totalAmountBN) {
     let sumBN = new bn_js_1.default(0);

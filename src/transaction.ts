@@ -305,15 +305,17 @@ export const createUnlockTakerTx = async function(
 }
 
 const _calculateCrossChainTradeFee = function(collateralizedNRG: string, additionalTxFee: string, side: 'maker'|'taker'): BN {
-  const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
+  return new BN(0)
 
-  const txFeeBN = (side === 'maker') ? humanToInternalAsBN('0.002', COIN_FRACS.NRG) : collateralizedBN.div(new BN(1000))
-
-  if (additionalTxFee != '0') {
-    return txFeeBN.add(humanToInternalAsBN(additionalTxFee, COIN_FRACS.NRG))
-  } else {
-    return txFeeBN
-  }
+  // const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
+  //
+  // const txFeeBN = (side === 'maker') ? humanToInternalAsBN('0.002', COIN_FRACS.NRG) : collateralizedBN.div(new BN(1000))
+  //
+  // if (additionalTxFee != '0') {
+  //   return txFeeBN.add(humanToInternalAsBN(additionalTxFee, COIN_FRACS.NRG))
+  // } else {
+  //   return txFeeBN
+  // }
 }
 
 const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN): {
