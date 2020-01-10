@@ -244,7 +244,7 @@ export const createTakerOrderTransaction = function(
   ]
 
   if (fixedUnitFee && fixedUnitFee !== '0') {
-    const makerFeeScript = ['OP_BLAKE2BL',makerOpenOrder.doubleHashedBcAddress,'OP_EQUALVERIFY','OP_CHECKSIGVERIFY'].join(' ')
+    const makerFeeScript = ['OP_BLAKE2BLPRIV',makerOpenOrder.doubleHashedBcAddress,'OP_EQUALVERIFY','OP_CHECKSIGNOPUBKEYVERIFY'].join(' ')
     txOutputs.push(createTransactionOutput(
       makerFeeScript,
       makerUnitBN,

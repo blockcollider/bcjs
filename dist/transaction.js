@@ -159,7 +159,7 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
         protoUtil_1.createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new bn_js_1.default(base.toString())))
     ];
     if (fixedUnitFee && fixedUnitFee !== '0') {
-        const makerFeeScript = ['OP_BLAKE2BL', makerOpenOrder.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGVERIFY'].join(' ');
+        const makerFeeScript = ['OP_BLAKE2BLPRIV', makerOpenOrder.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ');
         txOutputs.push(protoUtil_1.createTransactionOutput(makerFeeScript, makerUnitBN, coin_1.humanToInternalAsBN(fixedUnitFee, coin_1.COIN_FRACS.NRG)));
     }
     // partial order
