@@ -263,6 +263,15 @@ Bc.GetMatchedOrders = {
   responseType: bc_pb.GetMatchedOrdersResponse
 };
 
+Bc.GetHistoricalOrders = {
+  methodName: "GetHistoricalOrders",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetBalanceRequest,
+  responseType: bc_pb.GetMatchedOrdersResponse
+};
+
 Bc.GetUnmatchedOrders = {
   methodName: "GetUnmatchedOrders",
   service: Bc,
@@ -1166,6 +1175,37 @@ BcClient.prototype.getMatchedOrders = function getMatchedOrders(requestMessage, 
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetMatchedOrders, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getHistoricalOrders = function getHistoricalOrders(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetHistoricalOrders, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

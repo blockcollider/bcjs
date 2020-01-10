@@ -766,6 +766,17 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_GetMatchedOrdersResponse,
     responseDeserialize: deserialize_bcsdk_GetMatchedOrdersResponse,
   },
+  getHistoricalOrders: {
+    path: '/bcsdk.Bc/GetHistoricalOrders',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBalanceRequest,
+    responseType: bc_pb.GetMatchedOrdersResponse,
+    requestSerialize: serialize_bcsdk_GetBalanceRequest,
+    requestDeserialize: deserialize_bcsdk_GetBalanceRequest,
+    responseSerialize: serialize_bcsdk_GetMatchedOrdersResponse,
+    responseDeserialize: deserialize_bcsdk_GetMatchedOrdersResponse,
+  },
   getUnmatchedOrders: {
     path: '/bcsdk.Bc/GetUnmatchedOrders',
     requestStream: false,

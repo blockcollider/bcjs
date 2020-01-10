@@ -266,6 +266,7 @@ service Bc {
 
     rpc GetOpenOrders (Null) returns (GetOpenOrdersResponse) {}
     rpc GetMatchedOrders (GetBalanceRequest) returns (GetMatchedOrdersResponse) {}
+    rpc GetHistoricalOrders (GetBalanceRequest) returns (GetMatchedOrdersResponse) {}
     rpc GetUnmatchedOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
 
     rpc GetUTXOLength (GetUtxoLengthRequest) returns (GetUtxoLengthResponse) {}
