@@ -113,7 +113,7 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
     if (err) {
         throw err;
     }
-    let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'maker');
+    let totalFeeBN = exports.calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'maker');
     const totalAmountBN = totalFeeBN.add(coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG));
     const indivisibleSendsUnit = coin_1.Currency.toMinimumUnitAsStr(sendsFromChain, sendsUnit, coin_1.CurrencyInfo[sendsFromChain].humanUnit);
     const indivisibleReceivesUnit = coin_1.Currency.toMinimumUnitAsStr(receivesToChain, receivesUnit, coin_1.CurrencyInfo[receivesToChain].humanUnit);
@@ -136,7 +136,7 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     let spendingNRG = (fixedUnitFee !== '0')
         ? coin_1.humanToInternalAsBN(fixedUnitFee, coin_1.COIN_FRACS.NRG)
         : coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG);
-    const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');
+    const totalFeeBN = exports.calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');
     const totalAmountBN = totalFeeBN.add(spendingNRG);
     const makerUnitBN = coin_1.humanToInternalAsBN(makerOpenOrder.nrgUnit, coin_1.COIN_FRACS.NRG);
     const makerCollateralBN = coin_1.humanToInternalAsBN(makerOpenOrder.collateralizedNrg, coin_1.COIN_FRACS.NRG);
@@ -202,7 +202,7 @@ exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privat
         }
     });
 };
-const _calculateCrossChainTradeFee = function (collateralizedNRG, additionalTxFee, side) {
+exports.calculateCrossChainTradeFee = function (collateralizedNRG, additionalTxFee, side) {
     return new bn_js_1.default(0);
     // const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
     //

@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import BN from 'bn.js';
 import * as coreProtobuf from './protos/core_pb';
 import RpcClient from './client';
 export declare const fromBuffer: (txBuffer: Uint8Array | Buffer) => coreProtobuf.Transaction;
@@ -15,3 +16,4 @@ export declare const createTakerOrderTransaction: (spendableWalletOutPointObjs: 
     txOutputIndex: number;
 }, bcAddress: string, bcPrivateKeyHex: string, collateralizedNrg: string, additionalTxFee: string) => coreProtobuf.Transaction;
 export declare const createUnlockTakerTx: (txHash: string, txOutputIndex: number, bcAddress: string, privateKeyHex: string, bcClient: RpcClient) => Promise<coreProtobuf.Transaction | null>;
+export declare const calculateCrossChainTradeFee: (collateralizedNRG: string, additionalTxFee: string, side: "maker" | "taker") => BN;
