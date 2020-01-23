@@ -159,7 +159,7 @@ export const createMakerOrderTransaction = function(
     throw err
   }
 
-  let totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
+  let totalFeeBN = calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
   const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
 
   const indivisibleSendsUnit = Currency.toMinimumUnitAsStr(
@@ -215,7 +215,7 @@ export const createTakerOrderTransaction = function(
     ? humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
     : humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
 
-  const totalFeeBN = _calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
+  const totalFeeBN = calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
   const totalAmountBN = totalFeeBN.add(spendingNRG)
 
   const makerUnitBN = humanToInternalAsBN(makerOpenOrder.nrgUnit, COIN_FRACS.NRG)
@@ -304,7 +304,7 @@ export const createUnlockTakerTx = async function(
   }
 }
 
-const _calculateCrossChainTradeFee = function(collateralizedNRG: string, additionalTxFee: string, side: 'maker'|'taker'): BN {
+export const calculateCrossChainTradeFee = function(collateralizedNRG: string, additionalTxFee: string, side: 'maker'|'taker'): BN {
   return new BN(0)
 
   // const collateralizedBN = humanToInternalAsBN(collateralizedNRG, COIN_FRACS.NRG)
