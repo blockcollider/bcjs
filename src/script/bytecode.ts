@@ -161,6 +161,7 @@ export const REVERSE_OPS: Map<string, number> = new Map([...OPS].map(([byte, nam
 
 const CHAIN_TABLE: Map<number, string> = new Map([
   [0x01, 'usdt'],
+  [0x02, 'xaut'],
 ])
 const REVERSE_CHAIN_TABLE: Map<string, number> = new Map([...CHAIN_TABLE].map(([byte, name]) => [name, byte]))
 
