@@ -2,8 +2,8 @@ name: CI
 on: push
 
 jobs:
-  pytest:
-    name: pytest
+  test:
+    name: Jest tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1 # was master
