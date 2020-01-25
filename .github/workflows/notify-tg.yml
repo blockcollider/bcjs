@@ -1,0 +1,17 @@
+name: Notify BC CORE Tg
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  notify_tg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Telegram Message Notify about commit
+        uses: appleboy/telegram-action@0.0.7
+        with:
+          to: ${{ secrets.BC_CORE_CHAT_ID }}
+          token: ${{ secrets.BC_DEV_BOT_TOKEN }}
+          message: '${{ github.actor }} updated the repository ${{ github.repository}} "${{ github.event.head_commit.message }}"'
