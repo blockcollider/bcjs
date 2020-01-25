@@ -1,0 +1,25 @@
+name: CI
+on: push
+
+jobs:
+  pytest:
+    name: pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1 # was master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: npm install -g yarn
+      - name: Install JS dependencies
+        run: yarn
+      - name: Run tests
+        run: yarn run test
+      - name: Notify TG if build failed
+        if: failure()
+        # run: 'echo :x: ${{ github.repository }} build failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
+        uses: appleboy/telegram-action@0.0.7
+        with:
+          to: ${{ secrets.BC_CORE_CHAT_ID }}
+          token: ${{ secrets.BC_DEV_BOT_TOKEN }}
+          message: ':x: ${{ github.repository }} build failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
