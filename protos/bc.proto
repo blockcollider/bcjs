@@ -264,7 +264,7 @@ service Bc {
 
     rpc GetTransfers (TransferRequest) returns (TransferResponse) {}
 
-    rpc GetOpenOrders (Null) returns (GetOpenOrdersResponse) {}
+    rpc GetOpenOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
     rpc GetMatchedOrders (GetBalanceRequest) returns (GetMatchedOrdersResponse) {}
     rpc GetHistoricalOrders (GetBalanceRequest) returns (GetMatchedOrdersResponse) {}
     rpc GetUnmatchedOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}

@@ -117,20 +117,6 @@ message HistoricalOrder {
   bool unlocked = 4;
 }
 
-message MatchedTx {
-    string hash = 1;
-    uint32 output_index = 2;
-    string chain = 3;
-    string sends_from = 4;
-    string receives_to = 5;
-    string amount = 6;
-    bool   is_maker = 7;
-}
-
-message MatchedTxs {
-    repeated MatchedTx txs = 1;
-}
-
 message Transaction {
   uint64 version = 1;
   string nonce = 2; // <rnd>+<minerAddess>
