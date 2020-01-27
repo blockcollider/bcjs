@@ -197,6 +197,12 @@ exports.CurrencyInfo = {
         minUnit: 'adai',
         humanUnit: 'dai',
     },
+    xaut: {
+        XAUT: 'xaut',
+        minDai: 'axaut',
+        minUnit: 'axaut',
+        humanUnit: 'xaut',
+    },
 };
 /* tslint:enable:object-literal-sort-keys */
 exports.CurrencyConverter = {
@@ -297,6 +303,7 @@ exports.CurrencyConverter = {
         }
         throw new Error('invalid unit');
     },
+    // adai = our name for further undivisible DAI (= atomic dai)
     dai(val, from, to) {
         const power = 18;
         if (from === to) {
@@ -307,6 +314,20 @@ exports.CurrencyConverter = {
         }
         else if (from === 'adai' && to === 'dai') {
             return calcStringDivPowerTen(val, power); // 1 DAI = 10^18 aDAI
+        }
+        throw new Error('invalid unit');
+    },
+    // axaut = our name for further undivisible XAUt (= atomic XAUt)
+    xaut(val, from, to) {
+        const power = 6;
+        if (from === to) {
+            return val;
+        }
+        else if (from === 'xaut' && to === 'axaut') {
+            return calcStringMulPowerTen(val, power); // 1 XAUt = 10^6 aXAUt
+        }
+        else if (from === 'axaut' && to === 'xaut') {
+            return calcStringDivPowerTen(val, power); // 1 XAUt = 10^6 aXAUt
         }
         throw new Error('invalid unit');
     },

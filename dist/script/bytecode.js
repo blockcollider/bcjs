@@ -159,6 +159,7 @@ exports.OPS = new Map([
 exports.REVERSE_OPS = new Map([...exports.OPS].map(([byte, name]) => [name, byte]));
 const CHAIN_TABLE = new Map([
     [0x01, 'usdt'],
+    [0x02, 'xaut'],
 ]);
 const REVERSE_CHAIN_TABLE = new Map([...CHAIN_TABLE].map(([byte, name]) => [name, byte]));
 const DATA_OPS = [
