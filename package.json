@@ -11,6 +11,7 @@
     "compile": "./node_modules/.bin/tsc && ./node_modules/.bin/mkdirp dist/protos && ./node_modules/.bin/cpy ./src/protos/* ./dist/protos/",
     "proto": "./node_modules/.bin/grpc_tools_node_protoc --plugin=./node_modules/.bin/protoc-gen-ts --proto_path=protos --js_out=import_style=commonjs,binary:src/protos protos/*.proto --grpc_out=src/protos --ts_out=\"service=true:src/protos\" --plugin=protoc-gen-grpc=./node_modules/grpc-tools/bin/grpc_node_plugin && ./scripts/proto-fix.sh",
     "start": "tsc && node dist/index.js",
+    "lint": "./node_modules/.bin/tslint -p .",
     "test": "jest",
     "benchmark": "node benchmarks/*",
     "example": "NODE_TLS_REJECT_UNAUTHORIZED=0 BC_RPC_ADDRESS=https://localhost:3001 BC_RPC_SCOOKIE=trololo ts-node examples/get-balance.ts"
