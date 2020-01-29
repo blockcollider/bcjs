@@ -11,14 +11,17 @@ exports.web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(expo
 exports.EMB_ADDRESS = '0xbfCdE98b92722f9BC33a5AB081397CD2D5409748';
 exports.USDT_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
 exports.DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f';
+exports.XAUt_ADDRESS = '0x4922a015c4407F87432B179bb209e125432E4a2A';
 /* tslint:disable:no-var-requires */
 exports.EMB_ABI = require('./contracts/Emblem.json').abi;
 exports.DAI_ABI = require('./contracts/DAI.json');
 exports.USDT_ABI = require('./contracts/USDT.json');
+exports.XAUt_ABI = require('./contracts/XAUt.json');
 /* tslint:enable:no-var-requires */
 exports.DAI = new exports.web3.eth.Contract(exports.DAI_ABI, exports.DAI_ADDRESS, options);
 exports.USDT = new exports.web3.eth.Contract(exports.USDT_ABI, exports.USDT_ADDRESS, options);
 exports.EMB = new exports.web3.eth.Contract(exports.EMB_ABI, exports.EMB_ADDRESS, options);
+exports.XAUt = new exports.web3.eth.Contract(exports.XAUt_ABI, exports.XAUt_ADDRESS, options);
 const getNonce = (from) => {
     return new Promise((resolve, reject) => {
         exports.web3.eth.getTransactionCount(from, 'pending', (error, result) => {
