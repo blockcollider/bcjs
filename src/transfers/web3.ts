@@ -1,4 +1,4 @@
-import { Transaction } from 'ethereumjs-tx'
+import { Transaction, BufferLike } from 'ethereumjs-tx'
 import Web3 from 'web3'
 
 const options = {gasLimit: 2000000000000, gasPrice: 20000}
@@ -19,7 +19,7 @@ export const DAI = new web3.eth.Contract(DAI_ABI, DAI_ADDRESS, options)
 export const USDT = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS, options)
 export const EMB = new web3.eth.Contract(EMB_ABI, EMB_ADDRESS, options)
 
-const getNonce = from => {
+const getNonce = (from): Promise<string> => {
   return new Promise((resolve, reject) => {
     web3.eth.getTransactionCount(from, 'pending', (error, result) => {
       if (error) { reject(error) }
@@ -43,7 +43,7 @@ const sendRawTransaction = (tx, done) => {
   .on('error', err => done(err))
 }
 
-const signTransaction = ({from, to, value, data, privateKey}, done) => {
+const signTransaction = ({from, to, value, data, privateKey}: { from: string, to: string, value: BufferLike, data: BufferLike, privateKey: string }, done) => {
   Promise.all([getNonce(from), getGasPrice()]).then(values => {
     return({
       data,

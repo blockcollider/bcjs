@@ -1,24 +1,30 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var Web3 = require("web3");
-var Tx = require('ethereumjs-tx').Transaction;
-let options = { gasLimit: 2000000000000, gasPrice: 20000 };
-exports.mainnet_url = 'https://mainnet.infura.io/v3/ca4c368803c347699a5d989cd367c0a6';
-exports.web3 = new Web3(new Web3.providers.HttpProvider(exports.mainnet_url));
-exports.EMB_ADDRESS = "0xbfCdE98b92722f9BC33a5AB081397CD2D5409748";
+const ethereumjs_tx_1 = require("ethereumjs-tx");
+const web3_1 = __importDefault(require("web3"));
+const options = { gasLimit: 2000000000000, gasPrice: 20000 };
+exports.mainnetUrl = 'https://mainnet.infura.io/v3/ca4c368803c347699a5d989cd367c0a6';
+exports.web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(exports.mainnetUrl));
+exports.EMB_ADDRESS = '0xbfCdE98b92722f9BC33a5AB081397CD2D5409748';
 exports.USDT_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
-exports.DAI_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
+exports.DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f';
+/* tslint:disable:no-var-requires */
 exports.EMB_ABI = require('./contracts/Emblem.json').abi;
 exports.DAI_ABI = require('./contracts/DAI.json');
 exports.USDT_ABI = require('./contracts/USDT.json');
+/* tslint:enable:no-var-requires */
 exports.DAI = new exports.web3.eth.Contract(exports.DAI_ABI, exports.DAI_ADDRESS, options);
 exports.USDT = new exports.web3.eth.Contract(exports.USDT_ABI, exports.USDT_ADDRESS, options);
 exports.EMB = new exports.web3.eth.Contract(exports.EMB_ABI, exports.EMB_ADDRESS, options);
 const getNonce = (from) => {
     return new Promise((resolve, reject) => {
         exports.web3.eth.getTransactionCount(from, 'pending', (error, result) => {
-            if (error)
+            if (error) {
                 reject(error);
+            }
             resolve(exports.web3.utils.toHex(result));
         });
     });
@@ -26,8 +32,9 @@ const getNonce = (from) => {
 const getGasPrice = () => {
     return new Promise((resolve, reject) => {
         exports.web3.eth.getGasPrice((error, result) => {
-            if (error)
+            if (error) {
                 reject(error);
+            }
             resolve(result * 10);
         });
     });
@@ -35,20 +42,20 @@ const getGasPrice = () => {
 const sendRawTransaction = (tx, done) => {
     exports.web3.eth.sendSignedTransaction(tx)
         .on('transactionHash', () => done(null, tx))
-        .on('error', (err) => done(err));
+        .on('error', err => done(err));
 };
 const signTransaction = ({ from, to, value, data, privateKey }, done) => {
     Promise.all([getNonce(from), getGasPrice()]).then(values => {
         return ({
+            data,
             gasLimit: exports.web3.utils.toHex(53000),
             gasPrice: exports.web3.utils.toHex(values[1]),
             nonce: values[0],
             to,
             value,
-            data
         });
-    }).then((rawTx) => {
-        let tx = new Tx(rawTx, { 'chain': 'mainnet' });
+    }).then(rawTx => {
+        const tx = new ethereumjs_tx_1.Transaction(rawTx, { chain: 'mainnet' });
         tx.sign(Buffer.from(privateKey, 'hex'));
         done(null, tx, '0x' + tx.serialize().toString('hex'));
     }).catch(err => {
@@ -58,15 +65,18 @@ const signTransaction = ({ from, to, value, data, privateKey }, done) => {
 exports.submitTransaction = (args, done) => {
     signTransaction(args, (err, tx, serializedTx) => {
         if (!err) {
-            sendRawTransaction(serializedTx, (err, receipt) => {
-                if (!err)
+            sendRawTransaction(serializedTx, (errInner, receipt) => {
+                if (!errInner) {
                     done(null, tx.hash(true).toString('hex'));
-                else
-                    done(err);
+                }
+                else {
+                    done(errInner);
+                }
             });
         }
-        else
+        else {
             done(err);
+        }
     });
 };
 //# sourceMappingURL=web3.js.map
