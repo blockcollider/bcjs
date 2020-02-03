@@ -11,185 +11,257 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
 const bitcoinjs_lib_1 = __importDefault(require("bitcoinjs-lib"));
-const superagent_1 = __importDefault(require("superagent"));
+require('es6-promise').polyfill(); /* tslint:disable-line */
+require('isomorphic-fetch'); /* tslint:disable-line */
 const BITCOIN_DIGITS = 8;
 const BITCOIN_SAT_MULT = Math.pow(10, BITCOIN_DIGITS);
-const providers = {
-    fees: {
-        mainnet: {
-            earn: feeName => {
-                return superagent_1.default
-                    .get('https://bitcoinfees.earn.com/api/v1/fees/recommended')
-                    .send()
-                    .then(res => {
-                    return res.body[feeName + 'Fee'];
-                });
-            },
-        },
+const FEE_GETTERS = [
+    function (feeName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let res;
+            try {
+                res = yield fetch('https://bitcoinfees.earn.com/api/v1/fees/recommended');
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+            if (res.status !== 200) {
+                throw new Error(`Response status code: ${res.status}`);
+            }
+            const jsonResult = yield res.json();
+            return jsonResult[`${feeName}Fee`];
+        });
     },
-    utxo: {
-        mainnet: {
-            blockexplorer: addr => {
-                return axios_1.default
-                    .get('https://blockexplorer.com/api/addr/' + addr + '/utxo?noCache=1', { params: { cors: true } })
-                    .then(res => {
-                    return res.data.map(e => {
-                        return {
-                            confirmations: e.confirmations,
-                            satoshis: e.satoshis,
-                            txid: e.txid,
-                            vout: e.vout,
-                        };
-                    });
+];
+const UTXO_GETTERS = [
+    function (addr) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let res;
+            try {
+                res = yield fetch(`https://blockexplorer.com/api/addr/${addr}/utxo?noCache=1`, {
+                    mode: 'cors',
+                    credentials: 'same-origin',
                 });
-            },
-            blockchain: addr => {
-                return axios_1.default
-                    .get('https://blockchain.info/unspent?active=' + addr, {
-                    params: { cors: true },
-                })
-                    .then(res => {
-                    return res.data.unspent_outputs.map(e => {
-                        return {
-                            confirmations: e.confirmations,
-                            satoshis: e.value,
-                            txid: e.tx_hash_big_endian,
-                            vout: e.tx_output_n,
-                        };
-                    });
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+            if (res.status !== 200) {
+                throw new Error(`Response status code: ${res.status}`);
+            }
+            const jsonResult = yield res.json();
+            return jsonResult.data.map(({ confirmations, amount, txid, vout }) => ({
+                confirmations,
+                satoshis: amount * BITCOIN_SAT_MULT,
+                txid,
+                vout,
+            }));
+        });
+    },
+    function (addr) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let res;
+            try {
+                res = yield fetch(`https://blockchain.info/unspent?active=${addr}`, {
+                    mode: 'cors',
+                    credentials: 'same-origin',
                 });
-            },
-        },
+            }
+            catch (e) {
+                throw new Error(e);
+            }
+            if (res.status !== 200) {
+                throw new Error(`Response status code: ${res.status}`);
+            }
+            const jsonResult = yield res.json();
+            return jsonResult.data.unspent_outputs.map(({ confirmations, value, tx_hash_big_endian, tx_output_n }) => ({
+                confirmations,
+                satoshis: value,
+                txid: tx_hash_big_endian,
+                vout: tx_output_n,
+            }));
+        });
     },
-    pushtx: {
-        mainnet: {
-            blockchain: hexTrans => {
-                return superagent_1.default
-                    .post('https://blockchain.info/pushtx')
-                    .send('tx=' + hexTrans);
-            },
-            blockcypher: hexTrans => {
-                return superagent_1.default
-                    .post('https://api.blockcypher.com/v1/btc/main/txs/push')
-                    .send('{"tx":"' + hexTrans + '"}');
-            },
-            blockexplorer: hexTrans => {
-                return superagent_1.default
-                    .post('https://blockexplorer.com/api/tx/send')
-                    .send('rawtx=' + hexTrans);
-            },
-        },
+];
+const PUSHTX_FNS = [
+    function (txHex) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield fetch('https://api.blockcypher.com/v1/btc/main/txs/push', {
+                body: JSON.stringify({ tx: txHex }),
+                headers: { 'Content-Type': 'application/json' },
+                method: 'post',
+            });
+            if (res.status - 200 > 100) {
+                throw new Error(`Not successful satus code: ${res.status}, error: ${res.statusText}`);
+            }
+            return true;
+        });
     },
-};
+    function (txHex) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield fetch('https://blockchain.info/pushtx', {
+                body: `tx=${encodeURIComponent(txHex)}`,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                method: 'post',
+            });
+            if (res.status - 200 > 100) {
+                throw new Error(`Not successful satus code: ${res.status}, error: ${res.statusText}`);
+            }
+            return true;
+        });
+    },
+    function (txHex) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield fetch('https://blockexplorer.com/api/tx/send', {
+                body: `rawtx=${encodeURIComponent(txHex)}`,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                method: 'post',
+            });
+            if (res.status - 200 > 100) {
+                throw new Error(`Not successful satus code: ${res.status}, error: ${res.statusText}`);
+            }
+            return true;
+        });
+    },
+];
 function getTransactionSize(numInputs, numOutputs) {
     return numInputs * 180 + numOutputs * 34 + 10 + numInputs;
 }
-function getFees(provider, feeName) {
-    if (typeof feeName === 'number') {
-        return Promise.resolve(feeName);
-    }
-    else {
-        return provider(feeName);
-    }
+function getFees(feeName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let lastError;
+        for (const fn of FEE_GETTERS) {
+            try {
+                const res = yield fn(feeName);
+                return res;
+            }
+            catch (e) {
+                lastError = e;
+                continue;
+            }
+        }
+        throw new Error(lastError);
+    });
+}
+function getUtxos(address) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let lastError;
+        for (const fn of UTXO_GETTERS) {
+            try {
+                const res = yield fn(address);
+                return res;
+            }
+            catch (e) {
+                lastError = e;
+                continue;
+            }
+        }
+        throw new Error(lastError);
+    });
+}
+function pushTx(txHex) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let lastError;
+        for (const fn of PUSHTX_FNS) {
+            try {
+                const res = yield fn(txHex);
+                return res;
+            }
+            catch (e) {
+                lastError = e;
+                continue;
+            }
+        }
+        throw new Error(lastError);
+    });
 }
 function sendTransaction(options) {
     return __awaiter(this, void 0, void 0, function* () {
         // Required
-        if (options == null || typeof options !== 'object') {
+        if (!options || typeof options !== 'object') {
             throw new Error('Options must be specified and must be an object.');
         }
-        if (options.from == null) {
+        if (!options.from) {
             throw new Error('Must specify from address.');
         }
-        if (options.to == null) {
+        if (!options.to) {
             throw new Error('Must specify to address.');
         }
-        if (options.btc == null) {
+        if (!options.btc) {
             throw new Error('Must specify amount of btc to send.');
         }
-        if (options.privKeyWIF == null) {
+        if (!options.privKeyWIF) {
             throw new Error("Must specify the wallet's private key in WIF format.");
         }
         // Optionals
-        if (options.network == null) {
-            options.network = 'mainnet';
-        }
-        if (options.fee == null) {
+        if (!options.fee) {
             options.fee = 'fastest';
         }
-        if (options.feesProvider == null) {
-            options.feesProvider = providers.fees[options.network].earn;
-        }
-        if (options.utxoProvider == null) {
-            options.utxoProvider = providers.utxo[options.network].blockchain;
-        }
-        if (options.pushtxProvider == null) {
-            options.pushtxProvider = providers.pushtx[options.network].blockchain;
-        }
-        if (options.minConfirmations == null) {
+        if (!options.minConfirmations) {
             options.minConfirmations = 0;
         }
-        const from = options.from;
-        const to = options.to;
-        const amount = options.btc;
-        const amtSatoshi = Math.floor(amount * BITCOIN_SAT_MULT);
+        const { from, to, btc, fee, minConfirmations, privKeyWIF } = options;
+        const amtSatoshi = Math.floor(btc * BITCOIN_SAT_MULT);
         const bitcoinNetwork = bitcoinjs_lib_1.default.networks.bitcoin;
-        return Promise.all([
-            getFees(options.feesProvider, options.fee),
-            options.utxoProvider(from),
-        ]).then((res) => __awaiter(this, void 0, void 0, function* () {
-            const feePerByte = res[0];
-            const utxos = res[1];
-            // Setup inputs from utxos
-            const tx = new bitcoinjs_lib_1.default.TransactionBuilder(bitcoinNetwork);
-            let ninputs = 0;
-            let availableSat = 0;
-            for (const utxo of utxos) {
-                if (utxo.confirmations >= options.minConfirmations) {
-                    tx.addInput(utxo.txid, utxo.vout);
-                    availableSat += utxo.satoshis;
-                    ninputs++;
-                    if (availableSat > amtSatoshi) {
-                        break;
-                    }
+        const feePerByte = yield getFees(fee);
+        const utxos = yield getUtxos(from);
+        // Setup inputs from utxos
+        const tx = new bitcoinjs_lib_1.default.TransactionBuilder(bitcoinNetwork);
+        let ninputs = 0;
+        let availableSat = 0;
+        for (const utxo of utxos) {
+            if (utxo.confirmations >= minConfirmations) {
+                tx.addInput(utxo.txid, utxo.vout);
+                availableSat += utxo.satoshis;
+                ninputs++;
+                if (availableSat > amtSatoshi) {
+                    break;
                 }
             }
-            if (availableSat < amtSatoshi) {
-                throw new Error('You do not have enough in your wallet to send that much.');
+        }
+        if (availableSat < amtSatoshi) {
+            throw new Error('You do not have enough in your wallet to send that much.');
+        }
+        const change = availableSat - amtSatoshi;
+        const calculatedFee = getTransactionSize(ninputs, change > 0 ? 2 : 1) * feePerByte;
+        if (calculatedFee > amtSatoshi) {
+            throw new Error('BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)');
+        }
+        tx.addOutput(to, amtSatoshi);
+        if (change > 0) {
+            tx.addOutput(from, change - calculatedFee);
+        }
+        const keyPair = bitcoinjs_lib_1.default.ECPair.fromWIF(privKeyWIF, bitcoinNetwork);
+        for (let i = 0; i < ninputs; i++) {
+            try {
+                tx.sign(i, keyPair); // FIXME test if should not be ninputs[i]
             }
-            const change = availableSat - amtSatoshi;
-            const fee = getTransactionSize(ninputs, change > 0 ? 2 : 1) * feePerByte;
-            if (fee > amtSatoshi) {
-                throw new Error('BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)');
+            catch (err) {
+                console.log(err);
             }
-            tx.addOutput(to, amtSatoshi);
-            if (change > 0) {
-                tx.addOutput(from, change - fee);
-            }
-            const keyPair = bitcoinjs_lib_1.default.ECPair.fromWIF(options.privKeyWIF, bitcoinNetwork);
-            for (let i = 0; i < ninputs; i++) {
-                try {
-                    tx.sign(i, keyPair);
-                }
-                catch (err) {
-                    console.log({ err });
-                }
-            }
-            const msg = tx.build().toHex();
-            const req = yield superagent_1.default
-                .post('https://api.blockcypher.com/v1/btc/main/txs/push')
-                .send('{"tx":"' + msg + '"}');
-            if (req.statusText === 'Created') {
-                return { msg };
-            }
-            else {
-                return null;
-            }
-        }));
+        }
+        const txHex = tx.build().toHex();
+        const response = yield pushTx(txHex);
+        if (response === true) { // Created
+            return { msg: txHex };
+        }
+        else {
+            return null;
+        }
     });
 }
+function getTransfers(btcAddress) {
+    return {
+        height: 1,
+        from: 'a',
+        to: 'b',
+        timestamp: 12345567888,
+        value: 1,
+        txHash: 'c',
+    };
+}
+exports.getTransfers = getTransfers;
 exports.transferBTC = (privKeyWIF, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
     try {
         const signed = yield sendTransaction({
@@ -204,8 +276,8 @@ exports.transferBTC = (privKeyWIF, from, to, amount) => __awaiter(this, void 0, 
         return txid;
     }
     catch (err) {
-        console.log({ err });
-        return err;
+        console.log(err);
+        throw new Error(err);
     }
 });
 //# sourceMappingURL=btc.js.map

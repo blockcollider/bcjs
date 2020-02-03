@@ -1,188 +1,270 @@
-import axios from 'axios'
 import bitcoin from 'bitcoinjs-lib'
-import request from 'superagent'
+require('es6-promise').polyfill() /* tslint:disable-line */
+require('isomorphic-fetch') /* tslint:disable-line */
 
 const BITCOIN_DIGITS = 8
 const BITCOIN_SAT_MULT = Math.pow(10, BITCOIN_DIGITS)
 
-const providers = {
-  fees: {
-    mainnet: {
-      earn: feeName => {
-        return request
-          .get('https://bitcoinfees.earn.com/api/v1/fees/recommended')
-          .send()
-          .then(res => {
-            return res.body[feeName + 'Fee']
-          })
-      },
-    },
-  },
-  utxo: {
-    mainnet: {
-      blockexplorer: addr => {
-        return axios
-          .get(
-            'https://blockexplorer.com/api/addr/' + addr + '/utxo?noCache=1',
-            { params: { cors: true } },
-          )
-          .then(res => {
-            return res.data.map(e => {
-              return {
-                confirmations: e.confirmations,
-                satoshis: e.satoshis,
-                txid: e.txid,
-                vout: e.vout,
-              }
-            })
-          })
-      },
-      blockchain: addr => {
-        return axios
-          .get('https://blockchain.info/unspent?active=' + addr, {
-            params: { cors: true },
-          })
-          .then(res => {
-            return res.data.unspent_outputs.map(e => {
-              return {
-                confirmations: e.confirmations,
-                satoshis: e.value,
-                txid: e.tx_hash_big_endian,
-                vout: e.tx_output_n,
-              }
-            })
-          })
-      },
-    },
-  },
-  pushtx: {
-    mainnet: {
-      blockchain: hexTrans => {
-        return request
-          .post('https://blockchain.info/pushtx')
-          .send('tx=' + hexTrans)
-      },
-      blockcypher: hexTrans => {
-        return request
-          .post('https://api.blockcypher.com/v1/btc/main/txs/push')
-          .send('{"tx":"' + hexTrans + '"}')
-      },
-      blockexplorer: hexTrans => {
-        return request
-          .post('https://blockexplorer.com/api/tx/send')
-          .send('rawtx=' + hexTrans)
-      },
-    },
-  },
+type HexString = string
+
+interface IBtcTransfer {
+  height: number,
+  from: string,
+  to: string,
+  timestamp: number,
+  value: number,
+  txHash: string
 }
+
+type FeeName = 'fastest'|'halfHour'|'hour'
+
+const FEE_GETTERS = [
+  async function (feeName: FeeName): Promise<number> {
+    let res
+    try {
+      res = await fetch('https://bitcoinfees.earn.com/api/v1/fees/recommended')
+    } catch (e) {
+      throw new Error(e)
+    }
+
+    if (res.status !== 200) {
+      throw new Error(`Response status code: ${res.status}`)
+    }
+
+    const jsonResult: { fastestFee: number, halfHourFee: number, hourFee: number }  = await res.json()
+
+    return jsonResult[`${feeName}Fee`]
+  },
+]
+
+const UTXO_GETTERS = [
+  async function (addr: string): Promise<Array<{ confirmations: number, satoshis: number, txid: string, vout: number }>> {
+    let res
+    try {
+      res = await fetch(`https://blockexplorer.com/api/addr/${addr}/utxo?noCache=1`, {
+        mode: 'cors',
+        credentials: 'same-origin',
+      })
+    } catch (e) {
+      throw new Error(e)
+    }
+
+    if (res.status !== 200) {
+      throw new Error(`Response status code: ${res.status}`)
+    }
+
+    const jsonResult = await res.json()
+
+    return jsonResult.data.map(({ confirmations, amount, txid, vout }) => ({
+      confirmations,
+      satoshis: amount * BITCOIN_SAT_MULT,
+      txid,
+      vout,
+    }))
+  },
+  async function (addr) {
+    let res
+    try {
+      res = await fetch(`https://blockchain.info/unspent?active=${addr}`, {
+        mode: 'cors',
+        credentials: 'same-origin',
+      })
+    } catch (e) {
+      throw new Error(e)
+    }
+
+    if (res.status !== 200) {
+      throw new Error(`Response status code: ${res.status}`)
+    }
+
+    const jsonResult = await res.json()
+
+    return jsonResult.data.unspent_outputs.map(({ confirmations, value, tx_hash_big_endian, tx_output_n }) => ({
+      confirmations,
+      satoshis: value,
+      txid: tx_hash_big_endian,
+      vout: tx_output_n,
+    }))
+  },
+]
+
+const PUSHTX_FNS = [
+  async function (txHex: HexString) {
+    const res = await fetch('https://api.blockcypher.com/v1/btc/main/txs/push', {
+      body: JSON.stringify({ tx: txHex }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'post',
+    })
+
+    if (res.status - 200 > 100) {
+      throw new Error(`Not successful satus code: ${res.status}, error: ${res.statusText}`)
+    }
+
+    return true
+  },
+  async function (txHex: HexString) {
+    const res = await fetch('https://blockchain.info/pushtx', {
+      body: `tx=${encodeURIComponent(txHex)}`,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      method: 'post',
+    })
+
+    if (res.status - 200 > 100) {
+      throw new Error(`Not successful satus code: ${res.status}, error: ${res.statusText}`)
+    }
+
+    return true
+  },
+  async function (txHex: HexString) {
+    const res = await fetch('https://blockexplorer.com/api/tx/send', {
+      body: `rawtx=${encodeURIComponent(txHex)}`,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      method: 'post',
+    })
+
+    if (res.status - 200 > 100) {
+      throw new Error(`Not successful satus code: ${res.status}, error: ${res.statusText}`)
+    }
+
+    return true
+  },
+]
 
 function getTransactionSize (numInputs, numOutputs) {
   return numInputs * 180 + numOutputs * 34 + 10 + numInputs
 }
 
-function getFees (provider, feeName) {
-  if (typeof feeName === 'number') {
-    return Promise.resolve(feeName)
-  } else {
-    return provider(feeName)
+async function getFees (feeName: FeeName): Promise<number> {
+  let lastError
+  for (const fn of FEE_GETTERS) {
+    try {
+      const res = await fn(feeName)
+      return res
+    } catch (e) {
+      lastError = e
+      continue
+    }
   }
+
+  throw new Error(lastError)
 }
 
-async function sendTransaction (options) {
+async function getUtxos (address: HexString) {
+  let lastError
+  for (const fn of UTXO_GETTERS) {
+    try {
+      const res = await fn(address)
+      return res
+    } catch (e) {
+      lastError = e
+      continue
+    }
+  }
+
+  throw new Error(lastError)
+}
+
+async function pushTx (txHex: HexString) {
+  let lastError
+  for (const fn of PUSHTX_FNS) {
+    try {
+      const res = await fn(txHex)
+      return res
+    } catch (e) {
+      lastError = e
+      continue
+    }
+  }
+
+  throw new Error(lastError)
+}
+
+async function sendTransaction (options: { from: string, to: string, btc: number, privKeyWIF: string, fee?: FeeName, minConfirmations?: number, dryrun?: boolean, network?: 'mainnet'|'testnet' }) {
   // Required
-  if (options == null || typeof options !== 'object') {
+  if (!options || typeof options !== 'object') {
     throw new Error('Options must be specified and must be an object.')
   }
-  if (options.from == null) {
+  if (!options.from) {
     throw new Error('Must specify from address.')
   }
-  if (options.to == null) {
+  if (!options.to) {
     throw new Error('Must specify to address.')
   }
-  if (options.btc == null) {
+  if (!options.btc) {
     throw new Error('Must specify amount of btc to send.')
   }
-  if (options.privKeyWIF == null) {
+  if (!options.privKeyWIF) {
     throw new Error("Must specify the wallet's private key in WIF format.")
   }
 
   // Optionals
-  if (options.network == null) {
-    options.network = 'mainnet'
-  }
-  if (options.fee == null) {
+  if (!options.fee) {
     options.fee = 'fastest'
   }
-  if (options.feesProvider == null) {
-    options.feesProvider = providers.fees[options.network].earn
-  }
-  if (options.utxoProvider == null) {
-    options.utxoProvider = providers.utxo[options.network].blockchain
-  }
-  if (options.pushtxProvider == null) {
-    options.pushtxProvider = providers.pushtx[options.network].blockchain
-  }
-  if (options.minConfirmations == null) {
+  if (!options.minConfirmations) {
     options.minConfirmations = 0
   }
 
-  const from = options.from
-  const to = options.to
-  const amount = options.btc
-  const amtSatoshi = Math.floor(amount * BITCOIN_SAT_MULT)
+  const { from, to, btc, fee, minConfirmations, privKeyWIF } = options
+  const amtSatoshi = Math.floor(btc * BITCOIN_SAT_MULT)
   const bitcoinNetwork = bitcoin.networks.bitcoin
 
-  return Promise.all([
-    getFees(options.feesProvider, options.fee),
-    options.utxoProvider(from),
-  ]).then(async res => {
-    const feePerByte = res[0]
-    const utxos = res[1]
-    // Setup inputs from utxos
-    const tx = new bitcoin.TransactionBuilder(bitcoinNetwork)
-    let ninputs = 0
-    let availableSat = 0
-    for (const utxo of utxos) {
-      if (utxo.confirmations >= options.minConfirmations) {
-        tx.addInput(utxo.txid, utxo.vout)
-        availableSat += utxo.satoshis
-        ninputs++
-        if (availableSat > amtSatoshi) {
-          break
-        }
-      }
-    }
-    if (availableSat < amtSatoshi) {
-      throw new Error('You do not have enough in your wallet to send that much.')
-    }
+  const feePerByte = await getFees(fee)
+  const utxos = await getUtxos(from)
 
-    const change = availableSat - amtSatoshi
-    const fee = getTransactionSize(ninputs, change > 0 ? 2 : 1) * feePerByte
-    if (fee > amtSatoshi) {
-      throw new Error('BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)')
-    }
-    tx.addOutput(to, amtSatoshi)
-    if (change > 0) {
-      tx.addOutput(from, change - fee)
-    }
-    const keyPair = bitcoin.ECPair.fromWIF(options.privKeyWIF, bitcoinNetwork)
-    for (let i = 0; i < ninputs; i++) {
-      try {
-        tx.sign(i, keyPair)
-      } catch (err) {
-        console.log({ err })
+  // Setup inputs from utxos
+  const tx = new bitcoin.TransactionBuilder(bitcoinNetwork)
+  let ninputs = 0
+  let availableSat = 0
+  for (const utxo of utxos) {
+    if (utxo.confirmations >= minConfirmations) {
+      tx.addInput(utxo.txid, utxo.vout)
+      availableSat += utxo.satoshis
+      ninputs++
+      if (availableSat > amtSatoshi) {
+        break
       }
     }
-    const msg = tx.build().toHex()
-    const req = await request
-      .post('https://api.blockcypher.com/v1/btc/main/txs/push')
-      .send('{"tx":"' + msg + '"}')
-    if (req.statusText === 'Created') {
-      return { msg }
-    } else {
-      return null
+  }
+  if (availableSat < amtSatoshi) {
+    throw new Error('You do not have enough in your wallet to send that much.')
+  }
+
+  const change = availableSat - amtSatoshi
+  const calculatedFee = getTransactionSize(ninputs, change > 0 ? 2 : 1) * feePerByte
+  if (calculatedFee > amtSatoshi) {
+    throw new Error('BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)')
+  }
+  tx.addOutput(to, amtSatoshi)
+  if (change > 0) {
+    tx.addOutput(from, change - calculatedFee)
+  }
+  const keyPair = bitcoin.ECPair.fromWIF(privKeyWIF, bitcoinNetwork)
+  for (let i = 0; i < ninputs; i++) {
+    try {
+      tx.sign(i, keyPair) // FIXME test if should not be ninputs[i]
+    } catch (err) {
+      console.log(err)
     }
-  })
+  }
+  const txHex = tx.build().toHex()
+  const response = await pushTx(txHex)
+  if (response === true) { // Created
+    return { msg: txHex }
+  } else {
+    return null
+  }
+}
+
+export function getTransfers (btcAddress: string): IBtcTransfer {
+  return {
+    height: 1,
+    from: 'a',
+    to: 'b',
+    timestamp: 12345567888,
+    value: 1,
+    txHash: 'c',
+  }
 }
 
 export const transferBTC = async (privKeyWIF, from, to, amount) => {
@@ -198,7 +280,7 @@ export const transferBTC = async (privKeyWIF, from, to, amount) => {
     const txid = signed ? bitcoin.Transaction.fromHex(signed.msg).getId() : null
     return txid
   } catch (err) {
-    console.log({ err })
-    return err
+    console.log(err)
+    throw new Error(err)
   }
 }
