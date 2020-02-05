@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const web3_1 = require("./web3");
+require('es6-promise').polyfill(); /* tslint:disable-line */
+require('isomorphic-fetch'); /* tslint:disable-line */
 const ETH_WEI_MULT = Math.pow(10, 18);
 const TRANSFER_GETTERS = [
     // NOTE: cannot use blockcypher api here because value is a sum of amount and fee

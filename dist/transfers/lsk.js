@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const lisk_elements_1 = require("lisk-elements");
+require('es6-promise').polyfill(); /* tslint:disable-line */
+require('isomorphic-fetch'); /* tslint:disable-line */
 const client = lisk_elements_1.APIClient.createMainnetAPIClient();
 const TRANSFER_GETTERS = [
     (address) => __awaiter(this, void 0, void 0, function* () {

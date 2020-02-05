@@ -1,4 +1,6 @@
 import { APIClient, transactions } from 'lisk-elements'
+require('es6-promise').polyfill() /* tslint:disable-line */
+require('isomorphic-fetch') /* tslint:disable-line */
 const client = APIClient.createMainnetAPIClient()
 
 type MLSKString = string

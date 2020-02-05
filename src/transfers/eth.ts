@@ -1,5 +1,7 @@
 import BN from 'bn.js'
 import { submitTransaction, web3 } from './web3'
+require('es6-promise').polyfill() /* tslint:disable-line */
+require('isomorphic-fetch') /* tslint:disable-line */
 
 const ETH_WEI_MULT = Math.pow(10, 18)
 
