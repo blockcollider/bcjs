@@ -2,7 +2,7 @@ require('es6-promise').polyfill() /* tslint:disable-line */
 require('isomorphic-fetch') /* tslint:disable-line */
 import { broadcast, transfer, TSeedTypes } from '@waves/waves-transactions'
 
-const MWAV_MULT = Math.pow(10, 18)
+const MWAV_MULT = Math.pow(10, 8)
 interface IWAVTransfer {
   to: string,
   from: string,
@@ -67,14 +67,14 @@ const TRANSFER_GETTERS = [
     return transferTransactions.map(rawTx => ({
       from: rawTx.sender,
       to: rawTx.recipient,
-      timestamp: rawTx.timestamp / 1000,
+      timestamp: rawTx.timestamp / 1000 | 0,
       value: rawTx.amount / MWAV_MULT,
       height: rawTx.height,
       txHash: rawTx.id
     }))
-}
-
+  }
 ]
+
 export const getTransfers = async (address: string, limit: number = 100): Promise<IWAVTransfer[]> => {
   let lastError
   for (const fn of TRANSFER_GETTERS) {

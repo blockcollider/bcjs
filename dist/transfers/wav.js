@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require('es6-promise').polyfill(); /* tslint:disable-line */
 require('isomorphic-fetch'); /* tslint:disable-line */
 const waves_transactions_1 = require("@waves/waves-transactions");
-const MWAV_MULT = Math.pow(10, 18);
+const MWAV_MULT = Math.pow(10, 8);
 const TRANSFER_GETTERS = [
     (address, limit = 100) => __awaiter(this, void 0, void 0, function* () {
         let url = `https://nodes.wavesnodes.com/transactions/address/${address}/limit/${limit}`;
@@ -34,7 +34,7 @@ const TRANSFER_GETTERS = [
         return transferTransactions.map(rawTx => ({
             from: rawTx.sender,
             to: rawTx.recipient,
-            timestamp: rawTx.timestamp / 1000,
+            timestamp: rawTx.timestamp / 1000 | 0,
             value: rawTx.amount / MWAV_MULT,
             height: rawTx.height,
             txHash: rawTx.id
