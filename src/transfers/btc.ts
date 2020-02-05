@@ -130,6 +130,25 @@ const PUSHTX_FNS = [
   },
 ]
 
+const BALANCE_GETTERS = [
+  async (address: string): Promise<number> =>  {
+    let res
+    try {
+      res = await fetch(`https://api.blockcypher.com/v1/btc/main/addrs/${address}/balance`)
+    } catch (e) {
+      throw new Error(e)
+    }
+
+    if (res.status !== 200) {
+      throw new Error(`Response status code: ${res.status}`)
+    }
+
+    const jsonResult = await res.json()
+
+    return jsonResult.final_balance
+  }
+]
+
 function getTransactionSize (numInputs, numOutputs) {
   return numInputs * 180 + numOutputs * 34 + 10 + numInputs
 }
@@ -169,6 +188,21 @@ async function pushTx (txHex: HexString) {
   for (const fn of PUSHTX_FNS) {
     try {
       const res = await fn(txHex)
+      return res
+    } catch (e) {
+      lastError = e
+      continue
+    }
+  }
+
+  throw new Error(lastError)
+}
+
+async function getBalance (address: string) {
+  let lastError
+  for (const fn of BALANCE_GETTERS) {
+    try {
+      const res = await fn(address)
       return res
     } catch (e) {
       lastError = e

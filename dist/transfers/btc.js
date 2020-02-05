@@ -125,6 +125,22 @@ const PUSHTX_FNS = [
         });
     },
 ];
+const BALANCE_GETTERS = [
+    (address) => __awaiter(this, void 0, void 0, function* () {
+        let res;
+        try {
+            res = yield fetch(`https://api.blockcypher.com/v1/btc/main/addrs/${address}/balance`);
+        }
+        catch (e) {
+            throw new Error(e);
+        }
+        if (res.status !== 200) {
+            throw new Error(`Response status code: ${res.status}`);
+        }
+        const jsonResult = yield res.json();
+        return jsonResult.final_balance;
+    })
+];
 function getTransactionSize(numInputs, numOutputs) {
     return numInputs * 180 + numOutputs * 34 + 10 + numInputs;
 }
@@ -166,6 +182,22 @@ function pushTx(txHex) {
         for (const fn of PUSHTX_FNS) {
             try {
                 const res = yield fn(txHex);
+                return res;
+            }
+            catch (e) {
+                lastError = e;
+                continue;
+            }
+        }
+        throw new Error(lastError);
+    });
+}
+function getBalance(address) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let lastError;
+        for (const fn of BALANCE_GETTERS) {
+            try {
+                const res = yield fn(address);
                 return res;
             }
             catch (e) {
