@@ -175,7 +175,7 @@ exports.CurrencyInfo = {
     },
     lsk: {
         LSK: 'lsk',
-        minLsk: 'mwav',
+        minLsk: 'mlsk',
         minUnit: 'mlsk',
         humanUnit: 'lsk',
     },

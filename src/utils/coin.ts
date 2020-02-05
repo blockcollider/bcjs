@@ -196,7 +196,7 @@ export const CurrencyInfo: ICurrencyInfoInterface = {
   },
   lsk: {
     LSK: 'lsk',
-    minLsk: 'mwav',
+    minLsk: 'mlsk',
     minUnit: 'mlsk',
     humanUnit: 'lsk',
   },
