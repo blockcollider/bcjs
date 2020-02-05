@@ -31,10 +31,13 @@ const getNonce = (from): Promise<string> => {
   })
 }
 
-const getGasPrice = () => {
+const getGasPrice = (): Promise<number> => {
   return new Promise((resolve, reject) => {
     web3.eth.getGasPrice((error, result) => {
-      if (error) { reject(error) }
+      if (error) {
+        reject(error)
+        return
+      }
       resolve(result * 10)
     })
   })

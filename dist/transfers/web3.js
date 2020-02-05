@@ -37,6 +37,7 @@ const getGasPrice = () => {
         exports.web3.eth.getGasPrice((error, result) => {
             if (error) {
                 reject(error);
+                return;
             }
             resolve(result * 10);
         });
