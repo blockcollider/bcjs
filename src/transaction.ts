@@ -36,6 +36,8 @@ const { blake2bl } = require('./utils/crypto')
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
 
+const BOSON_PER_BYTE = new BN('1660000000000')
+
 export const fromBuffer = function(txBuffer: Buffer|Uint8Array): coreProtobuf.Transaction {
   return coreProtobuf.Transaction.deserializeBinary(txBuffer)
 }
@@ -70,7 +72,8 @@ export const createMultiNRGTransferTransaction = function(
   privateKeyHex: string,
   toAddress: Array<string>,
   transferAmountNRG: Array<string>,
-  txFeeNRG: string
+  txFeeNRG: string,
+  addDefaultFee: boolean = false
 ): coreProtobuf.Transaction {
   if(toAddress.length != transferAmountNRG.length) throw new Error('incorrect length of args');
 
@@ -90,6 +93,12 @@ export const createMultiNRGTransferTransaction = function(
   }
 
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
+
+  if (addDefaultFee) {
+    for (const output of txOutputs) {
+      totalAmountBN.add(BOSON_PER_BYTE.mul(new BN(output.getScriptLength())))
+    }
+  }
 
   return _compileTransaction(
     spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex
@@ -111,7 +120,8 @@ export const createNRGTransferTransaction = function(
   privateKeyHex: string,
   toAddress: string,
   transferAmountNRG: string,
-  txFeeNRG: string
+  txFeeNRG: string,
+  addDefaultFee: boolean = false
 ): coreProtobuf.Transaction {
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
@@ -125,6 +135,12 @@ export const createNRGTransferTransaction = function(
     createTransactionOutput(createNRGLockScript(toAddress), unitBN, transferAmountBN)
   ]
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
+  if (addDefaultFee) {
+    for (const output of txOutputs) {
+      totalAmountBN.add(BOSON_PER_BYTE.mul(new BN(output.getScriptLength())))
+    }
+  }
+
 
   return _compileTransaction(
     spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex
@@ -138,7 +154,8 @@ export const createMakerOrderTransaction = function(
   sendsFromAddress: string, receivesToAddress: string,
   sendsUnit: string, receivesUnit: string,
   bcAddress: string, bcPrivateKeyHex: string,
-  collateralizedNrg: string, nrgUnit:string, fixedUnitFee:string, additionalTxFee: string
+  collateralizedNrg: string, nrgUnit:string, fixedUnitFee:string, additionalTxFee: string,
+  addDefaultFee: boolean = false
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -191,6 +208,12 @@ export const createMakerOrderTransaction = function(
   ]
 
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
+  if (addDefaultFee) {
+    for (const output of txOutputs) {
+      totalAmountBN.add(BOSON_PER_BYTE.mul(new BN(output.getScriptLength())))
+    }
+  }
+
 
   return _compileTransaction(
     spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex
@@ -202,7 +225,8 @@ export const createTakerOrderTransaction = function(
   sendsFromAddress: string, receivesToAddress: string,
   makerOpenOrder: {doubleHashedBcAddress:string,base:number, fixedUnitFee: string, nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
   bcAddress: string, bcPrivateKeyHex: string,
-  collateralizedNrg: string, additionalTxFee: string
+  collateralizedNrg: string, additionalTxFee: string,
+  addDefaultFee: boolean = false
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -257,6 +281,12 @@ export const createTakerOrderTransaction = function(
     const outputLockScriptCb = createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex)
     txOutputs.push(createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
   }
+  if (addDefaultFee) {
+    for (const output of txOutputs) {
+      totalAmountBN.add(BOSON_PER_BYTE.mul(new BN(output.getScriptLength())))
+    }
+  }
+
 
   return _compileTransaction(
     spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex
