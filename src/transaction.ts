@@ -94,14 +94,8 @@ export const createMultiNRGTransferTransaction = function(
 
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
-  if (addDefaultFee) {
-    for (const output of txOutputs) {
-      totalAmountBN.add(BOSON_PER_BYTE.mul(new BN(output.getScriptLength())))
-    }
-  }
-
   return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee
   )
 }
 
@@ -135,15 +129,9 @@ export const createNRGTransferTransaction = function(
     createTransactionOutput(createNRGLockScript(toAddress), unitBN, transferAmountBN)
   ]
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
-  if (addDefaultFee) {
-    for (const output of txOutputs) {
-      totalAmountBN.add(BOSON_PER_BYTE.mul(new BN(output.getScriptLength())))
-    }
-  }
-
 
   return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee
   )
 }
 
@@ -208,15 +196,9 @@ export const createMakerOrderTransaction = function(
   ]
 
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
-  if (addDefaultFee) {
-    for (const output of txOutputs) {
-      totalAmountBN.add(BOSON_PER_BYTE.mul(new BN(output.getScriptLength())))
-    }
-  }
-
 
   return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee
   )
 }
 
@@ -281,15 +263,9 @@ export const createTakerOrderTransaction = function(
     const outputLockScriptCb = createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex)
     txOutputs.push(createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
   }
-  if (addDefaultFee) {
-    for (const output of txOutputs) {
-      totalAmountBN.add(BOSON_PER_BYTE.mul(new BN(output.getScriptLength())))
-    }
-  }
-
 
   return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee
   )
 }
 
@@ -399,7 +375,8 @@ const _compileTransaction = function(
   nonNRGinputs: coreProtobuf.TransactionInput[],
   totalAmountBN: BN,
   bcAddress: string,
-  bcPrivateKeyHex: string
+  bcPrivateKeyHex: string,
+  addDefaultFee: boolean = false
 ): coreProtobuf.Transaction {
   const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
   // outputs
@@ -411,6 +388,19 @@ const _compileTransaction = function(
     )
     finalOutputs = txOutputs.concat([leftoverOutput])
   }
+
+  if (addDefaultFee) {
+    for (const output of finalOutputs) {
+      const originalValue = bytesToInternalBN(output.getValue() as Uint8Array)
+      const defaultTxFee = BOSON_PER_BYTE.mul(new BN(output.getScriptLength()))
+
+      if (!defaultTxFee.gt(originalValue)) {
+        const newValue = originalValue.sub(defaultTxFee)
+        output.setValue(new Uint8Array(newValue.toArrayLike(Buffer)))
+      }
+    }
+  }
+
   // txTemplate with output
   const txTemplate = _createTxWithOutputsAssigned(finalOutputs)
   // nrg inputs

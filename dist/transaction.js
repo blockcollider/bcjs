@@ -73,12 +73,7 @@ exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObj
         txOutputs.push(protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(toAddress[i]), unitBN, coin_1.humanToInternalAsBN(transferAmountNRG[i], coin_1.COIN_FRACS.NRG)));
     }
     const nonNRGInputs = [];
-    if (addDefaultFee) {
-        for (const output of txOutputs) {
-            totalAmountBN.add(BOSON_PER_BYTE.mul(new bn_js_1.default(output.getScriptLength())));
-        }
-    }
-    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex);
+    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee);
 };
 /*
  * Create NRG transfer transaction
@@ -101,12 +96,7 @@ exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fr
         protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(toAddress), unitBN, transferAmountBN)
     ];
     const nonNRGInputs = [];
-    if (addDefaultFee) {
-        for (const output of txOutputs) {
-            totalAmountBN.add(BOSON_PER_BYTE.mul(new bn_js_1.default(output.getScriptLength())));
-        }
-    }
-    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex);
+    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee);
 };
 exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, fixedUnitFee, additionalTxFee, addDefaultFee = false) {
     if (bcPrivateKeyHex.startsWith('0x')) {
@@ -135,12 +125,7 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
         protoUtil_1.createTransactionOutput(outputLockScript, coin_1.humanToInternalAsBN(nrgUnit, coin_1.COIN_FRACS.NRG), coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG))
     ];
     const nonNRGInputs = [];
-    if (addDefaultFee) {
-        for (const output of txOutputs) {
-            totalAmountBN.add(BOSON_PER_BYTE.mul(new bn_js_1.default(output.getScriptLength())));
-        }
-    }
-    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex);
+    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee);
 };
 exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee, addDefaultFee = false) {
     if (bcPrivateKeyHex.startsWith('0x')) {
@@ -183,12 +168,7 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
         const outputLockScriptCb = templates_1.createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex);
         txOutputs.push(protoUtil_1.createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)));
     }
-    if (addDefaultFee) {
-        for (const output of txOutputs) {
-            totalAmountBN.add(BOSON_PER_BYTE.mul(new bn_js_1.default(output.getScriptLength())));
-        }
-    }
-    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex);
+    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee);
 };
 exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privateKeyHex, bcClient) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -270,7 +250,7 @@ const _createTxWithOutputsAssigned = function (outputs) {
     tx.setLockTime(0);
     return tx;
 };
-const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex) {
+const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee = false) {
     const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
     // outputs
     const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN);
@@ -278,6 +258,16 @@ const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, no
     if (leftoverOutPoint && protoUtil_1.bytesToInternalBN(leftoverOutPoint.getValue()).gt(new bn_js_1.default(0))) {
         const leftoverOutput = protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(bcAddress), unitBN, protoUtil_1.bytesToInternalBN(leftoverOutPoint.getValue()));
         finalOutputs = txOutputs.concat([leftoverOutput]);
+    }
+    if (addDefaultFee) {
+        for (const output of finalOutputs) {
+            const originalValue = protoUtil_1.bytesToInternalBN(output.getValue());
+            const defaultTxFee = BOSON_PER_BYTE.mul(new bn_js_1.default(output.getScriptLength()));
+            if (!defaultTxFee.gt(originalValue)) {
+                const newValue = originalValue.sub(defaultTxFee);
+                output.setValue(new Uint8Array(newValue.toArrayLike(Buffer)));
+            }
+        }
     }
     // txTemplate with output
     const txTemplate = _createTxWithOutputsAssigned(finalOutputs);
