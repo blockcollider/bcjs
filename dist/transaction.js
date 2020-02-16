@@ -252,22 +252,19 @@ const _createTxWithOutputsAssigned = function (outputs) {
 };
 const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee = false) {
     const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
+    let totalAmountWithFeesBN = totalAmountBN;
+    if (addDefaultFee) {
+        for (const output of txOutputs) {
+            const defaultTxFee = BOSON_PER_BYTE.mul(new bn_js_1.default(output.getScriptLength()));
+            totalAmountWithFeesBN = totalAmountWithFeesBN.add(defaultTxFee);
+        }
+    }
     // outputs
-    const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN);
+    const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountWithFeesBN);
     let finalOutputs = txOutputs;
     if (leftoverOutPoint && protoUtil_1.bytesToInternalBN(leftoverOutPoint.getValue()).gt(new bn_js_1.default(0))) {
         const leftoverOutput = protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(bcAddress), unitBN, protoUtil_1.bytesToInternalBN(leftoverOutPoint.getValue()));
         finalOutputs = txOutputs.concat([leftoverOutput]);
-    }
-    if (addDefaultFee) {
-        for (const output of finalOutputs) {
-            const originalValue = protoUtil_1.bytesToInternalBN(output.getValue());
-            const defaultTxFee = BOSON_PER_BYTE.mul(new bn_js_1.default(output.getScriptLength()));
-            if (!defaultTxFee.gt(originalValue)) {
-                const newValue = originalValue.sub(defaultTxFee);
-                output.setValue(new Uint8Array(newValue.toArrayLike(Buffer)));
-            }
-        }
     }
     // txTemplate with output
     const txTemplate = _createTxWithOutputsAssigned(finalOutputs);

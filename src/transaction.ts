@@ -379,26 +379,22 @@ const _compileTransaction = function(
   addDefaultFee: boolean = false
 ): coreProtobuf.Transaction {
   const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
+
+  let totalAmountWithFeesBN = totalAmountBN
+  if (addDefaultFee) {
+    for (const output of txOutputs) {
+      const defaultTxFee = BOSON_PER_BYTE.mul(new BN(output.getScriptLength()))
+      totalAmountWithFeesBN = totalAmountWithFeesBN.add(defaultTxFee)
+    }
+  }
   // outputs
-  const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountBN)
+  const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountWithFeesBN)
   let finalOutputs = txOutputs
   if (leftoverOutPoint && bytesToInternalBN(leftoverOutPoint.getValue() as Uint8Array).gt(new BN(0))) {
     const leftoverOutput = createTransactionOutput (
       createNRGLockScript(bcAddress), unitBN, bytesToInternalBN(leftoverOutPoint.getValue() as Uint8Array)
     )
     finalOutputs = txOutputs.concat([leftoverOutput])
-  }
-
-  if (addDefaultFee) {
-    for (const output of finalOutputs) {
-      const originalValue = bytesToInternalBN(output.getValue() as Uint8Array)
-      const defaultTxFee = BOSON_PER_BYTE.mul(new BN(output.getScriptLength()))
-
-      if (!defaultTxFee.gt(originalValue)) {
-        const newValue = originalValue.sub(defaultTxFee)
-        output.setValue(new Uint8Array(newValue.toArrayLike(Buffer)))
-      }
-    }
   }
 
   // txTemplate with output
