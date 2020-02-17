@@ -262,7 +262,7 @@ type BcGetHistoricalOrders = {
   readonly service: typeof Bc;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly requestType: typeof bc_pb.GetBlocksRequest;
   readonly responseType: typeof bc_pb.GetMatchedOrdersResponse;
 };
 
@@ -644,12 +644,12 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getHistoricalOrders(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: bc_pb.GetBlocksRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getHistoricalOrders(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: bc_pb.GetBlocksRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getUnmatchedOrders(

@@ -156,6 +156,9 @@ export class TransferRequest extends jspb.Message {
   getAddress(): string;
   setAddress(value: string): void;
 
+  getMax(): number;
+  setMax(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TransferRequest.AsObject;
   static toObject(includeInstance: boolean, msg: TransferRequest): TransferRequest.AsObject;
@@ -169,6 +172,7 @@ export class TransferRequest extends jspb.Message {
 export namespace TransferRequest {
   export type AsObject = {
     address: string,
+    max: number,
   }
 }
 

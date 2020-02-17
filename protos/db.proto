@@ -10,33 +10,3 @@ message DbValue {
     int32 version = 3;
     bool is_native = 4;
 }
-
-message CounterPartySettleInfo {
-    bool settled = 1;
-
-    string tx_hash = 2;
-    int32 output_index = 3;
-
-    string sends_address = 4;
-
-    bool scheduled = 5;
-}
-
-message CrossTxSettlementToWatch {
-    int64 settle_ends_at = 1;
-    repeated CounterPartySettleInfo taker_settle_info = 2;
-    repeated CounterPartySettleInfo maker_settle_info = 3;
-    int64 shift = 4;
-}
-
-message SettleSchedule {
-    string addr_from = 1;
-    string addr_to = 2;
-    string bridged_chain = 3;
-    int64 bc_height = 4;
-    string bridged_chain_hash = 5;
-}
-
-message Schedules {
-    repeated SettleSchedule schedules = 1;
-}

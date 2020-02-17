@@ -15,11 +15,8 @@ goog.exportSymbol('proto.bcsdk.BcBlock', null, global);
 goog.exportSymbol('proto.bcsdk.Block', null, global);
 goog.exportSymbol('proto.bcsdk.BlockchainHeader', null, global);
 goog.exportSymbol('proto.bcsdk.BlockchainHeaders', null, global);
-goog.exportSymbol('proto.bcsdk.HistoricalOrder', null, global);
 goog.exportSymbol('proto.bcsdk.MarkedTransaction', null, global);
-goog.exportSymbol('proto.bcsdk.MatchedOrder', null, global);
 goog.exportSymbol('proto.bcsdk.Null', null, global);
-goog.exportSymbol('proto.bcsdk.OpenOrder', null, global);
 goog.exportSymbol('proto.bcsdk.OutPoint', null, global);
 goog.exportSymbol('proto.bcsdk.Transaction', null, global);
 goog.exportSymbol('proto.bcsdk.TransactionInput', null, global);
@@ -1231,7 +1228,7 @@ if (true || goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.bcsdk.BcBlock.repeatedFields_ = [20,26];
+proto.bcsdk.BcBlock.repeatedFields_ = [16,21];
 
 
 
@@ -1276,24 +1273,19 @@ proto.bcsdk.BcBlock.toObject = function(includeInstance, msg) {
     totalDistance: jspb.Message.getFieldWithDefault(msg, 12, ""),
     nonce: jspb.Message.getFieldWithDefault(msg, 13, ""),
     nrgGrant: jspb.Message.getFieldWithDefault(msg, 14, 0),
-    targetHash: jspb.Message.getFieldWithDefault(msg, 15, ""),
-    targetHeight: jspb.Message.getFieldWithDefault(msg, 16, 0),
-    targetMiner: jspb.Message.getFieldWithDefault(msg, 17, ""),
-    targetSignature: jspb.Message.getFieldWithDefault(msg, 18, ""),
-    twn: jspb.Message.getFieldWithDefault(msg, 19, 0),
-    twsList: jspb.Message.getRepeatedField(msg, 20),
-    emblemWeight: jspb.Message.getFieldWithDefault(msg, 21, 0),
-    emblemChainBlockHash: jspb.Message.getFieldWithDefault(msg, 22, ""),
-    emblemChainFingerprintRoot: jspb.Message.getFieldWithDefault(msg, 23, ""),
-    emblemChainAddress: jspb.Message.getFieldWithDefault(msg, 24, ""),
-    txCount: jspb.Message.getFieldWithDefault(msg, 25, 0),
+    twn: jspb.Message.getFieldWithDefault(msg, 15, 0),
+    twsList: jspb.Message.getRepeatedField(msg, 16),
+    emblemWeight: jspb.Message.getFieldWithDefault(msg, 17, 0),
+    emblemChainFingerprintRoot: jspb.Message.getFieldWithDefault(msg, 18, ""),
+    emblemChainAddress: jspb.Message.getFieldWithDefault(msg, 19, ""),
+    txCount: jspb.Message.getFieldWithDefault(msg, 20, 0),
     txsList: jspb.Message.toObjectList(msg.getTxsList(),
     proto.bcsdk.Transaction.toObject, includeInstance),
-    txFeeBase: jspb.Message.getFieldWithDefault(msg, 27, 0),
-    txDistanceSumLimit: jspb.Message.getFieldWithDefault(msg, 28, 0),
-    blockchainHeadersCount: jspb.Message.getFieldWithDefault(msg, 29, 0),
+    txFeeBase: jspb.Message.getFieldWithDefault(msg, 22, 0),
+    txDistanceSumLimit: jspb.Message.getFieldWithDefault(msg, 23, 0),
+    blockchainHeadersCount: jspb.Message.getFieldWithDefault(msg, 24, 0),
     blockchainHeaders: (f = msg.getBlockchainHeaders()) && proto.bcsdk.BlockchainHeaders.toObject(includeInstance, f),
-    blockchainFingerprintsRoot: jspb.Message.getFieldWithDefault(msg, 31, "")
+    blockchainFingerprintsRoot: jspb.Message.getFieldWithDefault(msg, 26, "")
   };
 
   if (includeInstance) {
@@ -1387,72 +1379,52 @@ proto.bcsdk.BcBlock.deserializeBinaryFromReader = function(msg, reader) {
       msg.setNrgGrant(value);
       break;
     case 15:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setTargetHash(value);
-      break;
-    case 16:
-      var value = /** @type {number} */ (reader.readUint64());
-      msg.setTargetHeight(value);
-      break;
-    case 17:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setTargetMiner(value);
-      break;
-    case 18:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setTargetSignature(value);
-      break;
-    case 19:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setTwn(value);
       break;
-    case 20:
+    case 16:
       var value = /** @type {string} */ (reader.readString());
       msg.addTws(value);
       break;
-    case 21:
+    case 17:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setEmblemWeight(value);
       break;
-    case 22:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setEmblemChainBlockHash(value);
-      break;
-    case 23:
+    case 18:
       var value = /** @type {string} */ (reader.readString());
       msg.setEmblemChainFingerprintRoot(value);
       break;
-    case 24:
+    case 19:
       var value = /** @type {string} */ (reader.readString());
       msg.setEmblemChainAddress(value);
       break;
-    case 25:
+    case 20:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setTxCount(value);
       break;
-    case 26:
+    case 21:
       var value = new proto.bcsdk.Transaction;
       reader.readMessage(value,proto.bcsdk.Transaction.deserializeBinaryFromReader);
       msg.addTxs(value);
       break;
-    case 27:
+    case 22:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setTxFeeBase(value);
       break;
-    case 28:
+    case 23:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setTxDistanceSumLimit(value);
       break;
-    case 29:
+    case 24:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setBlockchainHeadersCount(value);
       break;
-    case 30:
+    case 25:
       var value = new proto.bcsdk.BlockchainHeaders;
       reader.readMessage(value,proto.bcsdk.BlockchainHeaders.deserializeBinaryFromReader);
       msg.setBlockchainHeaders(value);
       break;
-    case 31:
+    case 26:
       var value = /** @type {string} */ (reader.readString());
       msg.setBlockchainFingerprintsRoot(value);
       break;
@@ -1583,87 +1555,52 @@ proto.bcsdk.BcBlock.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getTargetHash();
-  if (f.length > 0) {
-    writer.writeString(
-      15,
-      f
-    );
-  }
-  f = message.getTargetHeight();
-  if (f !== 0) {
-    writer.writeUint64(
-      16,
-      f
-    );
-  }
-  f = message.getTargetMiner();
-  if (f.length > 0) {
-    writer.writeString(
-      17,
-      f
-    );
-  }
-  f = message.getTargetSignature();
-  if (f.length > 0) {
-    writer.writeString(
-      18,
-      f
-    );
-  }
   f = message.getTwn();
   if (f !== 0) {
     writer.writeUint64(
-      19,
+      15,
       f
     );
   }
   f = message.getTwsList();
   if (f.length > 0) {
     writer.writeRepeatedString(
-      20,
+      16,
       f
     );
   }
   f = message.getEmblemWeight();
   if (f !== 0) {
     writer.writeUint64(
-      21,
-      f
-    );
-  }
-  f = message.getEmblemChainBlockHash();
-  if (f.length > 0) {
-    writer.writeString(
-      22,
+      17,
       f
     );
   }
   f = message.getEmblemChainFingerprintRoot();
   if (f.length > 0) {
     writer.writeString(
-      23,
+      18,
       f
     );
   }
   f = message.getEmblemChainAddress();
   if (f.length > 0) {
     writer.writeString(
-      24,
+      19,
       f
     );
   }
   f = message.getTxCount();
   if (f !== 0) {
     writer.writeUint64(
-      25,
+      20,
       f
     );
   }
   f = message.getTxsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      26,
+      21,
       f,
       proto.bcsdk.Transaction.serializeBinaryToWriter
     );
@@ -1671,28 +1608,28 @@ proto.bcsdk.BcBlock.serializeBinaryToWriter = function(message, writer) {
   f = message.getTxFeeBase();
   if (f !== 0) {
     writer.writeUint64(
-      27,
+      22,
       f
     );
   }
   f = message.getTxDistanceSumLimit();
   if (f !== 0) {
     writer.writeUint64(
-      28,
+      23,
       f
     );
   }
   f = message.getBlockchainHeadersCount();
   if (f !== 0) {
     writer.writeUint64(
-      29,
+      24,
       f
     );
   }
   f = message.getBlockchainHeaders();
   if (f != null) {
     writer.writeMessage(
-      30,
+      25,
       f,
       proto.bcsdk.BlockchainHeaders.serializeBinaryToWriter
     );
@@ -1700,7 +1637,7 @@ proto.bcsdk.BcBlock.serializeBinaryToWriter = function(message, writer) {
   f = message.getBlockchainFingerprintsRoot();
   if (f.length > 0) {
     writer.writeString(
-      31,
+      26,
       f
     );
   }
@@ -1918,92 +1855,32 @@ proto.bcsdk.BcBlock.prototype.setNrgGrant = function(value) {
 
 
 /**
- * optional string target_hash = 15;
- * @return {string}
- */
-proto.bcsdk.BcBlock.prototype.getTargetHash = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
-};
-
-
-/** @param {string} value */
-proto.bcsdk.BcBlock.prototype.setTargetHash = function(value) {
-  jspb.Message.setProto3StringField(this, 15, value);
-};
-
-
-/**
- * optional uint64 target_height = 16;
- * @return {number}
- */
-proto.bcsdk.BcBlock.prototype.getTargetHeight = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
-};
-
-
-/** @param {number} value */
-proto.bcsdk.BcBlock.prototype.setTargetHeight = function(value) {
-  jspb.Message.setProto3IntField(this, 16, value);
-};
-
-
-/**
- * optional string target_miner = 17;
- * @return {string}
- */
-proto.bcsdk.BcBlock.prototype.getTargetMiner = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 17, ""));
-};
-
-
-/** @param {string} value */
-proto.bcsdk.BcBlock.prototype.setTargetMiner = function(value) {
-  jspb.Message.setProto3StringField(this, 17, value);
-};
-
-
-/**
- * optional string target_signature = 18;
- * @return {string}
- */
-proto.bcsdk.BcBlock.prototype.getTargetSignature = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 18, ""));
-};
-
-
-/** @param {string} value */
-proto.bcsdk.BcBlock.prototype.setTargetSignature = function(value) {
-  jspb.Message.setProto3StringField(this, 18, value);
-};
-
-
-/**
- * optional uint64 twn = 19;
+ * optional uint64 twn = 15;
  * @return {number}
  */
 proto.bcsdk.BcBlock.prototype.getTwn = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 19, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 15, 0));
 };
 
 
 /** @param {number} value */
 proto.bcsdk.BcBlock.prototype.setTwn = function(value) {
-  jspb.Message.setProto3IntField(this, 19, value);
+  jspb.Message.setProto3IntField(this, 15, value);
 };
 
 
 /**
- * repeated string tws = 20;
+ * repeated string tws = 16;
  * @return {!Array<string>}
  */
 proto.bcsdk.BcBlock.prototype.getTwsList = function() {
-  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 20));
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 16));
 };
 
 
 /** @param {!Array<string>} value */
 proto.bcsdk.BcBlock.prototype.setTwsList = function(value) {
-  jspb.Message.setField(this, 20, value || []);
+  jspb.Message.setField(this, 16, value || []);
 };
 
 
@@ -2012,7 +1889,7 @@ proto.bcsdk.BcBlock.prototype.setTwsList = function(value) {
  * @param {number=} opt_index
  */
 proto.bcsdk.BcBlock.prototype.addTws = function(value, opt_index) {
-  jspb.Message.addToRepeatedField(this, 20, value, opt_index);
+  jspb.Message.addToRepeatedField(this, 16, value, opt_index);
 };
 
 
@@ -2022,93 +1899,78 @@ proto.bcsdk.BcBlock.prototype.clearTwsList = function() {
 
 
 /**
- * optional uint64 emblem_weight = 21;
+ * optional uint64 emblem_weight = 17;
  * @return {number}
  */
 proto.bcsdk.BcBlock.prototype.getEmblemWeight = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 21, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 17, 0));
 };
 
 
 /** @param {number} value */
 proto.bcsdk.BcBlock.prototype.setEmblemWeight = function(value) {
-  jspb.Message.setProto3IntField(this, 21, value);
+  jspb.Message.setProto3IntField(this, 17, value);
 };
 
 
 /**
- * optional string emblem_chain_block_hash = 22;
- * @return {string}
- */
-proto.bcsdk.BcBlock.prototype.getEmblemChainBlockHash = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 22, ""));
-};
-
-
-/** @param {string} value */
-proto.bcsdk.BcBlock.prototype.setEmblemChainBlockHash = function(value) {
-  jspb.Message.setProto3StringField(this, 22, value);
-};
-
-
-/**
- * optional string emblem_chain_fingerprint_root = 23;
+ * optional string emblem_chain_fingerprint_root = 18;
  * @return {string}
  */
 proto.bcsdk.BcBlock.prototype.getEmblemChainFingerprintRoot = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 23, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 18, ""));
 };
 
 
 /** @param {string} value */
 proto.bcsdk.BcBlock.prototype.setEmblemChainFingerprintRoot = function(value) {
-  jspb.Message.setProto3StringField(this, 23, value);
+  jspb.Message.setProto3StringField(this, 18, value);
 };
 
 
 /**
- * optional string emblem_chain_address = 24;
+ * optional string emblem_chain_address = 19;
  * @return {string}
  */
 proto.bcsdk.BcBlock.prototype.getEmblemChainAddress = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 24, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 19, ""));
 };
 
 
 /** @param {string} value */
 proto.bcsdk.BcBlock.prototype.setEmblemChainAddress = function(value) {
-  jspb.Message.setProto3StringField(this, 24, value);
+  jspb.Message.setProto3StringField(this, 19, value);
 };
 
 
 /**
- * optional uint64 tx_count = 25;
+ * optional uint64 tx_count = 20;
  * @return {number}
  */
 proto.bcsdk.BcBlock.prototype.getTxCount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 25, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 20, 0));
 };
 
 
 /** @param {number} value */
 proto.bcsdk.BcBlock.prototype.setTxCount = function(value) {
-  jspb.Message.setProto3IntField(this, 25, value);
+  jspb.Message.setProto3IntField(this, 20, value);
 };
 
 
 /**
- * repeated Transaction txs = 26;
+ * repeated Transaction txs = 21;
  * @return {!Array<!proto.bcsdk.Transaction>}
  */
 proto.bcsdk.BcBlock.prototype.getTxsList = function() {
   return /** @type{!Array<!proto.bcsdk.Transaction>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.Transaction, 26));
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.Transaction, 21));
 };
 
 
 /** @param {!Array<!proto.bcsdk.Transaction>} value */
 proto.bcsdk.BcBlock.prototype.setTxsList = function(value) {
-  jspb.Message.setRepeatedWrapperField(this, 26, value);
+  jspb.Message.setRepeatedWrapperField(this, 21, value);
 };
 
 
@@ -2118,7 +1980,7 @@ proto.bcsdk.BcBlock.prototype.setTxsList = function(value) {
  * @return {!proto.bcsdk.Transaction}
  */
 proto.bcsdk.BcBlock.prototype.addTxs = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 26, opt_value, proto.bcsdk.Transaction, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 21, opt_value, proto.bcsdk.Transaction, opt_index);
 };
 
 
@@ -2128,63 +1990,63 @@ proto.bcsdk.BcBlock.prototype.clearTxsList = function() {
 
 
 /**
- * optional uint64 tx_fee_base = 27;
+ * optional uint64 tx_fee_base = 22;
  * @return {number}
  */
 proto.bcsdk.BcBlock.prototype.getTxFeeBase = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 27, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 22, 0));
 };
 
 
 /** @param {number} value */
 proto.bcsdk.BcBlock.prototype.setTxFeeBase = function(value) {
-  jspb.Message.setProto3IntField(this, 27, value);
+  jspb.Message.setProto3IntField(this, 22, value);
 };
 
 
 /**
- * optional uint64 tx_distance_sum_limit = 28;
+ * optional uint64 tx_distance_sum_limit = 23;
  * @return {number}
  */
 proto.bcsdk.BcBlock.prototype.getTxDistanceSumLimit = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 28, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 23, 0));
 };
 
 
 /** @param {number} value */
 proto.bcsdk.BcBlock.prototype.setTxDistanceSumLimit = function(value) {
-  jspb.Message.setProto3IntField(this, 28, value);
+  jspb.Message.setProto3IntField(this, 23, value);
 };
 
 
 /**
- * optional uint64 blockchain_headers_count = 29;
+ * optional uint64 blockchain_headers_count = 24;
  * @return {number}
  */
 proto.bcsdk.BcBlock.prototype.getBlockchainHeadersCount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 29, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 24, 0));
 };
 
 
 /** @param {number} value */
 proto.bcsdk.BcBlock.prototype.setBlockchainHeadersCount = function(value) {
-  jspb.Message.setProto3IntField(this, 29, value);
+  jspb.Message.setProto3IntField(this, 24, value);
 };
 
 
 /**
- * optional BlockchainHeaders blockchain_headers = 30;
+ * optional BlockchainHeaders blockchain_headers = 25;
  * @return {?proto.bcsdk.BlockchainHeaders}
  */
 proto.bcsdk.BcBlock.prototype.getBlockchainHeaders = function() {
   return /** @type{?proto.bcsdk.BlockchainHeaders} */ (
-    jspb.Message.getWrapperField(this, proto.bcsdk.BlockchainHeaders, 30));
+    jspb.Message.getWrapperField(this, proto.bcsdk.BlockchainHeaders, 25));
 };
 
 
 /** @param {?proto.bcsdk.BlockchainHeaders|undefined} value */
 proto.bcsdk.BcBlock.prototype.setBlockchainHeaders = function(value) {
-  jspb.Message.setWrapperField(this, 30, value);
+  jspb.Message.setWrapperField(this, 25, value);
 };
 
 
@@ -2198,22 +2060,22 @@ proto.bcsdk.BcBlock.prototype.clearBlockchainHeaders = function() {
  * @return {boolean}
  */
 proto.bcsdk.BcBlock.prototype.hasBlockchainHeaders = function() {
-  return jspb.Message.getField(this, 30) != null;
+  return jspb.Message.getField(this, 25) != null;
 };
 
 
 /**
- * optional string blockchain_fingerprints_root = 31;
+ * optional string blockchain_fingerprints_root = 26;
  * @return {string}
  */
 proto.bcsdk.BcBlock.prototype.getBlockchainFingerprintsRoot = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 31, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 26, ""));
 };
 
 
 /** @param {string} value */
 proto.bcsdk.BcBlock.prototype.setBlockchainFingerprintsRoot = function(value) {
-  jspb.Message.setProto3StringField(this, 31, value);
+  jspb.Message.setProto3StringField(this, 26, value);
 };
 
 
@@ -3174,950 +3036,6 @@ proto.bcsdk.WalletData.prototype.addCollateralizedSpendableOutpoints = function(
 
 proto.bcsdk.WalletData.prototype.clearCollateralizedSpendableOutpointsList = function() {
   this.setCollateralizedSpendableOutpointsList([]);
-};
-
-
-
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.bcsdk.OpenOrder = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.bcsdk.OpenOrder, jspb.Message);
-if (true || goog.DEBUG && !COMPILED) {
-  proto.bcsdk.OpenOrder.displayName = 'proto.bcsdk.OpenOrder';
-}
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto suitable for use in Soy templates.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
- * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
- *     for transitional soy proto support: http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.bcsdk.OpenOrder.prototype.toObject = function(opt_includeInstance) {
-  return proto.bcsdk.OpenOrder.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Whether to include the JSPB
- *     instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.bcsdk.OpenOrder} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.bcsdk.OpenOrder.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    outpoint: (f = msg.getOutpoint()) && proto.bcsdk.OutPoint.toObject(includeInstance, f),
-    originalValue: msg.getOriginalValue_asB64(),
-    script: msg.getScript_asB64(),
-    unit: msg.getUnit_asB64(),
-    blockHeight: jspb.Message.getFieldWithDefault(msg, 5, 0)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bcsdk.OpenOrder}
- */
-proto.bcsdk.OpenOrder.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bcsdk.OpenOrder;
-  return proto.bcsdk.OpenOrder.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.bcsdk.OpenOrder} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bcsdk.OpenOrder}
- */
-proto.bcsdk.OpenOrder.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = new proto.bcsdk.OutPoint;
-      reader.readMessage(value,proto.bcsdk.OutPoint.deserializeBinaryFromReader);
-      msg.setOutpoint(value);
-      break;
-    case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setOriginalValue(value);
-      break;
-    case 3:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setScript(value);
-      break;
-    case 4:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setUnit(value);
-      break;
-    case 5:
-      var value = /** @type {number} */ (reader.readUint64());
-      msg.setBlockHeight(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.bcsdk.OpenOrder.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.bcsdk.OpenOrder.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.bcsdk.OpenOrder} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.bcsdk.OpenOrder.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getOutpoint();
-  if (f != null) {
-    writer.writeMessage(
-      1,
-      f,
-      proto.bcsdk.OutPoint.serializeBinaryToWriter
-    );
-  }
-  f = message.getOriginalValue_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      2,
-      f
-    );
-  }
-  f = message.getScript_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      3,
-      f
-    );
-  }
-  f = message.getUnit_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      4,
-      f
-    );
-  }
-  f = message.getBlockHeight();
-  if (f !== 0) {
-    writer.writeUint64(
-      5,
-      f
-    );
-  }
-};
-
-
-/**
- * optional OutPoint outpoint = 1;
- * @return {?proto.bcsdk.OutPoint}
- */
-proto.bcsdk.OpenOrder.prototype.getOutpoint = function() {
-  return /** @type{?proto.bcsdk.OutPoint} */ (
-    jspb.Message.getWrapperField(this, proto.bcsdk.OutPoint, 1));
-};
-
-
-/** @param {?proto.bcsdk.OutPoint|undefined} value */
-proto.bcsdk.OpenOrder.prototype.setOutpoint = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
-};
-
-
-proto.bcsdk.OpenOrder.prototype.clearOutpoint = function() {
-  this.setOutpoint(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.bcsdk.OpenOrder.prototype.hasOutpoint = function() {
-  return jspb.Message.getField(this, 1) != null;
-};
-
-
-/**
- * optional bytes original_value = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.bcsdk.OpenOrder.prototype.getOriginalValue = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes original_value = 2;
- * This is a type-conversion wrapper around `getOriginalValue()`
- * @return {string}
- */
-proto.bcsdk.OpenOrder.prototype.getOriginalValue_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getOriginalValue()));
-};
-
-
-/**
- * optional bytes original_value = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getOriginalValue()`
- * @return {!Uint8Array}
- */
-proto.bcsdk.OpenOrder.prototype.getOriginalValue_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getOriginalValue()));
-};
-
-
-/** @param {!(string|Uint8Array)} value */
-proto.bcsdk.OpenOrder.prototype.setOriginalValue = function(value) {
-  jspb.Message.setProto3BytesField(this, 2, value);
-};
-
-
-/**
- * optional bytes script = 3;
- * @return {!(string|Uint8Array)}
- */
-proto.bcsdk.OpenOrder.prototype.getScript = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * optional bytes script = 3;
- * This is a type-conversion wrapper around `getScript()`
- * @return {string}
- */
-proto.bcsdk.OpenOrder.prototype.getScript_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getScript()));
-};
-
-
-/**
- * optional bytes script = 3;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getScript()`
- * @return {!Uint8Array}
- */
-proto.bcsdk.OpenOrder.prototype.getScript_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getScript()));
-};
-
-
-/** @param {!(string|Uint8Array)} value */
-proto.bcsdk.OpenOrder.prototype.setScript = function(value) {
-  jspb.Message.setProto3BytesField(this, 3, value);
-};
-
-
-/**
- * optional bytes unit = 4;
- * @return {!(string|Uint8Array)}
- */
-proto.bcsdk.OpenOrder.prototype.getUnit = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * optional bytes unit = 4;
- * This is a type-conversion wrapper around `getUnit()`
- * @return {string}
- */
-proto.bcsdk.OpenOrder.prototype.getUnit_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getUnit()));
-};
-
-
-/**
- * optional bytes unit = 4;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getUnit()`
- * @return {!Uint8Array}
- */
-proto.bcsdk.OpenOrder.prototype.getUnit_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getUnit()));
-};
-
-
-/** @param {!(string|Uint8Array)} value */
-proto.bcsdk.OpenOrder.prototype.setUnit = function(value) {
-  jspb.Message.setProto3BytesField(this, 4, value);
-};
-
-
-/**
- * optional uint64 block_height = 5;
- * @return {number}
- */
-proto.bcsdk.OpenOrder.prototype.getBlockHeight = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
-};
-
-
-/** @param {number} value */
-proto.bcsdk.OpenOrder.prototype.setBlockHeight = function(value) {
-  jspb.Message.setProto3IntField(this, 5, value);
-};
-
-
-
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.bcsdk.MatchedOrder = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.bcsdk.MatchedOrder, jspb.Message);
-if (true || goog.DEBUG && !COMPILED) {
-  proto.bcsdk.MatchedOrder.displayName = 'proto.bcsdk.MatchedOrder';
-}
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto suitable for use in Soy templates.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
- * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
- *     for transitional soy proto support: http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.bcsdk.MatchedOrder.prototype.toObject = function(opt_includeInstance) {
-  return proto.bcsdk.MatchedOrder.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Whether to include the JSPB
- *     instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.bcsdk.MatchedOrder} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.bcsdk.MatchedOrder.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    takerOutpoint: (f = msg.getTakerOutpoint()) && proto.bcsdk.OutPoint.toObject(includeInstance, f),
-    takerOutputScript: msg.getTakerOutputScript_asB64(),
-    takerInputScript: msg.getTakerInputScript_asB64(),
-    makerOrder: (f = msg.getMakerOrder()) && proto.bcsdk.OpenOrder.toObject(includeInstance, f),
-    blockHeightTaker: jspb.Message.getFieldWithDefault(msg, 5, 0),
-    timestamp: jspb.Message.getFieldWithDefault(msg, 6, 0)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bcsdk.MatchedOrder}
- */
-proto.bcsdk.MatchedOrder.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bcsdk.MatchedOrder;
-  return proto.bcsdk.MatchedOrder.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.bcsdk.MatchedOrder} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bcsdk.MatchedOrder}
- */
-proto.bcsdk.MatchedOrder.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = new proto.bcsdk.OutPoint;
-      reader.readMessage(value,proto.bcsdk.OutPoint.deserializeBinaryFromReader);
-      msg.setTakerOutpoint(value);
-      break;
-    case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setTakerOutputScript(value);
-      break;
-    case 3:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setTakerInputScript(value);
-      break;
-    case 4:
-      var value = new proto.bcsdk.OpenOrder;
-      reader.readMessage(value,proto.bcsdk.OpenOrder.deserializeBinaryFromReader);
-      msg.setMakerOrder(value);
-      break;
-    case 5:
-      var value = /** @type {number} */ (reader.readUint64());
-      msg.setBlockHeightTaker(value);
-      break;
-    case 6:
-      var value = /** @type {number} */ (reader.readUint64());
-      msg.setTimestamp(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.bcsdk.MatchedOrder.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.bcsdk.MatchedOrder.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.bcsdk.MatchedOrder} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.bcsdk.MatchedOrder.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getTakerOutpoint();
-  if (f != null) {
-    writer.writeMessage(
-      1,
-      f,
-      proto.bcsdk.OutPoint.serializeBinaryToWriter
-    );
-  }
-  f = message.getTakerOutputScript_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      2,
-      f
-    );
-  }
-  f = message.getTakerInputScript_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      3,
-      f
-    );
-  }
-  f = message.getMakerOrder();
-  if (f != null) {
-    writer.writeMessage(
-      4,
-      f,
-      proto.bcsdk.OpenOrder.serializeBinaryToWriter
-    );
-  }
-  f = message.getBlockHeightTaker();
-  if (f !== 0) {
-    writer.writeUint64(
-      5,
-      f
-    );
-  }
-  f = message.getTimestamp();
-  if (f !== 0) {
-    writer.writeUint64(
-      6,
-      f
-    );
-  }
-};
-
-
-/**
- * optional OutPoint taker_outpoint = 1;
- * @return {?proto.bcsdk.OutPoint}
- */
-proto.bcsdk.MatchedOrder.prototype.getTakerOutpoint = function() {
-  return /** @type{?proto.bcsdk.OutPoint} */ (
-    jspb.Message.getWrapperField(this, proto.bcsdk.OutPoint, 1));
-};
-
-
-/** @param {?proto.bcsdk.OutPoint|undefined} value */
-proto.bcsdk.MatchedOrder.prototype.setTakerOutpoint = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
-};
-
-
-proto.bcsdk.MatchedOrder.prototype.clearTakerOutpoint = function() {
-  this.setTakerOutpoint(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.bcsdk.MatchedOrder.prototype.hasTakerOutpoint = function() {
-  return jspb.Message.getField(this, 1) != null;
-};
-
-
-/**
- * optional bytes taker_output_script = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.bcsdk.MatchedOrder.prototype.getTakerOutputScript = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes taker_output_script = 2;
- * This is a type-conversion wrapper around `getTakerOutputScript()`
- * @return {string}
- */
-proto.bcsdk.MatchedOrder.prototype.getTakerOutputScript_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getTakerOutputScript()));
-};
-
-
-/**
- * optional bytes taker_output_script = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getTakerOutputScript()`
- * @return {!Uint8Array}
- */
-proto.bcsdk.MatchedOrder.prototype.getTakerOutputScript_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getTakerOutputScript()));
-};
-
-
-/** @param {!(string|Uint8Array)} value */
-proto.bcsdk.MatchedOrder.prototype.setTakerOutputScript = function(value) {
-  jspb.Message.setProto3BytesField(this, 2, value);
-};
-
-
-/**
- * optional bytes taker_input_script = 3;
- * @return {!(string|Uint8Array)}
- */
-proto.bcsdk.MatchedOrder.prototype.getTakerInputScript = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * optional bytes taker_input_script = 3;
- * This is a type-conversion wrapper around `getTakerInputScript()`
- * @return {string}
- */
-proto.bcsdk.MatchedOrder.prototype.getTakerInputScript_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getTakerInputScript()));
-};
-
-
-/**
- * optional bytes taker_input_script = 3;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getTakerInputScript()`
- * @return {!Uint8Array}
- */
-proto.bcsdk.MatchedOrder.prototype.getTakerInputScript_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getTakerInputScript()));
-};
-
-
-/** @param {!(string|Uint8Array)} value */
-proto.bcsdk.MatchedOrder.prototype.setTakerInputScript = function(value) {
-  jspb.Message.setProto3BytesField(this, 3, value);
-};
-
-
-/**
- * optional OpenOrder maker_order = 4;
- * @return {?proto.bcsdk.OpenOrder}
- */
-proto.bcsdk.MatchedOrder.prototype.getMakerOrder = function() {
-  return /** @type{?proto.bcsdk.OpenOrder} */ (
-    jspb.Message.getWrapperField(this, proto.bcsdk.OpenOrder, 4));
-};
-
-
-/** @param {?proto.bcsdk.OpenOrder|undefined} value */
-proto.bcsdk.MatchedOrder.prototype.setMakerOrder = function(value) {
-  jspb.Message.setWrapperField(this, 4, value);
-};
-
-
-proto.bcsdk.MatchedOrder.prototype.clearMakerOrder = function() {
-  this.setMakerOrder(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.bcsdk.MatchedOrder.prototype.hasMakerOrder = function() {
-  return jspb.Message.getField(this, 4) != null;
-};
-
-
-/**
- * optional uint64 block_height_taker = 5;
- * @return {number}
- */
-proto.bcsdk.MatchedOrder.prototype.getBlockHeightTaker = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
-};
-
-
-/** @param {number} value */
-proto.bcsdk.MatchedOrder.prototype.setBlockHeightTaker = function(value) {
-  jspb.Message.setProto3IntField(this, 5, value);
-};
-
-
-/**
- * optional uint64 timestamp = 6;
- * @return {number}
- */
-proto.bcsdk.MatchedOrder.prototype.getTimestamp = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
-};
-
-
-/** @param {number} value */
-proto.bcsdk.MatchedOrder.prototype.setTimestamp = function(value) {
-  jspb.Message.setProto3IntField(this, 6, value);
-};
-
-
-
-/**
- * Generated by JsPbCodeGenerator.
- * @param {Array=} opt_data Optional initial data array, typically from a
- * server response, or constructed directly in Javascript. The array is used
- * in place and becomes part of the constructed object. It is not cloned.
- * If no data is provided, the constructed object will be empty, but still
- * valid.
- * @extends {jspb.Message}
- * @constructor
- */
-proto.bcsdk.HistoricalOrder = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
-};
-goog.inherits(proto.bcsdk.HistoricalOrder, jspb.Message);
-if (true || goog.DEBUG && !COMPILED) {
-  proto.bcsdk.HistoricalOrder.displayName = 'proto.bcsdk.HistoricalOrder';
-}
-
-
-if (jspb.Message.GENERATE_TO_OBJECT) {
-/**
- * Creates an object representation of this proto suitable for use in Soy templates.
- * Field names that are reserved in JavaScript and will be renamed to pb_name.
- * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
- * For the list of reserved names please see:
- *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
- * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
- *     for transitional soy proto support: http://goto/soy-param-migration
- * @return {!Object}
- */
-proto.bcsdk.HistoricalOrder.prototype.toObject = function(opt_includeInstance) {
-  return proto.bcsdk.HistoricalOrder.toObject(opt_includeInstance, this);
-};
-
-
-/**
- * Static version of the {@see toObject} method.
- * @param {boolean|undefined} includeInstance Whether to include the JSPB
- *     instance for transitional soy proto support:
- *     http://goto/soy-param-migration
- * @param {!proto.bcsdk.HistoricalOrder} msg The msg instance to transform.
- * @return {!Object}
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.bcsdk.HistoricalOrder.toObject = function(includeInstance, msg) {
-  var f, obj = {
-    order: (f = msg.getOrder()) && proto.bcsdk.MatchedOrder.toObject(includeInstance, f),
-    takerSettled: jspb.Message.getFieldWithDefault(msg, 2, false),
-    makerSettled: jspb.Message.getFieldWithDefault(msg, 3, false),
-    unlocked: jspb.Message.getFieldWithDefault(msg, 4, false)
-  };
-
-  if (includeInstance) {
-    obj.$jspbMessageInstance = msg;
-  }
-  return obj;
-};
-}
-
-
-/**
- * Deserializes binary data (in protobuf wire format).
- * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.bcsdk.HistoricalOrder}
- */
-proto.bcsdk.HistoricalOrder.deserializeBinary = function(bytes) {
-  var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.bcsdk.HistoricalOrder;
-  return proto.bcsdk.HistoricalOrder.deserializeBinaryFromReader(msg, reader);
-};
-
-
-/**
- * Deserializes binary data (in protobuf wire format) from the
- * given reader into the given message object.
- * @param {!proto.bcsdk.HistoricalOrder} msg The message object to deserialize into.
- * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.bcsdk.HistoricalOrder}
- */
-proto.bcsdk.HistoricalOrder.deserializeBinaryFromReader = function(msg, reader) {
-  while (reader.nextField()) {
-    if (reader.isEndGroup()) {
-      break;
-    }
-    var field = reader.getFieldNumber();
-    switch (field) {
-    case 1:
-      var value = new proto.bcsdk.MatchedOrder;
-      reader.readMessage(value,proto.bcsdk.MatchedOrder.deserializeBinaryFromReader);
-      msg.setOrder(value);
-      break;
-    case 2:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setTakerSettled(value);
-      break;
-    case 3:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setMakerSettled(value);
-      break;
-    case 4:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setUnlocked(value);
-      break;
-    default:
-      reader.skipField();
-      break;
-    }
-  }
-  return msg;
-};
-
-
-/**
- * Serializes the message to binary data (in protobuf wire format).
- * @return {!Uint8Array}
- */
-proto.bcsdk.HistoricalOrder.prototype.serializeBinary = function() {
-  var writer = new jspb.BinaryWriter();
-  proto.bcsdk.HistoricalOrder.serializeBinaryToWriter(this, writer);
-  return writer.getResultBuffer();
-};
-
-
-/**
- * Serializes the given message to binary data (in protobuf wire
- * format), writing to the given BinaryWriter.
- * @param {!proto.bcsdk.HistoricalOrder} message
- * @param {!jspb.BinaryWriter} writer
- * @suppress {unusedLocalVariables} f is only used for nested messages
- */
-proto.bcsdk.HistoricalOrder.serializeBinaryToWriter = function(message, writer) {
-  var f = undefined;
-  f = message.getOrder();
-  if (f != null) {
-    writer.writeMessage(
-      1,
-      f,
-      proto.bcsdk.MatchedOrder.serializeBinaryToWriter
-    );
-  }
-  f = message.getTakerSettled();
-  if (f) {
-    writer.writeBool(
-      2,
-      f
-    );
-  }
-  f = message.getMakerSettled();
-  if (f) {
-    writer.writeBool(
-      3,
-      f
-    );
-  }
-  f = message.getUnlocked();
-  if (f) {
-    writer.writeBool(
-      4,
-      f
-    );
-  }
-};
-
-
-/**
- * optional MatchedOrder order = 1;
- * @return {?proto.bcsdk.MatchedOrder}
- */
-proto.bcsdk.HistoricalOrder.prototype.getOrder = function() {
-  return /** @type{?proto.bcsdk.MatchedOrder} */ (
-    jspb.Message.getWrapperField(this, proto.bcsdk.MatchedOrder, 1));
-};
-
-
-/** @param {?proto.bcsdk.MatchedOrder|undefined} value */
-proto.bcsdk.HistoricalOrder.prototype.setOrder = function(value) {
-  jspb.Message.setWrapperField(this, 1, value);
-};
-
-
-proto.bcsdk.HistoricalOrder.prototype.clearOrder = function() {
-  this.setOrder(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.bcsdk.HistoricalOrder.prototype.hasOrder = function() {
-  return jspb.Message.getField(this, 1) != null;
-};
-
-
-/**
- * optional bool taker_settled = 2;
- * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
- * You should avoid comparisons like {@code val === true/false} in those cases.
- * @return {boolean}
- */
-proto.bcsdk.HistoricalOrder.prototype.getTakerSettled = function() {
-  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 2, false));
-};
-
-
-/** @param {boolean} value */
-proto.bcsdk.HistoricalOrder.prototype.setTakerSettled = function(value) {
-  jspb.Message.setProto3BooleanField(this, 2, value);
-};
-
-
-/**
- * optional bool maker_settled = 3;
- * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
- * You should avoid comparisons like {@code val === true/false} in those cases.
- * @return {boolean}
- */
-proto.bcsdk.HistoricalOrder.prototype.getMakerSettled = function() {
-  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 3, false));
-};
-
-
-/** @param {boolean} value */
-proto.bcsdk.HistoricalOrder.prototype.setMakerSettled = function(value) {
-  jspb.Message.setProto3BooleanField(this, 3, value);
-};
-
-
-/**
- * optional bool unlocked = 4;
- * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
- * You should avoid comparisons like {@code val === true/false} in those cases.
- * @return {boolean}
- */
-proto.bcsdk.HistoricalOrder.prototype.getUnlocked = function() {
-  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 4, false));
-};
-
-
-/** @param {boolean} value */
-proto.bcsdk.HistoricalOrder.prototype.setUnlocked = function(value) {
-  jspb.Message.setProto3BooleanField(this, 4, value);
 };
 
 
