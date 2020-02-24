@@ -208,18 +208,6 @@ export class BcBlock extends jspb.Message {
   getNrgGrant(): number;
   setNrgGrant(value: number): void;
 
-  getTargetHash(): string;
-  setTargetHash(value: string): void;
-
-  getTargetHeight(): number;
-  setTargetHeight(value: number): void;
-
-  getTargetMiner(): string;
-  setTargetMiner(value: string): void;
-
-  getTargetSignature(): string;
-  setTargetSignature(value: string): void;
-
   getTwn(): number;
   setTwn(value: number): void;
 
@@ -230,9 +218,6 @@ export class BcBlock extends jspb.Message {
 
   getEmblemWeight(): number;
   setEmblemWeight(value: number): void;
-
-  getEmblemChainBlockHash(): string;
-  setEmblemChainBlockHash(value: string): void;
 
   getEmblemChainFingerprintRoot(): string;
   setEmblemChainFingerprintRoot(value: string): void;
@@ -291,14 +276,9 @@ export namespace BcBlock {
     totalDistance: string,
     nonce: string,
     nrgGrant: number,
-    targetHash: string,
-    targetHeight: number,
-    targetMiner: string,
-    targetSignature: string,
     twn: number,
     twsList: Array<string>,
     emblemWeight: number,
-    emblemChainBlockHash: string,
     emblemChainFingerprintRoot: string,
     emblemChainAddress: string,
     txCount: number,
@@ -436,132 +416,6 @@ export namespace WalletData {
     collateralizedUnmatchedOutpointsList: Array<WalletOutPoint.AsObject>,
     collateralizedMatchedOutpointsList: Array<WalletOutPoint.AsObject>,
     collateralizedSpendableOutpointsList: Array<WalletOutPoint.AsObject>,
-  }
-}
-
-export class OpenOrder extends jspb.Message {
-  hasOutpoint(): boolean;
-  clearOutpoint(): void;
-  getOutpoint(): OutPoint | undefined;
-  setOutpoint(value?: OutPoint): void;
-
-  getOriginalValue(): Uint8Array | string;
-  getOriginalValue_asU8(): Uint8Array;
-  getOriginalValue_asB64(): string;
-  setOriginalValue(value: Uint8Array | string): void;
-
-  getScript(): Uint8Array | string;
-  getScript_asU8(): Uint8Array;
-  getScript_asB64(): string;
-  setScript(value: Uint8Array | string): void;
-
-  getUnit(): Uint8Array | string;
-  getUnit_asU8(): Uint8Array;
-  getUnit_asB64(): string;
-  setUnit(value: Uint8Array | string): void;
-
-  getBlockHeight(): number;
-  setBlockHeight(value: number): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): OpenOrder.AsObject;
-  static toObject(includeInstance: boolean, msg: OpenOrder): OpenOrder.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: OpenOrder, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): OpenOrder;
-  static deserializeBinaryFromReader(message: OpenOrder, reader: jspb.BinaryReader): OpenOrder;
-}
-
-export namespace OpenOrder {
-  export type AsObject = {
-    outpoint?: OutPoint.AsObject,
-    originalValue: Uint8Array | string,
-    script: Uint8Array | string,
-    unit: Uint8Array | string,
-    blockHeight: number,
-  }
-}
-
-export class MatchedOrder extends jspb.Message {
-  hasTakerOutpoint(): boolean;
-  clearTakerOutpoint(): void;
-  getTakerOutpoint(): OutPoint | undefined;
-  setTakerOutpoint(value?: OutPoint): void;
-
-  getTakerOutputScript(): Uint8Array | string;
-  getTakerOutputScript_asU8(): Uint8Array;
-  getTakerOutputScript_asB64(): string;
-  setTakerOutputScript(value: Uint8Array | string): void;
-
-  getTakerInputScript(): Uint8Array | string;
-  getTakerInputScript_asU8(): Uint8Array;
-  getTakerInputScript_asB64(): string;
-  setTakerInputScript(value: Uint8Array | string): void;
-
-  hasMakerOrder(): boolean;
-  clearMakerOrder(): void;
-  getMakerOrder(): OpenOrder | undefined;
-  setMakerOrder(value?: OpenOrder): void;
-
-  getBlockHeightTaker(): number;
-  setBlockHeightTaker(value: number): void;
-
-  getTimestamp(): number;
-  setTimestamp(value: number): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): MatchedOrder.AsObject;
-  static toObject(includeInstance: boolean, msg: MatchedOrder): MatchedOrder.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: MatchedOrder, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): MatchedOrder;
-  static deserializeBinaryFromReader(message: MatchedOrder, reader: jspb.BinaryReader): MatchedOrder;
-}
-
-export namespace MatchedOrder {
-  export type AsObject = {
-    takerOutpoint?: OutPoint.AsObject,
-    takerOutputScript: Uint8Array | string,
-    takerInputScript: Uint8Array | string,
-    makerOrder?: OpenOrder.AsObject,
-    blockHeightTaker: number,
-    timestamp: number,
-  }
-}
-
-export class HistoricalOrder extends jspb.Message {
-  hasOrder(): boolean;
-  clearOrder(): void;
-  getOrder(): MatchedOrder | undefined;
-  setOrder(value?: MatchedOrder): void;
-
-  getTakerSettled(): boolean;
-  setTakerSettled(value: boolean): void;
-
-  getMakerSettled(): boolean;
-  setMakerSettled(value: boolean): void;
-
-  getUnlocked(): boolean;
-  setUnlocked(value: boolean): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): HistoricalOrder.AsObject;
-  static toObject(includeInstance: boolean, msg: HistoricalOrder): HistoricalOrder.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: HistoricalOrder, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): HistoricalOrder;
-  static deserializeBinaryFromReader(message: HistoricalOrder, reader: jspb.BinaryReader): HistoricalOrder;
-}
-
-export namespace HistoricalOrder {
-  export type AsObject = {
-    order?: MatchedOrder.AsObject,
-    takerSettled: boolean,
-    makerSettled: boolean,
-    unlocked: boolean,
   }
 }
 

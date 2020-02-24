@@ -43,6 +43,7 @@ message Transfer{
 
 message TransferRequest {
     string address = 1;
+    uint32 max = 2;
 }
 
 message TransferResponse {
@@ -266,7 +267,7 @@ service Bc {
 
     rpc GetOpenOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
     rpc GetMatchedOrders (GetBalanceRequest) returns (GetMatchedOrdersResponse) {}
-    rpc GetHistoricalOrders (GetBalanceRequest) returns (GetMatchedOrdersResponse) {}
+    rpc GetHistoricalOrders (GetBlocksRequest) returns (GetMatchedOrdersResponse) {}
     rpc GetUnmatchedOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
 
     rpc GetUTXOLength (GetUtxoLengthRequest) returns (GetUtxoLengthResponse) {}

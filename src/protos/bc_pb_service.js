@@ -268,7 +268,7 @@ Bc.GetHistoricalOrders = {
   service: Bc,
   requestStream: false,
   responseStream: false,
-  requestType: bc_pb.GetBalanceRequest,
+  requestType: bc_pb.GetBlocksRequest,
   responseType: bc_pb.GetMatchedOrdersResponse
 };
 

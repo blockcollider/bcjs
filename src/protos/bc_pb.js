@@ -1135,7 +1135,8 @@ proto.bcsdk.TransferRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.bcsdk.TransferRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: jspb.Message.getFieldWithDefault(msg, 1, "")
+    address: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    max: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -1176,6 +1177,10 @@ proto.bcsdk.TransferRequest.deserializeBinaryFromReader = function(msg, reader) 
       var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readUint32());
+      msg.setMax(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1212,6 +1217,13 @@ proto.bcsdk.TransferRequest.serializeBinaryToWriter = function(message, writer) 
       f
     );
   }
+  f = message.getMax();
+  if (f !== 0) {
+    writer.writeUint32(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -1227,6 +1239,21 @@ proto.bcsdk.TransferRequest.prototype.getAddress = function() {
 /** @param {string} value */
 proto.bcsdk.TransferRequest.prototype.setAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional uint32 max = 2;
+ * @return {number}
+ */
+proto.bcsdk.TransferRequest.prototype.getMax = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.bcsdk.TransferRequest.prototype.setMax = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
 };
 
 

@@ -1,6 +1,6 @@
 {
   "name": "bc-sdk",
-  "version": "0.0.28",
+  "version": "0.0.30",
   "description": "SDK to connect to BlockCollider",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@cityofzion/neon-js": "^4.7.1",
-    "@liskhq/lisk-cryptography": "^2.2.0",
+    "@liskhq/lisk-cryptography": "2.2.0",
     "@waves/waves-transactions": "^3.24.0",
     "avon": "^3.0.0",
     "axios": "^0.19.0",
@@ -35,7 +35,7 @@
     "google-protobuf": "^3.7.1",
     "grpc-web": "^1.0.6",
     "isomorphic-fetch": "^2.2.1",
-    "lisk-elements": "^2.4.2",
+    "lisk-elements": "2.3.0",
     "ramda": "^0.26.1",
     "random-js": "1.0.8",
     "secp256k1": "^3.7.1",

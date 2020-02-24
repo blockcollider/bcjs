@@ -50,23 +50,18 @@ message BcBlock {
     string total_distance = 12;
     string nonce = 13;
     uint64 nrg_grant = 14;
-    string target_hash = 15;
-    uint64 target_height = 16;
-    string target_miner = 17;
-    string target_signature = 18;
-    uint64 twn = 19;
-    repeated string tws = 20;
-    uint64 emblem_weight = 21;
-    string emblem_chain_block_hash = 22;
-    string emblem_chain_fingerprint_root = 23;
-    string emblem_chain_address = 24;
-    uint64 tx_count = 25;
-    repeated Transaction txs = 26;
-    uint64 tx_fee_base = 27;
-    uint64 tx_distance_sum_limit = 28;
-    uint64 blockchain_headers_count = 29;
-    BlockchainHeaders blockchain_headers = 30;
-    string blockchain_fingerprints_root = 31;
+    uint64 twn = 15;
+    repeated string tws = 16;
+    uint64 emblem_weight = 17;
+    string emblem_chain_fingerprint_root = 18;
+    string emblem_chain_address = 19;
+    uint64 tx_count = 20;
+    repeated Transaction txs = 21;
+    uint64 tx_fee_base = 22;
+    uint64 tx_distance_sum_limit = 23;
+    uint64 blockchain_headers_count = 24;
+    BlockchainHeaders blockchain_headers = 25;
+    string blockchain_fingerprints_root = 26;
 }
 
 message OutPoint {
@@ -93,33 +88,9 @@ message WalletData {
   repeated WalletOutPoint collateralized_spendable_outpoints = 8;
 }
 
-message OpenOrder {
-  OutPoint outpoint = 1;
-  bytes original_value = 2;
-  bytes script = 3;
-  bytes unit = 4;
-  uint64 block_height = 5;
-}
-
-message MatchedOrder {
-  OutPoint taker_outpoint = 1;
-  bytes taker_output_script = 2;
-  bytes taker_input_script = 3;
-  OpenOrder maker_order = 4;
-  uint64 block_height_taker = 5;
-  uint64 timestamp = 6;
-}
-
-message HistoricalOrder {
-  MatchedOrder order = 1;
-  bool taker_settled = 2;
-  bool maker_settled = 3;
-  bool unlocked = 4;
-}
-
 message Transaction {
   uint64 version = 1;
-  string nonce = 2; // <rnd>+<minerAddess>
+  string nonce = 2; // <rnd>+<minerAddess> / <tx mine work>
   string hash = 3;
   string overline = 4;
   uint64 nin_count = 5;

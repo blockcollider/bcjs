@@ -1,3 +1,3 @@
-// package: bcsdk
+// package: bcsdksdk
 // file: protocol.proto
 
