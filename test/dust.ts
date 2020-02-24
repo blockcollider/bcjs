@@ -39,7 +39,7 @@ function timeout(ms) {
 let i = 0;
 async function sendMany(spendableOutpointsList){
   amount = Math.random()
-  let toAddress : Array<string> = Array(1).fill('0x715b2211F766fA559017f2260FE6B65498898fE3'.toLowerCase())
+  let toAddress : Array<string> = Array(1).fill(bcAddress.toLowerCase())
   let transferAmount : Array<string> = Array(1).fill(amount.toString())
   let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0',true)
   const res = await client.sendTx(tx)
