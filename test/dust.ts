@@ -23,7 +23,7 @@ import {
 
 let address = process.env.BC_RPC_ADDRESS || 'http://18.217.62.36:3001'
 address = process.env.BC_RPC_ADDRESS || 'http://localhost:3001'
-// address = 'http://3.134.115.138:3001'
+address = 'http://3.134.115.138:3001'
 // address = 'http://18.217.62.36:3001'
 
 const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
@@ -31,20 +31,20 @@ const client = new RpcClient(address, scookie)
 const wallet = new Wallet(client)
 const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
-let amount = 0.005
+let amount = 0.001
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 let i = 0;
 async function sendMany(spendableOutpointsList){
-  amount = Math.random()
+  // amount = Math.random()
   let toAddress : Array<string> = Array(1).fill(bcAddress.toLowerCase())
   let transferAmount : Array<string> = Array(1).fill(amount.toString())
-  let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0',true)
+  let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0',false)
   const res = await client.sendTx(tx)
   i++;
-  console.log(res, i)
+  console.log(`Tx Hash: ${tx.getHash()}, num: ${i}`)
 }
 
 async function keepSending(){
@@ -53,7 +53,6 @@ async function keepSending(){
     let newOutPoints = await getOutPoints(spendableOutpointsList,amount)
     spendableOutpointsList = newOutPoints.spendableOutpointsList
     await sendMany(newOutPoints.newList)
-    await timeout(1)
   }
 }
 
@@ -61,7 +60,7 @@ keepSending()
 
 
 async function getOutPoints(spendableOutpointsList,amount) {
-  amount = amount < 1 ? 1 : Math.ceil(amount)
+  // amount = amount < 0.01 ? 0.01 : amount
   let totalAmountBN = new BN((amount*Math.pow(10,18)).toString())
   let sumBN = new BN('0')
 
@@ -83,9 +82,9 @@ async function getOutPoints(spendableOutpointsList,amount) {
     }
   }
   if(!sumBN.gte(totalAmountBN)){
+    console.log("waiting")
     await timeout(1000)
     spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-    console.log("waiting")
     return await getOutPoints(spendableOutpointsList,amount)
   }
   else {
