@@ -324,37 +324,121 @@ export const calculateCrossChainTradeFee = function(collateralizedNRG: string, a
   // }
 }
 
-const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN): {
-  spentOutPoints: coreProtobuf.OutPoint[], leftoverOutPoint: coreProtobuf.OutPoint | null
-} {
+export function compareByOutPointValueDesc (a: SpendableWalletOutPointObj, b: SpendableWalletOutPointObj) {
+    const aOutPointObj: coreProtobuf.OutPoint.AsObject | undefined = a.outpoint
+    const bOutPointObj: coreProtobuf.OutPoint.AsObject | undefined = b.outpoint
+
+    if (!aOutPointObj) {
+      return 1
+    }
+    if (!bOutPointObj) {
+      return 1
+    }
+
+    const aCurrentBN = internalToBN(
+      convertProtoBufSerializedBytesToBuffer(aOutPointObj.value as string),
+      COIN_FRACS.BOSON,
+    )
+    const bCurrentBN = internalToBN(
+      convertProtoBufSerializedBytesToBuffer(bOutPointObj.value as string),
+      COIN_FRACS.BOSON,
+    )
+
+    if (aCurrentBN.lt(bCurrentBN)) {
+      return 1
+    }
+
+    if (aCurrentBN.gt(bCurrentBN)) {
+      return -1
+    }
+    return 0
+}
+
+export const _calculateSpentAndLeftoverOutPoints = (
+  spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN
+): { spentOutPoints: coreProtobuf.OutPoint[], leftoverOutPoint: coreProtobuf.OutPoint | null } => {
   let sumBN = new BN(0)
-  const spentOutPoints:coreProtobuf.OutPoint[] = []
-  let leftoverOutPoint:coreProtobuf.OutPoint = new coreProtobuf.OutPoint()
-  for (let walletOutPoint of spendableWalletOutPointObjs) {
+  const spentOutPoints: coreProtobuf.OutPoint[] = []
+  let leftoverOutPoint: coreProtobuf.OutPoint = new coreProtobuf.OutPoint()
+
+  const spendableWalletOutPointObjsDesc = spendableWalletOutPointObjs.sort(compareByOutPointValueDesc)
+
+  let startIdex = 0
+  while (startIdex < spendableWalletOutPointObjsDesc.length) {
+    const walletOutPoint = spendableWalletOutPointObjsDesc[startIdex]
     const outPointObj: coreProtobuf.OutPoint.AsObject | undefined = walletOutPoint.outpoint
-    if (!outPointObj) {
-      continue
+
+    if (outPointObj) {
+      const currentBN = internalToBN(
+        convertProtoBufSerializedBytesToBuffer(outPointObj.value as string),
+        COIN_FRACS.BOSON,
+      )
+      if (currentBN.lte(totalAmountBN)) {
+        break
+      }
+    }
+    startIdex += 1
+  }
+
+  while (startIdex < spendableWalletOutPointObjsDesc.length) {
+    const walletOutPoint = spendableWalletOutPointObjsDesc[startIdex]
+
+    const outPointObj: coreProtobuf.OutPoint.AsObject | undefined = walletOutPoint.outpoint
+    if (outPointObj) {
+      const currentBN = internalToBN(
+        convertProtoBufSerializedBytesToBuffer(outPointObj.value as string),
+        COIN_FRACS.BOSON,
+      )
+
+      const sumBNSoFar = sumBN.add(currentBN)
+      if (sumBNSoFar.gt(totalAmountBN)) {
+        // now starts with smaller outPoints
+        let endIdx = spendableWalletOutPointObjsDesc.length - 1
+        while (endIdx => startIdex) {
+          const walletOutPointFromRight = spendableWalletOutPointObjsDesc[endIdx]
+
+          const outPointObjFromRight: coreProtobuf.OutPoint.AsObject | undefined = walletOutPointFromRight.outpoint
+          if (outPointObjFromRight) {
+            const thisBN = internalToBN(
+              convertProtoBufSerializedBytesToBuffer(outPointObjFromRight.value as string),
+              COIN_FRACS.BOSON,
+            )
+            const thisOutPoint = createOutPoint(outPointObjFromRight.hash, outPointObjFromRight.index, thisBN)
+
+            sumBN = sumBN.add(thisBN)
+            spentOutPoints.push(thisOutPoint)
+
+            if (sumBN.gt(totalAmountBN)) {
+              leftoverOutPoint = createOutPoint(
+                outPointObjFromRight.hash, outPointObjFromRight.index, sumBN.sub(totalAmountBN),
+              )
+              break
+            } else if (sumBN.eq(totalAmountBN)) {
+              break
+            }
+          }
+          endIdx -= 1
+        }
+        break
+      }
+
+      const outPoint = createOutPoint(outPointObj.hash, outPointObj.index, currentBN)
+      sumBN = sumBN.add(currentBN)
+      spentOutPoints.push(outPoint)
+
+      if (sumBN.eq(totalAmountBN)) {
+        break
+      }
     }
 
-    const currentBN = internalToBN(convertProtoBufSerializedBytesToBuffer(outPointObj.value as string), COIN_FRACS.BOSON)
-
-    const outPoint = createOutPoint(outPointObj.hash, outPointObj.index, currentBN)
-
-    sumBN = sumBN.add(currentBN)
-    spentOutPoints.push(outPoint)
-    if (sumBN.gt(totalAmountBN)) {
-      leftoverOutPoint = createOutPoint(outPointObj.hash, outPointObj.index, sumBN.sub(totalAmountBN))
-      break
-    } else if(sumBN.eq(totalAmountBN)) {
-      break
-    }
+    startIdex += 1
   }
 
   if (sumBN.lt(totalAmountBN)) {
     throw new Error(`Not enough balance, balance: ${internalBNToHuman(sumBN, COIN_FRACS.NRG)}, required: ${internalBNToHuman(totalAmountBN, COIN_FRACS.NRG)}`)
   }
 
-  return { spentOutPoints: spentOutPoints, leftoverOutPoint: leftoverOutPoint }
+  return { spentOutPoints, leftoverOutPoint }
 }
 
 const _createTxWithOutputsAssigned = function(outputs: coreProtobuf.TransactionOutput[]): coreProtobuf.Transaction {
