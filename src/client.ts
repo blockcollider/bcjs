@@ -107,15 +107,16 @@ function btoa (str: string | Buffer) {
 }
 
 export default class RpcClient {
-    private rpcUrl: URL
+    private rpcUrl: string
     private defaultHeaders: { [key: string]: string }
 
     constructor (nodeUrl: string, authToken?: string) {
-        this.rpcUrl = new URL(nodeUrl)
+        this.rpcUrl = nodeUrl
+
         if (authToken) {
             this.defaultHeaders = { 'Content-Type': 'application/json', 'authorization': 'Basic ' + btoa(`:${authToken}`) }
         } else {
-            if (this.rpcUrl.protocol === 'https:') {
+            if (this.rpcUrl.startsWith('https:')) {
                 throw new Error('You have to provide an authToken with https:// scheme')
             }
             this.defaultHeaders = { 'Content-Type': 'application/json' }
@@ -253,7 +254,7 @@ export default class RpcClient {
 
         let res
         try {
-            res = await fetch(`${this.rpcUrl.origin}/rpc`, {
+            res = await fetch(`${this.rpcUrl}/rpc`, {
                 body: JSON.stringify(rpcBody),
                 headers: this.defaultHeaders,
                 method: 'post',
