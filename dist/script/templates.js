@@ -21,6 +21,7 @@ var ScriptType;
     ScriptType["TAKER_INPUT"] = "taker_input";
     ScriptType["TAKER_OUTPUT"] = "taker_output";
     ScriptType["TAKER_CALLBACK"] = "taker_callback";
+    ScriptType["NRG_UNLOCK"] = "nrg_unlock";
 })(ScriptType = exports.ScriptType || (exports.ScriptType = {}));
 /*
  * @param spendableOutPoint: an outpoint that is to be spent in the tx
@@ -266,8 +267,11 @@ function getScriptType(script) {
     else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
         return ScriptType.NRG_TRANSFER; // IS_NRG_TRANSFER
     }
-    else {
+    else if (scriptStr.split(' ').length == 2) {
         return ScriptType.TAKER_INPUT;
+    }
+    else {
+        return ScriptType.NRG_UNLOCK;
     }
 }
 exports.getScriptType = getScriptType;

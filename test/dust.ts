@@ -31,18 +31,22 @@ const client = new RpcClient(address, scookie)
 const wallet = new Wallet(client)
 const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
-let amount = 0.001
+let amount = 0.01
+let split = 1;
+let fee = false;
+let feeExtra = fee ? 1.5 : 1;
 
 function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 let i = 0;
 async function sendMany(spendableOutpointsList){
   // amount = Math.random()
-  let toAddress : Array<string> = Array(1).fill(bcAddress.toLowerCase())
-  let transferAmount : Array<string> = Array(1).fill(amount.toString())
-  let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0',false)
-  const res = await client.sendTx(tx)
+  let toAddress : Array<string> = Array(split).fill(bcAddress.toLowerCase())
+  let transferAmount : Array<string> = Array(split).fill(amount.toString())
+  let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0',fee)
+  const res = client.sendTx(tx)
   i++;
   console.log(`Tx Hash: ${tx.getHash()}, num: ${i}`)
 }
@@ -50,9 +54,10 @@ async function sendMany(spendableOutpointsList){
 async function keepSending(){
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
   while(true){
-    let newOutPoints = await getOutPoints(spendableOutpointsList,amount)
+    let newOutPoints = await getOutPoints(spendableOutpointsList,amount*split*feeExtra)
     spendableOutpointsList = newOutPoints.spendableOutpointsList
     await sendMany(newOutPoints.newList)
+    await timeout(90)
   }
 }
 
@@ -60,7 +65,7 @@ keepSending()
 
 
 async function getOutPoints(spendableOutpointsList,amount) {
-  // amount = amount < 0.01 ? 0.01 : amount
+  // amount = 0.001
   let totalAmountBN = new BN((amount*Math.pow(10,18)).toString())
   let sumBN = new BN('0')
 

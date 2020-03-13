@@ -4,7 +4,8 @@ export declare enum ScriptType {
     MAKER_OUTPUT = "maker_output",
     TAKER_INPUT = "taker_input",
     TAKER_OUTPUT = "taker_output",
-    TAKER_CALLBACK = "taker_callback"
+    TAKER_CALLBACK = "taker_callback",
+    NRG_UNLOCK = "nrg_unlock"
 }
 export declare function createSignedNRGUnlockInputs(bcAddress: string, bcPrivateKeyHex: string, txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]): coreProtobuf.TransactionInput[];
 export declare function createNRGLockScript(address: string, addressDoubleHashed?: boolean): string;

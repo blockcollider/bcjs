@@ -17,6 +17,7 @@ export enum ScriptType {
     TAKER_INPUT = 'taker_input',
     TAKER_OUTPUT = 'taker_output',
     TAKER_CALLBACK = 'taker_callback',
+    NRG_UNLOCK = 'nrg_unlock',
 }
 
 /*
@@ -340,5 +341,10 @@ export function getScriptType (script: Uint8Array): ScriptType {
     return ScriptType.TAKER_OUTPUT // IS_TAKER_ORDER
   } else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
     return ScriptType.NRG_TRANSFER // IS_NRG_TRANSFER
-  } else { return ScriptType.TAKER_INPUT }
+  } else if (scriptStr.split(' ').length == 2){
+    return ScriptType.TAKER_INPUT
+  }
+  else {
+    return ScriptType.NRG_UNLOCK
+  }
 }
