@@ -1,24 +1,24 @@
 'use strict'
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
+import BN from 'bn.js'
 import {createMultiNRGTransferTransaction} from '../dist/transaction'
 import RpcClient from '../src/client'
 import * as bcProtobuf from '../src/protos/bc_pb'
 import * as coreProtobuf from '../src/protos/core_pb'
 import Wallet from '../src/wallet'
-import BN from 'bn.js'
 
 import {
-  humanToInternalAsBN,
   COIN_FRACS,
-  internalToBN,
-  internalBNToHuman,
   Currency,
-  CurrencyInfo
+  CurrencyInfo,
+  humanToInternalAsBN,
+  internalBNToHuman,
+  internalToBN,
 } from '../src/utils/coin'
 
 import {
-  convertProtoBufSerializedBytesToBuffer
+  convertProtoBufSerializedBytesToBuffer,
 } from '../src/utils/protoUtil'
 
 let address = process.env.BC_RPC_ADDRESS || 'http://18.217.62.36:3001'
@@ -31,30 +31,30 @@ const client = new RpcClient(address, scookie)
 const wallet = new Wallet(client)
 const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
-let amount = 0.01
-let split = 1;
-let fee = false;
-let feeExtra = fee ? 1.5 : 1;
+const amount = 0.01
+const split = 1
+const fee = false
+const feeExtra = fee ? 1.5 : 1
 
-function timeout(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function timeout (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-let i = 0;
-async function sendMany(spendableOutpointsList){
+let i = 0
+async function sendMany (spendableOutpointsList) {
   // amount = Math.random()
-  let toAddress : Array<string> = Array(split).fill(bcAddress.toLowerCase())
-  let transferAmount : Array<string> = Array(split).fill(amount.toString())
-  let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0',fee)
+  const toAddress: string[] = Array(split).fill(bcAddress.toLowerCase())
+  const transferAmount: string[] = Array(split).fill(amount.toString())
+  const tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList, bcAddress, privateKeyHex, toAddress, transferAmount, '0', fee)
   const res = client.sendTx(tx)
-  i++;
+  i++
   console.log(`Tx Hash: ${tx.getHash()}, num: ${i}`)
 }
 
-async function keepSending(){
+async function keepSending () {
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-  while(true){
-    let newOutPoints = await getOutPoints(spendableOutpointsList,amount*split*feeExtra)
+  while (true) {
+    const newOutPoints = await getOutPoints(spendableOutpointsList, amount * split * feeExtra)
     spendableOutpointsList = newOutPoints.spendableOutpointsList
     await sendMany(newOutPoints.newList)
     await timeout(90)
@@ -63,16 +63,15 @@ async function keepSending(){
 
 keepSending()
 
-
-async function getOutPoints(spendableOutpointsList,amount) {
+async function getOutPoints (spendableOutpointsList, amount) {
   // amount = 0.001
-  let totalAmountBN = new BN((amount*Math.pow(10,18)).toString())
+  const totalAmountBN = new BN((amount * Math.pow(10, 18)).toString())
   let sumBN = new BN('0')
 
-  let spendableOutpoints: Array<any> = []
+  const spendableOutpoints: any[] = []
 
-  let i = 0;
-  for (let walletOutPoint of spendableOutpointsList) {
+  let i = 0
+  for (const walletOutPoint of spendableOutpointsList) {
     const outPointObj: coreProtobuf.OutPoint.AsObject | undefined = walletOutPoint.outpoint
     if (!outPointObj) {
       continue
@@ -81,18 +80,17 @@ async function getOutPoints(spendableOutpointsList,amount) {
 
     sumBN = sumBN.add(currentBN)
     spendableOutpoints.push(walletOutPoint)
-    i++;
+    i++
     if (sumBN.gte(totalAmountBN) ) {
       break
     }
   }
-  if(!sumBN.gte(totalAmountBN)){
-    console.log("waiting")
+  if (!sumBN.gte(totalAmountBN)) {
+    console.log('waiting')
     await timeout(1000)
     spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-    return await getOutPoints(spendableOutpointsList,amount)
-  }
-  else {
-    return {spendableOutpointsList:spendableOutpointsList.slice(i),newList:spendableOutpoints}
+    return await getOutPoints(spendableOutpointsList, amount)
+  } else {
+    return {spendableOutpointsList: spendableOutpointsList.slice(i), newList: spendableOutpoints}
   }
 }
