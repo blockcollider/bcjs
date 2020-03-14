@@ -239,7 +239,7 @@ export function parseMakerLockScript (script: Uint8Array): {
   const doubleHashedBcAddress = scriptStr.split(splitBy)[1].split(' ')[0]
 
   return {
-    base:baseNum,
+    base: baseNum,
     fixedUnitFee,
     doubleHashedBcAddress,
     receivesToAddress,
@@ -341,10 +341,9 @@ export function getScriptType (script: Uint8Array): ScriptType {
     return ScriptType.TAKER_OUTPUT // IS_TAKER_ORDER
   } else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
     return ScriptType.NRG_TRANSFER // IS_NRG_TRANSFER
-  } else if (scriptStr.split(' ').length == 2){
+  } else if (scriptStr.split(' ').length === 2) {
     return ScriptType.TAKER_INPUT
-  }
-  else {
+  } else {
     return ScriptType.NRG_UNLOCK
   }
 }

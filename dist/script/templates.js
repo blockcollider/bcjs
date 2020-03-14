@@ -267,7 +267,7 @@ function getScriptType(script) {
     else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
         return ScriptType.NRG_TRANSFER; // IS_NRG_TRANSFER
     }
-    else if (scriptStr.split(' ').length == 2) {
+    else if (scriptStr.split(' ').length === 2) {
         return ScriptType.TAKER_INPUT;
     }
     else {
