@@ -59,6 +59,15 @@ type BcGetBlockHeight = {
   readonly responseType: typeof core_pb.BcBlock;
 };
 
+type BcGetBlocksHeight = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetBlockHeightRequest;
+  readonly responseType: typeof bc_pb.GetBlocksResponse;
+};
+
 type BcGetBlocks = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -262,7 +271,7 @@ type BcGetHistoricalOrders = {
   readonly service: typeof Bc;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof bc_pb.GetBlocksRequest;
+  readonly requestType: typeof bc_pb.GetHistoryRequest;
   readonly responseType: typeof bc_pb.GetMatchedOrdersResponse;
 };
 
@@ -328,6 +337,7 @@ export class Bc {
   static readonly GetLatestRoveredBlocks: BcGetLatestRoveredBlocks;
   static readonly GetBlockHash: BcGetBlockHash;
   static readonly GetBlockHeight: BcGetBlockHeight;
+  static readonly GetBlocksHeight: BcGetBlocksHeight;
   static readonly GetBlocks: BcGetBlocks;
   static readonly GetLatestBlock: BcGetLatestBlock;
   static readonly GetTx: BcGetTx;
@@ -445,6 +455,15 @@ export class BcClient {
     requestMessage: bc_pb.GetBlockHeightRequest,
     callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
+  getBlocksHeight(
+    requestMessage: bc_pb.GetBlockHeightRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetBlocksResponse|null) => void
+  ): UnaryResponse;
+  getBlocksHeight(
+    requestMessage: bc_pb.GetBlockHeightRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetBlocksResponse|null) => void
+  ): UnaryResponse;
   getBlocks(
     requestMessage: bc_pb.GetBlocksRequest,
     metadata: grpc.Metadata,
@@ -644,12 +663,12 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getHistoricalOrders(
-    requestMessage: bc_pb.GetBlocksRequest,
+    requestMessage: bc_pb.GetHistoryRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getHistoricalOrders(
-    requestMessage: bc_pb.GetBlocksRequest,
+    requestMessage: bc_pb.GetHistoryRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getUnmatchedOrders(

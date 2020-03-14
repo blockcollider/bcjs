@@ -44,6 +44,11 @@ message Transfer{
 message TransferRequest {
     string address = 1;
     uint32 max = 2;
+    string from = 3;
+}
+
+message GetHistoryRequest {
+    string from = 1;
 }
 
 message TransferResponse {
@@ -71,10 +76,11 @@ message GetBalanceRequest {
 }
 
 message GetBalanceResponse {
-    string confirmed = 1;
-    string unconfirmed = 2;
-    string collateralized = 3;
-    string unlockable = 4;
+    uint32 height = 1;
+    string confirmed = 2;
+    string unconfirmed = 3;
+    string collateralized = 4;
+    string unlockable = 5;
 }
 
 message GetUnlockTakerTxParamsRequest {
@@ -237,6 +243,7 @@ service Bc {
 
     rpc GetBlockHash(GetBlockHashRequest) returns (BcBlock) {}
     rpc GetBlockHeight(GetBlockHeightRequest) returns (BcBlock) {}
+    rpc GetBlocksHeight(GetBlockHeightRequest) returns (GetBlocksResponse) {}
     rpc GetBlocks(GetBlocksRequest) returns (GetBlocksResponse) {}
     rpc GetLatestBlock(Null) returns (BcBlock) {}
 
@@ -267,7 +274,7 @@ service Bc {
 
     rpc GetOpenOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
     rpc GetMatchedOrders (GetBalanceRequest) returns (GetMatchedOrdersResponse) {}
-    rpc GetHistoricalOrders (GetBlocksRequest) returns (GetMatchedOrdersResponse) {}
+    rpc GetHistoricalOrders (GetHistoryRequest) returns (GetMatchedOrdersResponse) {}
     rpc GetUnmatchedOrders (GetBalanceRequest) returns (GetOpenOrdersResponse) {}
 
     rpc GetUTXOLength (GetUtxoLengthRequest) returns (GetUtxoLengthResponse) {}

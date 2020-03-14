@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package bcsdk;
+import "core.proto";
 
 message InitialPeer {
   string address = 1;
@@ -8,4 +9,8 @@ message InitialPeer {
 }
 
 message InitialPeerEvents {
+}
+
+message BcBlocks {
+  repeated BcBlock blocks = 1;
 }

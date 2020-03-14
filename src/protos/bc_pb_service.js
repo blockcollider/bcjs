@@ -65,6 +65,15 @@ Bc.GetBlockHeight = {
   responseType: core_pb.BcBlock
 };
 
+Bc.GetBlocksHeight = {
+  methodName: "GetBlocksHeight",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetBlockHeightRequest,
+  responseType: bc_pb.GetBlocksResponse
+};
+
 Bc.GetBlocks = {
   methodName: "GetBlocks",
   service: Bc,
@@ -268,7 +277,7 @@ Bc.GetHistoricalOrders = {
   service: Bc,
   requestStream: false,
   responseStream: false,
-  requestType: bc_pb.GetBlocksRequest,
+  requestType: bc_pb.GetHistoryRequest,
   responseType: bc_pb.GetMatchedOrdersResponse
 };
 
@@ -493,6 +502,37 @@ BcClient.prototype.getBlockHeight = function getBlockHeight(requestMessage, meta
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetBlockHeight, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getBlocksHeight = function getBlocksHeight(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetBlocksHeight, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

@@ -126,6 +126,17 @@ function deserialize_bcsdk_GetBlocksResponse(buffer_arg) {
   return bc_pb.GetBlocksResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bcsdk_GetHistoryRequest(arg) {
+  if (!(arg instanceof bc_pb.GetHistoryRequest)) {
+    throw new Error('Expected argument of type bcsdk.GetHistoryRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_GetHistoryRequest(buffer_arg) {
+  return bc_pb.GetHistoryRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bcsdk_GetMarkedTxRequest(arg) {
   if (!(arg instanceof bc_pb.GetMarkedTxRequest)) {
     throw new Error('Expected argument of type bcsdk.GetMarkedTxRequest');
@@ -524,6 +535,17 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_BcBlock,
     responseDeserialize: deserialize_bcsdk_BcBlock,
   },
+  getBlocksHeight: {
+    path: '/bcsdk.Bc/GetBlocksHeight',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBlockHeightRequest,
+    responseType: bc_pb.GetBlocksResponse,
+    requestSerialize: serialize_bcsdk_GetBlockHeightRequest,
+    requestDeserialize: deserialize_bcsdk_GetBlockHeightRequest,
+    responseSerialize: serialize_bcsdk_GetBlocksResponse,
+    responseDeserialize: deserialize_bcsdk_GetBlocksResponse,
+  },
   getBlocks: {
     path: '/bcsdk.Bc/GetBlocks',
     requestStream: false,
@@ -770,10 +792,10 @@ var BcService = exports.BcService = {
     path: '/bcsdk.Bc/GetHistoricalOrders',
     requestStream: false,
     responseStream: false,
-    requestType: bc_pb.GetBlocksRequest,
+    requestType: bc_pb.GetHistoryRequest,
     responseType: bc_pb.GetMatchedOrdersResponse,
-    requestSerialize: serialize_bcsdk_GetBlocksRequest,
-    requestDeserialize: deserialize_bcsdk_GetBlocksRequest,
+    requestSerialize: serialize_bcsdk_GetHistoryRequest,
+    requestDeserialize: deserialize_bcsdk_GetHistoryRequest,
     responseSerialize: serialize_bcsdk_GetMatchedOrdersResponse,
     responseDeserialize: deserialize_bcsdk_GetMatchedOrdersResponse,
   },

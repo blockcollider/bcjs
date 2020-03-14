@@ -159,6 +159,9 @@ export class TransferRequest extends jspb.Message {
   getMax(): number;
   setMax(value: number): void;
 
+  getFrom(): string;
+  setFrom(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TransferRequest.AsObject;
   static toObject(includeInstance: boolean, msg: TransferRequest): TransferRequest.AsObject;
@@ -173,6 +176,27 @@ export namespace TransferRequest {
   export type AsObject = {
     address: string,
     max: number,
+    from: string,
+  }
+}
+
+export class GetHistoryRequest extends jspb.Message {
+  getFrom(): string;
+  setFrom(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetHistoryRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetHistoryRequest): GetHistoryRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetHistoryRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetHistoryRequest;
+  static deserializeBinaryFromReader(message: GetHistoryRequest, reader: jspb.BinaryReader): GetHistoryRequest;
+}
+
+export namespace GetHistoryRequest {
+  export type AsObject = {
+    from: string,
   }
 }
 
@@ -301,6 +325,9 @@ export namespace GetBalanceRequest {
 }
 
 export class GetBalanceResponse extends jspb.Message {
+  getHeight(): number;
+  setHeight(value: number): void;
+
   getConfirmed(): string;
   setConfirmed(value: string): void;
 
@@ -325,6 +352,7 @@ export class GetBalanceResponse extends jspb.Message {
 
 export namespace GetBalanceResponse {
   export type AsObject = {
+    height: number,
     confirmed: string,
     unconfirmed: string,
     collateralized: string,
