@@ -1,4 +1,4 @@
-// package: bcsdksdksdk
+// package: bcsdk
 // file: protocol.proto
 
 import * as jspb from "google-protobuf";
