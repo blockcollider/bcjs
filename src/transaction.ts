@@ -324,6 +324,29 @@ export const calculateCrossChainTradeFee = function(collateralizedNRG: string, a
   // }
 }
 
+export const calcTxFee = (tx: coreProtobuf.Transaction): BN => {
+  const inputs = tx.getInputsList()
+  // if there are no inputs (this is a coinbase tx)
+  if (inputs.length === 0) {
+    return new BN(0)
+  }
+
+  const totalValueIn = inputs.reduce((valueIn, input) => {
+    const outPoint = input.getOutPoint()
+    if (outPoint === undefined) {
+        return valueIn
+    }
+    return valueIn.add(internalToBN(Buffer.from(outPoint.getValue() as Uint8Array), COIN_FRACS.BOSON))
+  }, new BN(0))
+
+  const outputs = tx.getOutputsList()
+  const totalValueOut = outputs.reduce((valueOut, output) => {
+    return valueOut.add(internalToBN(Buffer.from(output.getValue() as Uint8Array), COIN_FRACS.BOSON))
+  }, new BN(0))
+
+  return totalValueIn.sub(totalValueOut)
+}
+
 const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN): {
   spentOutPoints: coreProtobuf.OutPoint[], leftoverOutPoint: coreProtobuf.OutPoint | null
 } {

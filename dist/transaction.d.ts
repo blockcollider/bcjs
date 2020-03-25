@@ -17,3 +17,4 @@ export declare const createTakerOrderTransaction: (spendableWalletOutPointObjs: 
 }, bcAddress: string, bcPrivateKeyHex: string, collateralizedNrg: string, additionalTxFee: string, addDefaultFee?: boolean) => coreProtobuf.Transaction;
 export declare const createUnlockTakerTx: (txHash: string, txOutputIndex: number, bcAddress: string, privateKeyHex: string, bcClient: RpcClient) => Promise<coreProtobuf.Transaction | null>;
 export declare const calculateCrossChainTradeFee: (collateralizedNRG: string, additionalTxFee: string, side: "maker" | "taker") => BN;
+export declare const calcTxFee: (tx: coreProtobuf.Transaction) => BN;
