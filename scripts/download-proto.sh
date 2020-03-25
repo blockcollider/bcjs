@@ -9,4 +9,4 @@ echo "$token" | svn export --trust-server-cert-failures=unknown-ca\
     --non-interactive https://github.com/mmpmm/internalbcnode/branches/dev/protos protos
 
 # ugly hack for removing double global export
-sed -i '' -e 's/package bc/package bcsdk/g' protos/*.proto
+sed -i '' -e 's/package bc.*$/package bcsdk;/g' protos/*.proto
