@@ -182,6 +182,15 @@ Bc.Stats = {
   responseType: bc_pb.StatsResponse
 };
 
+Bc.GetSettings = {
+  methodName: "GetSettings",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: bc_pb.SettingsResponse
+};
+
 Bc.NewTx = {
   methodName: "NewTx",
   service: Bc,
@@ -333,6 +342,15 @@ Bc.GetCurrentWork = {
   responseStream: false,
   requestType: core_pb.Null,
   responseType: bc_pb.CurrentWork
+};
+
+Bc.GetSyncStatus = {
+  methodName: "GetSyncStatus",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: bc_pb.SyncStatus
 };
 
 exports.Bc = Bc;
@@ -931,6 +949,37 @@ BcClient.prototype.stats = function stats(requestMessage, metadata, callback) {
   };
 };
 
+BcClient.prototype.getSettings = function getSettings(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetSettings, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
 BcClient.prototype.newTx = function newTx(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
@@ -1432,6 +1481,37 @@ BcClient.prototype.getCurrentWork = function getCurrentWork(requestMessage, meta
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetCurrentWork, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getSyncStatus = function getSyncStatus(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetSyncStatus, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

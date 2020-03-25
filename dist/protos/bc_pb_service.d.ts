@@ -176,6 +176,15 @@ type BcStats = {
   readonly responseType: typeof bc_pb.StatsResponse;
 };
 
+type BcGetSettings = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof bc_pb.SettingsResponse;
+};
+
 type BcNewTx = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -329,6 +338,15 @@ type BcGetCurrentWork = {
   readonly responseType: typeof bc_pb.CurrentWork;
 };
 
+type BcGetSyncStatus = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof bc_pb.SyncStatus;
+};
+
 export class Bc {
   static readonly serviceName: string;
   static readonly GetRoveredBlockHash: BcGetRoveredBlockHash;
@@ -350,6 +368,7 @@ export class Bc {
   static readonly GetRoveredBlockForMarkedTx: BcGetRoveredBlockForMarkedTx;
   static readonly Help: BcHelp;
   static readonly Stats: BcStats;
+  static readonly GetSettings: BcGetSettings;
   static readonly NewTx: BcNewTx;
   static readonly SendTx: BcSendTx;
   static readonly GetBalance: BcGetBalance;
@@ -367,6 +386,7 @@ export class Bc {
   static readonly GetBlake2bl: BcGetBlake2bl;
   static readonly GetBcAddressViaVanity: BcGetBcAddressViaVanity;
   static readonly GetCurrentWork: BcGetCurrentWork;
+  static readonly GetSyncStatus: BcGetSyncStatus;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -572,6 +592,15 @@ export class BcClient {
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.StatsResponse|null) => void
   ): UnaryResponse;
+  getSettings(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.SettingsResponse|null) => void
+  ): UnaryResponse;
+  getSettings(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.SettingsResponse|null) => void
+  ): UnaryResponse;
   newTx(
     requestMessage: bc_pb.RpcTransaction,
     metadata: grpc.Metadata,
@@ -724,6 +753,15 @@ export class BcClient {
   getCurrentWork(
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.CurrentWork|null) => void
+  ): UnaryResponse;
+  getSyncStatus(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.SyncStatus|null) => void
+  ): UnaryResponse;
+  getSyncStatus(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.SyncStatus|null) => void
   ): UnaryResponse;
 }
 

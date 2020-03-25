@@ -390,6 +390,17 @@ function deserialize_bcsdk_RpcTransactionResponse(buffer_arg) {
   return bc_pb.RpcTransactionResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bcsdk_SettingsResponse(arg) {
+  if (!(arg instanceof bc_pb.SettingsResponse)) {
+    throw new Error('Expected argument of type bcsdk.SettingsResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_SettingsResponse(buffer_arg) {
+  return bc_pb.SettingsResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bcsdk_StatsResponse(arg) {
   if (!(arg instanceof bc_pb.StatsResponse)) {
     throw new Error('Expected argument of type bcsdk.StatsResponse');
@@ -399,6 +410,17 @@ function serialize_bcsdk_StatsResponse(arg) {
 
 function deserialize_bcsdk_StatsResponse(buffer_arg) {
   return bc_pb.StatsResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bcsdk_SyncStatus(arg) {
+  if (!(arg instanceof bc_pb.SyncStatus)) {
+    throw new Error('Expected argument of type bcsdk.SyncStatus');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_SyncStatus(buffer_arg) {
+  return bc_pb.SyncStatus.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bcsdk_Transaction(arg) {
@@ -678,6 +700,17 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_StatsResponse,
     responseDeserialize: deserialize_bcsdk_StatsResponse,
   },
+  getSettings: {
+    path: '/bcsdk.Bc/GetSettings',
+    requestStream: false,
+    responseStream: false,
+    requestType: core_pb.Null,
+    responseType: bc_pb.SettingsResponse,
+    requestSerialize: serialize_bcsdk_Null,
+    requestDeserialize: deserialize_bcsdk_Null,
+    responseSerialize: serialize_bcsdk_SettingsResponse,
+    responseDeserialize: deserialize_bcsdk_SettingsResponse,
+  },
   newTx: {
     path: '/bcsdk.Bc/NewTx',
     requestStream: false,
@@ -864,6 +897,17 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bcsdk_Null,
     responseSerialize: serialize_bcsdk_CurrentWork,
     responseDeserialize: deserialize_bcsdk_CurrentWork,
+  },
+  getSyncStatus: {
+    path: '/bcsdk.Bc/GetSyncStatus',
+    requestStream: false,
+    responseStream: false,
+    requestType: core_pb.Null,
+    responseType: bc_pb.SyncStatus,
+    requestSerialize: serialize_bcsdk_Null,
+    requestDeserialize: deserialize_bcsdk_Null,
+    responseSerialize: serialize_bcsdk_SyncStatus,
+    responseDeserialize: deserialize_bcsdk_SyncStatus,
   },
 };
 

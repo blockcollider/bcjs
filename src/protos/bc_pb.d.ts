@@ -1090,6 +1090,50 @@ export namespace CurrentWork {
   }
 }
 
+export class SyncStatus extends jspb.Message {
+  getStatus(): string;
+  setStatus(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SyncStatus.AsObject;
+  static toObject(includeInstance: boolean, msg: SyncStatus): SyncStatus.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: SyncStatus, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SyncStatus;
+  static deserializeBinaryFromReader(message: SyncStatus, reader: jspb.BinaryReader): SyncStatus;
+}
+
+export namespace SyncStatus {
+  export type AsObject = {
+    status: string,
+  }
+}
+
+export class SettingsResponse extends jspb.Message {
+  getNgrokTunnel(): string;
+  setNgrokTunnel(value: string): void;
+
+  getBuildVersion(): string;
+  setBuildVersion(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SettingsResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: SettingsResponse): SettingsResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: SettingsResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SettingsResponse;
+  static deserializeBinaryFromReader(message: SettingsResponse, reader: jspb.BinaryReader): SettingsResponse;
+}
+
+export namespace SettingsResponse {
+  export type AsObject = {
+    ngrokTunnel: string,
+    buildVersion: string,
+  }
+}
+
 export interface RpcTransactionResponseStatusMap {
   SUCCESS: 0;
   FAILURE: 1;

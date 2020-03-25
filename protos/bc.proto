@@ -234,6 +234,15 @@ message CurrentWork {
     string work = 1;
 }
 
+message SyncStatus {
+    string status = 1;
+}
+
+message SettingsResponse {
+    string ngrok_tunnel = 1;
+    string build_version = 2;
+}
+
 service Bc {
 
     rpc GetRoveredBlockHash(GetRoveredBlockHashRequest) returns (Block) {}
@@ -260,6 +269,7 @@ service Bc {
 
     rpc Help (Null) returns (HelpResponse) {}
     rpc Stats (Null) returns (StatsResponse) {}
+    rpc GetSettings (Null) returns (SettingsResponse) {}
     rpc NewTx (RpcTransaction) returns (RpcTransactionResponse) {}
     rpc SendTx (Transaction) returns (RpcTransactionResponse) {}
 
@@ -283,4 +293,5 @@ service Bc {
     rpc GetBlake2bl (GetBlake2blRequest) returns (GetBlake2blResponse) {}
     rpc GetBcAddressViaVanity (VanityConvertRequest) returns (VanityConvertResponse) {}
     rpc GetCurrentWork (Null) returns (CurrentWork) {}
+    rpc GetSyncStatus (Null) returns (SyncStatus) {}
 }
