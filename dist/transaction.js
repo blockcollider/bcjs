@@ -29,7 +29,7 @@ const coin_1 = require("./utils/coin");
 const protoUtil_1 = require("./utils/protoUtil");
 const constants = require('./constants');
 const { blake2bl } = require('./utils/crypto');
-const BOSON_PER_BYTE = new bn_js_1.default('166000000000');
+const BOSON_PER_BYTE = new bn_js_1.default('16600000000000');
 exports.fromBuffer = function (txBuffer) {
     return coreProtobuf.Transaction.deserializeBinary(txBuffer);
 };
