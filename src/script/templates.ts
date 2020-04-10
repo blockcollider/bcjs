@@ -73,7 +73,7 @@ function signData (data: string|Buffer, privateKey: Buffer): Buffer | never {
  * @param tx: transaction is spending the spendableOutPoint
  * @return a signature of the tx input
  */
-function createUnlockSig (
+export function createUnlockSig (
   spendableOutPoint: coreProtobuf.OutPoint,
   tx: coreProtobuf.Transaction, privateKey: Buffer,
 ): Buffer | never {

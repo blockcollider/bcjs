@@ -226,6 +226,9 @@ export class GetUtxoLengthRequest extends jspb.Message {
   getScriptType(): string;
   setScriptType(value: string): void;
 
+  getAddress(): string;
+  setAddress(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetUtxoLengthRequest.AsObject;
   static toObject(includeInstance: boolean, msg: GetUtxoLengthRequest): GetUtxoLengthRequest.AsObject;
@@ -239,6 +242,7 @@ export class GetUtxoLengthRequest extends jspb.Message {
 export namespace GetUtxoLengthRequest {
   export type AsObject = {
     scriptType: string,
+    address: string,
   }
 }
 
@@ -266,6 +270,12 @@ export class GetSpendableCollateralRequest extends jspb.Message {
   getAddress(): string;
   setAddress(value: string): void;
 
+  getFrom(): number;
+  setFrom(value: number): void;
+
+  getTo(): number;
+  setTo(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetSpendableCollateralRequest.AsObject;
   static toObject(includeInstance: boolean, msg: GetSpendableCollateralRequest): GetSpendableCollateralRequest.AsObject;
@@ -279,6 +289,8 @@ export class GetSpendableCollateralRequest extends jspb.Message {
 export namespace GetSpendableCollateralRequest {
   export type AsObject = {
     address: string,
+    from: number,
+    to: number,
   }
 }
 

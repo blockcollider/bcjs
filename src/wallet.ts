@@ -30,9 +30,11 @@ export default class Wallet {
         return await this.rpcClient.getBalance(req)
     }
 
-    public async getSpendableOutpoints (address: string): Promise<core.WalletOutPoint.AsObject[]> {
-        const req = new bc.GetBalanceRequest()
+    public async getSpendableOutpoints (address: string, from: number, to:number): Promise<core.WalletOutPoint.AsObject[]> {
+        const req = new bc.GetSpendableCollateralRequest()
         req.setAddress(address)
+        req.setFrom(from)
+        req.setTo(to)
         const response = await this.rpcClient.getSpendableOutpoints(req)
         return response.spendableOutpointsList
     }

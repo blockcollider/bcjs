@@ -27,10 +27,12 @@ class Wallet {
             return yield this.rpcClient.getBalance(req);
         });
     }
-    getSpendableOutpoints(address) {
+    getSpendableOutpoints(address, from, to) {
         return __awaiter(this, void 0, void 0, function* () {
-            const req = new bc.GetBalanceRequest();
+            const req = new bc.GetSpendableCollateralRequest();
             req.setAddress(address);
+            req.setFrom(from);
+            req.setTo(to);
             const response = yield this.rpcClient.getSpendableOutpoints(req);
             return response.spendableOutpointsList;
         });

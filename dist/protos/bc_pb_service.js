@@ -232,7 +232,7 @@ Bc.GetSpendableOutpoints = {
   service: Bc,
   requestStream: false,
   responseStream: false,
-  requestType: bc_pb.GetBalanceRequest,
+  requestType: bc_pb.GetSpendableCollateralRequest,
   responseType: core_pb.WalletData
 };
 

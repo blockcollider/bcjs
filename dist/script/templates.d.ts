@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import * as coreProtobuf from '../protos/core_pb';
 export declare enum ScriptType {
     NRG_TRANSFER = "nrg_transfer",
@@ -7,6 +8,7 @@ export declare enum ScriptType {
     TAKER_CALLBACK = "taker_callback",
     NRG_UNLOCK = "nrg_unlock"
 }
+export declare function createUnlockSig(spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer | never;
 export declare function createSignedNRGUnlockInputs(bcAddress: string, bcPrivateKeyHex: string, txTemplate: coreProtobuf.Transaction, spentOutPoints: coreProtobuf.OutPoint[]): coreProtobuf.TransactionInput[];
 export declare function createNRGLockScript(address: string, addressDoubleHashed?: boolean): string;
 export declare function parseNRGLockScript(script: Uint8Array): {

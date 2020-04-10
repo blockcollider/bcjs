@@ -36,7 +36,7 @@ const { blake2bl } = require('./utils/crypto')
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
 
-const BOSON_PER_BYTE = new BN('166000000000')
+const BOSON_PER_BYTE = new BN('16600000000000')
 
 export const fromBuffer = function(txBuffer: Buffer|Uint8Array): coreProtobuf.Transaction {
   return coreProtobuf.Transaction.deserializeBinary(txBuffer)

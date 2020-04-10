@@ -1644,7 +1644,8 @@ proto.bcsdk.GetUtxoLengthRequest.prototype.toObject = function(opt_includeInstan
  */
 proto.bcsdk.GetUtxoLengthRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    scriptType: jspb.Message.getFieldWithDefault(msg, 1, "")
+    scriptType: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    address: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1685,6 +1686,10 @@ proto.bcsdk.GetUtxoLengthRequest.deserializeBinaryFromReader = function(msg, rea
       var value = /** @type {string} */ (reader.readString());
       msg.setScriptType(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setAddress(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1721,6 +1726,13 @@ proto.bcsdk.GetUtxoLengthRequest.serializeBinaryToWriter = function(message, wri
       f
     );
   }
+  f = message.getAddress();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -1736,6 +1748,21 @@ proto.bcsdk.GetUtxoLengthRequest.prototype.getScriptType = function() {
 /** @param {string} value */
 proto.bcsdk.GetUtxoLengthRequest.prototype.setScriptType = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string address = 2;
+ * @return {string}
+ */
+proto.bcsdk.GetUtxoLengthRequest.prototype.getAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/** @param {string} value */
+proto.bcsdk.GetUtxoLengthRequest.prototype.setAddress = function(value) {
+  jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -1928,7 +1955,9 @@ proto.bcsdk.GetSpendableCollateralRequest.prototype.toObject = function(opt_incl
  */
 proto.bcsdk.GetSpendableCollateralRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: jspb.Message.getFieldWithDefault(msg, 1, "")
+    address: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    from: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    to: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -1969,6 +1998,14 @@ proto.bcsdk.GetSpendableCollateralRequest.deserializeBinaryFromReader = function
       var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readUint32());
+      msg.setFrom(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readUint32());
+      msg.setTo(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2005,6 +2042,20 @@ proto.bcsdk.GetSpendableCollateralRequest.serializeBinaryToWriter = function(mes
       f
     );
   }
+  f = message.getFrom();
+  if (f !== 0) {
+    writer.writeUint32(
+      2,
+      f
+    );
+  }
+  f = message.getTo();
+  if (f !== 0) {
+    writer.writeUint32(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -2020,6 +2071,36 @@ proto.bcsdk.GetSpendableCollateralRequest.prototype.getAddress = function() {
 /** @param {string} value */
 proto.bcsdk.GetSpendableCollateralRequest.prototype.setAddress = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional uint32 from = 2;
+ * @return {number}
+ */
+proto.bcsdk.GetSpendableCollateralRequest.prototype.getFrom = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.bcsdk.GetSpendableCollateralRequest.prototype.setFrom = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional uint32 to = 3;
+ * @return {number}
+ */
+proto.bcsdk.GetSpendableCollateralRequest.prototype.getTo = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/** @param {number} value */
+proto.bcsdk.GetSpendableCollateralRequest.prototype.setTo = function(value) {
+  jspb.Message.setProto3IntField(this, 3, value);
 };
 
 

@@ -226,7 +226,7 @@ type BcGetSpendableOutpoints = {
   readonly service: typeof Bc;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly requestType: typeof bc_pb.GetSpendableCollateralRequest;
   readonly responseType: typeof core_pb.WalletData;
 };
 
@@ -638,12 +638,12 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
   ): UnaryResponse;
   getSpendableOutpoints(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: bc_pb.GetSpendableCollateralRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
   ): UnaryResponse;
   getSpendableOutpoints(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: bc_pb.GetSpendableCollateralRequest,
     callback: (error: ServiceError|null, responseMessage: core_pb.WalletData|null) => void
   ): UnaryResponse;
   getSpendableCollateral(

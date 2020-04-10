@@ -57,6 +57,7 @@ message TransferResponse {
 
 message GetUtxoLengthRequest{
     string script_type = 1;
+    string address = 2;
 }
 
 message GetUtxoLengthResponse{
@@ -65,6 +66,8 @@ message GetUtxoLengthResponse{
 
 message GetSpendableCollateralRequest {
     string address = 1;
+    uint32 from = 2;
+    uint32 to = 3;
 }
 
 message GetSpendableCollateralResponse {
@@ -275,7 +278,7 @@ service Bc {
 
     rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
     rpc GetWallet (GetBalanceRequest) returns (WalletData) {}
-    rpc GetSpendableOutpoints(GetBalanceRequest) returns (WalletData) {}
+    rpc GetSpendableOutpoints(GetSpendableCollateralRequest) returns (WalletData) {}
     rpc GetSpendableCollateral (GetSpendableCollateralRequest) returns (GetSpendableCollateralResponse) {}
     rpc GetUnlockTakerTxParams (GetUnlockTakerTxParamsRequest) returns (GetUnlockTakerTxParamsResponse) {}
 

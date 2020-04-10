@@ -72,6 +72,7 @@ function createUnlockSig(spendableOutPoint, tx, privateKey) {
     const sig = signData(dataToSign, privateKey);
     return sig;
 }
+exports.createUnlockSig = createUnlockSig;
 function generateDataToSignForSig(spendableOutPoint, txOutputs) {
     return createOutPointOutputsHash(spendableOutPoint, txOutputs);
 }
