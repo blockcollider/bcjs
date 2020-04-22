@@ -73,7 +73,7 @@ export const createMultiNRGTransferTransaction = function(
   toAddress: Array<string>,
   transferAmountNRG: Array<string>,
   txFeeNRG: string,
-  addDefaultFee: boolean = false
+  addDefaultFee: boolean = true
 ): coreProtobuf.Transaction {
   if(toAddress.length != transferAmountNRG.length) throw new Error('incorrect length of args');
 
@@ -115,7 +115,7 @@ export const createNRGTransferTransaction = function(
   toAddress: string,
   transferAmountNRG: string,
   txFeeNRG: string,
-  addDefaultFee: boolean = false
+  addDefaultFee: boolean = true
 ): coreProtobuf.Transaction {
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
@@ -143,7 +143,7 @@ export const createMakerOrderTransaction = function(
   sendsUnit: string, receivesUnit: string,
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, nrgUnit:string, fixedUnitFee:string, additionalTxFee: string,
-  addDefaultFee: boolean = false
+  addDefaultFee: boolean = true
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -208,7 +208,7 @@ export const createTakerOrderTransaction = function(
   makerOpenOrder: {doubleHashedBcAddress:string,base:number, fixedUnitFee: string, nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, additionalTxFee: string,
-  addDefaultFee: boolean = false
+  addDefaultFee: boolean = true
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -399,7 +399,7 @@ const _compileTransaction = function(
   totalAmountBN: BN,
   bcAddress: string,
   bcPrivateKeyHex: string,
-  addDefaultFee: boolean = false
+  addDefaultFee: boolean = true
 ): coreProtobuf.Transaction {
   const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 

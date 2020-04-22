@@ -56,7 +56,7 @@ function validateBtcAddress(btcAddress) {
  * @param transferAmount: string,
  * @param txFee: string
  */
-exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = false) {
+exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true) {
     if (toAddress.length != transferAmountNRG.length)
         throw new Error('incorrect length of args');
     const transferAmountBN = transferAmountNRG.reduce((all, nrg) => {
@@ -84,7 +84,7 @@ exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObj
  * @param transferAmount: string,
  * @param txFee: string
  */
-exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = false) {
+exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true) {
     const transferAmountBN = coin_1.humanToInternalAsBN(transferAmountNRG, coin_1.COIN_FRACS.NRG);
     const txFeeBN = coin_1.humanToInternalAsBN(txFeeNRG, coin_1.COIN_FRACS.NRG);
     const totalAmountBN = transferAmountBN.add(txFeeBN);
@@ -98,7 +98,7 @@ exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fr
     const nonNRGInputs = [];
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee);
 };
-exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, fixedUnitFee, additionalTxFee, addDefaultFee = false) {
+exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, fixedUnitFee, additionalTxFee, addDefaultFee = true) {
     if (bcPrivateKeyHex.startsWith('0x')) {
         bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
     }
@@ -127,7 +127,7 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
     const nonNRGInputs = [];
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee);
 };
-exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee, addDefaultFee = false) {
+exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee, addDefaultFee = true) {
     if (bcPrivateKeyHex.startsWith('0x')) {
         bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
     }
@@ -269,7 +269,7 @@ const _createTxWithOutputsAssigned = function (outputs) {
     tx.setLockTime(0);
     return tx;
 };
-const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee = false) {
+const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee = true) {
     const unitBN = coin_1.humanToInternalAsBN('1', coin_1.COIN_FRACS.NRG);
     let totalAmountWithFeesBN = totalAmountBN;
     if (addDefaultFee) {
