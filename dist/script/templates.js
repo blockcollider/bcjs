@@ -242,7 +242,7 @@ function parseTakerLockScript(script) {
 }
 exports.parseTakerLockScript = parseTakerLockScript;
 function createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex) {
-    return [string_1.normalizeHexString(makerTxHash), makerTxOutputIndex, 'OP_CALLBACK'].join(' ');
+    return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ');
 }
 exports.createTakerCallbackLockScript = createTakerCallbackLockScript;
 function parseTakerCallbackLockScript(script) {
