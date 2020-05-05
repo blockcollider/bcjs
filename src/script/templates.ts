@@ -314,7 +314,7 @@ export function parseTakerLockScript (script: Uint8Array): {
 }
 
 export function createTakerCallbackLockScript (makerTxHash: string, makerTxOutputIndex: number): string {
-  return [normalizeHexString(makerTxHash), makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
+  return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
 }
 
 export function parseTakerCallbackLockScript (script: Uint8Array): {
