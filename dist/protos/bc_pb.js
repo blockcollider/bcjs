@@ -22,6 +22,7 @@ goog.exportSymbol('proto.bcsdk.GetBlockHashRequest', null, global);
 goog.exportSymbol('proto.bcsdk.GetBlockHeightRequest', null, global);
 goog.exportSymbol('proto.bcsdk.GetBlocksRequest', null, global);
 goog.exportSymbol('proto.bcsdk.GetBlocksResponse', null, global);
+goog.exportSymbol('proto.bcsdk.GetHistoricalOrdersResponse', null, global);
 goog.exportSymbol('proto.bcsdk.GetHistoryRequest', null, global);
 goog.exportSymbol('proto.bcsdk.GetMarkedTxRequest', null, global);
 goog.exportSymbol('proto.bcsdk.GetMatchedOrdersResponse', null, global);
@@ -1334,7 +1335,8 @@ proto.bcsdk.GetHistoryRequest.prototype.toObject = function(opt_includeInstance)
  */
 proto.bcsdk.GetHistoryRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    from: jspb.Message.getFieldWithDefault(msg, 1, "")
+    from: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    max: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -1375,6 +1377,10 @@ proto.bcsdk.GetHistoryRequest.deserializeBinaryFromReader = function(msg, reader
       var value = /** @type {string} */ (reader.readString());
       msg.setFrom(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setMax(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1411,6 +1417,13 @@ proto.bcsdk.GetHistoryRequest.serializeBinaryToWriter = function(message, writer
       f
     );
   }
+  f = message.getMax();
+  if (f !== 0) {
+    writer.writeUint64(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -1426,6 +1439,21 @@ proto.bcsdk.GetHistoryRequest.prototype.getFrom = function() {
 /** @param {string} value */
 proto.bcsdk.GetHistoryRequest.prototype.setFrom = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional uint64 max = 2;
+ * @return {number}
+ */
+proto.bcsdk.GetHistoryRequest.prototype.getMax = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.bcsdk.GetHistoryRequest.prototype.setMax = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
@@ -3107,12 +3135,13 @@ proto.bcsdk.MakerOrderInfo.toObject = function(includeInstance, msg) {
     receivesUnit: jspb.Message.getFieldWithDefault(msg, 11, ""),
     doubleHashedBcAddress: jspb.Message.getFieldWithDefault(msg, 12, ""),
     collateralizedNrg: jspb.Message.getFieldWithDefault(msg, 13, ""),
-    nrgUnit: jspb.Message.getFieldWithDefault(msg, 14, ""),
-    txHash: jspb.Message.getFieldWithDefault(msg, 15, ""),
-    txOutputIndex: jspb.Message.getFieldWithDefault(msg, 16, 0),
-    isSettled: jspb.Message.getFieldWithDefault(msg, 17, false),
-    fixedUnitFee: jspb.Message.getFieldWithDefault(msg, 18, ""),
-    base: jspb.Message.getFieldWithDefault(msg, 19, 0)
+    originalNrg: jspb.Message.getFieldWithDefault(msg, 14, ""),
+    nrgUnit: jspb.Message.getFieldWithDefault(msg, 15, ""),
+    txHash: jspb.Message.getFieldWithDefault(msg, 16, ""),
+    txOutputIndex: jspb.Message.getFieldWithDefault(msg, 17, 0),
+    isSettled: jspb.Message.getFieldWithDefault(msg, 18, false),
+    fixedUnitFee: jspb.Message.getFieldWithDefault(msg, 19, ""),
+    base: jspb.Message.getFieldWithDefault(msg, 20, 0)
   };
 
   if (includeInstance) {
@@ -3203,25 +3232,29 @@ proto.bcsdk.MakerOrderInfo.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 14:
       var value = /** @type {string} */ (reader.readString());
-      msg.setNrgUnit(value);
+      msg.setOriginalNrg(value);
       break;
     case 15:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTxHash(value);
+      msg.setNrgUnit(value);
       break;
     case 16:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTxHash(value);
+      break;
+    case 17:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setTxOutputIndex(value);
       break;
-    case 17:
+    case 18:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsSettled(value);
       break;
-    case 18:
+    case 19:
       var value = /** @type {string} */ (reader.readString());
       msg.setFixedUnitFee(value);
       break;
-    case 19:
+    case 20:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setBase(value);
       break;
@@ -3345,45 +3378,52 @@ proto.bcsdk.MakerOrderInfo.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getNrgUnit();
+  f = message.getOriginalNrg();
   if (f.length > 0) {
     writer.writeString(
       14,
       f
     );
   }
-  f = message.getTxHash();
+  f = message.getNrgUnit();
   if (f.length > 0) {
     writer.writeString(
       15,
       f
     );
   }
+  f = message.getTxHash();
+  if (f.length > 0) {
+    writer.writeString(
+      16,
+      f
+    );
+  }
   f = message.getTxOutputIndex();
   if (f !== 0) {
     writer.writeUint32(
-      16,
+      17,
       f
     );
   }
   f = message.getIsSettled();
   if (f) {
     writer.writeBool(
-      17,
+      18,
       f
     );
   }
   f = message.getFixedUnitFee();
   if (f.length > 0) {
     writer.writeString(
-      18,
+      19,
       f
     );
   }
   f = message.getBase();
   if (f !== 0) {
     writer.writeUint32(
-      19,
+      20,
       f
     );
   }
@@ -3586,94 +3626,109 @@ proto.bcsdk.MakerOrderInfo.prototype.setCollateralizedNrg = function(value) {
 
 
 /**
- * optional string nrg_unit = 14;
+ * optional string original_nrg = 14;
  * @return {string}
  */
-proto.bcsdk.MakerOrderInfo.prototype.getNrgUnit = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getOriginalNrg = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 14, ""));
 };
 
 
 /** @param {string} value */
-proto.bcsdk.MakerOrderInfo.prototype.setNrgUnit = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setOriginalNrg = function(value) {
   jspb.Message.setProto3StringField(this, 14, value);
 };
 
 
 /**
- * optional string tx_hash = 15;
+ * optional string nrg_unit = 15;
  * @return {string}
  */
-proto.bcsdk.MakerOrderInfo.prototype.getTxHash = function() {
+proto.bcsdk.MakerOrderInfo.prototype.getNrgUnit = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 15, ""));
 };
 
 
 /** @param {string} value */
-proto.bcsdk.MakerOrderInfo.prototype.setTxHash = function(value) {
+proto.bcsdk.MakerOrderInfo.prototype.setNrgUnit = function(value) {
   jspb.Message.setProto3StringField(this, 15, value);
 };
 
 
 /**
- * optional uint32 tx_output_index = 16;
+ * optional string tx_hash = 16;
+ * @return {string}
+ */
+proto.bcsdk.MakerOrderInfo.prototype.getTxHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 16, ""));
+};
+
+
+/** @param {string} value */
+proto.bcsdk.MakerOrderInfo.prototype.setTxHash = function(value) {
+  jspb.Message.setProto3StringField(this, 16, value);
+};
+
+
+/**
+ * optional uint32 tx_output_index = 17;
  * @return {number}
  */
 proto.bcsdk.MakerOrderInfo.prototype.getTxOutputIndex = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 17, 0));
 };
 
 
 /** @param {number} value */
 proto.bcsdk.MakerOrderInfo.prototype.setTxOutputIndex = function(value) {
-  jspb.Message.setProto3IntField(this, 16, value);
+  jspb.Message.setProto3IntField(this, 17, value);
 };
 
 
 /**
- * optional bool is_settled = 17;
+ * optional bool is_settled = 18;
  * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
  * You should avoid comparisons like {@code val === true/false} in those cases.
  * @return {boolean}
  */
 proto.bcsdk.MakerOrderInfo.prototype.getIsSettled = function() {
-  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 17, false));
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 18, false));
 };
 
 
 /** @param {boolean} value */
 proto.bcsdk.MakerOrderInfo.prototype.setIsSettled = function(value) {
-  jspb.Message.setProto3BooleanField(this, 17, value);
+  jspb.Message.setProto3BooleanField(this, 18, value);
 };
 
 
 /**
- * optional string fixed_unit_fee = 18;
+ * optional string fixed_unit_fee = 19;
  * @return {string}
  */
 proto.bcsdk.MakerOrderInfo.prototype.getFixedUnitFee = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 18, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 19, ""));
 };
 
 
 /** @param {string} value */
 proto.bcsdk.MakerOrderInfo.prototype.setFixedUnitFee = function(value) {
-  jspb.Message.setProto3StringField(this, 18, value);
+  jspb.Message.setProto3StringField(this, 19, value);
 };
 
 
 /**
- * optional uint32 base = 19;
+ * optional uint32 base = 20;
  * @return {number}
  */
 proto.bcsdk.MakerOrderInfo.prototype.getBase = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 19, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 20, 0));
 };
 
 
 /** @param {number} value */
 proto.bcsdk.MakerOrderInfo.prototype.setBase = function(value) {
-  jspb.Message.setProto3IntField(this, 19, value);
+  jspb.Message.setProto3IntField(this, 20, value);
 };
 
 
@@ -4602,6 +4657,201 @@ proto.bcsdk.GetMatchedOrdersResponse.prototype.addOrders = function(opt_value, o
 
 proto.bcsdk.GetMatchedOrdersResponse.prototype.clearOrdersList = function() {
   this.setOrdersList([]);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.bcsdk.GetHistoricalOrdersResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.bcsdk.GetHistoricalOrdersResponse.repeatedFields_, null);
+};
+goog.inherits(proto.bcsdk.GetHistoricalOrdersResponse, jspb.Message);
+if (true || goog.DEBUG && !COMPILED) {
+  proto.bcsdk.GetHistoricalOrdersResponse.displayName = 'proto.bcsdk.GetHistoricalOrdersResponse';
+}
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.repeatedFields_ = [1];
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.bcsdk.GetHistoricalOrdersResponse.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.bcsdk.GetHistoricalOrdersResponse} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    ordersList: jspb.Message.toObjectList(msg.getOrdersList(),
+    proto.bcsdk.MatchedOrderInfo.toObject, includeInstance),
+    nextBlock: jspb.Message.getFieldWithDefault(msg, 2, 0)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.bcsdk.GetHistoricalOrdersResponse}
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.bcsdk.GetHistoricalOrdersResponse;
+  return proto.bcsdk.GetHistoricalOrdersResponse.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.bcsdk.GetHistoricalOrdersResponse} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.bcsdk.GetHistoricalOrdersResponse}
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.bcsdk.MatchedOrderInfo;
+      reader.readMessage(value,proto.bcsdk.MatchedOrderInfo.deserializeBinaryFromReader);
+      msg.addOrders(value);
+      break;
+    case 2:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setNextBlock(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.bcsdk.GetHistoricalOrdersResponse.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.bcsdk.GetHistoricalOrdersResponse} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getOrdersList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      1,
+      f,
+      proto.bcsdk.MatchedOrderInfo.serializeBinaryToWriter
+    );
+  }
+  f = message.getNextBlock();
+  if (f !== 0) {
+    writer.writeUint64(
+      2,
+      f
+    );
+  }
+};
+
+
+/**
+ * repeated MatchedOrderInfo orders = 1;
+ * @return {!Array<!proto.bcsdk.MatchedOrderInfo>}
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.prototype.getOrdersList = function() {
+  return /** @type{!Array<!proto.bcsdk.MatchedOrderInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.bcsdk.MatchedOrderInfo, 1));
+};
+
+
+/** @param {!Array<!proto.bcsdk.MatchedOrderInfo>} value */
+proto.bcsdk.GetHistoricalOrdersResponse.prototype.setOrdersList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 1, value);
+};
+
+
+/**
+ * @param {!proto.bcsdk.MatchedOrderInfo=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.bcsdk.MatchedOrderInfo}
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.prototype.addOrders = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.bcsdk.MatchedOrderInfo, opt_index);
+};
+
+
+proto.bcsdk.GetHistoricalOrdersResponse.prototype.clearOrdersList = function() {
+  this.setOrdersList([]);
+};
+
+
+/**
+ * optional uint64 next_block = 2;
+ * @return {number}
+ */
+proto.bcsdk.GetHistoricalOrdersResponse.prototype.getNextBlock = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.bcsdk.GetHistoricalOrdersResponse.prototype.setNextBlock = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
 };
 
 

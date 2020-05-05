@@ -262,7 +262,7 @@ type BcGetOpenOrders = {
   readonly service: typeof Bc;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly requestType: typeof bc_pb.GetSpendableCollateralRequest;
   readonly responseType: typeof bc_pb.GetOpenOrdersResponse;
 };
 
@@ -271,7 +271,7 @@ type BcGetMatchedOrders = {
   readonly service: typeof Bc;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly requestType: typeof bc_pb.GetSpendableCollateralRequest;
   readonly responseType: typeof bc_pb.GetMatchedOrdersResponse;
 };
 
@@ -281,7 +281,7 @@ type BcGetHistoricalOrders = {
   readonly requestStream: false;
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetHistoryRequest;
-  readonly responseType: typeof bc_pb.GetMatchedOrdersResponse;
+  readonly responseType: typeof bc_pb.GetHistoricalOrdersResponse;
 };
 
 type BcGetUnmatchedOrders = {
@@ -674,31 +674,31 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: bc_pb.TransferResponse|null) => void
   ): UnaryResponse;
   getOpenOrders(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: bc_pb.GetSpendableCollateralRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
   getOpenOrders(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: bc_pb.GetSpendableCollateralRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetOpenOrdersResponse|null) => void
   ): UnaryResponse;
   getMatchedOrders(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: bc_pb.GetSpendableCollateralRequest,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getMatchedOrders(
-    requestMessage: bc_pb.GetBalanceRequest,
+    requestMessage: bc_pb.GetSpendableCollateralRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
   ): UnaryResponse;
   getHistoricalOrders(
     requestMessage: bc_pb.GetHistoryRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetHistoricalOrdersResponse|null) => void
   ): UnaryResponse;
   getHistoricalOrders(
     requestMessage: bc_pb.GetHistoryRequest,
-    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMatchedOrdersResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetHistoricalOrdersResponse|null) => void
   ): UnaryResponse;
   getUnmatchedOrders(
     requestMessage: bc_pb.GetBalanceRequest,

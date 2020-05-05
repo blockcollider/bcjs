@@ -184,6 +184,9 @@ export class GetHistoryRequest extends jspb.Message {
   getFrom(): string;
   setFrom(value: string): void;
 
+  getMax(): number;
+  setMax(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetHistoryRequest.AsObject;
   static toObject(includeInstance: boolean, msg: GetHistoryRequest): GetHistoryRequest.AsObject;
@@ -197,6 +200,7 @@ export class GetHistoryRequest extends jspb.Message {
 export namespace GetHistoryRequest {
   export type AsObject = {
     from: string,
+    max: number,
   }
 }
 
@@ -464,6 +468,9 @@ export class MakerOrderInfo extends jspb.Message {
   getCollateralizedNrg(): string;
   setCollateralizedNrg(value: string): void;
 
+  getOriginalNrg(): string;
+  setOriginalNrg(value: string): void;
+
   getNrgUnit(): string;
   setNrgUnit(value: string): void;
 
@@ -507,6 +514,7 @@ export namespace MakerOrderInfo {
     receivesUnit: string,
     doubleHashedBcAddress: string,
     collateralizedNrg: string,
+    originalNrg: string,
     nrgUnit: string,
     txHash: string,
     txOutputIndex: number,
@@ -641,6 +649,32 @@ export class GetMatchedOrdersResponse extends jspb.Message {
 export namespace GetMatchedOrdersResponse {
   export type AsObject = {
     ordersList: Array<MatchedOrderInfo.AsObject>,
+  }
+}
+
+export class GetHistoricalOrdersResponse extends jspb.Message {
+  clearOrdersList(): void;
+  getOrdersList(): Array<MatchedOrderInfo>;
+  setOrdersList(value: Array<MatchedOrderInfo>): void;
+  addOrders(value?: MatchedOrderInfo, index?: number): MatchedOrderInfo;
+
+  getNextBlock(): number;
+  setNextBlock(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetHistoricalOrdersResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetHistoricalOrdersResponse): GetHistoricalOrdersResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetHistoricalOrdersResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetHistoricalOrdersResponse;
+  static deserializeBinaryFromReader(message: GetHistoricalOrdersResponse, reader: jspb.BinaryReader): GetHistoricalOrdersResponse;
+}
+
+export namespace GetHistoricalOrdersResponse {
+  export type AsObject = {
+    ordersList: Array<MatchedOrderInfo.AsObject>,
+    nextBlock: number,
   }
 }
 
