@@ -28,7 +28,7 @@ import {
     GetBalanceRequest
 } from '../src/protos/bc_pb';
 
-const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3001'
+const address = process.env.BC_RPC_ADDRESS || 'http://167.99.153.11:3000'
 const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
 const client = new RpcClient(address, scookie);
 const wallet = new Wallet(client)
@@ -52,9 +52,9 @@ function timeout(ms) {
 }
 
 async function sendMany(){
-  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
   let toAddress : Array<string> = Array(50).fill(bcAddress)
-  let transferAmount : Array<string> = Array(50).fill('1.1')
+  let transferAmount : Array<string> = Array(50).fill('0.2')
 
   let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
 
@@ -119,7 +119,7 @@ async function getOutPoints(spendableOutpointsList,amount) {
   }
   if(!sumBN.gte(totalAmountBN)){
     await timeout(1000)
-    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
     console.log("waiting")
     return await getOutPoints(spendableOutpointsList,amount)
   }
@@ -131,12 +131,12 @@ async function getOutPoints(spendableOutpointsList,amount) {
 async function takeOrderbook(){
   await sendMany()
   await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
   let orders = await getOpenOrders();
-  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
 
   for(let i = 0; i < orders.length; i++){
 

@@ -1,4 +1,5 @@
-'use strict'
+//@ts-ignore
+// 'use strict'
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 /* tslint:disable */
@@ -31,7 +32,9 @@ import {
   convertProtoBufSerializedBytesToBuffer
 } from '../src/utils/protoUtil'
 
-const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3001'
+const address = process.env.BC_RPC_ADDRESS || 'http://167.99.153.11:3000'
+let hostname = 'http://167.99.153.11';
+let port = 3000
 const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
 const client = new RpcClient(address, scookie)
 const wallet = new Wallet(client)
@@ -39,19 +42,19 @@ const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
 const shiftMaker = 0
 const shiftTaker = 0
-const depositLength = 20
-const settleLength = 30
+const depositLength = 100
+const settleLength = 150
 const additionalTxFee = '0'
 const collateralizedNrg = '0.01'
 const nrgUnit = '0.01'
 const assetPrices = [
-  {asset: 'USDT', denomination: 'EMB', price: 0},
-  {asset: 'DAI', denomination: 'EMB', price: 0},
-  {asset: 'BTC', denomination: 'EMB', price: 0},
-  {asset: 'ETH', denomination: 'EMB', price: 0},
-  {asset: 'NEO', denomination: 'EMB', price: 0},
-  {asset: 'WAV', denomination: 'EMB', price: 0},
-  {asset: 'LSK', denomination: 'EMB', price: 0},
+  // {asset: 'USDT', denomination: 'EMB', price: 0},
+  // {asset: 'DAI', denomination: 'EMB', price: 0},
+  // {asset: 'BTC', denomination: 'EMB', price: 0},
+  // {asset: 'ETH', denomination: 'EMB', price: 0},
+  // {asset: 'NEO', denomination: 'EMB', price: 0},
+  // {asset: 'WAV', denomination: 'EMB', price: 0},
+  // {asset: 'LSK', denomination: 'EMB', price: 0},
   {asset: 'DAI', denomination: 'USDT', price: 0},
   {asset: 'BTC', denomination: 'USDT', price: 0},
   {asset: 'ETH', denomination: 'USDT', price: 0},
@@ -107,9 +110,39 @@ function timeout(ms) {
 }
 
 async function sendMany(){
-  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
-  let toAddress : Array<string> = Array(50).fill(bcAddress)
-  let transferAmount : Array<string> = Array(50).fill('1.1')
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
+  // spendableOutpointsList.sort((a,b)=>{
+  //   // @ts-ignore
+  //   return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)) ? -1 : 1
+  // })
+  // .sort((a,b)=>{
+  //   return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(
+  //     internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)
+  //   ) ? -1 : 1
+  // })
+
+  let spendableOutpointsList2 = await wallet.getSpendableOutpoints(bcAddress,1001,2000)
+  // .sort((a,b)=>{
+  //   return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(
+  //     internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)
+  //   ) ? -1 : 1
+  // })
+
+  let spendableOutpointsList3 = await wallet.getSpendableOutpoints(bcAddress,1001,2000)
+  // .sort((a,b)=>{
+  //   return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(
+  //     internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)
+  //   ) ? -1 : 1
+  // })
+
+  spendableOutpointsList = spendableOutpointsList.concat(spendableOutpointsList2).concat()
+
+  spendableOutpointsList.sort((a,b)=>{
+    // @ts-ignore
+    return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)) ? -1 : 1
+  })
+  let toAddress : Array<string> = Array(100).fill(bcAddress)
+  let transferAmount : Array<string> = Array(100).fill('0.1')
 
   let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
 
@@ -123,7 +156,6 @@ async function testMaker({
   receivesToAddress, sendsUnit, receivesUnit, spendableOutpointsList}) {
 
   let tx: coreProtobuf.Transaction = new coreProtobuf.Transaction()
-
   if (sendsFromChain.toLowerCase() === 'nrg') {
     tx = createMakerOrderTransaction(
       spendableOutpointsList, shiftMaker, shiftTaker, depositLength, settleLength,
@@ -184,12 +216,27 @@ async function fillOrderbook() {
   await sendMany()
   await sendMany()
   await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
+  await sendMany()
 
-  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
-    for (let j = 0; j < 17; j++) {
-      let increment = Math.random() / 300 * price
+    for (let j = 0; j < 40; j++) {
+      let increment = Math.random() / 1000 * price
       let {sendUnit1,recUnit1,sendUnit2,recUnit2} = getSpecs(price,increment,asset,denomination)
 
       if(denomination.toLowerCase() != 'nrg'){
@@ -221,9 +268,16 @@ async function fillOrderbook() {
 }
 
 async function getOutPoints(spendableOutpointsList,amount) {
-  amount = amount < 1 ? 1 : Math.ceil(amount)
-  let totalAmountBN = new BN((amount*Math.pow(10,18)).toString())
+  // amount = amount < 1 ? 1 : Math.ceil(amount)
+
+  let totalAmountBN = new BN(amount*Math.pow(10,17)).mul(new BN('11'))
   let sumBN = new BN('0')
+
+  spendableOutpointsList = spendableOutpointsList.sort((a,b)=>{
+    return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(
+      internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)
+    ) ? -1 : 1
+  })
 
   let spendableOutpoints: Array<any> = []
 
@@ -244,7 +298,7 @@ async function getOutPoints(spendableOutpointsList,amount) {
   }
   if(!sumBN.gte(totalAmountBN)){
     await timeout(1000)
-    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress)
+    spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
     console.log("waiting")
     return await getOutPoints(spendableOutpointsList,amount)
   }
