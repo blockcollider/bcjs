@@ -268,7 +268,7 @@ Bc.GetOpenOrders = {
   service: Bc,
   requestStream: false,
   responseStream: false,
-  requestType: bc_pb.GetBalanceRequest,
+  requestType: bc_pb.GetSpendableCollateralRequest,
   responseType: bc_pb.GetOpenOrdersResponse
 };
 
@@ -277,7 +277,7 @@ Bc.GetMatchedOrders = {
   service: Bc,
   requestStream: false,
   responseStream: false,
-  requestType: bc_pb.GetBalanceRequest,
+  requestType: bc_pb.GetSpendableCollateralRequest,
   responseType: bc_pb.GetMatchedOrdersResponse
 };
 
@@ -287,7 +287,7 @@ Bc.GetHistoricalOrders = {
   requestStream: false,
   responseStream: false,
   requestType: bc_pb.GetHistoryRequest,
-  responseType: bc_pb.GetMatchedOrdersResponse
+  responseType: bc_pb.GetHistoricalOrdersResponse
 };
 
 Bc.GetUnmatchedOrders = {
