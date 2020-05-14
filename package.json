@@ -30,6 +30,7 @@
     "bitcoinjs-lib": "^5.1.6",
     "blakejs": "^1.1.0",
     "bn.js": "^5.0.0",
+    "decimal.js": "^10.2.0",
     "es6-promise": "^4.2.8",
     "ethereumjs-tx": "^2.1.1",
     "google-protobuf": "^3.7.1",

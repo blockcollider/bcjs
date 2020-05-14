@@ -14,6 +14,7 @@ import Wallet from '../src/wallet'
 import {parseMakerLockScript} from '../dist/script/templates';
 import {toASM} from '../dist/script/bytecode'
 import BN from 'bn.js'
+import {Decimal} from 'decimal.js';
 
 import {
   humanToInternalAsBN,
@@ -42,8 +43,8 @@ const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
 const shiftMaker = 0
 const shiftTaker = 0
-const depositLength = 100
-const settleLength = 150
+const depositLength = 500
+const settleLength = 600
 const additionalTxFee = '0'
 const collateralizedNrg = '0.01'
 const nrgUnit = '0.01'
@@ -198,9 +199,9 @@ async function getPrices() {
 
   for (const assetPrice of assetPrices) {
     const {asset, denomination} = assetPrice
-    assetPrice.price = Math.round(
+    assetPrice.price = new Decimal(Math.round(
       (jsonData[asset.toLowerCase()] / jsonData[denomination.toLowerCase()]) * Math.pow(10, 8),
-    ) / Math.pow(10, 8)
+    )).div(new Decimal(Math.pow(10, 8))).toNumber()
   }
 
   fs.writeFile('prices.json', JSON.stringify(jsonData, null, 4), (err) => err)
@@ -210,33 +211,33 @@ async function getPrices() {
 
 async function fillOrderbook() {
   const assetPrices = await getPrices()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
-  await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
 
 
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
     for (let j = 0; j < 40; j++) {
-      let increment = Math.random() / 1000 * price
+      let increment = new Decimal(Math.random() / 1000).mul(new Decimal(price)).toNumber()
       let {sendUnit1,recUnit1,sendUnit2,recUnit2} = getSpecs(price,increment,asset,denomination)
 
       if(denomination.toLowerCase() != 'nrg'){
@@ -270,7 +271,7 @@ async function fillOrderbook() {
 async function getOutPoints(spendableOutpointsList,amount) {
   // amount = amount < 1 ? 1 : Math.ceil(amount)
 
-  let totalAmountBN = new BN(amount*Math.pow(10,17)).mul(new BN('11'))
+  let totalAmountBN = new BN(new Decimal(amount).mul(new Decimal(Math.pow(10,17))).toNumber()).mul(new BN('11'))
   let sumBN = new BN('0')
 
   spendableOutpointsList = spendableOutpointsList.sort((a,b)=>{
@@ -310,33 +311,32 @@ async function getOutPoints(spendableOutpointsList,amount) {
 
 function getSpecs(price, increment,asset,denomination){
 
-  const priceAbove = Math.round((price + increment) * Math.pow(10, 8)) / Math.pow(10, 8)
-  const priceBelow = Math.round((price - increment) * Math.pow(10, 8)) / Math.pow(10, 8)
-  increment = Math.random()/300*price + increment;
+  const priceAbove = (price + increment)
+  const priceBelow = (price - increment)
 
   let sendAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
   let recAmount = Math.floor(Math.random() * Math.floor(10))+0.1;
 
   let sendUnit1 = sendAmount;
-  let recUnit1 = priceAbove*sendAmount;
+  let recUnit1 = new Decimal(priceAbove).mul(new Decimal(sendAmount)).toNumber();
 
-  let sendUnit2 = priceBelow*recAmount;
+  let sendUnit2 = new Decimal(priceBelow).mul(new Decimal(recAmount)).toNumber();
   let recUnit2 = recAmount;
 
   if(asset.toLowerCase() == 'neo'){
     sendUnit1 = Math.round(sendUnit1)+1;
-    recUnit1 = priceAbove*sendUnit1;
+    recUnit1 = new Decimal(priceAbove).mul(new Decimal(sendUnit1)).toNumber();
 
     recUnit2 = Math.round(recUnit2)+1;
-    sendUnit2 = priceBelow*recUnit2
+    sendUnit2 = new Decimal(priceBelow).mul(new Decimal(recUnit2)).toNumber()
   }
 
   if(denomination.toLowerCase() == 'neo'){
     sendUnit2 = Math.round(sendUnit2)+1;
-    recUnit2 = sendUnit2/priceBelow;
+    recUnit2 = new Decimal(sendUnit2).div(new Decimal(priceBelow)).toNumber();
 
     recUnit1 = Math.round(recUnit1)+1;
-    sendUnit1 = recUnit1 / priceAbove;
+    sendUnit1 = new Decimal(recUnit1).div(new Decimal(priceAbove)).toNumber();
   }
   return {sendUnit1,recUnit1,sendUnit2,recUnit2}
 }
