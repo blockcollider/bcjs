@@ -6,7 +6,7 @@ read -rs token
 echo "$token" | svn export --trust-server-cert-failures=unknown-ca\
     --force --username "$(git config --global github.user)"\
     --password-from-stdin\
-    --non-interactive https://github.com/mmpmm/internalbcnode/branches/dev/protos protos
+    --non-interactive https://github.com/mmpmm/internalbcnode/branches/master/protos protos
 
 # ugly hack for removing double global export
 sed -i '' -e 's/package bc.*$/package bcsdk;/g' protos/*.proto
