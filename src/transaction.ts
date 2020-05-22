@@ -344,6 +344,9 @@ export const calcTxFee = (tx: coreProtobuf.Transaction): BN => {
     return valueOut.add(internalToBN(Buffer.from(output.getValue() as Uint8Array), COIN_FRACS.BOSON))
   }, new BN(0))
 
+  if(totalValueIn.lt(totalValueOut)){
+    throw new Error('Collective input value cannot be less than collective output value')
+  }
   return totalValueIn.sub(totalValueOut)
 }
 
@@ -374,7 +377,7 @@ const _calculateSpentAndLeftoverOutPoints = function(spendableWalletOutPointObjs
   }
 
   if (sumBN.lt(totalAmountBN)) {
-    throw new Error(`Not enough balance, balance: ${internalBNToHuman(sumBN, COIN_FRACS.NRG)}, required: ${internalBNToHuman(totalAmountBN, COIN_FRACS.NRG)}`)
+    throw new Error(`Not enough balance`)
   }
 
   return { spentOutPoints: spentOutPoints, leftoverOutPoint: leftoverOutPoint }

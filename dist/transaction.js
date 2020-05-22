@@ -232,6 +232,9 @@ exports.calcTxFee = (tx) => {
     const totalValueOut = outputs.reduce((valueOut, output) => {
         return valueOut.add(coin_1.internalToBN(Buffer.from(output.getValue()), coin_1.COIN_FRACS.BOSON));
     }, new bn_js_1.default(0));
+    if (totalValueIn.lt(totalValueOut)) {
+        throw new Error('Collective input value cannot be less than collective output value');
+    }
     return totalValueIn.sub(totalValueOut);
 };
 const _calculateSpentAndLeftoverOutPoints = function (spendableWalletOutPointObjs, totalAmountBN) {
@@ -256,7 +259,7 @@ const _calculateSpentAndLeftoverOutPoints = function (spendableWalletOutPointObj
         }
     }
     if (sumBN.lt(totalAmountBN)) {
-        throw new Error(`Not enough balance, balance: ${coin_1.internalBNToHuman(sumBN, coin_1.COIN_FRACS.NRG)}, required: ${coin_1.internalBNToHuman(totalAmountBN, coin_1.COIN_FRACS.NRG)}`);
+        throw new Error(`Not enough balance`);
     }
     return { spentOutPoints: spentOutPoints, leftoverOutPoint: leftoverOutPoint };
 };
