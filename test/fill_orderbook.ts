@@ -16,6 +16,9 @@ import BN from 'bn.js'
 import {Decimal} from 'decimal.js';
 import getPrices from './get_prices';
 
+Decimal.set({toExpPos:20})
+Decimal.set({toExpNeg:-8})
+
 import {
   COIN_FRACS,
   internalToBN,
@@ -98,7 +101,7 @@ async function fillOrderbook() {
 
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
-    for (let j = 0; j < 40; j++) {
+    for (let j = 0; j < 20; j++) {
       let increment = new Decimal(Math.random() / 1000).mul(new Decimal(price)).toNumber()
 
       let {sendUnit1,recUnit1,sendUnit2,recUnit2} = getSpecs(price,increment,asset,denomination,jsonData)
@@ -137,30 +140,59 @@ function getSpecs(price, increment, asset, denomination,prices){
   const priceAbove = (price + increment)
   const priceBelow = (price - increment)
   // console.log({prices,asset})
-  let sendAmount = new Decimal(10).div(new Decimal(prices[asset.toLowerCase()])).toNumber();
-  let recAmount =  new Decimal(10).div(new Decimal(prices[denomination.toLowerCase()])).toNumber();
+  let sendAmount = new Decimal(10).div(new Decimal(prices[asset.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
+  let recAmount =  new Decimal(10).div(new Decimal(prices[denomination.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
+
+  console.log({sendAmount,recAmount});
 
   let sendUnit1 = sendAmount;
-  let recUnit1 = new Decimal(priceAbove).mul(new Decimal(sendAmount)).toNumber();
+  let recUnit1 = new Decimal(priceAbove).mul(new Decimal(sendAmount)).toString();
 
-  let sendUnit2 = new Decimal(priceBelow).mul(new Decimal(recAmount)).toNumber();
-  let recUnit2 = recAmount;
+  let recUnit2 = new Decimal(recAmount).div(new Decimal(priceBelow)).toString();
+  let sendUnit2 = recAmount;
 
   if(asset.toLowerCase() == 'neo'){
-    sendUnit1 = 1
-    recUnit1 = new Decimal(priceAbove).mul(new Decimal(sendUnit1)).toNumber();
+    sendUnit1 = '1';
+    recUnit1 = new Decimal(priceAbove).mul(new Decimal(sendUnit1)).toString();
 
-    recUnit2 = 1;
-    sendUnit2 = new Decimal(priceBelow).mul(new Decimal(recUnit2)).toNumber()
+    recUnit2 = '1';
+    sendUnit2 = new Decimal(priceBelow).mul(new Decimal(recUnit2)).toString();
   }
 
   if(denomination.toLowerCase() == 'neo'){
-    sendUnit2 = 1;
-    recUnit2 = new Decimal(sendUnit2).div(new Decimal(priceBelow)).toNumber();
+    sendUnit2 = '1';
+    recUnit2 = new Decimal(sendUnit2).div(new Decimal(priceBelow)).toString();
 
-    recUnit1 = 1;
-    sendUnit1 = new Decimal(recUnit1).div(new Decimal(priceAbove)).toNumber();
+    recUnit1 = '1'
+    sendUnit1 = new Decimal(recUnit1).div(new Decimal(priceAbove)).toString();
   }
+
+  if(sendUnit1.split('.').length == 2){
+    let first = sendUnit1.split('.')[0];
+    let second = sendUnit1.split('.')[1].substring(0,8);
+    sendUnit1 = first +  '.' + second;
+  }
+
+  if(sendUnit2.split('.').length == 2){
+    let first = sendUnit2.split('.')[0];
+    let second = sendUnit2.split('.')[1].substring(0,8);
+    sendUnit2 = first +  '.' + second;
+  }
+  if(recUnit1.split('.').length == 2){
+    let first = recUnit1.split('.')[0];
+    let second = recUnit1.split('.')[1].substring(0,8);
+    recUnit1 = first +  '.' + second;
+  }
+  if(recUnit2.split('.').length == 2){
+    let first = recUnit2.split('.')[0];
+    let second = recUnit2.split('.')[1].substring(0,8);
+    recUnit2 = first +  '.' + second;
+  }
+
+
+
+
+
 
   return {sendUnit1,recUnit1,sendUnit2,recUnit2}
 }
