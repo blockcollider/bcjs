@@ -54,6 +54,8 @@ message GetHistoryRequest {
 
 message TransferResponse {
     repeated Transfer transfers = 1;
+    string from = 2;
+    string to = 3;
 }
 
 message GetUtxoLengthRequest{
@@ -253,12 +255,23 @@ message SettingsResponse {
     string build_version = 2;
 }
 
+message GetNrgSupplyResponse {
+    string amount = 1;
+}
+
+message GetMarkedTxs {
+    repeated MarkedTransaction txs = 1;
+}
+
+
 service Bc {
 
     rpc GetRoveredBlockHash(GetRoveredBlockHashRequest) returns (Block) {}
     rpc GetRoveredBlockHeight(GetRoveredBlockHeightRequest) returns (Block) {}
     rpc GetRoveredBlocks(GetRoveredBlocksRequest) returns (GetRoveredBlocksResponse) {}
     rpc GetLatestRoveredBlocks(Null) returns (GetRoveredBlocksResponse) {}
+    rpc GetNrgSupply(Null) returns (GetNrgSupplyResponse) {}
+
 
     rpc GetBlockHash(GetBlockHashRequest) returns (BcBlock) {}
     rpc GetBlockHeight(GetBlockHeightRequest) returns (BcBlock) {}
@@ -268,6 +281,8 @@ service Bc {
 
     rpc GetTx(GetTxRequest) returns (Transaction) {}
     rpc GetMarkedTx(GetMarkedTxRequest) returns (MarkedTransaction) {}
+    rpc GetMarkedTxsForMatchedOrder(GetOutPointRequest) returns (GetMarkedTxs) {}
+
 
     rpc GetTradeStatus(GetOutPointRequest) returns (GetTradeStatusResponse) {}
     rpc GetOutpointStatus(GetOutPointRequest) returns (GetOutPointStatusResponse) {}

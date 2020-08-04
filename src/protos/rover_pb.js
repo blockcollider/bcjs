@@ -1588,7 +1588,8 @@ proto.bcsdk.SettleTxCheckReq.prototype.toObject = function(opt_includeInstance) 
 proto.bcsdk.SettleTxCheckReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     possibleTransactionsList: jspb.Message.toObjectList(msg.getPossibleTransactionsList(),
-    proto.bcsdk.SettleTxCheckReq.PossibleTransaction.toObject, includeInstance)
+    proto.bcsdk.SettleTxCheckReq.PossibleTransaction.toObject, includeInstance),
+    blockHash: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1630,6 +1631,10 @@ proto.bcsdk.SettleTxCheckReq.deserializeBinaryFromReader = function(msg, reader)
       reader.readMessage(value,proto.bcsdk.SettleTxCheckReq.PossibleTransaction.deserializeBinaryFromReader);
       msg.addPossibleTransactions(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setBlockHash(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1665,6 +1670,13 @@ proto.bcsdk.SettleTxCheckReq.serializeBinaryToWriter = function(message, writer)
       1,
       f,
       proto.bcsdk.SettleTxCheckReq.PossibleTransaction.serializeBinaryToWriter
+    );
+  }
+  f = message.getBlockHash();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
     );
   }
 };
@@ -2026,6 +2038,21 @@ proto.bcsdk.SettleTxCheckReq.prototype.addPossibleTransactions = function(opt_va
 
 proto.bcsdk.SettleTxCheckReq.prototype.clearPossibleTransactionsList = function() {
   this.setPossibleTransactionsList([]);
+};
+
+
+/**
+ * optional string block_hash = 2;
+ * @return {string}
+ */
+proto.bcsdk.SettleTxCheckReq.prototype.getBlockHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/** @param {string} value */
+proto.bcsdk.SettleTxCheckReq.prototype.setBlockHash = function(value) {
+  jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

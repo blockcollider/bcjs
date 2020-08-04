@@ -165,6 +165,52 @@ export namespace BlockchainHeaders {
   }
 }
 
+export class BlockchainHeaderRefs extends jspb.Message {
+  clearBtcRefList(): void;
+  getBtcRefList(): Array<string>;
+  setBtcRefList(value: Array<string>): void;
+  addBtcRef(value: string, index?: number): string;
+
+  clearEthRefList(): void;
+  getEthRefList(): Array<string>;
+  setEthRefList(value: Array<string>): void;
+  addEthRef(value: string, index?: number): string;
+
+  clearLskRefList(): void;
+  getLskRefList(): Array<string>;
+  setLskRefList(value: Array<string>): void;
+  addLskRef(value: string, index?: number): string;
+
+  clearNeoRefList(): void;
+  getNeoRefList(): Array<string>;
+  setNeoRefList(value: Array<string>): void;
+  addNeoRef(value: string, index?: number): string;
+
+  clearWavRefList(): void;
+  getWavRefList(): Array<string>;
+  setWavRefList(value: Array<string>): void;
+  addWavRef(value: string, index?: number): string;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BlockchainHeaderRefs.AsObject;
+  static toObject(includeInstance: boolean, msg: BlockchainHeaderRefs): BlockchainHeaderRefs.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BlockchainHeaderRefs, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BlockchainHeaderRefs;
+  static deserializeBinaryFromReader(message: BlockchainHeaderRefs, reader: jspb.BinaryReader): BlockchainHeaderRefs;
+}
+
+export namespace BlockchainHeaderRefs {
+  export type AsObject = {
+    btcRefList: Array<string>,
+    ethRefList: Array<string>,
+    lskRefList: Array<string>,
+    neoRefList: Array<string>,
+    wavRefList: Array<string>,
+  }
+}
+
 export class BcBlock extends jspb.Message {
   getHash(): string;
   setHash(value: string): void;
@@ -287,6 +333,132 @@ export namespace BcBlock {
     txDistanceSumLimit: number,
     blockchainHeadersCount: number,
     blockchainHeaders?: BlockchainHeaders.AsObject,
+    blockchainFingerprintsRoot: string,
+  }
+}
+
+export class BcBlockRef extends jspb.Message {
+  getHash(): string;
+  setHash(value: string): void;
+
+  getPreviousHash(): string;
+  setPreviousHash(value: string): void;
+
+  getVersion(): number;
+  setVersion(value: number): void;
+
+  getSchemaVersion(): number;
+  setSchemaVersion(value: number): void;
+
+  getHeight(): number;
+  setHeight(value: number): void;
+
+  getMiner(): string;
+  setMiner(value: string): void;
+
+  getDifficulty(): string;
+  setDifficulty(value: string): void;
+
+  getTimestamp(): number;
+  setTimestamp(value: number): void;
+
+  getMerkleRoot(): string;
+  setMerkleRoot(value: string): void;
+
+  getChainRoot(): string;
+  setChainRoot(value: string): void;
+
+  getDistance(): string;
+  setDistance(value: string): void;
+
+  getTotalDistance(): string;
+  setTotalDistance(value: string): void;
+
+  getNonce(): string;
+  setNonce(value: string): void;
+
+  getNrgGrant(): number;
+  setNrgGrant(value: number): void;
+
+  getTwn(): number;
+  setTwn(value: number): void;
+
+  clearTwsList(): void;
+  getTwsList(): Array<string>;
+  setTwsList(value: Array<string>): void;
+  addTws(value: string, index?: number): string;
+
+  getEmblemWeight(): number;
+  setEmblemWeight(value: number): void;
+
+  getEmblemChainFingerprintRoot(): string;
+  setEmblemChainFingerprintRoot(value: string): void;
+
+  getEmblemChainAddress(): string;
+  setEmblemChainAddress(value: string): void;
+
+  getTxCount(): number;
+  setTxCount(value: number): void;
+
+  clearTxsList(): void;
+  getTxsList(): Array<Transaction>;
+  setTxsList(value: Array<Transaction>): void;
+  addTxs(value?: Transaction, index?: number): Transaction;
+
+  getTxFeeBase(): number;
+  setTxFeeBase(value: number): void;
+
+  getTxDistanceSumLimit(): number;
+  setTxDistanceSumLimit(value: number): void;
+
+  getBlockchainHeadersCount(): number;
+  setBlockchainHeadersCount(value: number): void;
+
+  hasBlockchainHeaderRefs(): boolean;
+  clearBlockchainHeaderRefs(): void;
+  getBlockchainHeaderRefs(): BlockchainHeaderRefs | undefined;
+  setBlockchainHeaderRefs(value?: BlockchainHeaderRefs): void;
+
+  getBlockchainFingerprintsRoot(): string;
+  setBlockchainFingerprintsRoot(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BcBlockRef.AsObject;
+  static toObject(includeInstance: boolean, msg: BcBlockRef): BcBlockRef.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BcBlockRef, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BcBlockRef;
+  static deserializeBinaryFromReader(message: BcBlockRef, reader: jspb.BinaryReader): BcBlockRef;
+}
+
+export namespace BcBlockRef {
+  export type AsObject = {
+    hash: string,
+    previousHash: string,
+    version: number,
+    schemaVersion: number,
+    height: number,
+    miner: string,
+    difficulty: string,
+    timestamp: number,
+    merkleRoot: string,
+    chainRoot: string,
+    distance: string,
+    totalDistance: string,
+    nonce: string,
+    nrgGrant: number,
+    twn: number,
+    twsList: Array<string>,
+    emblemWeight: number,
+    emblemChainFingerprintRoot: string,
+    emblemChainAddress: string,
+    txCount: number,
+    txsList: Array<Transaction.AsObject>,
+    txFeeBase: number,
+    txDistanceSumLimit: number,
+    blockchainHeadersCount: number,
+    blockchainHeaderRefs?: BlockchainHeaderRefs.AsObject,
     blockchainFingerprintsRoot: string,
   }
 }
@@ -636,6 +808,9 @@ export class BlockchainHeader extends jspb.Message {
   setMarkedTxsList(value: Array<MarkedTransaction>): void;
   addMarkedTxs(value?: MarkedTransaction, index?: number): MarkedTransaction;
 
+  getMarkedTxCount(): number;
+  setMarkedTxCount(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): BlockchainHeader.AsObject;
   static toObject(includeInstance: boolean, msg: BlockchainHeader): BlockchainHeader.AsObject;
@@ -656,6 +831,7 @@ export namespace BlockchainHeader {
     merkleRoot: string,
     blockchainConfirmationsInParentCount: number,
     markedTxsList: Array<MarkedTransaction.AsObject>,
+    markedTxCount: number,
   }
 }
 

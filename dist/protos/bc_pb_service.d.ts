@@ -41,6 +41,15 @@ type BcGetLatestRoveredBlocks = {
   readonly responseType: typeof bc_pb.GetRoveredBlocksResponse;
 };
 
+type BcGetNrgSupply = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof bc_pb.GetNrgSupplyResponse;
+};
+
 type BcGetBlockHash = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -102,6 +111,15 @@ type BcGetMarkedTx = {
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetMarkedTxRequest;
   readonly responseType: typeof core_pb.MarkedTransaction;
+};
+
+type BcGetMarkedTxsForMatchedOrder = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetOutPointRequest;
+  readonly responseType: typeof bc_pb.GetMarkedTxs;
 };
 
 type BcGetTradeStatus = {
@@ -353,6 +371,7 @@ export class Bc {
   static readonly GetRoveredBlockHeight: BcGetRoveredBlockHeight;
   static readonly GetRoveredBlocks: BcGetRoveredBlocks;
   static readonly GetLatestRoveredBlocks: BcGetLatestRoveredBlocks;
+  static readonly GetNrgSupply: BcGetNrgSupply;
   static readonly GetBlockHash: BcGetBlockHash;
   static readonly GetBlockHeight: BcGetBlockHeight;
   static readonly GetBlocksHeight: BcGetBlocksHeight;
@@ -360,6 +379,7 @@ export class Bc {
   static readonly GetLatestBlock: BcGetLatestBlock;
   static readonly GetTx: BcGetTx;
   static readonly GetMarkedTx: BcGetMarkedTx;
+  static readonly GetMarkedTxsForMatchedOrder: BcGetMarkedTxsForMatchedOrder;
   static readonly GetTradeStatus: BcGetTradeStatus;
   static readonly GetOutpointStatus: BcGetOutpointStatus;
   static readonly GetTxClaimedBy: BcGetTxClaimedBy;
@@ -457,6 +477,15 @@ export class BcClient {
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetRoveredBlocksResponse|null) => void
   ): UnaryResponse;
+  getNrgSupply(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetNrgSupplyResponse|null) => void
+  ): UnaryResponse;
+  getNrgSupply(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetNrgSupplyResponse|null) => void
+  ): UnaryResponse;
   getBlockHash(
     requestMessage: bc_pb.GetBlockHashRequest,
     metadata: grpc.Metadata,
@@ -519,6 +548,15 @@ export class BcClient {
   getMarkedTx(
     requestMessage: bc_pb.GetMarkedTxRequest,
     callback: (error: ServiceError|null, responseMessage: core_pb.MarkedTransaction|null) => void
+  ): UnaryResponse;
+  getMarkedTxsForMatchedOrder(
+    requestMessage: bc_pb.GetOutPointRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMarkedTxs|null) => void
+  ): UnaryResponse;
+  getMarkedTxsForMatchedOrder(
+    requestMessage: bc_pb.GetOutPointRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetMarkedTxs|null) => void
   ): UnaryResponse;
   getTradeStatus(
     requestMessage: bc_pb.GetOutPointRequest,
