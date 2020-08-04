@@ -47,6 +47,15 @@ Bc.GetLatestRoveredBlocks = {
   responseType: bc_pb.GetRoveredBlocksResponse
 };
 
+Bc.GetNrgSupply = {
+  methodName: "GetNrgSupply",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: bc_pb.GetNrgSupplyResponse
+};
+
 Bc.GetBlockHash = {
   methodName: "GetBlockHash",
   service: Bc,
@@ -108,6 +117,15 @@ Bc.GetMarkedTx = {
   responseStream: false,
   requestType: bc_pb.GetMarkedTxRequest,
   responseType: core_pb.MarkedTransaction
+};
+
+Bc.GetMarkedTxsForMatchedOrder = {
+  methodName: "GetMarkedTxsForMatchedOrder",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetOutPointRequest,
+  responseType: bc_pb.GetMarkedTxs
 };
 
 Bc.GetTradeStatus = {
@@ -484,6 +502,37 @@ BcClient.prototype.getLatestRoveredBlocks = function getLatestRoveredBlocks(requ
   };
 };
 
+BcClient.prototype.getNrgSupply = function getNrgSupply(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetNrgSupply, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
 BcClient.prototype.getBlockHash = function getBlockHash(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
@@ -675,6 +724,37 @@ BcClient.prototype.getMarkedTx = function getMarkedTx(requestMessage, metadata, 
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetMarkedTx, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getMarkedTxsForMatchedOrder = function getMarkedTxsForMatchedOrder(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetMarkedTxsForMatchedOrder, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

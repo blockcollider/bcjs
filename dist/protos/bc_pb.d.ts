@@ -210,6 +210,12 @@ export class TransferResponse extends jspb.Message {
   setTransfersList(value: Array<Transfer>): void;
   addTransfers(value?: Transfer, index?: number): Transfer;
 
+  getFrom(): string;
+  setFrom(value: string): void;
+
+  getTo(): string;
+  setTo(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TransferResponse.AsObject;
   static toObject(includeInstance: boolean, msg: TransferResponse): TransferResponse.AsObject;
@@ -223,6 +229,8 @@ export class TransferResponse extends jspb.Message {
 export namespace TransferResponse {
   export type AsObject = {
     transfersList: Array<Transfer.AsObject>,
+    from: string,
+    to: string,
   }
 }
 
@@ -1177,6 +1185,48 @@ export namespace SettingsResponse {
   export type AsObject = {
     ngrokTunnel: string,
     buildVersion: string,
+  }
+}
+
+export class GetNrgSupplyResponse extends jspb.Message {
+  getAmount(): string;
+  setAmount(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetNrgSupplyResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetNrgSupplyResponse): GetNrgSupplyResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetNrgSupplyResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetNrgSupplyResponse;
+  static deserializeBinaryFromReader(message: GetNrgSupplyResponse, reader: jspb.BinaryReader): GetNrgSupplyResponse;
+}
+
+export namespace GetNrgSupplyResponse {
+  export type AsObject = {
+    amount: string,
+  }
+}
+
+export class GetMarkedTxs extends jspb.Message {
+  clearTxsList(): void;
+  getTxsList(): Array<core_pb.MarkedTransaction>;
+  setTxsList(value: Array<core_pb.MarkedTransaction>): void;
+  addTxs(value?: core_pb.MarkedTransaction, index?: number): core_pb.MarkedTransaction;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetMarkedTxs.AsObject;
+  static toObject(includeInstance: boolean, msg: GetMarkedTxs): GetMarkedTxs.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetMarkedTxs, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetMarkedTxs;
+  static deserializeBinaryFromReader(message: GetMarkedTxs, reader: jspb.BinaryReader): GetMarkedTxs;
+}
+
+export namespace GetMarkedTxs {
+  export type AsObject = {
+    txsList: Array<core_pb.MarkedTransaction.AsObject>,
   }
 }
 

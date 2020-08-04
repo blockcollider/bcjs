@@ -81,6 +81,7 @@ message SettleTxCheckReq {
     string token_type = 7;
   }
   repeated PossibleTransaction possible_transactions = 1;
+  string block_hash = 2;
 }
 
 message SettleTxCheckResponse {
