@@ -49,7 +49,7 @@ const shiftTaker = 1
 const depositLength = 500;
 const settleLength = 600;
 const additionalTxFee = '0'
-const collateralizedNrg = '100'
+const collateralizedNrg = '50'
 const nrgUnit = '1'
 
 const addresses = {
@@ -140,10 +140,8 @@ function getSpecs(price, increment, asset, denomination,prices){
   const priceAbove = (price + increment)
   const priceBelow = (price - increment)
   // console.log({prices,asset})
-  let sendAmount = new Decimal(10).div(new Decimal(prices[asset.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
-  let recAmount =  new Decimal(10).div(new Decimal(prices[denomination.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
-
-  console.log({sendAmount,recAmount});
+  let sendAmount = new Decimal(5).div(new Decimal(prices[asset.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
+  let recAmount =  new Decimal(5).div(new Decimal(prices[denomination.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
 
   let sendUnit1 = sendAmount;
   let recUnit1 = new Decimal(priceAbove).mul(new Decimal(sendAmount)).toString();
@@ -188,11 +186,6 @@ function getSpecs(price, increment, asset, denomination,prices){
     let second = recUnit2.split('.')[1].substring(0,8);
     recUnit2 = first +  '.' + second;
   }
-
-
-
-
-
 
   return {sendUnit1,recUnit1,sendUnit2,recUnit2}
 }
