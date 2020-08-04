@@ -1,5 +1,5 @@
 import axios from 'axios'
-import bitcoin from 'bitcoinjs-lib'
+import * as bitcoin from 'bitcoinjs-lib'
 import request from 'superagent'
 
 const BITCOIN_DIGITS = 8

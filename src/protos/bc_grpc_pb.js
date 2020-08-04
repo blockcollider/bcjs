@@ -159,6 +159,17 @@ function deserialize_bcsdk_GetMarkedTxRequest(buffer_arg) {
   return bc_pb.GetMarkedTxRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bcsdk_GetMarkedTxs(arg) {
+  if (!(arg instanceof bc_pb.GetMarkedTxs)) {
+    throw new Error('Expected argument of type bcsdk.GetMarkedTxs');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_GetMarkedTxs(buffer_arg) {
+  return bc_pb.GetMarkedTxs.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bcsdk_GetMatchedOrdersResponse(arg) {
   if (!(arg instanceof bc_pb.GetMatchedOrdersResponse)) {
     throw new Error('Expected argument of type bcsdk.GetMatchedOrdersResponse');
@@ -168,6 +179,17 @@ function serialize_bcsdk_GetMatchedOrdersResponse(arg) {
 
 function deserialize_bcsdk_GetMatchedOrdersResponse(buffer_arg) {
   return bc_pb.GetMatchedOrdersResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bcsdk_GetNrgSupplyResponse(arg) {
+  if (!(arg instanceof bc_pb.GetNrgSupplyResponse)) {
+    throw new Error('Expected argument of type bcsdk.GetNrgSupplyResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_GetNrgSupplyResponse(buffer_arg) {
+  return bc_pb.GetNrgSupplyResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_bcsdk_GetOpenOrdersResponse(arg) {
@@ -546,6 +568,17 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_GetRoveredBlocksResponse,
     responseDeserialize: deserialize_bcsdk_GetRoveredBlocksResponse,
   },
+  getNrgSupply: {
+    path: '/bcsdk.Bc/GetNrgSupply',
+    requestStream: false,
+    responseStream: false,
+    requestType: core_pb.Null,
+    responseType: bc_pb.GetNrgSupplyResponse,
+    requestSerialize: serialize_bcsdk_Null,
+    requestDeserialize: deserialize_bcsdk_Null,
+    responseSerialize: serialize_bcsdk_GetNrgSupplyResponse,
+    responseDeserialize: deserialize_bcsdk_GetNrgSupplyResponse,
+  },
   getBlockHash: {
     path: '/bcsdk.Bc/GetBlockHash',
     requestStream: false,
@@ -622,6 +655,17 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bcsdk_GetMarkedTxRequest,
     responseSerialize: serialize_bcsdk_MarkedTransaction,
     responseDeserialize: deserialize_bcsdk_MarkedTransaction,
+  },
+  getMarkedTxsForMatchedOrder: {
+    path: '/bcsdk.Bc/GetMarkedTxsForMatchedOrder',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetOutPointRequest,
+    responseType: bc_pb.GetMarkedTxs,
+    requestSerialize: serialize_bcsdk_GetOutPointRequest,
+    requestDeserialize: deserialize_bcsdk_GetOutPointRequest,
+    responseSerialize: serialize_bcsdk_GetMarkedTxs,
+    responseDeserialize: deserialize_bcsdk_GetMarkedTxs,
   },
   getTradeStatus: {
     path: '/bcsdk.Bc/GetTradeStatus',

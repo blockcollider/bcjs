@@ -14,3 +14,50 @@ message InitialPeerEvents {
 message BcBlocks {
   repeated BcBlock blocks = 1;
 }
+
+// Services: over-the-air OP_X update 
+// Services: provision authentication module 
+// Services: enable hardware functionality 
+// Services: data update  
+message Service {
+  uint64 version = 1;
+  string uuid = 2; // universal id of service for Overline compatibility
+  string pid = 3; // provisioned id of service for specific operator or provisioned group
+  string text = 4; // empty unless service requires text data 
+  string data = 5; // empty unless service requires data 
+}
+
+// Update Service: over-the-air OP_X update 
+// Update Service: provision / authentication module 
+// Update Service: enable hardware functionality 
+// Update Service: data update  
+message PutService {
+  uint64 version = 1;
+  string uuid = 2; // universal id of service for OVerline compatability  
+  string pid = 3; // provisioned id
+  bool encrypted = 4; // data is encrypted (likely provision update) 
+  string text = 5; // empty unless service update is in progress 
+  bytes data = 6; // empty unless service update is in progress
+}
+
+message Record {
+  uint64 version = 1;
+  string host = 2;
+  uint64 port = 3;
+  uint64 last_seen = 4; // numeral date of when peer was last seen
+  string last_seen_hash = 5; // optional last block hash 
+}
+
+message Config {
+  uint64 version = 1;
+  string secure_admin = 2;
+  string secure_group = 3;
+  repeated Service services = 4; // services available on this machine 
+}
+
+message PutConfig {
+  uint64 version = 1;
+  bool admin = 2; // indicates if this is an admin only configuration update
+  string secure_signature = 3; // signature of message and update services public key of admin (if admin is true) otherwise public key of group
+  repeated PutService services = 4;
+}

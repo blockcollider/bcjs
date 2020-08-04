@@ -224,6 +224,9 @@ export class SettleTxCheckReq extends jspb.Message {
   setPossibleTransactionsList(value: Array<SettleTxCheckReq.PossibleTransaction>): void;
   addPossibleTransactions(value?: SettleTxCheckReq.PossibleTransaction, index?: number): SettleTxCheckReq.PossibleTransaction;
 
+  getBlockHash(): string;
+  setBlockHash(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): SettleTxCheckReq.AsObject;
   static toObject(includeInstance: boolean, msg: SettleTxCheckReq): SettleTxCheckReq.AsObject;
@@ -237,6 +240,7 @@ export class SettleTxCheckReq extends jspb.Message {
 export namespace SettleTxCheckReq {
   export type AsObject = {
     possibleTransactionsList: Array<SettleTxCheckReq.PossibleTransaction.AsObject>,
+    blockHash: string,
   }
 
   export class PossibleTransaction extends jspb.Message {

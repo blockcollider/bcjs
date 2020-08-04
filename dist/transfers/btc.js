@@ -10,9 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const bitcoinjs_lib_1 = __importDefault(require("bitcoinjs-lib"));
+const bitcoin = __importStar(require("bitcoinjs-lib"));
 const superagent_1 = __importDefault(require("superagent"));
 const BITCOIN_DIGITS = 8;
 const BITCOIN_SAT_MULT = Math.pow(10, BITCOIN_DIGITS);
@@ -135,7 +142,7 @@ function sendTransaction(options) {
         const to = options.to;
         const amount = options.btc;
         const amtSatoshi = Math.floor(amount * BITCOIN_SAT_MULT);
-        const bitcoinNetwork = bitcoinjs_lib_1.default.networks.bitcoin;
+        const bitcoinNetwork = bitcoin.networks.bitcoin;
         return Promise.all([
             getFees(options.feesProvider, options.fee),
             options.utxoProvider(from),
@@ -143,7 +150,7 @@ function sendTransaction(options) {
             const feePerByte = res[0];
             const utxos = res[1];
             // Setup inputs from utxos
-            const tx = new bitcoinjs_lib_1.default.TransactionBuilder(bitcoinNetwork);
+            const tx = new bitcoin.TransactionBuilder(bitcoinNetwork);
             let ninputs = 0;
             let availableSat = 0;
             for (const utxo of utxos) {
@@ -168,7 +175,7 @@ function sendTransaction(options) {
             if (change > 0) {
                 tx.addOutput(from, change - fee);
             }
-            const keyPair = bitcoinjs_lib_1.default.ECPair.fromWIF(options.privKeyWIF, bitcoinNetwork);
+            const keyPair = bitcoin.ECPair.fromWIF(options.privKeyWIF, bitcoinNetwork);
             for (let i = 0; i < ninputs; i++) {
                 try {
                     tx.sign(i, keyPair);
@@ -200,7 +207,7 @@ exports.transferBTC = (privKeyWIF, from, to, amount) => __awaiter(this, void 0, 
             dryrun: false,
             network: 'mainnet',
         });
-        const txid = signed ? bitcoinjs_lib_1.default.Transaction.fromHex(signed.msg).getId() : null;
+        const txid = signed ? bitcoin.Transaction.fromHex(signed.msg).getId() : null;
         return txid;
     }
     catch (err) {
