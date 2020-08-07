@@ -46,8 +46,8 @@ const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
 const shiftMaker = 1
 const shiftTaker = 1
-const depositLength = 500;
-const settleLength = 600;
+const depositLength = 1000;
+const settleLength = 1200;
 const additionalTxFee = '0'
 const collateralizedNrg = '50'
 const nrgUnit = '1'
@@ -90,7 +90,7 @@ async function testMaker({sendsFromChain, receivesToChain, sendsFromAddress, rec
 
   const res = await client.sendTx(tx)
   console.log('sent Tx - ', res)
-  await timeout(10000)
+  await timeout(100)
   return true
 }
 
@@ -113,8 +113,6 @@ async function fillOrderbook() {
         await testMaker({sendsFromChain:asset,receivesToChain:denomination,
         sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
         sendsUnit:sendUnit1,receivesUnit:recUnit1,spendableOutpointsList:newOutPoints.newList});
-
-        // await timeout(2000)
       }
 
       let amount:any = collateralizedNrg
@@ -129,8 +127,6 @@ async function fillOrderbook() {
       await testMaker({sendsFromChain:denomination,receivesToChain:asset,
       sendsFromAddress:addresses[denomination.toLowerCase()],receivesToAddress:addresses[asset.toLowerCase()],
       receivesUnit:recUnit2,sendsUnit:sendUnit2,spendableOutpointsList:newOutPoints.newList});
-      // await timeout(2000)
-
     }
   }
 }
