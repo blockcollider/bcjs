@@ -44,12 +44,14 @@ const client = new RpcClient(address, scookie)
 const wallet = new Wallet(client)
 const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
+let orderAmount = process.argv[4]
+if(orderAmount == undefined) orderAmount = `2`;
 const shiftMaker = 1
 const shiftTaker = 1
 const depositLength = 1000;
 const settleLength = 1200;
 const additionalTxFee = '0'
-const collateralizedNrg = '50'
+const collateralizedNrg = (parseInt(orderAmount) * 10).toString();
 const nrgUnit = '1'
 
 const addresses = {
@@ -136,8 +138,8 @@ function getSpecs(price, increment, asset, denomination,prices){
   const priceAbove = (price + increment)
   const priceBelow = (price - increment)
   // console.log({prices,asset})
-  let sendAmount = new Decimal(5).div(new Decimal(prices[asset.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
-  let recAmount =  new Decimal(5).div(new Decimal(prices[denomination.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
+  let sendAmount = new Decimal(orderAmount).div(new Decimal(prices[asset.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
+  let recAmount =  new Decimal(orderAmount).div(new Decimal(prices[denomination.toLowerCase()])).mul(new Decimal(Math.random()/10000+1)).toString();
 
   let sendUnit1 = sendAmount;
   let recUnit1 = new Decimal(priceAbove).mul(new Decimal(sendAmount)).toString();
