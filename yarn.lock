@@ -526,10 +526,10 @@
   resolved "https://registry.yarnpkg.com/@types/base64-js/-/base64-js-1.2.5.tgz#582b2476169a6cba460a214d476c744441d873d5"
   integrity sha1-WCskdhaabLpGCiFNR2x0REHYc9U=
 
-"@types/benchmark@^1.0.31":
-  version "1.0.31"
-  resolved "https://registry.yarnpkg.com/@types/benchmark/-/benchmark-1.0.31.tgz#2dd3514e93396f362ba5551a7c9ff0da405c1d38"
-  integrity sha512-F6fVNOkGEkSdo/19yWYOwVKGvzbTeWkR/XQYBKtGBQ9oGRjBN9f/L4aJI4sDcVPJO58Y1CJZN8va9V2BhrZapA==
+"@types/benchmark@^1.0.33":
+  version "1.0.33"
+  resolved "https://registry.yarnpkg.com/@types/benchmark/-/benchmark-1.0.33.tgz#437641cb977db0267b8146f963763aafd0f02fef"
+  integrity sha512-rG7Ieasa9UfZJnL72qiFvY9ivhEIYjCGgfcLLb5tJ/EL9+Mcxernj6W3HVCv/cOfJYuwNUwvVVhnrKl8iT8aqA==
 
 "@types/bignumber.js@^5.0.0":
   version "5.0.0"

@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@improbable-eng/grpc-web": "^0.9.6",
-    "@types/benchmark": "^1.0.31",
+    "@types/benchmark": "^1.0.33",
     "@types/bn.js": "^4.11.5",
     "@types/google-protobuf": "^3.7.1",
     "@types/isomorphic-fetch": "^0.0.35",
