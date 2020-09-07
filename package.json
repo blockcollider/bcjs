@@ -51,7 +51,7 @@
     "@types/google-protobuf": "^3.7.1",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^24.0.18",
-    "@types/ramda": "^0.26.29",
+    "@types/ramda": "^0.27.14",
     "benchmark": "^2.1.4",
     "cpy-cli": "^2.0.0",
     "grpc-tools": "^1.8.0",
