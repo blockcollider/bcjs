@@ -10,7 +10,8 @@ export const transferDAI = async (privateKey, from, to, amount) => {
         )
         .encodeABI()
 
-      submitTransaction({ to: DAI._address, from, value: web3.utils.toHex(0), data, privateKey }, (err, hash) => {
+      submitTransaction(
+          { to: DAI.options.address, from, value: web3.utils.toHex(0), data, privateKey }, (err, hash) => {
         if (err) {
           reject(err)
         } else {

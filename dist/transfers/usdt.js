@@ -15,7 +15,7 @@ exports.transferUSDT = (privateKey, from, to, amount) => __awaiter(this, void 0,
             const data = web3_1.USDT.methods
                 .transfer(to, web3_1.web3.utils.toHex(Math.floor(Math.pow(10, 6) * parseFloat(amount))))
                 .encodeABI();
-            web3_1.submitTransaction({ to: web3_1.USDT._address, from, value: web3_1.web3.utils.toHex(0), data, privateKey }, (err, hash) => {
+            web3_1.submitTransaction({ to: web3_1.USDT.options.address, from, value: web3_1.web3.utils.toHex(0), data, privateKey }, (err, hash) => {
                 if (err) {
                     reject(err);
                 }

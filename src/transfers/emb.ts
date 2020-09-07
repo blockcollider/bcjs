@@ -9,7 +9,8 @@ export const transferEMB = async (privateKey, from, to, amount) => {
           web3.utils.toHex(Math.floor(Math.pow(10, 8) * parseFloat(amount))),
         )
         .encodeABI()
-      submitTransaction({ to: EMB._address, from, value: web3.utils.toHex(0), data, privateKey }, (err, hash) => {
+      submitTransaction({ to: EMB.options.address, from, value: web3.utils.toHex(0), data, privateKey },
+          (err, hash) => {
         if (err) {
           reject(err)
         } else {

@@ -10,7 +10,8 @@ export const transferUSDT = async (privateKey, from, to, amount) => {
         )
         .encodeABI()
 
-      submitTransaction({ to: USDT._address, from, value: web3.utils.toHex(0), data, privateKey }, (err, hash) => {
+      submitTransaction({ to: USDT.options.address, from, value: web3.utils.toHex(0), data, privateKey },
+          (err, hash) => {
         if (err) {
           reject(err)
         } else {
