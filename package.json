@@ -33,7 +33,7 @@
     "decimal.js": "^10.2.0",
     "es6-promise": "^4.2.8",
     "ethereumjs-tx": "^2.1.1",
-    "google-protobuf": "^3.7.1",
+    "google-protobuf": "^3.13.0",
     "grpc-web": "^1.0.6",
     "isomorphic-fetch": "^2.2.1",
     "lisk-elements": "2.3.0",
