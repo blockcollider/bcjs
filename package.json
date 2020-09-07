@@ -39,7 +39,7 @@
     "lisk-elements": "2.3.0",
     "ramda": "^0.26.1",
     "random-js": "1.0.8",
-    "secp256k1": "^3.7.1",
+    "secp256k1": "^4.0.2",
     "superagent": "^5.1.2",
     "to-buffer": "^1.1.1",
     "web3": "1.2.7"
