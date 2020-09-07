@@ -42,7 +42,7 @@
     "secp256k1": "^3.7.1",
     "superagent": "^5.1.2",
     "to-buffer": "^1.1.1",
-    "web3": "1.2.1"
+    "web3": "1.2.7"
   },
   "devDependencies": {
     "@improbable-eng/grpc-web": "^0.9.6",
