@@ -189,7 +189,7 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@cityofzion/neon-api@4.7.1", "@cityofzion/neon-api@^4.7.1":
+"@cityofzion/neon-api@4.7.1", "@cityofzion/neon-api@^4.8.1":
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/@cityofzion/neon-api/-/neon-api-4.7.1.tgz#78647b24a7b2e5931e4c024f9e9e2ae30be4c574"
   integrity sha512-vxZ1sucg6WamSsAsgwgv7E/IoLTdbIj6UYHTCKKRQS9hXOY7i6W4iRvYVvRUpuI5QvlPdy/4rJ8JSU3yO1HcIg==
@@ -197,7 +197,7 @@
     "@cityofzion/neon-core" "^4.7.1"
     axios "0.19.0"
 
-"@cityofzion/neon-core@4.7.1", "@cityofzion/neon-core@^4.7.1":
+"@cityofzion/neon-core@4.7.1", "@cityofzion/neon-core@^4.7.1", "@cityofzion/neon-core@^4.8.1":
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/@cityofzion/neon-core/-/neon-core-4.7.1.tgz#de71f1ac35a99468b1afcae549edc5aa7e3cf6a4"
   integrity sha512-/XTIn+Rai6UEQGSMY/+WGkPkBJKXv9JQoZmNBdPO1xTJ3kF6Xg2eoOCg4qrC6Q1mSpdw8n4uTckHgz7PO73WnQ==
@@ -220,16 +220,16 @@
     secure-random "1.1.1"
     wif "2.0.6"
 
-"@cityofzion/neon-js@4.7.1":
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/@cityofzion/neon-js/-/neon-js-4.7.1.tgz#02e57059499c9bbe96ae3a0e753aebb9bb6c11ab"
-  integrity sha512-/Xjnu6qXqcpFOHx+BHati/wRxfAjSrObt3APBeR4cz+PwHT/E4uFPC+3Q5am/TwhvUC2mI4blucnGEf1vscKNg==
+"@cityofzion/neon-js@4.8.1":
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/@cityofzion/neon-js/-/neon-js-4.8.1.tgz#91dd3d4953bdb64d0675a0d670f25646e4427f05"
+  integrity sha512-FmBuIYLwiHGrzy4vZGBksWVFoeOelYYRhMIIp7w2tHUhJN5K66XiW4a0bRca8BWshUaII1C7x5ATjFH6IqQfvQ==
   dependencies:
-    "@cityofzion/neon-api" "^4.7.1"
-    "@cityofzion/neon-core" "^4.7.1"
-    "@cityofzion/neon-nep5" "^4.7.1"
+    "@cityofzion/neon-api" "^4.8.1"
+    "@cityofzion/neon-core" "^4.8.1"
+    "@cityofzion/neon-nep5" "^4.8.1"
 
-"@cityofzion/neon-nep5@4.7.1", "@cityofzion/neon-nep5@^4.7.1":
+"@cityofzion/neon-nep5@4.7.1", "@cityofzion/neon-nep5@^4.8.1":
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/@cityofzion/neon-nep5/-/neon-nep5-4.7.1.tgz#3e1b8ebe5acc4d38cbacc7c3c02f3cf8ab823a7e"
   integrity sha512-n291ub9Y59CDgSCPp2I2J2FAhiVv/KJ3IxusK7/zRnG54nfQz+x/OjlQRBN9LFMhne2lwgILlXQgafV4kMf2Ww==
