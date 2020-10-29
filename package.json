@@ -67,6 +67,7 @@
     "@cityofzion/neon-api": "4.7.1",
     "@cityofzion/neon-core": "4.7.1",
     "@cityofzion/neon-nep5": "4.7.1",
-    "elliptic": "6.5.3"
+    "elliptic": "6.5.3",
+    "@waves/waves-transactions/**/node-forge": "^0.10.0"
   }
 }
