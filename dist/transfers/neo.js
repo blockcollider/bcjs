@@ -18,8 +18,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const neon_js_1 = __importStar(require("@cityofzion/neon-js"));
 exports.payNEO = (privateKey, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
     try {
+        const account = new neon_js_1.wallet.Account(privateKey);
         const config = {
-            account: privateKey,
+            account: account,
             api: new neon_js_1.api.neoscan.instance('MainNet'),
             intents: neon_js_1.api.makeIntent({ NEO: amount }, to),
         };
