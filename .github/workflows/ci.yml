@@ -22,7 +22,7 @@ jobs:
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
-          message: ':x: ${{ github.repository }} test failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
+          message: '❌ ${{ github.repository }} test failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
       - name: Try to compile
         run: yarn run compile
       - name: Notify TG if compile failed
@@ -32,4 +32,4 @@ jobs:
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
-          message: ':x: ${{ github.repository }} compilation failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
+          message: '❌ ${{ github.repository }} compilation failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
