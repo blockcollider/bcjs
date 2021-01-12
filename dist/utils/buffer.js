@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toBuffer = require('to-buffer');
+exports.toBuffer = require('to-buffer'); // tslint:disable-line
 exports.leftPadBuffer = (maybeBuffer, length) => {
     const zeros = Buffer.allocUnsafe(length).fill(0);
     const buf = exports.toBuffer(maybeBuffer, 'hex');

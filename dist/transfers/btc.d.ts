@@ -4,17 +4,17 @@ export declare const providers: {
             earn: (feeName: any) => Promise<any>;
         };
     };
-    utxo: {
-        mainnet: {
-            blockexplorer: (addr: any) => Promise<any>;
-            blockchain: (addr: any) => Promise<any>;
-        };
-    };
     pushtx: {
         mainnet: {
             blockchain: (hexTrans: any) => any;
             blockcypher: (hexTrans: any) => any;
             blockexplorer: (hexTrans: any) => any;
+        };
+    };
+    utxo: {
+        mainnet: {
+            blockchain: (addr: any) => Promise<any>;
+            blockexplorer: (addr: any) => Promise<any>;
         };
     };
 };

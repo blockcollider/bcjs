@@ -178,6 +178,7 @@ function parseMakerLockScript(script) {
         ' OP_5 OP_IFEQ 1 OP_MONADSPLIT OP_MONAD OP_BLAKE2BLPRIV ' :
         ' OP_5 OP_IFEQ OP_MONAD OP_BLAKE2BLPRIV ';
     const doubleHashedBcAddress = scriptStr.split(splitBy)[1].split(' ')[0];
+    /* tslint:disable:object-literal-sort-keys */
     return {
         base: baseNum,
         fixedUnitFee,
@@ -193,6 +194,7 @@ function parseMakerLockScript(script) {
         shiftMaker: parseInt(shiftMaker, 10),
         shiftTaker: parseInt(shiftTaker, 10),
     };
+    /* tslint:enable:object-literal-sort-keys */
 }
 exports.parseMakerLockScript = parseMakerLockScript;
 function createTakerUnlockScript(sendsFromAddress, receivesToAddress) {
@@ -203,8 +205,8 @@ function parseTakerUnlockScript(script) {
     const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     const [sendsFromAddress, receivesToAddress] = scriptStr.split(' ');
     return {
+        receivesToAddress,
         sendsFromAddress,
-        receivesToAddress
     };
 }
 exports.parseTakerUnlockScript = parseTakerUnlockScript;

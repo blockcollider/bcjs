@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const isNode = typeof process !== 'undefined' &&
     process.versions != null &&
     process.versions.node != null;
-const toBuffer = require('to-buffer');
+const toBuffer = require('to-buffer'); // tslint:disable-line
 class Blaker {
     static blake2b(input) {
         if (isNode) {

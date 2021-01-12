@@ -20,7 +20,7 @@ exports.payNEO = (privateKey, from, to, amount) => __awaiter(this, void 0, void 
     try {
         const account = new neon_js_1.wallet.Account(privateKey);
         const config = {
-            account: account,
+            account,
             api: new neon_js_1.api.neoscan.instance('MainNet'),
             intents: neon_js_1.api.makeIntent({ NEO: amount }, to),
         };

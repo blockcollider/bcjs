@@ -35,40 +35,6 @@ exports.providers = {
             },
         },
     },
-    utxo: {
-        mainnet: {
-            blockexplorer: addr => {
-                return fetch(`https://blockexplorer.com/api/addr/${addr}/utxo?noCache=1`, { mode: 'cors' })
-                    .then(res => res.json())
-                    .then(res => {
-                    return res.map(e => {
-                        return {
-                            confirmations: e.confirmations,
-                            satoshis: e.satoshis,
-                            txid: e.txid,
-                            vout: e.vout,
-                        };
-                    });
-                });
-            },
-            blockchain: addr => {
-                return fetch(`https://blockchain.info/unspent?active=${addr}`, {
-                    mode: 'cors'
-                })
-                    .then(res => res.json())
-                    .then(res => {
-                    return res.unspent_outputs.map(e => {
-                        return {
-                            confirmations: e.confirmations,
-                            satoshis: e.value,
-                            txid: e.tx_hash_big_endian,
-                            vout: e.tx_output_n,
-                        };
-                    });
-                });
-            },
-        },
-    },
     pushtx: {
         mainnet: {
             blockchain: hexTrans => {
@@ -85,6 +51,40 @@ exports.providers = {
                 return superagent_1.default
                     .post('https://blockexplorer.com/api/tx/send')
                     .send('rawtx=' + hexTrans);
+            },
+        },
+    },
+    utxo: {
+        mainnet: {
+            blockchain: addr => {
+                return fetch(`https://blockchain.info/unspent?active=${addr}`, {
+                    mode: 'cors',
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                    return res.unspent_outputs.map(e => {
+                        return {
+                            confirmations: e.confirmations,
+                            satoshis: e.value,
+                            txid: e.tx_hash_big_endian,
+                            vout: e.tx_output_n,
+                        };
+                    });
+                });
+            },
+            blockexplorer: addr => {
+                return fetch(`https://blockexplorer.com/api/addr/${addr}/utxo?noCache=1`, { mode: 'cors' })
+                    .then(res => res.json())
+                    .then(res => {
+                    return res.map(e => {
+                        return {
+                            confirmations: e.confirmations,
+                            satoshis: e.satoshis,
+                            txid: e.txid,
+                            vout: e.vout,
+                        };
+                    });
+                });
             },
         },
     },
@@ -180,7 +180,7 @@ function sendTransaction(options) {
                     tx.sign(i, keyPair);
                 }
                 catch (err) {
-                    console.log({ err });
+                    console.log({ err }); // tslint:disable-line:no-console
                 }
             }
             const msg = tx.build().toHex();
@@ -199,18 +199,18 @@ function sendTransaction(options) {
 exports.transferBTC = (privKeyWIF, from, to, amount) => __awaiter(this, void 0, void 0, function* () {
     try {
         const signed = yield sendTransaction({
-            from,
-            to,
-            privKeyWIF,
             btc: amount,
             dryrun: false,
+            from,
             network: 'mainnet',
+            privKeyWIF,
+            to,
         });
         const txid = signed ? bitcoin.Transaction.fromHex(signed.msg).getId() : null;
         return txid;
     }
     catch (err) {
-        console.log({ err });
+        console.log({ err }); // tslint:disable-line:no-console
         return err;
     }
 });
