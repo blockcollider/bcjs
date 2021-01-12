@@ -202,6 +202,109 @@ export const createMakerOrderTransaction = function(
   )
 }
 
+/*
+ * Create Overline message based on OL Transaction
+ * @param spendableWalletOutPointObjs:
+ * @param fromAddress: string,
+ * @param privateKeyHex: string,
+ * @param toAddress: string,
+ * @param transferAmount: string,
+ * @param txFee: string
+ */
+export const createOverlineChannelMessage = function(
+  spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
+  fromAddress: string,
+  privateKeyHex: string,
+  toAddress: string,
+  transferAmountNRG: string,
+  txFeeNRG: string,
+  addDefaultFee: boolean = true
+): coreProtobuf.Transaction {
+  const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
+  const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
+  const totalAmountBN = transferAmountBN.add(txFeeBN)
+  const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
+  if (privateKeyHex.startsWith('0x')) {
+    privateKeyHex = privateKeyHex.slice(2)
+  }
+
+  const txOutputs = [
+    createTransactionOutput(createNRGLockScript(toAddress), unitBN, transferAmountBN)
+  ]
+  const nonNRGInputs: coreProtobuf.TransactionInput[] = []
+
+  return _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee
+  )
+}
+
+export const createMakerOrderTransaction = function(
+  spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
+  shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
+  sendsFromChain: string, receivesToChain: string,
+  sendsFromAddress: string, receivesToAddress: string,
+  sendsUnit: string, receivesUnit: string,
+  bcAddress: string, bcPrivateKeyHex: string,
+  collateralizedNrg: string, nrgUnit:string, fixedUnitFee:string, additionalTxFee: string,
+  addDefaultFee: boolean = true
+) {
+  if (bcPrivateKeyHex.startsWith('0x')) {
+    bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
+  }
+  sendsFromChain = sendsFromChain.toLowerCase()
+  receivesToChain = receivesToChain.toLowerCase()
+
+  let err
+  if (sendsFromChain === 'btc') {
+    err = validateBtcAddress(sendsFromAddress)
+  }
+
+  if (receivesToChain === 'btc') {
+    err = validateBtcAddress(receivesToAddress)
+  }
+
+  if (err) {
+    throw err
+  }
+
+  let totalFeeBN = calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee,'maker')
+  const totalAmountBN = totalFeeBN.add(humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG))
+
+  const indivisibleSendsUnit = Currency.toMinimumUnitAsStr(
+    sendsFromChain, sendsUnit, CurrencyInfo[sendsFromChain].humanUnit
+  )
+
+  const indivisibleReceivesUnit = Currency.toMinimumUnitAsStr(
+    receivesToChain, receivesUnit, CurrencyInfo[receivesToChain].humanUnit
+  )
+
+  if(fixedUnitFee != '') fixedUnitFee = Currency.toMinimumUnitAsStr(
+    'nrg', fixedUnitFee, 'nrg'
+  )
+
+  const outputLockScript = createMakerLockScript(
+    shiftMaker, shiftTaker, depositLength, settleLength,
+    sendsFromChain, receivesToChain,
+    sendsFromAddress, receivesToAddress,
+    indivisibleSendsUnit, indivisibleReceivesUnit,fixedUnitFee,
+    bcAddress
+  )
+
+  const txOutputs = [
+    createTransactionOutput(
+      outputLockScript,
+      humanToInternalAsBN(nrgUnit, COIN_FRACS.NRG),
+      humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
+    )
+  ]
+
+  const nonNRGInputs: coreProtobuf.TransactionInput[] = []
+
+  return _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee
+  )
+}
+
 export const createTakerOrderTransaction = function(
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, receivesToAddress: string,
