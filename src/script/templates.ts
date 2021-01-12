@@ -156,7 +156,8 @@ export function createMakerLockScript (
   if (!addressDoubleHashed) {
     bcAddress = blake2bl(blake2bl(bcAddress) + bcAddress)
   }
-  const unlockMonadScript = ['OP_BLAKE2BLPRIV', normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY']
+  const unlockMonadScript =
+    ['OP_BLAKE2BLPRIV', normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY']
   const depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength]
   const makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit]
 
@@ -238,6 +239,7 @@ export function parseMakerLockScript (script: Uint8Array): {
     ' OP_5 OP_IFEQ OP_MONAD OP_BLAKE2BLPRIV '
   const doubleHashedBcAddress = scriptStr.split(splitBy)[1].split(' ')[0]
 
+  /* tslint:disable:object-literal-sort-keys */
   return {
     base: baseNum,
     fixedUnitFee,
@@ -253,22 +255,23 @@ export function parseMakerLockScript (script: Uint8Array): {
     shiftMaker: parseInt(shiftMaker, 10),
     shiftTaker: parseInt(shiftTaker, 10),
   }
+  /* tslint:enable:object-literal-sort-keys */
 }
 
-export function createTakerUnlockScript (sendsFromAddress:string, receivesToAddress:string): string {
+export function createTakerUnlockScript (sendsFromAddress: string, receivesToAddress: string): string {
   return [sendsFromAddress, receivesToAddress].join(' ')
 }
 
 export function parseTakerUnlockScript (script: Uint8Array): {
   sendsFromAddress: string,
-  receivesToAddress: string
+  receivesToAddress: string,
 } {
   const scriptStr = toASM(Buffer.from(script), 0x01)
   const [sendsFromAddress, receivesToAddress] = scriptStr.split(' ')
 
   return {
+    receivesToAddress,
     sendsFromAddress,
-    receivesToAddress
   }
 }
 

@@ -1,5 +1,4 @@
-export const toBuffer = require('to-buffer')
-
+export const toBuffer = require('to-buffer') // tslint:disable-line
 
 export const leftPadBuffer = (maybeBuffer: string|Buffer, length: number): Buffer => {
   const zeros = Buffer.allocUnsafe(length).fill(0)
@@ -24,4 +23,3 @@ export const intToBuffer = (n: number): Buffer => {
 export const bufferToInt = (buf: string|Buffer): number => {
   return parseInt(buf.toString('hex'), 16)
 }
-

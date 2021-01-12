@@ -3,10 +3,10 @@ const isNode =
   process.versions != null &&
   process.versions.node != null
 
-const toBuffer: (buf: Buffer|string) => Buffer = require('to-buffer')
+const toBuffer: (buf: Buffer|string) => Buffer = require('to-buffer') // tslint:disable-line
 
 class Blaker {
-  static blake2b (input: string | Buffer): string {
+  public static blake2b (input: string | Buffer): string {
     if (isNode) {
       const avon = require('avon')
       return avon.sumBuffer(toBuffer(input), avon.ALGORITHMS.B).toString('hex')

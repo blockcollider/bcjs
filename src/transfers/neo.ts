@@ -4,7 +4,7 @@ export const payNEO = async (privateKey, from, to, amount) => {
   try {
     const account = new NeonWallet.Account(privateKey)
     const config = {
-      account: account,
+      account,
       api: new NeonAPI.neoscan.instance('MainNet'),
       intents: NeonAPI.makeIntent({ NEO: amount }, to),
     }

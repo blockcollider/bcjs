@@ -14,8 +14,8 @@ export function isHexString (val: string): boolean {
     return false
   }
   const validHexChars = new Set('0123456789abcdefABCDEF'.split(''))
-  for (let char of val) {
-    if (!validHexChars.has(char)) {
+  for (const tryChar of val) {
+    if (!validHexChars.has(tryChar)) {
       return false
     }
   }
