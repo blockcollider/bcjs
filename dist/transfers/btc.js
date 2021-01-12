@@ -7,9 +7,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -17,21 +14,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
+require('isomorphic-fetch'); /* tslint:disable-line */
 const bitcoin = __importStar(require("bitcoinjs-lib"));
 const superagent_1 = __importDefault(require("superagent"));
 const BITCOIN_DIGITS = 8;
 const BITCOIN_SAT_MULT = Math.pow(10, BITCOIN_DIGITS);
-const providers = {
+exports.providers = {
     fees: {
         mainnet: {
             earn: feeName => {
-                return superagent_1.default
-                    .get('https://bitcoinfees.earn.com/api/v1/fees/recommended')
-                    .send()
-                    .then(res => {
-                    return res.body[feeName + 'Fee'];
+                return fetch('https://bitcoinfees.earn.com/api/v1/fees/recommended')
+                    .then(response => response.json())
+                    .then(response => {
+                    return response[feeName + 'Fee'];
                 });
             },
         },
@@ -39,10 +38,10 @@ const providers = {
     utxo: {
         mainnet: {
             blockexplorer: addr => {
-                return axios_1.default
-                    .get('https://blockexplorer.com/api/addr/' + addr + '/utxo?noCache=1', { params: { cors: true } })
+                return fetch(`https://blockexplorer.com/api/addr/${addr}/utxo?noCache=1`, { mode: 'cors' })
+                    .then(res => res.json())
                     .then(res => {
-                    return res.data.map(e => {
+                    return res.map(e => {
                         return {
                             confirmations: e.confirmations,
                             satoshis: e.satoshis,
@@ -53,12 +52,12 @@ const providers = {
                 });
             },
             blockchain: addr => {
-                return axios_1.default
-                    .get('https://blockchain.info/unspent?active=' + addr, {
-                    params: { cors: true },
+                return fetch(`https://blockchain.info/unspent?active=${addr}`, {
+                    mode: 'cors'
                 })
+                    .then(res => res.json())
                     .then(res => {
-                    return res.data.unspent_outputs.map(e => {
+                    return res.unspent_outputs.map(e => {
                         return {
                             confirmations: e.confirmations,
                             satoshis: e.value,
@@ -127,13 +126,13 @@ function sendTransaction(options) {
             options.fee = 'fastest';
         }
         if (options.feesProvider == null) {
-            options.feesProvider = providers.fees[options.network].earn;
+            options.feesProvider = exports.providers.fees[options.network].earn;
         }
         if (options.utxoProvider == null) {
-            options.utxoProvider = providers.utxo[options.network].blockchain;
+            options.utxoProvider = exports.providers.utxo[options.network].blockchain;
         }
         if (options.pushtxProvider == null) {
-            options.pushtxProvider = providers.pushtx[options.network].blockchain;
+            options.pushtxProvider = exports.providers.pushtx[options.network].blockchain;
         }
         if (options.minConfirmations == null) {
             options.minConfirmations = 0;

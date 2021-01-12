@@ -1,19 +1,18 @@
-import axios from 'axios'
+require('isomorphic-fetch') /* tslint:disable-line */
 import * as bitcoin from 'bitcoinjs-lib'
 import request from 'superagent'
 
 const BITCOIN_DIGITS = 8
 const BITCOIN_SAT_MULT = Math.pow(10, BITCOIN_DIGITS)
 
-const providers = {
+export const providers = {
   fees: {
     mainnet: {
       earn: feeName => {
-        return request
-          .get('https://bitcoinfees.earn.com/api/v1/fees/recommended')
-          .send()
-          .then(res => {
-            return res.body[feeName + 'Fee']
+        return fetch('https://bitcoinfees.earn.com/api/v1/fees/recommended')
+          .then(response => response.json())
+          .then(response => {
+            return response[feeName + 'Fee']
           })
       },
     },
@@ -21,13 +20,13 @@ const providers = {
   utxo: {
     mainnet: {
       blockexplorer: addr => {
-        return axios
-          .get(
-            'https://blockexplorer.com/api/addr/' + addr + '/utxo?noCache=1',
-            { params: { cors: true } },
+        return fetch(
+            `https://blockexplorer.com/api/addr/${addr}/utxo?noCache=1`,
+            { mode: 'cors' },
           )
+          .then(res => res.json())
           .then(res => {
-            return res.data.map(e => {
+            return res.map(e => {
               return {
                 confirmations: e.confirmations,
                 satoshis: e.satoshis,
@@ -38,12 +37,12 @@ const providers = {
           })
       },
       blockchain: addr => {
-        return axios
-          .get('https://blockchain.info/unspent?active=' + addr, {
-            params: { cors: true },
+        return fetch(`https://blockchain.info/unspent?active=${addr}`, {
+            mode: 'cors'
           })
+          .then(res => res.json())
           .then(res => {
-            return res.data.unspent_outputs.map(e => {
+            return res.unspent_outputs.map(e => {
               return {
                 confirmations: e.confirmations,
                 satoshis: e.value,

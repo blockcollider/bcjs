@@ -26,7 +26,6 @@
     "@liskhq/lisk-cryptography": "2.2.0",
     "@waves/waves-transactions": "^3.24.0",
     "avon": "^3.0.0",
-    "axios": "^0.19.0",
     "bitcoinjs-lib": "^5.1.6",
     "blakejs": "^1.1.0",
     "bn.js": "^5.0.0",
