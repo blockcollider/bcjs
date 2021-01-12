@@ -13,11 +13,19 @@ jobs:
       - run: npm install -g yarn
       - name: Install JS dependencies
         run: yarn
+      - name: Run tslint
+        run: yarn run tslint --project .
+      - name: Notify TG if tslint failed
+        if: failure()
+        uses: appleboy/telegram-action@0.0.7
+        with:
+          to: ${{ secrets.BC_CORE_CHAT_ID }}
+          token: ${{ secrets.BC_DEV_BOT_TOKEN }}
+          message: '❌ ${{ github.repository }} tslint failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
       - name: Run tests
         run: yarn run test
       - name: Notify TG if build failed
         if: failure()
-        # run: 'echo :x: ${{ github.repository }} build failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
         uses: appleboy/telegram-action@0.0.7
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
@@ -27,7 +35,6 @@ jobs:
         run: yarn run compile
       - name: Notify TG if compile failed
         if: failure()
-        # run: 'echo :x: ${{ github.repository }} build failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
         uses: appleboy/telegram-action@0.0.7
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
