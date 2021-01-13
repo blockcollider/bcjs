@@ -14,13 +14,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 require('isomorphic-fetch'); /* tslint:disable-line */
 const bitcoin = __importStar(require("bitcoinjs-lib"));
-const superagent_1 = __importDefault(require("superagent"));
 const BITCOIN_DIGITS = 8;
 const BITCOIN_SAT_MULT = Math.pow(10, BITCOIN_DIGITS);
 exports.providers = {
@@ -37,21 +33,27 @@ exports.providers = {
     },
     pushtx: {
         mainnet: {
-            blockchain: hexTrans => {
-                return superagent_1.default
-                    .post('https://blockchain.info/pushtx')
-                    .send('tx=' + hexTrans);
-            },
-            blockcypher: hexTrans => {
-                return superagent_1.default
-                    .post('https://api.blockcypher.com/v1/btc/main/txs/push')
-                    .send('{"tx":"' + hexTrans + '"}');
-            },
-            blockexplorer: hexTrans => {
-                return superagent_1.default
-                    .post('https://blockexplorer.com/api/tx/send')
-                    .send('rawtx=' + hexTrans);
-            },
+            blockchain: (hexTrans) => __awaiter(this, void 0, void 0, function* () {
+                const body = new URLSearchParams(`tx=${hexTrans}`);
+                return fetch('https://blockchain.info/pushtx', {
+                    body,
+                    method: 'POST',
+                });
+            }),
+            blockcypher: (hexTrans) => __awaiter(this, void 0, void 0, function* () {
+                return yield fetch('https://api.blockcypher.com/v1/btc/main/txs/push', {
+                    body: JSON.stringify({ tx: hexTrans }),
+                    headers: { 'content-type': 'application/json' },
+                    method: 'POST',
+                });
+            }),
+            blockexplorer: (hexTrans) => __awaiter(this, void 0, void 0, function* () {
+                const body = new URLSearchParams(`rawtx=${hexTrans}`);
+                return fetch('https://blockexplorer.com/api/tx/send', {
+                    body,
+                    method: 'POST',
+                });
+            }),
         },
     },
     utxo: {
@@ -184,9 +186,11 @@ function sendTransaction(options) {
                 }
             }
             const msg = tx.build().toHex();
-            const req = yield superagent_1.default
-                .post('https://api.blockcypher.com/v1/btc/main/txs/push')
-                .send('{"tx":"' + msg + '"}');
+            const req = yield fetch('https://api.blockcypher.com/v1/btc/main/txs/push', {
+                body: JSON.stringify({ tx: msg }),
+                headers: { 'content-type': 'application/json' },
+                method: 'POST',
+            });
             if (req.statusText === 'Created') {
                 return { msg };
             }

@@ -1,6 +1,5 @@
 require('isomorphic-fetch') /* tslint:disable-line */
 import * as bitcoin from 'bitcoinjs-lib'
-import request from 'superagent'
 
 const BITCOIN_DIGITS = 8
 const BITCOIN_SAT_MULT = Math.pow(10, BITCOIN_DIGITS)
@@ -19,20 +18,26 @@ export const providers = {
   },
   pushtx: {
     mainnet: {
-      blockchain: hexTrans => {
-        return request
-          .post('https://blockchain.info/pushtx')
-          .send('tx=' + hexTrans)
+      blockchain: async hexTrans => {
+        const body = new URLSearchParams(`tx=${hexTrans}`)
+        return fetch('https://blockchain.info/pushtx', {
+          body,
+          method: 'POST',
+        })
       },
-      blockcypher: hexTrans => {
-        return request
-          .post('https://api.blockcypher.com/v1/btc/main/txs/push')
-          .send('{"tx":"' + hexTrans + '"}')
+      blockcypher: async hexTrans => {
+        return await fetch('https://api.blockcypher.com/v1/btc/main/txs/push', {
+          body: JSON.stringify({tx: hexTrans}),
+          headers: { 'content-type': 'application/json' },
+          method: 'POST',
+        })
       },
-      blockexplorer: hexTrans => {
-        return request
-          .post('https://blockexplorer.com/api/tx/send')
-          .send('rawtx=' + hexTrans)
+      blockexplorer: async hexTrans => {
+        const body = new URLSearchParams(`rawtx=${hexTrans}`)
+        return fetch('https://blockexplorer.com/api/tx/send', {
+          body,
+          method: 'POST',
+        })
       },
     },
   },
@@ -173,9 +178,11 @@ async function sendTransaction (options) {
       }
     }
     const msg = tx.build().toHex()
-    const req = await request
-      .post('https://api.blockcypher.com/v1/btc/main/txs/push')
-      .send('{"tx":"' + msg + '"}')
+    const req = await fetch('https://api.blockcypher.com/v1/btc/main/txs/push', {
+      body: JSON.stringify({tx: msg}),
+      headers: { 'content-type': 'application/json' },
+      method: 'POST',
+    })
     if (req.statusText === 'Created') {
       return { msg }
     } else {

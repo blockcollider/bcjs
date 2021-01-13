@@ -6,9 +6,9 @@ export declare const providers: {
     };
     pushtx: {
         mainnet: {
-            blockchain: (hexTrans: any) => any;
-            blockcypher: (hexTrans: any) => any;
-            blockexplorer: (hexTrans: any) => any;
+            blockchain: (hexTrans: any) => Promise<Response>;
+            blockcypher: (hexTrans: any) => Promise<Response>;
+            blockexplorer: (hexTrans: any) => Promise<Response>;
         };
     };
     utxo: {
