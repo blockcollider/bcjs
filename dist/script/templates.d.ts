@@ -6,6 +6,8 @@ export declare enum ScriptType {
     TAKER_INPUT = "taker_input",
     TAKER_OUTPUT = "taker_output",
     TAKER_CALLBACK = "taker_callback",
+    FEED_CREATE = "feed_create",
+    FEED_UPDATE = "feed_update",
     NRG_UNLOCK = "nrg_unlock"
 }
 export declare function createUnlockSig(spendableOutPoint: coreProtobuf.OutPoint, tx: coreProtobuf.Transaction, privateKey: Buffer): Buffer | never;

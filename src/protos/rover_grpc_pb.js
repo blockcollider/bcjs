@@ -96,7 +96,7 @@ function deserialize_bcsdk_SettleTxCheckResponse(buffer_arg) {
 
 var RoverService = exports.RoverService = {
   // Sends a greeting
-  join: {
+join: {
     path: '/bcsdk.Rover/Join',
     requestStream: false,
     responseStream: true,
@@ -108,7 +108,7 @@ var RoverService = exports.RoverService = {
     responseDeserialize: deserialize_bcsdk_RoverMessage,
   },
   // Rovers sends block collected from the respective network
-  collectBlock: {
+collectBlock: {
     path: '/bcsdk.Rover/CollectBlock',
     requestStream: true,
     responseStream: false,
@@ -120,7 +120,7 @@ var RoverService = exports.RoverService = {
     responseDeserialize: deserialize_bcsdk_Null,
   },
   // Rover reports back sync status
-  reportSyncStatus: {
+reportSyncStatus: {
     path: '/bcsdk.Rover/ReportSyncStatus',
     requestStream: false,
     responseStream: false,
@@ -132,7 +132,7 @@ var RoverService = exports.RoverService = {
     responseDeserialize: deserialize_bcsdk_Null,
   },
   // Rover submits block range
-  reportBlockRange: {
+reportBlockRange: {
     path: '/bcsdk.Rover/ReportBlockRange',
     requestStream: false,
     responseStream: false,
@@ -144,7 +144,7 @@ var RoverService = exports.RoverService = {
     responseDeserialize: deserialize_bcsdk_Null,
   },
   // Check is TX reciveved in rover is watched and before settlement height
-  isBeforeSettleHeight: {
+isBeforeSettleHeight: {
     path: '/bcsdk.Rover/IsBeforeSettleHeight',
     requestStream: false,
     responseStream: false,

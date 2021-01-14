@@ -17,6 +17,8 @@ export enum ScriptType {
     TAKER_INPUT = 'taker_input',
     TAKER_OUTPUT = 'taker_output',
     TAKER_CALLBACK = 'taker_callback',
+    FEED_CREATE = 'feed_create',
+    FEED_UPDATE = 'feed_update',
     NRG_UNLOCK = 'nrg_unlock',
 }
 
@@ -355,12 +357,16 @@ export function parseTakerCallbackLockScript (script: Uint8Array): {
 export function getScriptType (script: Uint8Array): ScriptType {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
-  if (scriptStr.startsWith('OP_MONOID')) {
+  if (scriptStr.startsWith('OP_MONOID') && scriptStr.indexOf('OP_X') < 0) {
     return ScriptType.MAKER_OUTPUT // IS_MAKER_ORDER
+  } else if (scriptStr.startsWith('OP_MONOID') && scriptStr.indexOf('OP_X') > -1 && scriptStr.indexOf('OP_CALLBACK') < 0) {
+    return ScriptType.FEED_CREATE // IS_FEED_CREATE
   } else if (scriptStr.endsWith('OP_CALLBACK')) {
     return ScriptType.TAKER_CALLBACK // IS_MAKER_CALLBACK_ORDER
-  } else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1) {
+  } else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_IFEQ') > -1) {
     return ScriptType.TAKER_OUTPUT // IS_TAKER_ORDER
+  } else if (scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_MONAD') > -1) {
+    return ScriptType.FEED_UPDATE // IS_FEED_UPDATE
   } else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
     return ScriptType.NRG_TRANSFER // IS_NRG_TRANSFER
   } else if (scriptStr.split(' ').length === 2) {
