@@ -148,7 +148,7 @@ export function parseNRGLockScript (script: Uint8Array): {
 export function createFeedLockScript (
   olAddress: string,
   feedAddress: string,
-  addressDoubleHashed: boolean = false
+  addressDoubleHashed: boolean = false,
 ): string {
   olAddress = olAddress.toLowerCase()
   if (!addressDoubleHashed) {
@@ -159,7 +159,7 @@ export function createFeedLockScript (
   const unlockMonadScript =
     ['OP_BLAKE2BLPRIV', normalizeHexString(olAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY']
 
-  const script = ['OP_MONOID', opXInitScript, 'OP_MONAD', unlockMonadScript,'OP_ENDMONAD']
+  const script = ['OP_MONOID', opXInitScript, 'OP_MONAD', unlockMonadScript, 'OP_ENDMONAD']
 
   return script.join(' ')
 }
