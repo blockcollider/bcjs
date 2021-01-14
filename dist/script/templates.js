@@ -122,6 +122,18 @@ function parseNRGLockScript(script) {
     };
 }
 exports.parseNRGLockScript = parseNRGLockScript;
+function createFeedLockScript(olAddress, feedAddress, addressDoubleHashed = false) {
+    olAddress = olAddress.toLowerCase();
+    if (!addressDoubleHashed) {
+        olAddress = crypto_1.blake2bl(crypto_1.blake2bl(olAddress) + olAddress);
+    }
+    const opXType = '6'; // local government
+    const opXInitScript = ['OP_X', string_1.normalizeHexString(opXType), string_1.normalizeHexString(feedAddress)];
+    const unlockMonadScript = ['OP_BLAKE2BLPRIV', string_1.normalizeHexString(olAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'];
+    const script = ['OP_MONOID', opXInitScript, 'OP_MONAD', unlockMonadScript, 'OP_ENDMONAD'];
+    return script.join(' ');
+}
+exports.createFeedLockScript = createFeedLockScript;
 function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, fixedUnitFee, bcAddress, addressDoubleHashed = false) {
     bcAddress = bcAddress.toLowerCase();
     if (!addressDoubleHashed) {

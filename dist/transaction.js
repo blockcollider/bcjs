@@ -78,7 +78,7 @@ exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObj
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee);
 };
 /*
- * Create NRG transfer transaction
+ * Create NRG (OL) transfer transaction
  * @param spendableWalletOutPointObjs:
  * @param fromAddress: string,
  * @param privateKeyHex: string,
@@ -99,6 +99,27 @@ exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fr
     ];
     const nonNRGInputs = [];
     return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee);
+};
+/*
+ * Create Feed Transaction
+ * @param spendableWalletOutPointObjs:
+ * @param olAddress: string,
+ * @param olPrivateKeyHex: string,
+ * @param feedAddress: string,
+ * @param olAmount: string,
+ * @param addDefaultFee: string,
+ */
+exports.createFeedTransaction = function (spendableWalletOutPointObjs, olAddress, olPrivateKeyHex, feedAddress, olAmount, olUnit, addDefaultFee = true) {
+    if (olPrivateKeyHex.startsWith('0x')) {
+        olPrivateKeyHex = olPrivateKeyHex.slice(2);
+    }
+    const totalAmountBN = coin_1.humanToInternalAsBN(olAmount, coin_1.COIN_FRACS.NRG);
+    const outputLockScript = templates_1.createFeedLockScript(olAddress, feedAddress);
+    const txOutputs = [
+        protoUtil_1.createTransactionOutput(outputLockScript, coin_1.humanToInternalAsBN(olUnit, coin_1.COIN_FRACS.NRG), coin_1.humanToInternalAsBN(olAmount, coin_1.COIN_FRACS.NRG))
+    ];
+    const nonOverlineInputs = [];
+    return _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonOverlineInputs, totalAmountBN, olAddress, olPrivateKeyHex, addDefaultFee);
 };
 exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, fixedUnitFee, additionalTxFee, addDefaultFee = true) {
     if (bcPrivateKeyHex.startsWith('0x')) {

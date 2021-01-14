@@ -14,6 +14,7 @@ export declare function createNRGLockScript(address: string, addressDoubleHashed
 export declare function parseNRGLockScript(script: Uint8Array): {
     doubleHashedBcAddress: string;
 };
+export declare function createFeedLockScript(olAddress: string, feedAddress: string, addressDoubleHashed?: boolean): string;
 export declare function createMakerLockScript(shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, fixedUnitFee: string, bcAddress: string, addressDoubleHashed?: boolean): string;
 export declare function parseMakerLockScript(script: Uint8Array): {
     shiftMaker: number;
