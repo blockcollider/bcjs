@@ -275,13 +275,15 @@ function getScriptType(script) {
     if (scriptStr.startsWith('OP_MONOID') && scriptStr.indexOf('OP_X') < 0) {
         return ScriptType.MAKER_OUTPUT; // IS_MAKER_ORDER
     }
-    else if (scriptStr.startsWith('OP_MONOID') && scriptStr.indexOf('OP_X') > -1 && scriptStr.indexOf('OP_CALLBACK') < 0) {
+    else if (scriptStr.startsWith('OP_MONOID') &&
+        scriptStr.indexOf('OP_X') > -1 && scriptStr.indexOf('OP_CALLBACK') < 0) {
         return ScriptType.FEED_CREATE; // IS_FEED_CREATE
     }
     else if (scriptStr.endsWith('OP_CALLBACK')) {
         return ScriptType.TAKER_CALLBACK; // IS_MAKER_CALLBACK_ORDER
     }
-    else if (scriptStr.indexOf('OP_MONAD') > -1 && scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_IFEQ') > -1) {
+    else if (scriptStr.indexOf('OP_MONAD') > -1 &&
+        scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_IFEQ') > -1) {
         return ScriptType.TAKER_OUTPUT; // IS_TAKER_ORDER
     }
     else if (scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_MONAD') > -1) {
