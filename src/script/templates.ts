@@ -145,6 +145,25 @@ export function parseNRGLockScript (script: Uint8Array): {
   }
 }
 
+export function createFeedLockScript (
+  olAddress: string,
+  feedAddress: string,
+  addressDoubleHashed: boolean = false
+): string {
+  olAddress = olAddress.toLowerCase()
+  if (!addressDoubleHashed) {
+    olAddress = blake2bl(blake2bl(olAddress) + olAddress)
+  }
+  const opXType = '6' // local government
+  const opXInitScript = ['OP_X', normalizeHexString(opXType), normalizeHexString(feedAddress)]
+  const unlockMonadScript =
+    ['OP_BLAKE2BLPRIV', normalizeHexString(olAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY']
+
+  const script = ['OP_MONOID', opXInitScript, 'OP_MONAD', unlockMonadScript,'OP_ENDMONAD']
+
+  return script.join(' ')
+}
+
 export function createMakerLockScript (
   shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
   sendsFromChain: string, receivesToChain: string,

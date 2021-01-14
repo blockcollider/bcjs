@@ -10,6 +10,7 @@ import * as bcProtobuf from './protos/bc_pb'
 import * as coreProtobuf from './protos/core_pb'
 import {
   createMakerLockScript,
+  createFeedLockScript,
   createNRGLockScript,
   createSignedNRGUnlockInputs,
   createTakerCallbackLockScript,
@@ -102,8 +103,9 @@ export const createMultiNRGTransferTransaction = function (
   )
 }
 
+
 /*
- * Create NRG transfer transaction
+ * Create NRG (OL) transfer transaction
  * @param spendableWalletOutPointObjs:
  * @param fromAddress: string,
  * @param privateKeyHex: string,
@@ -135,6 +137,46 @@ export const createNRGTransferTransaction = function (
 
   return _compileTransaction(
     spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee,
+  )
+}
+
+/*
+ * Create Feed Transaction
+ * @param spendableWalletOutPointObjs:
+ * @param olAddress: string,
+ * @param olPrivateKeyHex: string,
+ * @param feedAddress: string,
+ * @param olAmount: string,
+ * @param addDefaultFee: string,
+ */
+export const createFeedTransaction = function (
+  spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
+  olAddress: string,
+  olPrivateKeyHex: string,
+  feedAddress: string,
+  olAmount: string,
+  olUnit: string,
+  addDefaultFee: boolean = true,
+) {
+  if (olPrivateKeyHex.startsWith('0x')) {
+    olPrivateKeyHex = olPrivateKeyHex.slice(2)
+  }
+
+  const totalAmountBN = humanToInternalAsBN(olAmount, COIN_FRACS.NRG)
+  const outputLockScript = createFeedLockScript(olAddress, feedAddress)
+
+  const txOutputs = [
+    createTransactionOutput(
+      outputLockScript,
+      humanToInternalAsBN(olUnit, COIN_FRACS.NRG),
+      humanToInternalAsBN(olAmount, COIN_FRACS.NRG),
+    )
+  ]
+
+  const nonOverlineInputs: coreProtobuf.TransactionInput[] = []
+
+  return _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonOverlineInputs, totalAmountBN, olAddress, olPrivateKeyHex, addDefaultFee,
   )
 }
 
