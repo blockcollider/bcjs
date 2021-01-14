@@ -15,6 +15,7 @@ require('isomorphic-fetch'); /* tslint:disable-line */
 var BcRpcMethod;
 (function (BcRpcMethod) {
     BcRpcMethod["NewTx"] = "newTx";
+    BcRpcMethod["NewFeedTx"] = "newFeedTx";
     BcRpcMethod["GetSpendableOutpoints"] = "getSpendableOutpoints";
     BcRpcMethod["GetBalance"] = "getBalance";
     BcRpcMethod["GetWallet"] = "getWallet";
@@ -130,6 +131,12 @@ class RpcClient {
     newTx(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.NewTx, request.toArray());
+            return result;
+        });
+    }
+    newFeedTx(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.NewFeedTx, request.toArray());
             return result;
         });
     }

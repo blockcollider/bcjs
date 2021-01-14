@@ -32,6 +32,7 @@ type JsonRpcId = number | string | void
 
 enum BcRpcMethod {
     NewTx = 'newTx',
+    NewFeedTx = 'newFeedTx',
     GetSpendableOutpoints  = 'getSpendableOutpoints',
     GetBalance  = 'getBalance',
     GetWallet  = 'getWallet',
@@ -174,6 +175,11 @@ export default class RpcClient {
 
     public async newTx (request: bc.RpcTransaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.NewTx, request.toArray())
+        return result as bc.RpcTransactionResponse.AsObject
+    }
+
+    public async newFeedTx (request: bc.RpcFeedTransaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.NewFeedTx, request.toArray())
         return result as bc.RpcTransactionResponse.AsObject
     }
 

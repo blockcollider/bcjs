@@ -80,6 +80,42 @@ export namespace RpcTransaction {
   }
 }
 
+export class RpcFeedTransaction extends jspb.Message {
+  getOwnerAddr(): string;
+  setOwnerAddr(value: string): void;
+
+  getFeedAddr(): string;
+  setFeedAddr(value: string): void;
+
+  getAmount(): string;
+  setAmount(value: string): void;
+
+  getTxFee(): string;
+  setTxFee(value: string): void;
+
+  getPrivateKeyHex(): string;
+  setPrivateKeyHex(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RpcFeedTransaction.AsObject;
+  static toObject(includeInstance: boolean, msg: RpcFeedTransaction): RpcFeedTransaction.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: RpcFeedTransaction, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RpcFeedTransaction;
+  static deserializeBinaryFromReader(message: RpcFeedTransaction, reader: jspb.BinaryReader): RpcFeedTransaction;
+}
+
+export namespace RpcFeedTransaction {
+  export type AsObject = {
+    ownerAddr: string,
+    feedAddr: string,
+    amount: string,
+    txFee: string,
+    privateKeyHex: string,
+  }
+}
+
 export class RpcTransactionResponse extends jspb.Message {
   getStatus(): RpcTransactionResponseStatusMap[keyof RpcTransactionResponseStatusMap];
   setStatus(value: RpcTransactionResponseStatusMap[keyof RpcTransactionResponseStatusMap]): void;

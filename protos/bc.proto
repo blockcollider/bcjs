@@ -20,6 +20,14 @@ message RpcTransaction {
     string private_key_hex = 5;
 }
 
+message RpcFeedTransaction {
+    string owner_addr = 1;
+    string feed_addr = 2;
+    string amount = 3;
+    string tx_fee = 4;
+    string private_key_hex = 5;
+}
+
 enum RpcTransactionResponseStatus {
     Success = 0;
     Failure = 1;

@@ -4,7 +4,7 @@ import {
     GetBalanceRequest,
 } from '../src/protos/bc_pb'
 
-const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3001'
+const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3000'
 const scookie = process.env.BC_RPC_SCOOKIE || 'testCookie123'
 
 const client = new RpcClient(address, scookie)
