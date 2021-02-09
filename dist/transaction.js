@@ -181,7 +181,7 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
     const fixedUnitFee = makerOpenOrder.fixedUnitFee;
     const base = makerOpenOrder.base;
     // if op min unit fixedFee set this amount only equals fixed fee
-    const spendingNRG = (fixedUnitFee !== '0')
+    const spendingNRG = (base === 1)
         ? coin_1.humanToInternalAsBN(fixedUnitFee, coin_1.COIN_FRACS.NRG)
         : coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG);
     const totalFeeBN = exports.calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');

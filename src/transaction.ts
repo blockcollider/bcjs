@@ -299,7 +299,7 @@ export const createTakerOrderTransaction = function (
   const base = makerOpenOrder.base
 
   // if op min unit fixedFee set this amount only equals fixed fee
-  const spendingNRG = (fixedUnitFee !== '0')
+  const spendingNRG = (base === 1)
     ? humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
     : humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
 

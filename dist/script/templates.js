@@ -144,7 +144,7 @@ function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLeng
     const unlockMonadScript = ['OP_BLAKE2BLPRIV', string_1.normalizeHexString(bcAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'];
     const depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength];
     const makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit];
-    const script = fixedUnitFee === '' ?
+    const script = sendsFromChain !== 'nrg' ?
         [
             ['OP_MONOID'], depsetArgs, ['OP_DEPSET'],
             // depset failure - return

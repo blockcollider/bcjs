@@ -182,7 +182,7 @@ export function createMakerLockScript (
   const depsetArgs = [shiftMaker, shiftTaker, depositLength, settleLength]
   const makerCollArgs = [sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit]
 
-  const script = fixedUnitFee === '' ?
+  const script = sendsFromChain !== 'nrg' ?
     [
       ['OP_MONOID'], depsetArgs, ['OP_DEPSET'], // 6
       // depset failure - return
