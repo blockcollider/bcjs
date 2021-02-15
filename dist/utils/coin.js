@@ -220,7 +220,7 @@ exports.CurrencyConverter = {
         throw new Error('invalid unit');
     },
     emb(val, from, to) {
-        const power = 18;
+        const power = 8;
         if (from === to) {
             return val;
         }

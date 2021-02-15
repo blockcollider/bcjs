@@ -240,7 +240,7 @@ export const CurrencyConverter: ICurrencyConverterInterface = {
     throw new Error('invalid unit')
   },
   emb (val: string, from: string, to: string): string | never {
-    const power = 18
+    const power = 8
     if (from === to) {
       return val
     } else if (from === 'emb' && to === 'dia') {
