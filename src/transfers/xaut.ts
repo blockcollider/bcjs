@@ -1,6 +1,6 @@
 import { submitTransaction, web3, XAUt } from './web3'
 
-export const transferXAUt = async (privateKey, from, to, amount) => {
+export const transferXAUt = async (privateKey, from, to, amount, gasLimit = 22000) => {
   return new Promise((resolve, reject) => {
     try {
       const data = XAUt.methods
@@ -10,7 +10,7 @@ export const transferXAUt = async (privateKey, from, to, amount) => {
         )
         .encodeABI()
 
-      submitTransaction({ to: XAUt.options.address, from, value: web3.utils.toHex(0), data, privateKey },
+      submitTransaction({ to: XAUt.options.address, from, value: web3.utils.toHex(0), data, privateKey, gasLimit },
           (err, hash) => {
         if (err) {
           reject(err)

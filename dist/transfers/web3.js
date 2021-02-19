@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bn_js_1 = __importDefault(require("bn.js"));
 const ethereumjs_tx_1 = require("ethereumjs-tx");
 const web3_1 = __importDefault(require("web3"));
-const options = { gasLimit: 2000000000000, gasPrice: '20000' };
+// 22000 * 20000 (price)
+const options = { gasLimit: 440000000, gasPrice: '20000' };
 exports.mainnetUrl = 'https://mainnet.infura.io/v3/ca4c368803c347699a5d989cd367c0a6';
 exports.web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(exports.mainnetUrl));
 exports.EMB_ADDRESS = '0xbfCdE98b92722f9BC33a5AB081397CD2D5409748';
@@ -48,11 +49,14 @@ const sendRawTransaction = (tx, done) => {
         .on('transactionHash', () => done(null, tx))
         .on('error', err => done(err));
 };
-const signTransaction = ({ from, to, value, data, privateKey }, done) => {
+const signTransaction = ({ gasLimit, from, to, value, data, privateKey }, done) => {
+    if (!gasLimit) {
+        gasLimit = 22000;
+    }
     Promise.all([getNonce(from), getGasPrice()]).then(values => {
         return ({
             data,
-            gasLimit: exports.web3.utils.toHex(53000),
+            gasLimit: exports.web3.utils.toHex(gasLimit),
             gasPrice: exports.web3.utils.toHex(values[1]),
             nonce: values[0],
             to,

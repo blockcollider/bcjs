@@ -1,6 +1,6 @@
 import { submitTransaction, USDT, web3 } from './web3'
 
-export const transferUSDT = async (privateKey, from, to, amount) => {
+export const transferUSDT = async (privateKey, from, to, amount, gasLimit = 40000) => {
   return new Promise((resolve, reject) => {
     try {
       const data = USDT.methods
@@ -10,7 +10,7 @@ export const transferUSDT = async (privateKey, from, to, amount) => {
         )
         .encodeABI()
 
-      submitTransaction({ to: USDT.options.address, from, value: web3.utils.toHex(0), data, privateKey },
+      submitTransaction({ to: USDT.options.address, from, value: web3.utils.toHex(0), data, privateKey, gasLimit },
           (err, hash) => {
         if (err) {
           reject(err)

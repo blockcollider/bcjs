@@ -2,7 +2,8 @@ import BN from 'bn.js'
 import { BufferLike, Transaction } from 'ethereumjs-tx'
 import Web3 from 'web3'
 
-const options = {gasLimit: 2000000000000, gasPrice: '20000'}
+// 22000 * 20000 (price)
+const options = {gasLimit: 440000000, gasPrice: '20000'}
 export const mainnetUrl = 'https://mainnet.infura.io/v3/ca4c368803c347699a5d989cd367c0a6'
 export const web3 = new Web3(new Web3.providers.HttpProvider(mainnetUrl))
 
@@ -48,14 +49,19 @@ const sendRawTransaction = (tx, done) => {
 }
 
 const signTransaction = (
-    {from, to, value, data, privateKey}: {from: string, to: string,
+    {gasLimit, from, to, value, data, privateKey}: {gasLimit: number, from: string, to: string,
         value: BufferLike, data: BufferLike, privateKey: string},
     done,
 ) => {
+
+  if (!gasLimit) {
+    gasLimit = 22000
+  }
+
   Promise.all([getNonce(from), getGasPrice()]).then(values => {
     return({
       data,
-      gasLimit: web3.utils.toHex(53000),
+      gasLimit: web3.utils.toHex(gasLimit),
       gasPrice: web3.utils.toHex(values[1]),
       nonce: values[0],
       to,
