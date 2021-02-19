@@ -1,6 +1,6 @@
 import { DAI, submitTransaction, web3 } from './web3'
 
-export const transferDAI = async (privateKey, from, to, amount) => {
+export const transferDAI = async (privateKey, from, to, amount, gasLimit = 40000) => {
   return new Promise((resolve, reject) => {
     try {
       const data = DAI.methods
@@ -11,7 +11,7 @@ export const transferDAI = async (privateKey, from, to, amount) => {
         .encodeABI()
 
       submitTransaction(
-          { to: DAI.options.address, from, value: web3.utils.toHex(0), data, privateKey }, (err, hash) => {
+          { to: DAI.options.address, from, value: web3.utils.toHex(0), data, privateKey, gasLimit }, (err, hash) => {
         if (err) {
           reject(err)
         } else {
