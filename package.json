@@ -1,7 +1,7 @@
 {
   "name": "bc-sdk",
   "version": "0.0.44",
-  "description": "SDK to connect to BlockCollider",
+  "description": "Overline JS SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@cityofzion/neon-js": "4.7.1",
-    "@liskhq/lisk-cryptography": "2.2.0",
+    "@liskhq/lisk-cryptography": "3.0.0",
     "@waves/waves-transactions": "^3.24.0",
     "avon": "^3.0.0",
     "bitcoinjs-lib": "^5.1.6",
@@ -35,7 +35,7 @@
     "google-protobuf": "^3.7.1",
     "grpc-web": "^1.0.6",
     "isomorphic-fetch": "^3.0.0",
-    "lisk-elements": "2.3.0",
+    "lisk-elements": "5.0.3",
     "ramda": "^0.26.1",
     "random-js": "1.0.8",
     "secp256k1": "^3.7.1",
