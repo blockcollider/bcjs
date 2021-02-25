@@ -21,7 +21,7 @@ jobs:
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
-          message: '❌ ${{ github.repository }} installing dependencies failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
+          message: '❌ ${{ github.repository }} installing dependencies failed on "${{ github.event.head_commit.message }}" (build log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) - ${{ github.actor}} please fix your commit'
       - name: Run tslint
         id: tslint
         run: yarn run tslint --project .
@@ -32,7 +32,7 @@ jobs:
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
-          message: '❌ ${{ github.repository }} tslint failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
+          message: '❌ ${{ github.repository }} tslint failed on "${{ github.event.head_commit.message }}" (build log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) - ${{ github.actor}} please fix your commit'
       - name: Run tests
         id: tests
         run: yarn run test
@@ -43,7 +43,7 @@ jobs:
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
-          message: '❌ ${{ github.repository }} test failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
+          message: '❌ ${{ github.repository }} test failed on "${{ github.event.head_commit.message }}" (build log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) - ${{ github.actor}} please fix your commit'
       - name: Try to compile
         id: compile
         run: yarn run compile
@@ -54,4 +54,4 @@ jobs:
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
-          message: '❌ ${{ github.repository }} compilation failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
+          message: '❌ ${{ github.repository }} compilation failed on "${{ github.event.head_commit.message }}" (build log: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) - ${{ github.actor}} please fix your commit'

@@ -1,9 +1,7 @@
 name: Notify BC CORE Tg
 
 on:
-  push:
-    branches:
-      - master
+  push
 
 jobs:
   notify_tg:
@@ -14,4 +12,4 @@ jobs:
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
-          message: '${{ github.actor }} updated the repository ${{ github.repository}} "${{ github.event.head_commit.message }}"'
+          message: '${{ github.actor }} updated the repository ${{ github.repository}}, ref:${{ github.ref }} "${{ github.event.head_commit.message }}"'
