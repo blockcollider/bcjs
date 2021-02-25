@@ -14,6 +14,7 @@ jobs:
       - name: Install JS dependencies
         id: install
         run: yarn
+        continue-on-error: true
       - name: Notify TG if install failed
         if: steps.install.outcome != 'success'
         uses: appleboy/telegram-action@0.0.7
@@ -24,6 +25,7 @@ jobs:
       - name: Run tslint
         id: tslint
         run: yarn run tslint --project .
+        continue-on-error: true
       - name: Notify TG if tslint failed
         if: steps.tslint.outcome != 'success'
         uses: appleboy/telegram-action@0.0.7
@@ -34,6 +36,7 @@ jobs:
       - name: Run tests
         id: tests
         run: yarn run test
+        continue-on-error: true
       - name: Notify TG if build failed
         if: steps.tests.outcome != 'success'
         uses: appleboy/telegram-action@0.0.7
@@ -44,6 +47,7 @@ jobs:
       - name: Try to compile
         id: compile
         run: yarn run compile
+        continue-on-error: true
       - name: Notify TG if compile failed
         if: steps.compile.outcome != 'success'
         uses: appleboy/telegram-action@0.0.7
