@@ -9,32 +9,43 @@ jobs:
       - uses: actions/checkout@v1 # was master
       - uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '12.x'
       - run: npm install -g yarn
       - name: Install JS dependencies
+        id: install
         run: yarn
+      - name: Notify TG if install failed
+        if: steps.install.outcome != 'success'
+        uses: appleboy/telegram-action@0.0.7
+        with:
+          to: ${{ secrets.BC_CORE_CHAT_ID }}
+          token: ${{ secrets.BC_DEV_BOT_TOKEN }}
+          message: '❌ ${{ github.repository }} installing dependencies failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
       - name: Run tslint
+        id: tslint
         run: yarn run tslint --project .
       - name: Notify TG if tslint failed
-        if: failure()
+        if: steps.tslint.outcome != 'success'
         uses: appleboy/telegram-action@0.0.7
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
           message: '❌ ${{ github.repository }} tslint failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
       - name: Run tests
+        id: tests
         run: yarn run test
       - name: Notify TG if build failed
-        if: failure()
+        if: steps.tests.outcome != 'success'
         uses: appleboy/telegram-action@0.0.7
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
           token: ${{ secrets.BC_DEV_BOT_TOKEN }}
           message: '❌ ${{ github.repository }} test failed on "${{ github.event.head_commit.message }}" - ${{ github.actor}} please fix your commit'
       - name: Try to compile
+        id: compile
         run: yarn run compile
       - name: Notify TG if compile failed
-        if: failure()
+        if: steps.compile.outcome != 'success'
         uses: appleboy/telegram-action@0.0.7
         with:
           to: ${{ secrets.BC_CORE_CHAT_ID }}
