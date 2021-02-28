@@ -158,7 +158,7 @@ export default class RpcClient {
         return result as bc.GetBlocksResponse.AsObject
     }
 
-    public async getLatestBlock (): Promise<core.BcBlock.AsObject|Error> {
+    public async getLatestBlock (): Promise<core.BcBlock.AsObject | JsonRpcError<BcRpcResponse>> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetLatestBlock, [])
         return result as core.BcBlock.AsObject
     }
@@ -208,6 +208,45 @@ export default class RpcClient {
         return result as bc.GetUnlockTakerTxParamsResponse.AsObject
     }
 
+    /**
+     * Return all active open orders, which excludes expired open orders
+     */
+    public async getActiveOpenOrders (
+        request: core.Null,
+    ): Promise<bc.GetOpenOrdersResponse.AsObject | JsonRpcError<BcRpcResponse>> {
+        const result: BcRpcResponse | JsonRpcError<BcRpcResponse> = await this.makeJsonRpcRequest(
+            BcRpcMethod.GetOpenOrders,
+            request.toArray(),
+        )
+
+        if ('code' in result) {
+            return result as JsonRpcError<BcRpcResponse>
+        }
+
+        const latestBcBlock: core.BcBlock.AsObject | JsonRpcError<BcRpcResponse> = await this.getLatestBlock()
+        if ('code' in latestBcBlock) {
+            return result as bc.GetOpenOrdersResponse.AsObject
+        }
+        const latestBcBlockHeight = latestBcBlock.height
+
+        const openOrderRes: bc.GetOpenOrdersResponse.AsObject = result as bc.GetOpenOrdersResponse.AsObject
+
+        const ordersList: bc.MakerOrderInfo.AsObject[] = openOrderRes.ordersList
+        const activeOpenOrders: bc.MakerOrderInfo.AsObject[] = []
+        for (const order of ordersList) {
+            if (order.tradeHeight + order.deposit > latestBcBlockHeight) {
+                activeOpenOrders.push(order)
+            }
+        }
+
+        openOrderRes.ordersList = activeOpenOrders
+
+        return openOrderRes
+    }
+
+    /**
+     * Return all open orders, which includes expired open orders
+     */
     public async getOpenOrders (request: core.Null): Promise<bc.GetOpenOrdersResponse.AsObject> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, request.toArray())
         return result as bc.GetOpenOrdersResponse.AsObject
