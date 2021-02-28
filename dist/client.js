@@ -170,6 +170,35 @@ class RpcClient {
             return result;
         });
     }
+    /**
+     * Return all active open orders, which excludes expired open orders
+     */
+    getActiveOpenOrders(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, request.toArray());
+            if ('code' in result) {
+                return result;
+            }
+            const latestBcBlock = yield this.getLatestBlock();
+            if ('code' in latestBcBlock) {
+                return result;
+            }
+            const latestBcBlockHeight = latestBcBlock.height;
+            const openOrderRes = result;
+            const ordersList = openOrderRes.ordersList;
+            const activeOpenOrders = [];
+            for (const order of ordersList) {
+                if (order.tradeHeight + order.deposit > latestBcBlockHeight) {
+                    activeOpenOrders.push(order);
+                }
+            }
+            openOrderRes.ordersList = activeOpenOrders;
+            return openOrderRes;
+        });
+    }
+    /**
+     * Return all open orders, which includes expired open orders
+     */
     getOpenOrders(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, request.toArray());
