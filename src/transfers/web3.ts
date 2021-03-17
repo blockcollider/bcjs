@@ -42,7 +42,7 @@ const getGasPrice = (): Promise<string> => {
   return new Promise((resolve, reject) => {
     web3Instance.eth.getGasPrice((error, result) => {
       if (error) { reject(error) }
-      resolve(new BN(result).mul(new BN('10')).toString())
+      resolve(result)
     })
   })
 }
