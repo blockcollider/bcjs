@@ -27,21 +27,21 @@ exports.EMB = new exports.web3.eth.Contract(exports.EMB_ABI, exports.EMB_ADDRESS
 exports.XAUt = new exports.web3.eth.Contract(exports.XAUT_ABI, exports.XAUT_ADDRESS, options);
 const getNonce = (from) => {
     const url = `https://mainnet.infura.io/v3/${id_1.ids[Math.floor(Math.random() * id_1.ids.length)]}`;
-    const web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
+    const web3Instance = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
     return new Promise((resolve, reject) => {
-        web3.eth.getTransactionCount(from, 'pending', (error, result) => {
+        web3Instance.eth.getTransactionCount(from, 'pending', (error, result) => {
             if (error) {
                 reject(error);
             }
-            resolve(web3.utils.toHex(result));
+            resolve(exports.web3.utils.toHex(result));
         });
     });
 };
 const getGasPrice = () => {
     const url = `https://mainnet.infura.io/v3/${id_1.ids[Math.floor(Math.random() * id_1.ids.length)]}`;
-    const web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
+    const web3Instance = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
     return new Promise((resolve, reject) => {
-        web3.eth.getGasPrice((error, result) => {
+        web3Instance.eth.getGasPrice((error, result) => {
             if (error) {
                 reject(error);
             }
@@ -51,8 +51,8 @@ const getGasPrice = () => {
 };
 const sendRawTransaction = (tx, done) => {
     const url = `https://mainnet.infura.io/v3/${id_1.ids[Math.floor(Math.random() * id_1.ids.length)]}`;
-    const web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
-    web3.eth.sendSignedTransaction(tx)
+    const web3Instance = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
+    web3Instance.eth.sendSignedTransaction(tx)
         .on('transactionHash', () => done(null, tx))
         .on('error', err => done(err));
 };
@@ -79,10 +79,11 @@ const signTransaction = ({ gasLimit, from, to, value, data, privateKey }, done) 
 };
 exports.submitTransaction = (args, done) => {
     let tries = 0;
-    let submit = (err, tx, serializedTx) => {
+    const submit = (errSubmit, tx, serializedTx) => {
         sendRawTransaction(serializedTx, (err, receipt) => {
-            if (!err)
+            if (!err) {
                 done(null, tx.hash(true).toString('hex'));
+            }
             else {
                 // console.log({tries,issue:'send'})
                 if (tries < 20) {
@@ -96,7 +97,7 @@ exports.submitTransaction = (args, done) => {
             }
         });
     };
-    let sign = () => {
+    const sign = () => {
         signTransaction(args, (err, tx, serializedTx) => {
             if (!err) {
                 submit(err, tx, serializedTx);

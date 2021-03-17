@@ -1,7 +1,7 @@
 import BN from 'bn.js'
 import { BufferLike, Transaction } from 'ethereumjs-tx'
 import Web3 from 'web3'
-import {ids} from './id';
+import {ids} from './id'
 
 // 22000 * 20000 (price)
 const options = {gasLimit: 62000, gasPrice: '20000'}
@@ -26,10 +26,10 @@ export const EMB = new web3.eth.Contract(EMB_ABI, EMB_ADDRESS, options)
 export const XAUt = new web3.eth.Contract(XAUT_ABI, XAUT_ADDRESS, options)
 
 const getNonce = (from): Promise<string> => {
-  const url = `https://mainnet.infura.io/v3/${ids[Math.floor(Math.random() * ids.length)]}`;
-  const web3 = new Web3(new Web3.providers.HttpProvider(url));
+  const url = `https://mainnet.infura.io/v3/${ids[Math.floor(Math.random() * ids.length)]}`
+  const web3Instance = new Web3(new Web3.providers.HttpProvider(url))
   return new Promise((resolve, reject) => {
-    web3.eth.getTransactionCount(from, 'pending', (error, result) => {
+    web3Instance.eth.getTransactionCount(from, 'pending', (error, result) => {
       if (error) { reject(error) }
       resolve(web3.utils.toHex(result))
     })
@@ -37,10 +37,10 @@ const getNonce = (from): Promise<string> => {
 }
 
 const getGasPrice = (): Promise<string> => {
-  const url = `https://mainnet.infura.io/v3/${ids[Math.floor(Math.random() * ids.length)]}`;
-  const web3 = new Web3(new Web3.providers.HttpProvider(url));
+  const url = `https://mainnet.infura.io/v3/${ids[Math.floor(Math.random() * ids.length)]}`
+  const web3Instance = new Web3(new Web3.providers.HttpProvider(url))
   return new Promise((resolve, reject) => {
-    web3.eth.getGasPrice((error, result) => {
+    web3Instance.eth.getGasPrice((error, result) => {
       if (error) { reject(error) }
       resolve(new BN(result).mul(new BN('10')).toString())
     })
@@ -48,9 +48,9 @@ const getGasPrice = (): Promise<string> => {
 }
 
 const sendRawTransaction = (tx, done) => {
-  const url = `https://mainnet.infura.io/v3/${ids[Math.floor(Math.random() * ids.length)]}`;
-  const web3 = new Web3(new Web3.providers.HttpProvider(url));
-  web3.eth.sendSignedTransaction(tx)
+  const url = `https://mainnet.infura.io/v3/${ids[Math.floor(Math.random() * ids.length)]}`
+  const web3Instance = new Web3(new Web3.providers.HttpProvider(url))
+  web3Instance.eth.sendSignedTransaction(tx)
   .on('transactionHash', () => done(null, tx))
   .on('error', err => done(err))
 }
@@ -84,36 +84,33 @@ const signTransaction = (
 }
 
 export const submitTransaction = (args, done) => {
-  let tries = 0;
-  let submit = (err,tx,serializedTx) => {
-    sendRawTransaction(serializedTx,(err,receipt)=>{
-      if(!err) done(null,tx.hash(true).toString('hex'))
-      else {
+  let tries = 0
+  const submit = (errSubmit, tx, serializedTx) => {
+    sendRawTransaction(serializedTx, (err, receipt) => {
+      if (!err) { done(null, tx.hash(true).toString('hex')) } else {
         // console.log({tries,issue:'send'})
-        if(tries < 20){
-          tries++;
-          submit(err,tx,serializedTx);
-        }
-        else {
+        if (tries < 20) {
+          tries++
+          submit(err, tx, serializedTx)
+        } else {
           done(err)
-          return;
+          return
         }
       }
     })
   }
-  let sign = () => {
-    signTransaction(args,(err,tx,serializedTx)=>{
-      if(!err){
-        submit(err,tx,serializedTx)
-      }
-      else {
+  const sign = () => {
+    signTransaction(args, (err, tx, serializedTx) => {
+      if (!err) {
+        submit(err, tx, serializedTx)
+      } else {
         // console.log({tries,issue:'sign'})
-        if(tries < 20){
-          tries++;
+        if (tries < 20) {
+          tries++
           sign()
         }
       }
-    });
+    })
   }
   sign()
 }
