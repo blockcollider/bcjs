@@ -95,6 +95,15 @@ type BcGetLatestBlock = {
   readonly responseType: typeof core_pb.BcBlock;
 };
 
+type BcGetLatestUTXOBlock = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof core_pb.BcBlock;
+};
+
 type BcGetTx = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -365,6 +374,15 @@ type BcGetSyncStatus = {
   readonly responseType: typeof bc_pb.SyncStatus;
 };
 
+type BcGetFastSyncStatus = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof bc_pb.SyncStatus;
+};
+
 export class Bc {
   static readonly serviceName: string;
   static readonly GetRoveredBlockHash: BcGetRoveredBlockHash;
@@ -377,6 +395,7 @@ export class Bc {
   static readonly GetBlocksHeight: BcGetBlocksHeight;
   static readonly GetBlocks: BcGetBlocks;
   static readonly GetLatestBlock: BcGetLatestBlock;
+  static readonly GetLatestUTXOBlock: BcGetLatestUTXOBlock;
   static readonly GetTx: BcGetTx;
   static readonly GetMarkedTx: BcGetMarkedTx;
   static readonly GetMarkedTxsForMatchedOrder: BcGetMarkedTxsForMatchedOrder;
@@ -407,6 +426,7 @@ export class Bc {
   static readonly GetBcAddressViaVanity: BcGetBcAddressViaVanity;
   static readonly GetCurrentWork: BcGetCurrentWork;
   static readonly GetSyncStatus: BcGetSyncStatus;
+  static readonly GetFastSyncStatus: BcGetFastSyncStatus;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -528,6 +548,15 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
   getLatestBlock(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
+  ): UnaryResponse;
+  getLatestUTXOBlock(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
+  ): UnaryResponse;
+  getLatestUTXOBlock(
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: core_pb.BcBlock|null) => void
   ): UnaryResponse;
@@ -798,6 +827,15 @@ export class BcClient {
     callback: (error: ServiceError|null, responseMessage: bc_pb.SyncStatus|null) => void
   ): UnaryResponse;
   getSyncStatus(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.SyncStatus|null) => void
+  ): UnaryResponse;
+  getFastSyncStatus(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.SyncStatus|null) => void
+  ): UnaryResponse;
+  getFastSyncStatus(
     requestMessage: core_pb.Null,
     callback: (error: ServiceError|null, responseMessage: bc_pb.SyncStatus|null) => void
   ): UnaryResponse;

@@ -250,7 +250,8 @@ proto.bcsdk.StatsResponse.prototype.toObject = function(opt_includeInstance) {
  */
 proto.bcsdk.StatsResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    calls: jspb.Message.getFieldWithDefault(msg, 1, 0)
+    calls: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    latestGpuMinerUpdate: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -291,6 +292,10 @@ proto.bcsdk.StatsResponse.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readInt64());
       msg.setCalls(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setLatestGpuMinerUpdate(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -327,6 +332,13 @@ proto.bcsdk.StatsResponse.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
+  f = message.getLatestGpuMinerUpdate();
+  if (f !== 0) {
+    writer.writeUint64(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -342,6 +354,21 @@ proto.bcsdk.StatsResponse.prototype.getCalls = function() {
 /** @param {number} value */
 proto.bcsdk.StatsResponse.prototype.setCalls = function(value) {
   jspb.Message.setProto3IntField(this, 1, value);
+};
+
+
+/**
+ * optional uint64 latest_gpu_miner_update = 2;
+ * @return {number}
+ */
+proto.bcsdk.StatsResponse.prototype.getLatestGpuMinerUpdate = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.bcsdk.StatsResponse.prototype.setLatestGpuMinerUpdate = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
 };
 
 

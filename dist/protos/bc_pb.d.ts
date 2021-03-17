@@ -28,6 +28,9 @@ export class StatsResponse extends jspb.Message {
   getCalls(): number;
   setCalls(value: number): void;
 
+  getLatestGpuMinerUpdate(): number;
+  setLatestGpuMinerUpdate(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): StatsResponse.AsObject;
   static toObject(includeInstance: boolean, msg: StatsResponse): StatsResponse.AsObject;
@@ -41,6 +44,7 @@ export class StatsResponse extends jspb.Message {
 export namespace StatsResponse {
   export type AsObject = {
     calls: number,
+    latestGpuMinerUpdate: number,
   }
 }
 

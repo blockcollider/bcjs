@@ -101,6 +101,15 @@ Bc.GetLatestBlock = {
   responseType: core_pb.BcBlock
 };
 
+Bc.GetLatestUTXOBlock = {
+  methodName: "GetLatestUTXOBlock",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: core_pb.BcBlock
+};
+
 Bc.GetTx = {
   methodName: "GetTx",
   service: Bc,
@@ -364,6 +373,15 @@ Bc.GetCurrentWork = {
 
 Bc.GetSyncStatus = {
   methodName: "GetSyncStatus",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: bc_pb.SyncStatus
+};
+
+Bc.GetFastSyncStatus = {
+  methodName: "GetFastSyncStatus",
   service: Bc,
   requestStream: false,
   responseStream: false,
@@ -662,6 +680,37 @@ BcClient.prototype.getLatestBlock = function getLatestBlock(requestMessage, meta
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetLatestBlock, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getLatestUTXOBlock = function getLatestUTXOBlock(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetLatestUTXOBlock, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -1592,6 +1641,37 @@ BcClient.prototype.getSyncStatus = function getSyncStatus(requestMessage, metada
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetSyncStatus, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getFastSyncStatus = function getFastSyncStatus(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetFastSyncStatus, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

@@ -10,6 +10,7 @@ message HelpResponse {
 
 message StatsResponse {
     int64 calls = 1;
+    uint64 latest_gpu_miner_update = 2;
 }
 
 message RpcTransaction {
@@ -286,6 +287,7 @@ service Bc {
     rpc GetBlocksHeight(GetBlockHeightRequest) returns (GetBlocksResponse) {}
     rpc GetBlocks(GetBlocksRequest) returns (GetBlocksResponse) {}
     rpc GetLatestBlock(Null) returns (BcBlock) {}
+    rpc GetLatestUTXOBlock(Null) returns (BcBlock) {}
 
     rpc GetTx(GetTxRequest) returns (Transaction) {}
     rpc GetMarkedTx(GetMarkedTxRequest) returns (MarkedTransaction) {}
@@ -328,4 +330,5 @@ service Bc {
     rpc GetBcAddressViaVanity (VanityConvertRequest) returns (VanityConvertResponse) {}
     rpc GetCurrentWork (Null) returns (CurrentWork) {}
     rpc GetSyncStatus (Null) returns (SyncStatus) {}
+    rpc GetFastSyncStatus (Null) returns (SyncStatus) {}
 }
