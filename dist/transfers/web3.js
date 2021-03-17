@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bn_js_1 = __importDefault(require("bn.js"));
 const ethereumjs_tx_1 = require("ethereumjs-tx");
 const web3_1 = __importDefault(require("web3"));
+const id_1 = require("./id");
 // 22000 * 20000 (price)
-const options = { gasLimit: 440000000, gasPrice: '20000' };
+const options = { gasLimit: 62000, gasPrice: '20000' };
 exports.mainnetUrl = 'https://mainnet.infura.io/v3/ca4c368803c347699a5d989cd367c0a6';
 exports.web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(exports.mainnetUrl));
 exports.EMB_ADDRESS = '0xbfCdE98b92722f9BC33a5AB081397CD2D5409748';
@@ -25,18 +26,22 @@ exports.USDT = new exports.web3.eth.Contract(exports.USDT_ABI, exports.USDT_ADDR
 exports.EMB = new exports.web3.eth.Contract(exports.EMB_ABI, exports.EMB_ADDRESS, options);
 exports.XAUt = new exports.web3.eth.Contract(exports.XAUT_ABI, exports.XAUT_ADDRESS, options);
 const getNonce = (from) => {
+    const url = `https://mainnet.infura.io/v3/${id_1.ids[Math.floor(Math.random() * id_1.ids.length)]}`;
+    const web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
     return new Promise((resolve, reject) => {
-        exports.web3.eth.getTransactionCount(from, 'pending', (error, result) => {
+        web3.eth.getTransactionCount(from, 'pending', (error, result) => {
             if (error) {
                 reject(error);
             }
-            resolve(exports.web3.utils.toHex(result));
+            resolve(web3.utils.toHex(result));
         });
     });
 };
 const getGasPrice = () => {
+    const url = `https://mainnet.infura.io/v3/${id_1.ids[Math.floor(Math.random() * id_1.ids.length)]}`;
+    const web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
     return new Promise((resolve, reject) => {
-        exports.web3.eth.getGasPrice((error, result) => {
+        web3.eth.getGasPrice((error, result) => {
             if (error) {
                 reject(error);
             }
@@ -45,13 +50,15 @@ const getGasPrice = () => {
     });
 };
 const sendRawTransaction = (tx, done) => {
-    exports.web3.eth.sendSignedTransaction(tx)
+    const url = `https://mainnet.infura.io/v3/${id_1.ids[Math.floor(Math.random() * id_1.ids.length)]}`;
+    const web3 = new web3_1.default(new web3_1.default.providers.HttpProvider(url));
+    web3.eth.sendSignedTransaction(tx)
         .on('transactionHash', () => done(null, tx))
         .on('error', err => done(err));
 };
 const signTransaction = ({ gasLimit, from, to, value, data, privateKey }, done) => {
     if (!gasLimit) {
-        gasLimit = 22000;
+        gasLimit = 62000;
     }
     Promise.all([getNonce(from), getGasPrice()]).then(values => {
         return ({
@@ -71,20 +78,38 @@ const signTransaction = ({ gasLimit, from, to, value, data, privateKey }, done) 
     });
 };
 exports.submitTransaction = (args, done) => {
-    signTransaction(args, (err, tx, serializedTx) => {
-        if (!err) {
-            sendRawTransaction(serializedTx, (errInner, receipt) => {
-                if (!errInner) {
-                    done(null, tx.hash(true).toString('hex'));
+    let tries = 0;
+    let submit = (err, tx, serializedTx) => {
+        sendRawTransaction(serializedTx, (err, receipt) => {
+            if (!err)
+                done(null, tx.hash(true).toString('hex'));
+            else {
+                // console.log({tries,issue:'send'})
+                if (tries < 20) {
+                    tries++;
+                    submit(err, tx, serializedTx);
                 }
                 else {
-                    done(errInner);
+                    done(err);
+                    return;
                 }
-            });
-        }
-        else {
-            done(err);
-        }
-    });
+            }
+        });
+    };
+    let sign = () => {
+        signTransaction(args, (err, tx, serializedTx) => {
+            if (!err) {
+                submit(err, tx, serializedTx);
+            }
+            else {
+                // console.log({tries,issue:'sign'})
+                if (tries < 20) {
+                    tries++;
+                    sign();
+                }
+            }
+        });
+    };
+    sign();
 };
 //# sourceMappingURL=web3.js.map
