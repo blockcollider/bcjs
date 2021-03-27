@@ -40,6 +40,7 @@ enum BcRpcMethod {
     GetSpendableCollateral  = 'getSpendableCollateral',
 
     GetUnlockTakerTxParams = 'getUnlockTakerTxParams',
+    GetUnmatchedOrder = 'getUnmatchedOrders',
 
     PlaceMakerOrder  = 'placeMakerOrder',
     PlaceTakerOrder  = 'placeTakerOrder',
@@ -291,6 +292,27 @@ export default class RpcClient {
     public async getBcAddressViaVanity (request: bc.VanityConvertRequest): Promise<bc.VanityConvertResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetBcAddressViaVanity, request.toArray())
         return result as bc.VanityConvertResponse.AsObject
+    }
+
+    public async getUnmatchedOrders (request: bc.GetBalanceRequest): Promise<bc.GetOpenOrdersResponse.AsObject> {
+        const res = await client.makeJsonRpcRequest(BcRpcMethod.GetUnmatchedOrder, request.toArray())
+
+        return result as bc.GetOpenOrdersResponse.AsObject
+    }
+
+    public async getUnlockableOrders(request: bc.GetBalanceRequest) {
+        const unmatchedOrdersRes = await this.getGetUnmatchedOrder(request)
+
+        const unmatchedOrders: bc.MakerOrderInfo.AsObject[]  = unmatchedOrdersRes.ordersList
+
+        const matchedOrdersRes  = await this.getMatchedOrders(request)
+        const matchedOrders: bc.MatchedOrderInfo.AsObject[] = matchedOrdersRes.ordersList
+
+        // MakerOrderInfo
+        for (let matchedOrder of matchedOrders) {
+
+        }
+
     }
 
     private async makeJsonRpcRequest (method: BcRpcMethod, rpcParams: JsonRpcParams|Buffer): Promise<BcRpcResponse|JsonRpcError<BcRpcResponse>> {
