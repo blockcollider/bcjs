@@ -28,8 +28,9 @@ import {
     GetBalanceRequest
 } from '../src/protos/bc_pb';
 
-const address = process.env.BC_RPC_ADDRESS || 'http://167.99.153.11:3000'
-const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
+const address = process.env.BC_RPC_ADDRESS || 'http://35.197.40.152:3000'
+let hostname = 'http://35.197.40.152';
+const scookie = process.env.BC_RPC_SCOOKIE || 'scookie'
 const client = new RpcClient(address, scookie);
 const wallet = new Wallet(client)
 const bcAddress = process.argv[2].toLowerCase()
@@ -129,22 +130,18 @@ async function getOutPoints(spendableOutpointsList,amount) {
 }
 
 async function takeOrderbook(){
-  await sendMany()
-  await sendMany()
-  // await sendMany()
-  // await sendMany()
-  // await sendMany()
-  // await sendMany()
   let orders = await getOpenOrders();
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
 
   for(let i = 0; i < orders.length; i++){
+    if(orders[i].sendsFromChain != 'nrg' && orders[i].receivesToChain != 'nrg'){
+      console.log(orders[i])
+      let newOutPoints = await getOutPoints(spendableOutpointsList,orders[i].collateralizedNrg)
+      spendableOutpointsList = newOutPoints.spendableOutpointsList
 
-    let newOutPoints = await getOutPoints(spendableOutpointsList,orders[i].collateralizedNrg)
-    spendableOutpointsList = newOutPoints.spendableOutpointsList
-
-    await testTaker(orders[i],newOutPoints.newList)
-    // await timeout(2000)
+      await testTaker(orders[i],newOutPoints.newList)
+      await timeout(1000)
+    }
   }
 }
 

@@ -36,10 +36,10 @@ import {
 } from '../src/utils/protoUtil'
 
 
-const address = process.env.BC_RPC_ADDRESS || 'http://167.99.153.11:3000'
-let hostname = 'http://167.99.153.11';
+const address = process.env.BC_RPC_ADDRESS || 'http://35.222.41.145:3000'
+let hostname = 'http://35.222.41.145';
 let port = 3000
-const scookie = process.env.BC_RPC_SCOOKIE || 'trololo'
+const scookie = process.env.BC_RPC_SCOOKIE || 'scookie'
 const client = new RpcClient(address, scookie)
 const wallet = new Wallet(client)
 const bcAddress = process.argv[2].toLowerCase()
@@ -70,6 +70,18 @@ function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function sendMany(){
+  console.log({bcAddress})
+  let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
+  let toAddress : Array<string> = Array(20).fill(bcAddress)
+  let transferAmount : Array<string> = Array(20).fill('3')
+  let tx: coreProtobuf.Transaction = createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0')
+
+  const res = await client.sendTx(tx)
+
+  console.log('sendTx', res)
+}
+
 async function testMaker({sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, spendableOutpointsList}) {
   let tx: coreProtobuf.Transaction = new coreProtobuf.Transaction()
   let collateral = collateralizedNrg;
@@ -97,9 +109,15 @@ async function testMaker({sendsFromChain, receivesToChain, sendsFromAddress, rec
 }
 
 async function fillOrderbook() {
+
+  // await sendMany()
+  // await sendMany()
+  // await sendMany()
+
   const {assetPrices,jsonData} = await getPrices()
 
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
+  console.log({spendableOutpointsList})
 
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
