@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@cityofzion/neon-js": "4.7.1",
-    "@liskhq/lisk-cryptography": "3.0.0",
+    "@liskhq/lisk-client": "3.0.2",
     "@waves/waves-transactions": "^3.24.0",
     "avon": "akloboucnik/avon#node-12-compatibility",
     "bitcoinjs-lib": "^5.1.6",
@@ -35,7 +35,6 @@
     "google-protobuf": "^3.7.1",
     "grpc-web": "^1.0.6",
     "isomorphic-fetch": "^3.0.0",
-    "lisk-elements": "5.0.3",
     "ramda": "^0.26.1",
     "random-js": "1.0.8",
     "secp256k1": "^3.7.1",
