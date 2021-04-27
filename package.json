@@ -23,7 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@cityofzion/neon-js": "4.7.1",
-    "@liskhq/lisk-client": "3.0.2",
+    "@liskhq/lisk-client": "./lisk-dependencies/lisk-client-2.3.1.tgz",
     "@waves/waves-transactions": "^3.24.0",
     "avon": "akloboucnik/avon#node-12-compatibility",
     "bitcoinjs-lib": "^5.1.6",

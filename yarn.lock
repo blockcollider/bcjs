@@ -528,6 +528,12 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@liskhq/bignum@./bignum-1.3.1.tgz":
+  version "1.3.1"
+  resolved "./bignum-1.3.1.tgz#4f9e2d63c7983f350eb88701fdbdd293d86c3a24"
+  dependencies:
+    "@types/node" "11.11.2"
+
 "@liskhq/bignum@1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@liskhq/bignum/-/bignum-1.3.1.tgz#4f9e2d63c7983f350eb88701fdbdd293d86c3a24"
@@ -535,41 +541,37 @@
   dependencies:
     "@types/node" "11.11.2"
 
-"@liskhq/lisk-api-client@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@liskhq/lisk-api-client/-/lisk-api-client-3.0.1.tgz#51ccbdbef3761dc4f9fac4965ce801e8d1dfff7c"
-  integrity sha512-HBMs8VKj0jdsYTfEvmscf0W5FNiemLptBqxOCa4KS6VR74G95nSULzfqL092Cn1DWwIim1M//SyzPFu05MYfsQ==
+"@liskhq/lisk-api-client@./lisk-api-client-2.0.3.tgz":
+  version "2.0.3"
+  resolved "./lisk-api-client-2.0.3.tgz#f5bf65f5c7190a62967feac3d2a433ac7125d345"
   dependencies:
-    "@types/node" "12.12.11"
+    "@types/node" "10.12.21"
     axios "0.19.0"
 
-"@liskhq/lisk-client@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@liskhq/lisk-client/-/lisk-client-3.0.2.tgz#c39a34887e849817453c39e672bce51e507b6aaf"
-  integrity sha512-FA8h7rrGXkACnqCtIc1W/zc0J+fmfUfVBtWQ+Yjxu/ZNWWQOqqiLYeOdwUom7Sw123bVWJtzncoqeSxoIg5ZCA==
+"@liskhq/lisk-client@./lisk-dependencies/lisk-client-2.3.1.tgz":
+  version "2.3.1"
+  resolved "./lisk-dependencies/lisk-client-2.3.1.tgz#7bc9824320c3ff4a7fe59314c6e2813e7988842c"
   dependencies:
-    "@liskhq/lisk-api-client" "3.0.1"
-    "@liskhq/lisk-constants" "1.3.0"
-    "@liskhq/lisk-cryptography" "2.4.2"
-    "@liskhq/lisk-passphrase" "3.0.0"
-    "@liskhq/lisk-transactions" "3.0.2"
-    "@types/node" "12.12.11"
+    "@liskhq/lisk-api-client" "./lisk-api-client-2.0.3.tgz"
+    "@liskhq/lisk-constants" "./lisk-constants-1.2.3.tgz"
+    "@liskhq/lisk-cryptography" "./lisk-cryptography-2.3.0.tgz"
+    "@liskhq/lisk-passphrase" "./lisk-passphrase-2.0.3.tgz"
+    "@liskhq/lisk-transactions" "./lisk-transactions-2.3.1.tgz"
+    "@types/node" "10.12.21"
 
-"@liskhq/lisk-constants@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@liskhq/lisk-constants/-/lisk-constants-1.3.0.tgz#54dd8364a5373e4c017892222182bd8844c74231"
-  integrity sha512-49TYS9TKIK3Y4rHUg/OBNf8gnUXEzw54X3L3rNI1M7Mth3i+RjOqfbOxMk/rmyrmEMESvAbIyG8iyacr+e4W8g==
+"@liskhq/lisk-constants@./lisk-constants-1.2.3.tgz":
+  version "1.2.3"
+  resolved "./lisk-constants-1.2.3.tgz#e73d1d45077dd0889440236bd7ba12bb5b71539e"
   dependencies:
-    "@types/node" "12.12.11"
+    "@types/node" "10.12.21"
 
-"@liskhq/lisk-cryptography@2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@liskhq/lisk-cryptography/-/lisk-cryptography-2.4.2.tgz#77eecaa2d36bfa00bb43ef92bdc4683ecaadff8b"
-  integrity sha512-y3T/Jg/OvSIhieqY7NKpmnkajpbz+JSxWUx6DyebW/jAXZAUVDoh5n64NPNe78op5TXsMIwqPFao6GE+D3MKsA==
+"@liskhq/lisk-cryptography@./lisk-cryptography-2.3.0.tgz":
+  version "2.3.0"
+  resolved "./lisk-cryptography-2.3.0.tgz#e606d66c60d3c156fc9d7f10460d924d1f33aa21"
   dependencies:
-    "@liskhq/bignum" "1.3.1"
+    "@liskhq/bignum" "./bignum-1.3.1.tgz"
     "@types/ed2curve" "0.2.2"
-    "@types/node" "12.12.11"
+    "@types/node" "10.12.21"
     buffer-reverse "1.0.1"
     ed2curve "0.2.1"
     tweetnacl "1.0.1"
@@ -577,39 +579,23 @@
   optionalDependencies:
     sodium-native "2.4.6"
 
-"@liskhq/lisk-passphrase@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@liskhq/lisk-passphrase/-/lisk-passphrase-3.0.0.tgz#14e5034446d28008a966b90e906bd5ca8ebee28e"
-  integrity sha512-j/+vSCw6UrYb0PTOLJGbdHCHW/oGNWkHqVKzvUMWiQjLUwIF738GwM1l66eppsx2v7RDm+P7hKTTkGuVtqcSGQ==
+"@liskhq/lisk-passphrase@./lisk-passphrase-2.0.3.tgz":
+  version "2.0.3"
+  resolved "./lisk-passphrase-2.0.3.tgz#c1ee51df9d3649c67868ce1f071535d7f24320f7"
   dependencies:
     "@types/bip39" "2.4.1"
-    "@types/node" "12.12.11"
+    "@types/node" "10.12.21"
     bip39 "2.5.0"
 
-"@liskhq/lisk-transactions@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@liskhq/lisk-transactions/-/lisk-transactions-3.0.2.tgz#aa2dd6c050d340bfd3b4307062aee1f81a5e73b1"
-  integrity sha512-CKidjLsrg6xf3AhcrwyGowlaEDzlTMBSr6f1L5o6ARhUtNfgMRzF7q1/Odq/R1fVkgNSL72S5PaGHGUOX82lrg==
+"@liskhq/lisk-transactions@./lisk-transactions-2.3.1.tgz":
+  version "2.3.1"
+  resolved "./lisk-transactions-2.3.1.tgz#3dae27026017c821dcaacadbac9fce9d384f4cab"
   dependencies:
     "@liskhq/bignum" "1.3.1"
-    "@liskhq/lisk-cryptography" "2.4.2"
-    "@liskhq/lisk-validator" "0.3.1"
+    "@liskhq/lisk-cryptography" "./lisk-cryptography-2.3.0.tgz"
+    "@types/node" "10.12.21"
     ajv "6.8.1"
     ajv-merge-patch "4.1.0"
-
-"@liskhq/lisk-validator@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@liskhq/lisk-validator/-/lisk-validator-0.3.1.tgz#12567ec4a58f41fb267f55ad38b13ac9f13a3627"
-  integrity sha512-Mv6AFQioYPOpiTrJ3pyKfP+5J/FYMqDnP8HAh9KSTcxvkTh1B7myGZi1WJJrnPqzs/xE7YnCVwaz8JPP7rHWzA==
-  dependencies:
-    "@liskhq/bignum" "1.3.1"
-    "@liskhq/lisk-cryptography" "2.4.2"
-    "@types/node" "12.12.11"
-    "@types/semver" "5.5.0"
-    "@types/validator" "10.9.0"
-    ajv "6.9.2"
-    semver "5.6.0"
-    validator "10.11.0"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -842,15 +828,15 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
   integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
 
+"@types/node@10.12.21":
+  version "10.12.21"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.21.tgz#7e8a0c34cf29f4e17a36e9bd0ea72d45ba03908e"
+  integrity sha512-CBgLNk4o3XMnqMc0rhb6lc77IwShMEglz05deDcn2lQxyXEZivfwgYJu7SMha9V5XcrP6qZuevTHV/QrN2vjKQ==
+
 "@types/node@11.11.2":
   version "11.11.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.11.2.tgz#873d2c3f3824212cc16130074699e1bcb38c0231"
   integrity sha512-iEaHiDNkHv4Jrm9O5T37OYEUwjJesiyt6ZlhLFK0sbo4CLD0jyCOB4Pc2F9iD3MbW2397SLNxZKdDGntGaBjQQ==
-
-"@types/node@12.12.11":
-  version "12.12.11"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.11.tgz#bec2961975888d964196bf0016a2f984d793d3ce"
-  integrity sha512-O+x6uIpa6oMNTkPuHDa9MhMMehlxLAd5QcOvKRjAFsBVpeFWTOPnXbDvILvFgFFZfQ1xh1EZi1FbXxUix+zpsQ==
 
 "@types/node@12.7.11":
   version "12.7.11"
@@ -884,20 +870,10 @@
   dependencies:
     ts-toolbelt "^6.3.3"
 
-"@types/semver@5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-5.5.0.tgz#146c2a29ee7d3bae4bf2fcb274636e264c813c45"
-  integrity sha512-41qEJgBH/TWgo5NFSvBCJ1qkoi3Q6ONSF2avrHq1LVEZfYpdHmj0y9SuTK+u9ZhG1sYQKBL1AWXKyLWP4RaUoQ==
-
 "@types/stack-utils@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.0.tgz#7036640b4e21cc2f259ae826ce843d277dad8cff"
   integrity sha512-RJJrrySY7A8havqpGObOB4W92QXKJo63/jFLLgpvOtsGUqbQZ9Sbgl35KMm1DjC6j7AvmmU2bIno+3IyEaemaw==
-
-"@types/validator@10.9.0":
-  version "10.9.0"
-  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-10.9.0.tgz#747f36c7ad281da769458ab4c3b8837aee1578b6"
-  integrity sha512-mf0VpXk+NoTmkUmuJCsdwBYxjYZW41amCSzd4t/fABMKl+qGMViwFP0pR7ukFdZRXWI1LIkca3VIbXVBmWZ4kQ==
 
 "@types/yargs-parser@*":
   version "20.2.0"
@@ -1030,16 +1006,6 @@ ajv@6.8.1:
   version "6.8.1"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.8.1.tgz#0890b93742985ebf8973cd365c5b23920ce3cb20"
   integrity sha512-eqxCp82P+JfqL683wwsL73XmFs1eG6qjw+RD3YHx+Jll1r0jNd4dh8QG9NYAeNGA/hnZjeEDgtTskgJULbxpWQ==
-  dependencies:
-    fast-deep-equal "^2.0.1"
-    fast-json-stable-stringify "^2.0.0"
-    json-schema-traverse "^0.4.1"
-    uri-js "^4.2.2"
-
-ajv@6.9.2:
-  version "6.9.2"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.9.2.tgz#4927adb83e7f48e5a32b45729744c71ec39c9c7b"
-  integrity sha512-4UFy0/LgDo7Oa/+wOAlj44tp9K78u38E5/359eSrqEp1Z5PdVfimCcs7SluXMP755RUQu6d2b4AvF0R1C9RZjg==
   dependencies:
     fast-deep-equal "^2.0.1"
     fast-json-stable-stringify "^2.0.0"
@@ -5636,11 +5602,6 @@ secure-random@1.1.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
 
-semver@5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-5.6.0.tgz#7e74256fbaa49c75aa7c7a205cc22799cac80004"
-  integrity sha512-RS9R6R35NYgQn++fkDWaOmqGoj4Ek9gGs+DPxNUZKuwE183xjJroKvyo1IzVFeXvUrvmALy6FWD5xrdJT25gMg==
-
 semver@7.x, semver@^7.3.2:
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.4.tgz#27aaa7d2e4ca76452f98d3add093a72c943edc97"
@@ -6526,11 +6487,6 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
-
-validator@10.11.0:
-  version "10.11.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-10.11.0.tgz#003108ea6e9a9874d31ccc9e5006856ccd76b228"
-  integrity sha512-X/p3UZerAIsbBfN/IwahhYaBbY68EN/UQBWHtsbXGT5bfrH/p4NQzUCG1kF/rtKaNpnJ7jAu6NGTdSNtyNIXMw==
 
 varuint-bitcoin@1.1.0:
   version "1.1.0"
