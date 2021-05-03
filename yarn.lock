@@ -535,34 +535,33 @@
   dependencies:
     "@types/node" "11.11.2"
 
-"@liskhq/lisk-api-client@file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-api-client-2.0.3.tgz":
+"@liskhq/lisk-api-client@https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-api-client-2.0.3.tgz":
   version "2.0.3"
-  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-api-client-2.0.3.tgz#5b6f5aea0fe8874d02df3378f17fd9cb148443cf"
+  resolved "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-api-client-2.0.3.tgz#5b6f5aea0fe8874d02df3378f17fd9cb148443cf"
   dependencies:
     "@types/node" "10.12.21"
     axios "0.19.0"
 
-"@liskhq/lisk-client@file:./lisk-dependencies/liskhq-lisk-client-2.3.1.tgz":
+"@liskhq/lisk-client@https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-client-2.3.1.tgz":
   version "2.3.1"
-  resolved "file:./lisk-dependencies/liskhq-lisk-client-2.3.1.tgz#c1c868eed0b2e53a21eddbd6f2ae38ab0b275f25"
+  resolved "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-client-2.3.1.tgz#9abf6a9d89420c5dc44c2a6abcd507d5b328fb6d"
   dependencies:
-    "@liskhq/lisk-api-client" "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-api-client-2.0.3.tgz"
-    "@liskhq/lisk-constants" "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-constants-1.2.3.tgz"
-    "@liskhq/lisk-cryptography" "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-cryptography-2.3.0.tgz"
-    "@liskhq/lisk-passphrase" "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-passphrase-2.0.3.tgz"
-    "@liskhq/lisk-transactions" "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-transactions-2.3.1.tgz"
+    "@liskhq/lisk-api-client" "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-api-client-2.0.3.tgz"
+    "@liskhq/lisk-constants" "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-constants-1.2.3.tgz"
+    "@liskhq/lisk-cryptography" "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-cryptography-2.3.0.tgz"
+    "@liskhq/lisk-passphrase" "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-passphrase-2.0.3.tgz"
+    "@liskhq/lisk-transactions" "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-transactions-2.3.1.tgz"
     "@types/node" "10.12.21"
 
-"@liskhq/lisk-constants@file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-constants-1.2.3.tgz":
+"@liskhq/lisk-constants@https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-constants-1.2.3.tgz":
   version "1.2.3"
-  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-constants-1.2.3.tgz#41681cc7a295f054c52263dff75009b393841b88"
+  resolved "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-constants-1.2.3.tgz#41681cc7a295f054c52263dff75009b393841b88"
   dependencies:
     "@types/node" "10.12.21"
 
-"@liskhq/lisk-cryptography@file:../../../Library/Caches/Yarn/v6/.tmp/77ff66d1648e5915c682fcf24635ba81/liskhq-lisk-cryptography-2.3.0.tgz":
+"@liskhq/lisk-cryptography@https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-cryptography-2.3.0.tgz":
   version "2.3.0"
-  uid d3fcadedc77a2390261cdb9d28c59111e6d2fdec
-  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/77ff66d1648e5915c682fcf24635ba81/liskhq-lisk-cryptography-2.3.0.tgz#d3fcadedc77a2390261cdb9d28c59111e6d2fdec"
+  resolved "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-cryptography-2.3.0.tgz#d3fcadedc77a2390261cdb9d28c59111e6d2fdec"
   dependencies:
     "@liskhq/bignum" "1.3.1"
     "@types/ed2curve" "0.2.2"
@@ -574,34 +573,20 @@
   optionalDependencies:
     sodium-native "2.4.6"
 
-"@liskhq/lisk-cryptography@file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-cryptography-2.3.0.tgz":
-  version "2.3.0"
-  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-cryptography-2.3.0.tgz#d3fcadedc77a2390261cdb9d28c59111e6d2fdec"
-  dependencies:
-    "@liskhq/bignum" "1.3.1"
-    "@types/ed2curve" "0.2.2"
-    "@types/node" "10.12.21"
-    buffer-reverse "1.0.1"
-    ed2curve "0.2.1"
-    tweetnacl "1.0.1"
-    varuint-bitcoin "1.1.0"
-  optionalDependencies:
-    sodium-native "2.4.6"
-
-"@liskhq/lisk-passphrase@file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-passphrase-2.0.3.tgz":
+"@liskhq/lisk-passphrase@https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-passphrase-2.0.3.tgz":
   version "2.0.3"
-  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-passphrase-2.0.3.tgz#956789db4e3f65e73500aeed77f18e65d3e4443c"
+  resolved "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-passphrase-2.0.3.tgz#956789db4e3f65e73500aeed77f18e65d3e4443c"
   dependencies:
     "@types/bip39" "2.4.1"
     "@types/node" "10.12.21"
     bip39 "2.5.0"
 
-"@liskhq/lisk-transactions@file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-transactions-2.3.1.tgz":
+"@liskhq/lisk-transactions@https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-transactions-2.3.1.tgz":
   version "2.3.1"
-  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/88bf0e222d1e54328e5235c42c791c13/liskhq-lisk-transactions-2.3.1.tgz#7be751dbc11074ffd1593b8c824956a3c783b7c3"
+  resolved "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-transactions-2.3.1.tgz#6e07fa54300af74f2b2e7d92bb548eb44fffe799"
   dependencies:
     "@liskhq/bignum" "1.3.1"
-    "@liskhq/lisk-cryptography" "file:../../../Library/Caches/Yarn/v6/.tmp/77ff66d1648e5915c682fcf24635ba81/liskhq-lisk-cryptography-2.3.0.tgz"
+    "@liskhq/lisk-cryptography" "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-cryptography-2.3.0.tgz"
     "@types/node" "10.12.21"
     ajv "6.8.1"
     ajv-merge-patch "4.1.0"
