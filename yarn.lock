@@ -528,12 +528,6 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@liskhq/bignum@./bignum-1.3.1.tgz":
-  version "1.3.1"
-  resolved "./bignum-1.3.1.tgz#4f9e2d63c7983f350eb88701fdbdd293d86c3a24"
-  dependencies:
-    "@types/node" "11.11.2"
-
 "@liskhq/bignum@1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@liskhq/bignum/-/bignum-1.3.1.tgz#4f9e2d63c7983f350eb88701fdbdd293d86c3a24"
@@ -541,35 +535,35 @@
   dependencies:
     "@types/node" "11.11.2"
 
-"@liskhq/lisk-api-client@./lisk-api-client-2.0.3.tgz":
+"@liskhq/lisk-api-client@file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-api-client-2.0.3.tgz":
   version "2.0.3"
-  resolved "./lisk-api-client-2.0.3.tgz#f5bf65f5c7190a62967feac3d2a433ac7125d345"
+  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-api-client-2.0.3.tgz#5b6f5aea0fe8874d02df3378f17fd9cb148443cf"
   dependencies:
     "@types/node" "10.12.21"
     axios "0.19.0"
 
-"@liskhq/lisk-client@./lisk-dependencies/lisk-client-2.3.1.tgz":
+"@liskhq/lisk-client@./lisk-dependencies/liskhq-lisk-client-2.3.1.tgz":
   version "2.3.1"
-  resolved "./lisk-dependencies/lisk-client-2.3.1.tgz#7bc9824320c3ff4a7fe59314c6e2813e7988842c"
+  resolved "./lisk-dependencies/liskhq-lisk-client-2.3.1.tgz#fa324b0051c513e8a617be3a3969ff381c212dfc"
   dependencies:
-    "@liskhq/lisk-api-client" "./lisk-api-client-2.0.3.tgz"
-    "@liskhq/lisk-constants" "./lisk-constants-1.2.3.tgz"
-    "@liskhq/lisk-cryptography" "./lisk-cryptography-2.3.0.tgz"
-    "@liskhq/lisk-passphrase" "./lisk-passphrase-2.0.3.tgz"
-    "@liskhq/lisk-transactions" "./lisk-transactions-2.3.1.tgz"
+    "@liskhq/lisk-api-client" "file:../../../Library/Caches/Yarn/v6/.tmp/32644d05125ca3742d2abeb7927a370c/liskhq-lisk-api-client-2.0.3.tgz"
+    "@liskhq/lisk-constants" "file:../../../Library/Caches/Yarn/v6/.tmp/32644d05125ca3742d2abeb7927a370c/liskhq-lisk-constants-1.2.3.tgz"
+    "@liskhq/lisk-cryptography" "file:../../../Library/Caches/Yarn/v6/.tmp/32644d05125ca3742d2abeb7927a370c/liskhq-lisk-cryptography-2.3.0.tgz"
+    "@liskhq/lisk-passphrase" "file:../../../Library/Caches/Yarn/v6/.tmp/32644d05125ca3742d2abeb7927a370c/liskhq-lisk-passphrase-2.0.3.tgz"
+    "@liskhq/lisk-transactions" "file:../../../Library/Caches/Yarn/v6/.tmp/32644d05125ca3742d2abeb7927a370c/liskhq-lisk-transactions-2.3.1.tgz"
     "@types/node" "10.12.21"
 
-"@liskhq/lisk-constants@./lisk-constants-1.2.3.tgz":
+"@liskhq/lisk-constants@file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-constants-1.2.3.tgz":
   version "1.2.3"
-  resolved "./lisk-constants-1.2.3.tgz#e73d1d45077dd0889440236bd7ba12bb5b71539e"
+  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-constants-1.2.3.tgz#41681cc7a295f054c52263dff75009b393841b88"
   dependencies:
     "@types/node" "10.12.21"
 
-"@liskhq/lisk-cryptography@./lisk-cryptography-2.3.0.tgz":
+"@liskhq/lisk-cryptography@file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-cryptography-2.3.0.tgz":
   version "2.3.0"
-  resolved "./lisk-cryptography-2.3.0.tgz#e606d66c60d3c156fc9d7f10460d924d1f33aa21"
+  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-cryptography-2.3.0.tgz#36301119b8790683015492621a8901d3f45768f5"
   dependencies:
-    "@liskhq/bignum" "./bignum-1.3.1.tgz"
+    "@liskhq/bignum" "1.3.1"
     "@types/ed2curve" "0.2.2"
     "@types/node" "10.12.21"
     buffer-reverse "1.0.1"
@@ -579,20 +573,35 @@
   optionalDependencies:
     sodium-native "2.4.6"
 
-"@liskhq/lisk-passphrase@./lisk-passphrase-2.0.3.tgz":
+"@liskhq/lisk-cryptography@file:../../../Library/Caches/Yarn/v6/.tmp/6a246fa8b1c24e6eac2da63127b545eb/liskhq-lisk-cryptography-2.3.0.tgz":
+  version "2.3.0"
+  uid "36301119b8790683015492621a8901d3f45768f5"
+  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/6a246fa8b1c24e6eac2da63127b545eb/liskhq-lisk-cryptography-2.3.0.tgz#36301119b8790683015492621a8901d3f45768f5"
+  dependencies:
+    "@liskhq/bignum" "1.3.1"
+    "@types/ed2curve" "0.2.2"
+    "@types/node" "10.12.21"
+    buffer-reverse "1.0.1"
+    ed2curve "0.2.1"
+    tweetnacl "1.0.1"
+    varuint-bitcoin "1.1.0"
+  optionalDependencies:
+    sodium-native "2.4.6"
+
+"@liskhq/lisk-passphrase@file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-passphrase-2.0.3.tgz":
   version "2.0.3"
-  resolved "./lisk-passphrase-2.0.3.tgz#c1ee51df9d3649c67868ce1f071535d7f24320f7"
+  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-passphrase-2.0.3.tgz#956789db4e3f65e73500aeed77f18e65d3e4443c"
   dependencies:
     "@types/bip39" "2.4.1"
     "@types/node" "10.12.21"
     bip39 "2.5.0"
 
-"@liskhq/lisk-transactions@./lisk-transactions-2.3.1.tgz":
+"@liskhq/lisk-transactions@file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-transactions-2.3.1.tgz":
   version "2.3.1"
-  resolved "./lisk-transactions-2.3.1.tgz#3dae27026017c821dcaacadbac9fce9d384f4cab"
+  resolved "file:../../../Library/Caches/Yarn/v6/.tmp/2363dcd33fea64025ad907e1afab2182/liskhq-lisk-transactions-2.3.1.tgz#4e9bbf0e0af5589587073e0a63faa13bc33e68c0"
   dependencies:
     "@liskhq/bignum" "1.3.1"
-    "@liskhq/lisk-cryptography" "./lisk-cryptography-2.3.0.tgz"
+    "@liskhq/lisk-cryptography" "file:../../../../Library/Caches/Yarn/v6/.tmp/4c7bb1c89b200ea164e084ee69d8dfc4/liskhq-lisk-cryptography-2.3.0.tgz"
     "@types/node" "10.12.21"
     ajv "6.8.1"
     ajv-merge-patch "4.1.0"
