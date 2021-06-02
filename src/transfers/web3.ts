@@ -8,7 +8,7 @@ const options = {gasLimit: 62000, gasPrice: '20000'}
 export const mainnetUrl = 'https://mainnet.infura.io/v3/ca4c368803c347699a5d989cd367c0a6'
 export const web3 = new Web3(new Web3.providers.HttpProvider(mainnetUrl))
 
-export const EMB_ADDRESS = '0xbfCdE98b92722f9BC33a5AB081397CD2D5409748'
+export const EMB_ADDRESS = '0xdb0acc14396d108b3c5574483acb817855c9dc8d'
 export const USDT_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 export const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
 export const XAUT_ADDRESS = '0x4922a015c4407F87432B179bb209e125432E4a2A'
