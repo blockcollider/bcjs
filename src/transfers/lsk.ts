@@ -1,4 +1,4 @@
-import { APIClient, transactions } from 'lisk-elements'
+import { APIClient, transactions } from '@liskhq/lisk-client'
 const client = APIClient.createMainnetAPIClient()
 
 export const payLSK = async (privateKey, from, to, amount) => {
