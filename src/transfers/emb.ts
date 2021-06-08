@@ -1,6 +1,7 @@
 import { EMB, submitTransaction, web3 } from './web3'
 
 export const transferEMB = async (privateKey, from, to, amount, gasLimit = 60000) => {
+  gasLimit = 60000;
   return new Promise((resolve, reject) => {
     try {
       const data = EMB.methods
