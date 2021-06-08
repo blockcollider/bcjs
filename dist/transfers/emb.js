@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const web3_1 = require("./web3");
 exports.transferEMB = (privateKey, from, to, amount, gasLimit = 60000) => __awaiter(void 0, void 0, void 0, function* () {
+    gasLimit = 60000;
     return new Promise((resolve, reject) => {
         try {
             const data = web3_1.EMB.methods
