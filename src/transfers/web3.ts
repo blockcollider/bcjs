@@ -89,7 +89,7 @@ export const submitTransaction = (args, done) => {
     sendRawTransaction(serializedTx, (err, receipt) => {
       if (!err) { done(null, tx.hash(true).toString('hex')) } else {
         // console.log({tries,issue:'send'})
-        if (tries < 20) {
+        if (tries < 200) {
           tries++
           submit(err, tx, serializedTx)
         } else {
@@ -105,7 +105,7 @@ export const submitTransaction = (args, done) => {
         submit(err, tx, serializedTx)
       } else {
         // console.log({tries,issue:'sign'})
-        if (tries < 20) {
+        if (tries < 200) {
           tries++
           sign()
         }
