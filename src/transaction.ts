@@ -499,8 +499,16 @@ const _compileTransaction = async function (
   const req = new coreProtobuf.Null();
 
   //get the bytefeemultipler based on the nodes tx pending pool
-  let byteFeeMultiplier = bcClient && bcClient.getByteFeeMultiplier ? await bcClient.getByteFeeMultiplier(req) : {fee: 10};
-  let feePerByte = byteFeeMultiplier ? new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier.fee)).mul(new Decimal(1.05)).round().toString()) : new BN(BOSON_PER_BYTE.toString());
+  let byteFeeMultiplier = '10';
+  try {
+    let multiplier = await bcClient.getByteFeeMultiplier(req);
+    if(multiplier && multiplier.fee) byteFeeMultiplier = multiplier.fee;
+  }
+  catch(err){
+    console.log({err});
+  }
+
+  let feePerByte = new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier)).mul(new Decimal(1.05)).round().toString());
 
   let totalAmountWithFeesBN = totalAmountBN
   if (addDefaultFee) {
