@@ -50,6 +50,17 @@ export const getInputByteLength = (input: coreProtobuf.TransactionInput): BN => 
     .add(getOutPointByteLength(input.getOutPoint()));
 }
 
+export const getTransactionSize = (tx: coreProtobuf.Transaction) : BN => {
+  let size = new BN(0);
+  for (let input of tx.getInputsList()){
+    size = size.add(getInputByteLength(input))
+  }
+  for (let output of tx.getOutputsList()){
+    size = size.add(getOutputByteLength(output))
+  }
+  return size;
+}
+
 export const createTransactionInput = (outPoint: coreProtobuf.OutPoint, unlockScript: string):
   coreProtobuf.TransactionInput => {
     const input = new coreProtobuf.TransactionInput()

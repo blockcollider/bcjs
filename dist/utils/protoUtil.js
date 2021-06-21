@@ -53,6 +53,16 @@ exports.getInputByteLength = (input) => {
         .add(new bn_js_1.default(4)) //scriptLength
         .add(exports.getOutPointByteLength(input.getOutPoint()));
 };
+exports.getTransactionSize = (tx) => {
+    let size = new bn_js_1.default(0);
+    for (let input of tx.getInputsList()) {
+        size = size.add(exports.getInputByteLength(input));
+    }
+    for (let output of tx.getOutputsList()) {
+        size = size.add(exports.getOutputByteLength(output));
+    }
+    return size;
+};
 exports.createTransactionInput = (outPoint, unlockScript) => {
     const input = new coreProtobuf.TransactionInput();
     input.setOutPoint(outPoint);
