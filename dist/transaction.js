@@ -341,7 +341,7 @@ const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, no
     return __awaiter(this, void 0, void 0, function* () {
         const req = new coreProtobuf.Null();
         //get the bytefeemultipler based on the nodes tx pending pool
-        let byteFeeMultiplier = yield bcClient.getByteFeeMultiplier(req);
+        let byteFeeMultiplier = bcClient && bcClient.getByteFeeMultiplier ? yield bcClient.getByteFeeMultiplier(req) : { fee: 10 };
         let feePerByte = byteFeeMultiplier ? new bn_js_1.default(BOSON_PER_BYTE.mul(new decimal_js_1.Decimal(byteFeeMultiplier.fee)).mul(new decimal_js_1.Decimal(1.05)).round().toString()) : new bn_js_1.default(BOSON_PER_BYTE.toString());
         let totalAmountWithFeesBN = totalAmountBN;
         if (addDefaultFee) {
