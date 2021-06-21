@@ -500,7 +500,7 @@ const _compileTransaction = async function (
 
   //get the bytefeemultipler based on the nodes tx pending pool
   let byteFeeMultiplier = await bcClient.getByteFeeMultiplier(req);
-  let feePerByte = byteFeeMultiplier ? new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier.fee)).round().toString()) : new BN(BOSON_PER_BYTE.toString());
+  let feePerByte = byteFeeMultiplier ? new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier.fee)).mul(new Decimal(1.05)).round().toString()) : new BN(BOSON_PER_BYTE.toString());
 
   let totalAmountWithFeesBN = totalAmountBN
   if (addDefaultFee) {
