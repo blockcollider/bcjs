@@ -126,6 +126,28 @@ function deserialize_bcsdk_GetBlocksResponse(buffer_arg) {
   return bc_pb.GetBlocksResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_bcsdk_GetByteFeeResponse(arg) {
+  if (!(arg instanceof bc_pb.GetByteFeeResponse)) {
+    throw new Error('Expected argument of type bcsdk.GetByteFeeResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_GetByteFeeResponse(buffer_arg) {
+  return bc_pb.GetByteFeeResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_bcsdk_GetEmbBalanceResponse(arg) {
+  if (!(arg instanceof bc_pb.GetEmbBalanceResponse)) {
+    throw new Error('Expected argument of type bcsdk.GetEmbBalanceResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_bcsdk_GetEmbBalanceResponse(buffer_arg) {
+  return bc_pb.GetEmbBalanceResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_bcsdk_GetHistoricalOrdersResponse(arg) {
   if (!(arg instanceof bc_pb.GetHistoricalOrdersResponse)) {
     throw new Error('Expected argument of type bcsdk.GetHistoricalOrdersResponse');
@@ -799,6 +821,17 @@ var BcService = exports.BcService = {
     responseSerialize: serialize_bcsdk_RpcTransactionResponse,
     responseDeserialize: deserialize_bcsdk_RpcTransactionResponse,
   },
+  getEmbBalance: {
+    path: '/bcsdk.Bc/GetEmbBalance',
+    requestStream: false,
+    responseStream: false,
+    requestType: bc_pb.GetBalanceRequest,
+    responseType: bc_pb.GetEmbBalanceResponse,
+    requestSerialize: serialize_bcsdk_GetBalanceRequest,
+    requestDeserialize: deserialize_bcsdk_GetBalanceRequest,
+    responseSerialize: serialize_bcsdk_GetEmbBalanceResponse,
+    responseDeserialize: deserialize_bcsdk_GetEmbBalanceResponse,
+  },
   getBalance: {
     path: '/bcsdk.Bc/GetBalance',
     requestStream: false,
@@ -853,6 +886,17 @@ var BcService = exports.BcService = {
     requestDeserialize: deserialize_bcsdk_GetUnlockTakerTxParamsRequest,
     responseSerialize: serialize_bcsdk_GetUnlockTakerTxParamsResponse,
     responseDeserialize: deserialize_bcsdk_GetUnlockTakerTxParamsResponse,
+  },
+  getByteFeeMultiplier: {
+    path: '/bcsdk.Bc/GetByteFeeMultiplier',
+    requestStream: false,
+    responseStream: false,
+    requestType: core_pb.Null,
+    responseType: bc_pb.GetByteFeeResponse,
+    requestSerialize: serialize_bcsdk_Null,
+    requestDeserialize: deserialize_bcsdk_Null,
+    responseSerialize: serialize_bcsdk_GetByteFeeResponse,
+    responseDeserialize: deserialize_bcsdk_GetByteFeeResponse,
   },
   getTransfers: {
     path: '/bcsdk.Bc/GetTransfers',

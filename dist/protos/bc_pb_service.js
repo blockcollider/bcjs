@@ -236,6 +236,15 @@ Bc.SendTx = {
   responseType: bc_pb.RpcTransactionResponse
 };
 
+Bc.GetEmbBalance = {
+  methodName: "GetEmbBalance",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: bc_pb.GetBalanceRequest,
+  responseType: bc_pb.GetEmbBalanceResponse
+};
+
 Bc.GetBalance = {
   methodName: "GetBalance",
   service: Bc,
@@ -279,6 +288,15 @@ Bc.GetUnlockTakerTxParams = {
   responseStream: false,
   requestType: bc_pb.GetUnlockTakerTxParamsRequest,
   responseType: bc_pb.GetUnlockTakerTxParamsResponse
+};
+
+Bc.GetByteFeeMultiplier = {
+  methodName: "GetByteFeeMultiplier",
+  service: Bc,
+  requestStream: false,
+  responseStream: false,
+  requestType: core_pb.Null,
+  responseType: bc_pb.GetByteFeeResponse
 };
 
 Bc.GetTransfers = {
@@ -1171,6 +1189,37 @@ BcClient.prototype.sendTx = function sendTx(requestMessage, metadata, callback) 
   };
 };
 
+BcClient.prototype.getEmbBalance = function getEmbBalance(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetEmbBalance, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
 BcClient.prototype.getBalance = function getBalance(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
@@ -1300,6 +1349,37 @@ BcClient.prototype.getUnlockTakerTxParams = function getUnlockTakerTxParams(requ
     callback = arguments[1];
   }
   var client = grpc.unary(Bc.GetUnlockTakerTxParams, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+BcClient.prototype.getByteFeeMultiplier = function getByteFeeMultiplier(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Bc.GetByteFeeMultiplier, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

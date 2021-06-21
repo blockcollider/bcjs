@@ -51,7 +51,7 @@
     "@types/ramda": "^0.26.29",
     "benchmark": "^2.1.4",
     "cpy-cli": "^2.0.0",
-    "grpc-tools": "^1.8.0",
+    "grpc-tools": "^1.10.0",
     "jest": "^26.6.0",
     "mkdirp": "^0.5.1",
     "ts-jest": "^26.0.0",

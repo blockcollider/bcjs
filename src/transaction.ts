@@ -4,6 +4,7 @@ const secp256k1 = require('secp256k1') // tslint:disable-line
 
 import { address, networks } from 'bitcoinjs-lib'
 import BN from 'bn.js'
+import {Decimal} from 'decimal.js';
 
 import RpcClient from './client'
 import * as bcProtobuf from './protos/bc_pb'
@@ -25,11 +26,15 @@ import {
   internalBNToHuman,
   internalToBN,
 } from './utils/coin'
+
 import {
   bytesToInternalBN,
   convertProtoBufSerializedBytesToBuffer,
   createOutPoint,
   createTransactionInput,
+  getOutputByteLength,
+  getOutPointByteLength,
+  getInputByteLength,
   createTransactionOutput,
 } from './utils/protoUtil'
 
@@ -38,7 +43,10 @@ const { blake2bl } = require('./utils/crypto')
 
 type SpendableWalletOutPointObj = coreProtobuf.WalletOutPoint.AsObject
 
-const BOSON_PER_BYTE = new BN('16600000000000')
+// const BOSON_PER_BYTE = new BN('16600000000000')
+const BOSON_PER_BYTE = new Decimal(16600000000000);
+const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
+
 
 export const fromBuffer = function (txBuffer: Buffer|Uint8Array): coreProtobuf.Transaction {
   return coreProtobuf.Transaction.deserializeBinary(txBuffer)
@@ -68,15 +76,15 @@ function validateBtcAddress (btcAddress: string) {
  * @param transferAmount: string,
  * @param txFee: string
  */
-export const createMultiNRGTransferTransaction = function (
+export const createMultiNRGTransferTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   fromAddress: string,
   privateKeyHex: string,
   toAddress: string[],
   transferAmountNRG: string[],
   txFeeNRG: string,
-  addDefaultFee: boolean = true,
-): coreProtobuf.Transaction {
+  addDefaultFee: boolean = true, bcClient: RpcClient,
+): Promise<coreProtobuf.Transaction> {
   if (toAddress.length !== transferAmountNRG.length) { throw new Error('incorrect length of args') }
 
   const transferAmountBN = transferAmountNRG.reduce((all, nrg) => {
@@ -85,7 +93,6 @@ export const createMultiNRGTransferTransaction = function (
 
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
   const totalAmountBN = transferAmountBN.add(txFeeBN)
-  const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
   if (privateKeyHex.startsWith('0x')) {
     privateKeyHex = privateKeyHex.slice(2)
   }
@@ -98,8 +105,8 @@ export const createMultiNRGTransferTransaction = function (
 
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
-  return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee,
+  return await _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient
   )
 }
 
@@ -113,19 +120,18 @@ export const createMultiNRGTransferTransaction = function (
  * @param transferAmount: string,
  * @param txFee: string
  */
-export const createNRGTransferTransaction = function (
+export const createNRGTransferTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   fromAddress: string,
   privateKeyHex: string,
   toAddress: string,
   transferAmountNRG: string,
   txFeeNRG: string,
-  addDefaultFee: boolean = true,
-): coreProtobuf.Transaction {
+  addDefaultFee: boolean = true, bcClient: RpcClient,
+): Promise<coreProtobuf.Transaction>{
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
   const totalAmountBN = transferAmountBN.add(txFeeBN)
-  const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
   if (privateKeyHex.startsWith('0x')) {
     privateKeyHex = privateKeyHex.slice(2)
   }
@@ -135,8 +141,8 @@ export const createNRGTransferTransaction = function (
   ]
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
-  return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee,
+  return await _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient
   )
 }
 
@@ -149,14 +155,14 @@ export const createNRGTransferTransaction = function (
  * @param olAmount: string,
  * @param addDefaultFee: string,
  */
-export const createFeedTransaction = function (
+export const createFeedTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   olAddress: string,
   olPrivateKeyHex: string,
   feedAddress: string,
   olAmount: string,
   olUnit: string,
-  addDefaultFee: boolean = true,
+  addDefaultFee: boolean = true, bcClient: RpcClient,
 ) {
   if (olPrivateKeyHex.startsWith('0x')) {
     olPrivateKeyHex = olPrivateKeyHex.slice(2)
@@ -175,12 +181,12 @@ export const createFeedTransaction = function (
 
   const nonOverlineInputs: coreProtobuf.TransactionInput[] = []
 
-  return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonOverlineInputs, totalAmountBN, olAddress, olPrivateKeyHex, addDefaultFee,
+  return await _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonOverlineInputs, totalAmountBN, olAddress, olPrivateKeyHex, addDefaultFee, bcClient
   )
 }
 
-export const createMakerOrderTransaction = function (
+export const createMakerOrderTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number,
   sendsFromChain: string, receivesToChain: string,
@@ -188,7 +194,7 @@ export const createMakerOrderTransaction = function (
   sendsUnit: string, receivesUnit: string,
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, nrgUnit: string, fixedUnitFee: string, additionalTxFee: string,
-  addDefaultFee: boolean = true,
+  addDefaultFee: boolean = true, bcClient: RpcClient,
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -243,8 +249,8 @@ export const createMakerOrderTransaction = function (
 
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
-  return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee,
+  return await _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, bcClient
   )
 }
 
@@ -257,19 +263,18 @@ export const createMakerOrderTransaction = function (
  * @param transferAmount: string,
  * @param txFee: string
  */
-export const createOverlineChannelMessage = function (
+export const createOverlineChannelMessage = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   fromAddress: string,
   privateKeyHex: string,
   toAddress: string,
   transferAmountNRG: string,
   txFeeNRG: string,
-  addDefaultFee: boolean = true,
-): coreProtobuf.Transaction {
+  addDefaultFee: boolean = true, bcClient: RpcClient,
+): Promise<coreProtobuf.Transaction>{
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
   const totalAmountBN = transferAmountBN.add(txFeeBN)
-  const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
   if (privateKeyHex.startsWith('0x')) {
     privateKeyHex = privateKeyHex.slice(2)
   }
@@ -279,18 +284,18 @@ export const createOverlineChannelMessage = function (
   ]
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
-  return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee,
+  return await _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient
   )
 }
 
-export const createTakerOrderTransaction = function (
+export const createTakerOrderTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, receivesToAddress: string,
   makerOpenOrder: {doubleHashedBcAddress: string, base: number, fixedUnitFee: string, nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, additionalTxFee: string,
-  addDefaultFee: boolean = true,
+  addDefaultFee: boolean = true, bcClient: RpcClient,
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -346,8 +351,8 @@ export const createTakerOrderTransaction = function (
     txOutputs.push(createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
   }
 
-  return _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee,
+  return await _compileTransaction(
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, bcClient
   )
 }
 
@@ -368,7 +373,6 @@ export const createUnlockTakerTx = async function (
     }
     const unlockBOSON = internalToBN(convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx as string),
                                      COIN_FRACS.BOSON)
-    const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
 
     let outputs: coreProtobuf.TransactionOutput[] = []
     if (unlockScripts.length === 2) { // both settled
@@ -432,12 +436,12 @@ export const calcTxFee = (tx: coreProtobuf.Transaction): BN => {
   return totalValueIn.sub(totalValueOut)
 }
 
-const _calculateSpentAndLeftoverOutPoints = function (spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN): {
-  spentOutPoints: coreProtobuf.OutPoint[], leftoverOutPoint: coreProtobuf.OutPoint | null,
+const _calculateSpentAndLeftoverOutput = function (spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN, feePerByte: BN, bcAddress: string): {
+  spentOutPoints: coreProtobuf.OutPoint[], leftoverOutput: coreProtobuf.TransactionOutput | null,
 } {
   let sumBN = new BN(0)
   const spentOutPoints: coreProtobuf.OutPoint[] = []
-  let leftoverOutPoint: coreProtobuf.OutPoint = new coreProtobuf.OutPoint()
+  let leftoverOutput: coreProtobuf.TransactionOutput = new coreProtobuf.TransactionOutput()
   for (const walletOutPoint of spendableWalletOutPointObjs) {
     const outPointObj: coreProtobuf.OutPoint.AsObject | undefined = walletOutPoint.outpoint
     if (!outPointObj) {
@@ -445,14 +449,20 @@ const _calculateSpentAndLeftoverOutPoints = function (spendableWalletOutPointObj
     }
 
     const currentBN = internalToBN(convertProtoBufSerializedBytesToBuffer(outPointObj.value as string), COIN_FRACS.BOSON)
-
     const outPoint = createOutPoint(outPointObj.hash, outPointObj.index, currentBN)
+
+    //update totalAmountBN based on the new outpoint being spent
+    let inputFee = (getOutPointByteLength(outPoint).add(new BN(105)).add(new BN(4))).mul(feePerByte)
+    totalAmountBN.add(inputFee);
 
     sumBN = sumBN.add(currentBN)
     spentOutPoints.push(outPoint)
     if (sumBN.gt(totalAmountBN)) {
-      leftoverOutPoint = createOutPoint(outPointObj.hash, outPointObj.index, sumBN.sub(totalAmountBN))
-      break
+      //calculate the extra output byte fee that will be created due
+      leftoverOutput = createTransactionOutput(createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN))
+      if(sumBN.gte(totalAmountBN.add(getOutputByteLength(leftoverOutput).mul(feePerByte)))) {
+        break;
+      }
     } else if (sumBN.eq(totalAmountBN)) {
       break
     }
@@ -462,7 +472,7 @@ const _calculateSpentAndLeftoverOutPoints = function (spendableWalletOutPointObj
     throw new Error('Not enough balance')
   }
 
-  return { spentOutPoints, leftoverOutPoint }
+  return { spentOutPoints, leftoverOutput }
 }
 
 const _createTxWithOutputsAssigned = function (outputs: coreProtobuf.TransactionOutput[]): coreProtobuf.Transaction {
@@ -477,31 +487,41 @@ const _createTxWithOutputsAssigned = function (outputs: coreProtobuf.Transaction
   return tx
 }
 
-const _compileTransaction = function (
+const _compileTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   txOutputs: coreProtobuf.TransactionOutput[],
   nonNRGinputs: coreProtobuf.TransactionInput[],
   totalAmountBN: BN,
   bcAddress: string,
   bcPrivateKeyHex: string,
-  addDefaultFee: boolean = true,
-): coreProtobuf.Transaction {
-  const unitBN = humanToInternalAsBN('1', COIN_FRACS.NRG)
+  addDefaultFee: boolean = true, bcClient: RpcClient,
+): Promise<coreProtobuf.Transaction> {
+  const req = new coreProtobuf.Null();
+
+  //get the bytefeemultipler based on the nodes tx pending pool
+  let byteFeeMultiplier = await bcClient.getByteFeeMultiplier(req);
+  let feePerByte = byteFeeMultiplier ? new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier.fee)).round().toString()) : new BN(BOSON_PER_BYTE.toString());
 
   let totalAmountWithFeesBN = totalAmountBN
   if (addDefaultFee) {
+
+    //for each output calculate the number of bytes and multiply by the byte fee
     for (const output of txOutputs) {
-      const defaultTxFee = BOSON_PER_BYTE.mul(new BN(output.getScriptLength()))
-      totalAmountWithFeesBN = totalAmountWithFeesBN.add(defaultTxFee)
+      const defaultFee = feePerByte.mul(getOutputByteLength(output));
+      totalAmountWithFeesBN = totalAmountWithFeesBN.add(defaultFee);
+    }
+
+    //for each input calculate the number of bytes of multiple by the byte fee
+    for (const input of nonNRGinputs) {
+      const defaultFee = feePerByte.mul(getInputByteLength(input));
+      totalAmountWithFeesBN = totalAmountWithFeesBN.add(defaultFee);
     }
   }
-  // outputs
-  const { spentOutPoints, leftoverOutPoint } = _calculateSpentAndLeftoverOutPoints(spendableWalletOutPointObjs, totalAmountWithFeesBN)
+
+  const { spentOutPoints, leftoverOutput } = _calculateSpentAndLeftoverOutput(spendableWalletOutPointObjs, totalAmountWithFeesBN, feePerByte, bcAddress)
   let finalOutputs = txOutputs
-  if (leftoverOutPoint && bytesToInternalBN(leftoverOutPoint.getValue() as Uint8Array).gt(new BN(0))) {
-    const leftoverOutput = createTransactionOutput (
-      createNRGLockScript(bcAddress), unitBN, bytesToInternalBN(leftoverOutPoint.getValue() as Uint8Array),
-    )
+
+  if (leftoverOutput) {
     finalOutputs = txOutputs.concat([leftoverOutput])
   }
 

@@ -23,7 +23,8 @@ type BcRpcResponse =
     bc.RpcTransactionResponse.AsObject |
     bc.GetUnlockTakerTxParamsResponse.AsObject |
     bc.GetOpenOrdersResponse.AsObject |
-    bc.VanityConvertResponse.AsObject
+    bc.VanityConvertResponse.AsObject |
+    bc.GetByteFeeResponse.AsObject
 
 type JsonRpcParams = Array<string | number> | Buffer
 type JsonRpcVersion = '2.0'
@@ -54,7 +55,7 @@ enum BcRpcMethod {
     GetTradeStatus  = 'getTradeStatus',
     GetOutpointStatus  = 'getOutpointStatus',
     GetBcAddressViaVanity  = 'getBcAddressViaVanity',
-
+    GetByteFeeMultiplier =  'getByteFeeMultiplier',
     GetLatestBlock = 'getLatestBlock',
     GetLatestRoveredBlocks = 'getLatestRoveredBlocks',
     GetBlockHeight = 'getBlockHeight',
@@ -242,6 +243,11 @@ export default class RpcClient {
         openOrderRes.ordersList = activeOpenOrders
 
         return openOrderRes
+    }
+
+    public async getByteFeeMultiplier (request: core.Null): Promise<bc.GetByteFeeResponse.AsObject> {
+        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetByteFeeMultiplier, request.toArray())
+        return result as bc.GetByteFeeResponse.AsObject
     }
 
     /**

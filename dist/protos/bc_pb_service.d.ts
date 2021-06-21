@@ -230,6 +230,15 @@ type BcSendTx = {
   readonly responseType: typeof bc_pb.RpcTransactionResponse;
 };
 
+type BcGetEmbBalance = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof bc_pb.GetBalanceRequest;
+  readonly responseType: typeof bc_pb.GetEmbBalanceResponse;
+};
+
 type BcGetBalance = {
   readonly methodName: string;
   readonly service: typeof Bc;
@@ -273,6 +282,15 @@ type BcGetUnlockTakerTxParams = {
   readonly responseStream: false;
   readonly requestType: typeof bc_pb.GetUnlockTakerTxParamsRequest;
   readonly responseType: typeof bc_pb.GetUnlockTakerTxParamsResponse;
+};
+
+type BcGetByteFeeMultiplier = {
+  readonly methodName: string;
+  readonly service: typeof Bc;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof core_pb.Null;
+  readonly responseType: typeof bc_pb.GetByteFeeResponse;
 };
 
 type BcGetTransfers = {
@@ -410,11 +428,13 @@ export class Bc {
   static readonly GetSettings: BcGetSettings;
   static readonly NewTx: BcNewTx;
   static readonly SendTx: BcSendTx;
+  static readonly GetEmbBalance: BcGetEmbBalance;
   static readonly GetBalance: BcGetBalance;
   static readonly GetWallet: BcGetWallet;
   static readonly GetSpendableOutpoints: BcGetSpendableOutpoints;
   static readonly GetSpendableCollateral: BcGetSpendableCollateral;
   static readonly GetUnlockTakerTxParams: BcGetUnlockTakerTxParams;
+  static readonly GetByteFeeMultiplier: BcGetByteFeeMultiplier;
   static readonly GetTransfers: BcGetTransfers;
   static readonly GetOpenOrders: BcGetOpenOrders;
   static readonly GetMatchedOrders: BcGetMatchedOrders;
@@ -686,6 +706,15 @@ export class BcClient {
     requestMessage: core_pb.Transaction,
     callback: (error: ServiceError|null, responseMessage: bc_pb.RpcTransactionResponse|null) => void
   ): UnaryResponse;
+  getEmbBalance(
+    requestMessage: bc_pb.GetBalanceRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetEmbBalanceResponse|null) => void
+  ): UnaryResponse;
+  getEmbBalance(
+    requestMessage: bc_pb.GetBalanceRequest,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetEmbBalanceResponse|null) => void
+  ): UnaryResponse;
   getBalance(
     requestMessage: bc_pb.GetBalanceRequest,
     metadata: grpc.Metadata,
@@ -730,6 +759,15 @@ export class BcClient {
   getUnlockTakerTxParams(
     requestMessage: bc_pb.GetUnlockTakerTxParamsRequest,
     callback: (error: ServiceError|null, responseMessage: bc_pb.GetUnlockTakerTxParamsResponse|null) => void
+  ): UnaryResponse;
+  getByteFeeMultiplier(
+    requestMessage: core_pb.Null,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetByteFeeResponse|null) => void
+  ): UnaryResponse;
+  getByteFeeMultiplier(
+    requestMessage: core_pb.Null,
+    callback: (error: ServiceError|null, responseMessage: bc_pb.GetByteFeeResponse|null) => void
   ): UnaryResponse;
   getTransfers(
     requestMessage: bc_pb.TransferRequest,

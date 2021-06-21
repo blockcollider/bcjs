@@ -388,6 +388,46 @@ export namespace GetBalanceRequest {
   }
 }
 
+export class GetEmbBalanceResponse extends jspb.Message {
+  getBalance(): string;
+  setBalance(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetEmbBalanceResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetEmbBalanceResponse): GetEmbBalanceResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetEmbBalanceResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetEmbBalanceResponse;
+  static deserializeBinaryFromReader(message: GetEmbBalanceResponse, reader: jspb.BinaryReader): GetEmbBalanceResponse;
+}
+
+export namespace GetEmbBalanceResponse {
+  export type AsObject = {
+    balance: string,
+  }
+}
+
+export class GetByteFeeResponse extends jspb.Message {
+  getFee(): string;
+  setFee(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetByteFeeResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetByteFeeResponse): GetByteFeeResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: GetByteFeeResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetByteFeeResponse;
+  static deserializeBinaryFromReader(message: GetByteFeeResponse, reader: jspb.BinaryReader): GetByteFeeResponse;
+}
+
+export namespace GetByteFeeResponse {
+  export type AsObject = {
+    fee: string,
+  }
+}
+
 export class GetBalanceResponse extends jspb.Message {
   getHeight(): number;
   setHeight(value: number): void;

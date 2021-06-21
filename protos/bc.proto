@@ -90,6 +90,14 @@ message GetBalanceRequest {
     string address = 1;
 }
 
+message GetEmbBalanceResponse {
+    string balance = 1;
+}
+
+message GetByteFeeResponse {
+    string fee = 1;
+}
+
 message GetBalanceResponse {
     uint32 height = 1;
     string confirmed = 2;
@@ -308,12 +316,14 @@ service Bc {
     rpc NewTx (RpcTransaction) returns (RpcTransactionResponse) {}
     rpc SendTx (Transaction) returns (RpcTransactionResponse) {}
 
+    rpc GetEmbBalance (GetBalanceRequest) returns (GetEmbBalanceResponse) {}
     rpc GetBalance (GetBalanceRequest) returns (GetBalanceResponse) {}
     rpc GetWallet (GetBalanceRequest) returns (WalletData) {}
     rpc GetSpendableOutpoints(GetSpendableCollateralRequest) returns (WalletData) {}
     rpc GetSpendableCollateral (GetSpendableCollateralRequest) returns (GetSpendableCollateralResponse) {}
     rpc GetUnlockTakerTxParams (GetUnlockTakerTxParamsRequest) returns (GetUnlockTakerTxParamsResponse) {}
 
+    rpc GetByteFeeMultiplier (Null) returns (GetByteFeeResponse) {}
 
     rpc GetTransfers (TransferRequest) returns (TransferResponse) {}
 

@@ -28,6 +28,28 @@ export const createOutPoint = (hash: string, index: number, val: BN): coreProtob
   return outPoint
 }
 
+export const getOutputByteLength = (output: coreProtobuf.TransactionOutput): BN => {
+  return new BN(output.getScriptLength()) //script
+    .add(new BN(output.getValue().length)) //value
+    .add(new BN(output.getUnit().length)) //unit
+    .add(new BN(4)) //scriptLength
+}
+
+export const getOutPointByteLength = (outPoint: coreProtobuf.OutPoint | undefined): BN => {
+  if(outPoint) {
+    return new BN(outPoint.getValue().length) //value
+      .add(new BN(8)) //index
+      .add(new BN(128)) //hash
+  }
+  else return new BN(0)
+}
+
+export const getInputByteLength = (input: coreProtobuf.TransactionInput): BN => {
+  return new BN(input.getScriptLength()) // script
+    .add(new BN(4)) //scriptLength
+    .add(getOutPointByteLength(input.getOutPoint()));
+}
+
 export const createTransactionInput = (outPoint: coreProtobuf.OutPoint, unlockScript: string):
   coreProtobuf.TransactionInput => {
     const input = new coreProtobuf.TransactionInput()

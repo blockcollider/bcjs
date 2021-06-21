@@ -34,6 +34,7 @@ var BcRpcMethod;
     BcRpcMethod["GetTradeStatus"] = "getTradeStatus";
     BcRpcMethod["GetOutpointStatus"] = "getOutpointStatus";
     BcRpcMethod["GetBcAddressViaVanity"] = "getBcAddressViaVanity";
+    BcRpcMethod["GetByteFeeMultiplier"] = "getByteFeeMultiplier";
     BcRpcMethod["GetLatestBlock"] = "getLatestBlock";
     BcRpcMethod["GetLatestRoveredBlocks"] = "getLatestRoveredBlocks";
     BcRpcMethod["GetBlockHeight"] = "getBlockHeight";
@@ -195,6 +196,12 @@ class RpcClient {
             }
             openOrderRes.ordersList = activeOpenOrders;
             return openOrderRes;
+        });
+    }
+    getByteFeeMultiplier(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetByteFeeMultiplier, request.toArray());
+            return result;
         });
     }
     /**
