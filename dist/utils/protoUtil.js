@@ -34,31 +34,32 @@ exports.createOutPoint = (hash, index, val) => {
     return outPoint;
 };
 exports.getOutputByteLength = (output) => {
-    return new bn_js_1.default(output.getScriptLength()) //script
-        .add(new bn_js_1.default(output.getValue().length)) //value
-        .add(new bn_js_1.default(output.getUnit().length)) //unit
-        .add(new bn_js_1.default(4)); //scriptLength
+    return new bn_js_1.default(output.getScriptLength()) // script
+        .add(new bn_js_1.default(output.getValue().length)) // value
+        .add(new bn_js_1.default(output.getUnit().length)) // unit
+        .add(new bn_js_1.default(4)); // scriptLength
 };
 exports.getOutPointByteLength = (outPoint) => {
     if (outPoint) {
-        return new bn_js_1.default(outPoint.getValue().length) //value
-            .add(new bn_js_1.default(8)) //index
-            .add(new bn_js_1.default(128)); //hash
+        return new bn_js_1.default(outPoint.getValue().length) // value
+            .add(new bn_js_1.default(8)) // index
+            .add(new bn_js_1.default(128)); // hash
     }
-    else
+    else {
         return new bn_js_1.default(0);
+    }
 };
 exports.getInputByteLength = (input) => {
     return new bn_js_1.default(input.getScriptLength()) // script
-        .add(new bn_js_1.default(4)) //scriptLength
+        .add(new bn_js_1.default(4)) // scriptLength
         .add(exports.getOutPointByteLength(input.getOutPoint()));
 };
 exports.getTransactionSize = (tx) => {
     let size = new bn_js_1.default(0);
-    for (let input of tx.getInputsList()) {
+    for (const input of tx.getInputsList()) {
         size = size.add(exports.getInputByteLength(input));
     }
-    for (let output of tx.getOutputsList()) {
+    for (const output of tx.getOutputsList()) {
         size = size.add(exports.getOutputByteLength(output));
     }
     return size;
