@@ -302,9 +302,10 @@ export default class RpcClient {
             params: rpcParams,
         }
 
+        let url = typeof(this.rpcUrl) === 'string' ? this.rpcUrl : this.rpcUrl.origin;
         let res
         try {
-            res = await fetch(`${this.rpcUrl.origin}/rpc`, {
+            res = await fetch(`${url}/rpc`, {
                 body: JSON.stringify(rpcBody),
                 headers: this.defaultHeaders,
                 method: 'post',

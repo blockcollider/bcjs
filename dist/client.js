@@ -264,9 +264,10 @@ class RpcClient {
                 method,
                 params: rpcParams,
             };
+            let url = typeof (this.rpcUrl) === 'string' ? this.rpcUrl : this.rpcUrl.origin;
             let res;
             try {
-                res = yield fetch(`${this.rpcUrl.origin}/rpc`, {
+                res = yield fetch(`${url}/rpc`, {
                     body: JSON.stringify(rpcBody),
                     headers: this.defaultHeaders,
                     method: 'post',
