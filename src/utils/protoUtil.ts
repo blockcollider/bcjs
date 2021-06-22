@@ -29,36 +29,35 @@ export const createOutPoint = (hash: string, index: number, val: BN): coreProtob
 }
 
 export const getOutputByteLength = (output: coreProtobuf.TransactionOutput): BN => {
-  return new BN(output.getScriptLength()) //script
-    .add(new BN(output.getValue().length)) //value
-    .add(new BN(output.getUnit().length)) //unit
-    .add(new BN(4)) //scriptLength
+  return new BN(output.getScriptLength()) // script
+    .add(new BN(output.getValue().length)) // value
+    .add(new BN(output.getUnit().length)) // unit
+    .add(new BN(4)) // scriptLength
 }
 
 export const getOutPointByteLength = (outPoint: coreProtobuf.OutPoint | undefined): BN => {
-  if(outPoint) {
-    return new BN(outPoint.getValue().length) //value
-      .add(new BN(8)) //index
-      .add(new BN(128)) //hash
-  }
-  else return new BN(0)
+  if (outPoint) {
+    return new BN(outPoint.getValue().length) // value
+      .add(new BN(8)) // index
+      .add(new BN(128)) // hash
+  } else { return new BN(0) }
 }
 
 export const getInputByteLength = (input: coreProtobuf.TransactionInput): BN => {
   return new BN(input.getScriptLength()) // script
-    .add(new BN(4)) //scriptLength
-    .add(getOutPointByteLength(input.getOutPoint()));
+    .add(new BN(4)) // scriptLength
+    .add(getOutPointByteLength(input.getOutPoint()))
 }
 
-export const getTransactionSize = (tx: coreProtobuf.Transaction) : BN => {
-  let size = new BN(0);
-  for (let input of tx.getInputsList()){
+export const getTransactionSize = (tx: coreProtobuf.Transaction): BN => {
+  let size = new BN(0)
+  for (const input of tx.getInputsList()) {
     size = size.add(getInputByteLength(input))
   }
-  for (let output of tx.getOutputsList()){
+  for (const output of tx.getOutputsList()) {
     size = size.add(getOutputByteLength(output))
   }
-  return size;
+  return size
 }
 
 export const createTransactionInput = (outPoint: coreProtobuf.OutPoint, unlockScript: string):
