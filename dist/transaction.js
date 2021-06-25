@@ -274,20 +274,13 @@ exports.calculateCrossChainTradeFee = function (collateralizedNRG, additionalTxF
     //   return txFeeBN
     // }
 };
-exports.calcTxFee = (tx) => {
-    const inputs = tx.getInputsList();
-    // if there are no inputs (this is a coinbase tx)
-    if (inputs.length === 0) {
-        return new bn_js_1.default(0);
-    }
-    const totalValueIn = inputs.reduce((valueIn, input) => {
-        const outPoint = input.getOutPoint();
+exports.inputsMinusOuputs = function (outPoints, outputs) {
+    const totalValueIn = outPoints.reduce((valueIn, outPoint) => {
         if (outPoint === undefined) {
             return valueIn;
         }
         return valueIn.add(coin_1.internalToBN(Buffer.from(outPoint.getValue()), coin_1.COIN_FRACS.BOSON));
     }, new bn_js_1.default(0));
-    const outputs = tx.getOutputsList();
     const totalValueOut = outputs.reduce((valueOut, output) => {
         return valueOut.add(coin_1.internalToBN(Buffer.from(output.getValue()), coin_1.COIN_FRACS.BOSON));
     }, new bn_js_1.default(0));
@@ -295,6 +288,14 @@ exports.calcTxFee = (tx) => {
         throw new Error('Collective input value cannot be less than collective output value');
     }
     return totalValueIn.sub(totalValueOut);
+};
+exports.calcTxFee = (tx) => {
+    const inputs = tx.getInputsList();
+    // if there are no inputs (this is a coinbase tx)
+    if (inputs.length === 0) {
+        return new bn_js_1.default(0);
+    }
+    return exports.inputsMinusOuputs(tx.getInputsList().map((o) => o.getOutPoint()), tx.getOutputsList());
 };
 const _calculateSpentAndLeftoverOutput = function (spendableWalletOutPointObjs, totalAmountBN, feePerByte, bcAddress) {
     let sumBN = new bn_js_1.default(0);
@@ -339,6 +340,24 @@ const _createTxWithOutputsAssigned = function (outputs) {
 };
 const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee = true, bcClient) {
     return __awaiter(this, void 0, void 0, function* () {
+        const { spentOutPoints, finalOutputs } = yield calculateOutputsAndOutpoints(spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, addDefaultFee, bcClient);
+        //if privateKey is empty, return the tx fee
+        if (bcPrivateKeyHex === '') {
+            return exports.inputsMinusOuputs(spentOutPoints, finalOutputs);
+        }
+        // txTemplate with output
+        const txTemplate = _createTxWithOutputsAssigned(finalOutputs);
+        // nrg inputs
+        const nrgUnlockInputs = templates_1.createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints);
+        const finalInputs = nonNRGinputs.concat(nrgUnlockInputs);
+        txTemplate.setInputsList(finalInputs);
+        txTemplate.setNinCount(finalInputs.length);
+        txTemplate.setHash(_generateTxHash(txTemplate));
+        return txTemplate;
+    });
+};
+const calculateOutputsAndOutpoints = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, addDefaultFee = true, bcClient) {
+    return __awaiter(this, void 0, void 0, function* () {
         const req = new coreProtobuf.Null();
         //get the bytefeemultipler based on the nodes tx pending pool
         let byteFeeMultiplier = '10';
@@ -369,15 +388,7 @@ const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, no
         if (leftoverOutput) {
             finalOutputs = txOutputs.concat([leftoverOutput]);
         }
-        // txTemplate with output
-        const txTemplate = _createTxWithOutputsAssigned(finalOutputs);
-        // nrg inputs
-        const nrgUnlockInputs = templates_1.createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints);
-        const finalInputs = nonNRGinputs.concat(nrgUnlockInputs);
-        txTemplate.setInputsList(finalInputs);
-        txTemplate.setNinCount(finalInputs.length);
-        txTemplate.setHash(_generateTxHash(txTemplate));
-        return txTemplate;
+        return { spentOutPoints, finalOutputs };
     });
 };
 const _generateTxHash = function (tx) {

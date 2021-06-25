@@ -84,7 +84,7 @@ export const createMultiNRGTransferTransaction = async function (
   transferAmountNRG: string[],
   txFeeNRG: string,
   addDefaultFee: boolean = true, bcClient: RpcClient,
-): Promise<coreProtobuf.Transaction> {
+): Promise<coreProtobuf.Transaction|BN> {
   if (toAddress.length !== transferAmountNRG.length) { throw new Error('incorrect length of args') }
 
   const transferAmountBN = transferAmountNRG.reduce((all, nrg) => {
@@ -128,7 +128,7 @@ export const createNRGTransferTransaction = async function (
   transferAmountNRG: string,
   txFeeNRG: string,
   addDefaultFee: boolean = true, bcClient: RpcClient,
-): Promise<coreProtobuf.Transaction>{
+): Promise<coreProtobuf.Transaction|BN>{
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
   const totalAmountBN = transferAmountBN.add(txFeeBN)
@@ -271,7 +271,7 @@ export const createOverlineChannelMessage = async function (
   transferAmountNRG: string,
   txFeeNRG: string,
   addDefaultFee: boolean = true, bcClient: RpcClient,
-): Promise<coreProtobuf.Transaction>{
+): Promise<coreProtobuf.Transaction|BN>{
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
   const totalAmountBN = transferAmountBN.add(txFeeBN)
@@ -360,7 +360,7 @@ export const createUnlockTakerTx = async function (
   txHash: string, txOutputIndex: number,
   bcAddress: string, privateKeyHex: string,
   bcClient: RpcClient,
-): Promise<coreProtobuf.Transaction | null> {
+): Promise<coreProtobuf.Transaction | null |BN> {
   const req = new bcProtobuf.GetUnlockTakerTxParamsRequest()
   req.setTxHash(txHash)
   req.setTxOutputIndex(txOutputIndex)
@@ -410,22 +410,14 @@ export const calculateCrossChainTradeFee = function (collateralizedNRG: string, 
   // }
 }
 
-export const calcTxFee = (tx: coreProtobuf.Transaction): BN => {
-  const inputs = tx.getInputsList()
-  // if there are no inputs (this is a coinbase tx)
-  if (inputs.length === 0) {
-    return new BN(0)
-  }
-
-  const totalValueIn = inputs.reduce((valueIn, input) => {
-    const outPoint = input.getOutPoint()
+export const inputsMinusOuputs = function(outPoints: (coreProtobuf.OutPoint|undefined)[], outputs: coreProtobuf.TransactionOutput[]):BN {
+  const totalValueIn = outPoints.reduce((valueIn, outPoint) => {
     if (outPoint === undefined) {
         return valueIn
     }
     return valueIn.add(internalToBN(Buffer.from(outPoint.getValue() as Uint8Array), COIN_FRACS.BOSON))
   }, new BN(0))
 
-  const outputs = tx.getOutputsList()
   const totalValueOut = outputs.reduce((valueOut, output) => {
     return valueOut.add(internalToBN(Buffer.from(output.getValue() as Uint8Array), COIN_FRACS.BOSON))
   }, new BN(0))
@@ -434,6 +426,19 @@ export const calcTxFee = (tx: coreProtobuf.Transaction): BN => {
     throw new Error('Collective input value cannot be less than collective output value')
   }
   return totalValueIn.sub(totalValueOut)
+}
+
+export const calcTxFee = (tx: coreProtobuf.Transaction): BN => {
+  const inputs = tx.getInputsList()
+  // if there are no inputs (this is a coinbase tx)
+  if (inputs.length === 0) {
+    return new BN(0)
+  }
+
+  return inputsMinusOuputs(
+    tx.getInputsList().map((o)=>o.getOutPoint()),
+    tx.getOutputsList()
+  )
 }
 
 const _calculateSpentAndLeftoverOutput = function (spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN, feePerByte: BN, bcAddress: string): {
@@ -495,7 +500,39 @@ const _compileTransaction = async function (
   bcAddress: string,
   bcPrivateKeyHex: string,
   addDefaultFee: boolean = true, bcClient: RpcClient,
-): Promise<coreProtobuf.Transaction> {
+): Promise<coreProtobuf.Transaction | BN> {
+
+  const {spentOutPoints,finalOutputs} = await calculateOutputsAndOutpoints(
+    spendableWalletOutPointObjs, txOutputs, nonNRGinputs,totalAmountBN,
+    bcAddress, addDefaultFee, bcClient
+  )
+
+  //if privateKey is empty, return the tx fee
+  if(bcPrivateKeyHex === ''){
+    return inputsMinusOuputs(spentOutPoints,finalOutputs)
+  }
+
+  // txTemplate with output
+  const txTemplate = _createTxWithOutputsAssigned(finalOutputs)
+  // nrg inputs
+  const nrgUnlockInputs = createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints)
+  const finalInputs = nonNRGinputs.concat(nrgUnlockInputs)
+
+  txTemplate.setInputsList(finalInputs)
+  txTemplate.setNinCount(finalInputs.length)
+  txTemplate.setHash(_generateTxHash(txTemplate))
+
+  return txTemplate
+}
+
+const calculateOutputsAndOutpoints = async function (
+  spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
+  txOutputs: coreProtobuf.TransactionOutput[],
+  nonNRGinputs: coreProtobuf.TransactionInput[],
+  totalAmountBN: BN,
+  bcAddress: string,
+  addDefaultFee: boolean = true, bcClient: RpcClient
+) : Promise<{finalOutputs:coreProtobuf.TransactionOutput[],spentOutPoints:coreProtobuf.OutPoint[]}> {
   const req = new coreProtobuf.Null();
 
   //get the bytefeemultipler based on the nodes tx pending pool
@@ -532,18 +569,7 @@ const _compileTransaction = async function (
   if (leftoverOutput) {
     finalOutputs = txOutputs.concat([leftoverOutput])
   }
-
-  // txTemplate with output
-  const txTemplate = _createTxWithOutputsAssigned(finalOutputs)
-  // nrg inputs
-  const nrgUnlockInputs = createSignedNRGUnlockInputs(bcAddress, bcPrivateKeyHex, txTemplate, spentOutPoints)
-  const finalInputs = nonNRGinputs.concat(nrgUnlockInputs)
-
-  txTemplate.setInputsList(finalInputs)
-  txTemplate.setNinCount(finalInputs.length)
-  txTemplate.setHash(_generateTxHash(txTemplate))
-
-  return txTemplate
+  return {spentOutPoints,finalOutputs}
 }
 
 const _generateTxHash = function (tx: coreProtobuf.Transaction): string {
