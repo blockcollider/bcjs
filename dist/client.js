@@ -264,13 +264,7 @@ class RpcClient {
                 method,
                 params: rpcParams,
             };
-            let url = `${this.rpcUrl}`;
-            try {
-                if (this.rpcUrl.origin)
-                    url = `${this.rpcUrl.origin}`;
-            }
-            catch (err) {
-            }
+            let url = this.rpcUrl.origin ? `${this.rpcUrl}` : `${this.rpcUrl.origin}`;
             url = url.endsWith('/') ? `${url}rpc` : `${url}/rpc`;
             let res;
             try {
