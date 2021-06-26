@@ -302,14 +302,12 @@ export default class RpcClient {
             params: rpcParams,
         }
 
-        let url = `${this.rpcUrl}`;
+        let url
         try {
-            if (this.rpcUrl.origin)
-                url = `${this.rpcUrl.origin}`;
+            url = this.rpcUrl.origin ? `${this.rpcUrl.origin}` : `${this.rpcUrl}`
+        } catch (err) { /* tslint:disable:no-empty */
         }
-        catch (err) {
-        }
-        
+
         url = url.endsWith('/') ? `${url}rpc` : `${url}/rpc`
 
         let res
