@@ -8,11 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 /* tslint:disable:max-line-length */
 /* tslint:disable:interface-name */
 require('es6-promise').polyfill(); /* tslint:disable-line */
 require('isomorphic-fetch'); /* tslint:disable-line */
+const bc = __importStar(require("./protos/bc_pb"));
 var BcRpcMethod;
 (function (BcRpcMethod) {
     BcRpcMethod["NewTx"] = "newTx";
@@ -22,6 +30,7 @@ var BcRpcMethod;
     BcRpcMethod["GetWallet"] = "getWallet";
     BcRpcMethod["GetSpendableCollateral"] = "getSpendableCollateral";
     BcRpcMethod["GetUnlockTakerTxParams"] = "getUnlockTakerTxParams";
+    BcRpcMethod["GetUnmatchedOrder"] = "getUnmatchedOrders";
     BcRpcMethod["PlaceMakerOrder"] = "placeMakerOrder";
     BcRpcMethod["PlaceTakerOrder"] = "placeTakerOrder";
     BcRpcMethod["PlaceTakerOrders"] = "placeTakerOrders";
@@ -46,6 +55,7 @@ var BcRpcMethod;
     BcRpcMethod["GetTx"] = "getTx";
     BcRpcMethod["GetMarkedTx"] = "getMarkedTx";
     BcRpcMethod["SendTx"] = "sendTx";
+    BcRpcMethod["GetUTXOLength"] = "getUTXOLength";
 })(BcRpcMethod || (BcRpcMethod = {}));
 function btoa(str) {
     let buffer;
@@ -172,21 +182,115 @@ class RpcClient {
             return result;
         });
     }
+    getUnlockableOrders(bcAddress) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const tokenDictionary = {
+                btc: 'btc',
+                dai: 'eth',
+                emb: 'eth',
+                eth: 'eth',
+                lsk: 'lsk',
+                neo: 'neo',
+                nrg: 'bc',
+                usdt: 'eth',
+                wav: 'wav',
+                xaut: 'eth',
+            };
+            function getChild(block, child) {
+                if (child.toLowerCase() === 'nrg') {
+                    return block.height;
+                }
+                else {
+                    if (block.blockchainHeaders) {
+                        const childChain = tokenDictionary[child];
+                        const subChains = block.blockchainHeaders[`${childChain}List`];
+                        return subChains[subChains.length - 1].height;
+                    }
+                    else {
+                        throw new Error('Invalid Block');
+                    }
+                }
+            }
+            const self = this;
+            function canUnlock(latestBlock, tradeHeight, settlement, shiftMaker, shiftTaker, sendsFromChain, receivesToChain) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        const bcLeft = tradeHeight + settlement - latestBlock.height;
+                        if (bcLeft > 0) {
+                            return false;
+                        }
+                        else {
+                            const getBlockHeightReq = new bc.GetBlockHeightRequest();
+                            getBlockHeightReq.setHeight(tradeHeight + settlement);
+                            let data = yield self.getBlockHeight(getBlockHeightReq);
+                            data = data;
+                            if (data && data.hash) {
+                                const settleBlock = data;
+                                const lastestChildMaker = getChild(latestBlock, sendsFromChain);
+                                const lastestChildTaker = getChild(latestBlock, receivesToChain);
+                                const settleChildMaker = getChild(settleBlock, sendsFromChain);
+                                const settleChildTaker = getChild(settleBlock, receivesToChain);
+                                const takerLeft = settleChildTaker + shiftTaker + 1 - lastestChildTaker;
+                                const makerLeft = settleChildMaker + shiftMaker + 1 - lastestChildMaker;
+                                return takerLeft <= 0 && makerLeft <= 0;
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                    }
+                    catch (err) {
+                        return false;
+                    }
+                });
+            }
+            const req = new bc.GetSpendableCollateralRequest();
+            req.setAddress(bcAddress);
+            const latestBcBlockResult = yield this.getLatestBlock();
+            const latestBcBlock = latestBcBlockResult;
+            const unlockableOrders = [];
+            const matchedOrdersResult = yield this.getMatchedOrders(req);
+            const matchedOrders = matchedOrdersResult.ordersList;
+            for (const o of matchedOrders) {
+                if (o.maker) {
+                    const unlockable = yield canUnlock(latestBcBlock, o.maker.tradeHeight, o.maker.settlement, o.maker.shiftMaker, o.maker.shiftTaker, o.maker.sendsFromChain, o.maker.receivesToChain);
+                    if (unlockable) {
+                        unlockableOrders.push(o.maker);
+                    }
+                }
+            }
+            const openOrdersResult = yield this.getOpenOrders(req);
+            const openOrders = openOrdersResult.ordersList;
+            for (const o of openOrders) {
+                const unlockable = yield canUnlock(latestBcBlock, o.tradeHeight, o.settlement, o.shiftMaker, o.shiftTaker, o.sendsFromChain, o.receivesToChain);
+                if (unlockable) {
+                    unlockableOrders.push(o);
+                }
+            }
+            return unlockableOrders;
+        });
+    }
+    getUnmatchedOrders(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield this.makeJsonRpcRequest(BcRpcMethod.GetUnmatchedOrder, request.toArray());
+            return res;
+        });
+    }
     /**
      * Return all active open orders, which excludes expired open orders
      */
     getActiveOpenOrders(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, request.toArray());
-            if ('code' in result) {
-                return result;
+            const openOrdersResult = yield this.getOpenOrders(request);
+            if ('code' in openOrdersResult) {
+                return openOrdersResult;
             }
             const latestBcBlock = yield this.getLatestBlock();
             if ('code' in latestBcBlock) {
-                return result;
+                return openOrdersResult;
             }
             const latestBcBlockHeight = latestBcBlock.height;
-            const openOrderRes = result;
+            const openOrderRes = openOrdersResult;
             const ordersList = openOrderRes.ordersList;
             const activeOpenOrders = [];
             for (const order of ordersList) {
@@ -209,8 +313,38 @@ class RpcClient {
      */
     getOpenOrders(request) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, request.toArray());
-            return result;
+            let bcAddress = '';
+            if (request.getAddress()) {
+                bcAddress = request.getAddress();
+            }
+            let data = yield this.makeJsonRpcRequest(BcRpcMethod.GetUTXOLength, ['maker_output', null]);
+            const makerUtxoLengthResult = data;
+            data = yield this.makeJsonRpcRequest(BcRpcMethod.GetUTXOLength, ['taker_callback', null]);
+            const takerUtxoLengthResult = data;
+            const sum = makerUtxoLengthResult.length + takerUtxoLengthResult.length;
+            let ordersList = [];
+            if (sum > 0) {
+                const final = sum;
+                let from = 0;
+                let to = 1000;
+                let search = true;
+                while (search) {
+                    const req = new bc.GetSpendableCollateralRequest();
+                    req.setAddress(bcAddress);
+                    req.setFrom(from);
+                    req.setTo(to);
+                    const result = yield this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, req.toArray());
+                    const newOrders = result;
+                    ordersList = ordersList.concat(newOrders.ordersList);
+                    if (to === final) {
+                        search = false;
+                    }
+                    from = to + 1;
+                    to = to + 1000 > final ? final : to + 1000;
+                }
+            }
+            const openOrdersRes = { ordersList };
+            return openOrdersRes;
         });
     }
     sendTx(request) {
@@ -266,10 +400,9 @@ class RpcClient {
             };
             let url = `${this.rpcUrl}`;
             try {
-                if (this.rpcUrl.origin)
-                    url = `${this.rpcUrl.origin}`;
+                url = this.rpcUrl.origin ? `${this.rpcUrl.origin}` : `${this.rpcUrl}`;
             }
-            catch (err) {
+            catch (err) { /* tslint:disable:no-empty */
             }
             url = url.endsWith('/') ? `${url}rpc` : `${url}/rpc`;
             let res;

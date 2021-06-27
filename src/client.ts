@@ -462,7 +462,7 @@ export default class RpcClient {
             params: rpcParams,
         }
 
-        let url
+        let url = `${this.rpcUrl}`
         try {
             url = this.rpcUrl.origin ? `${this.rpcUrl.origin}` : `${this.rpcUrl}`
         } catch (err) { /* tslint:disable:no-empty */

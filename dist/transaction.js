@@ -310,11 +310,14 @@ const _calculateSpentAndLeftoverOutput = function (spendableWalletOutPointObjs, 
         const outPoint = protoUtil_1.createOutPoint(outPointObj.hash, outPointObj.index, currentBN);
         //update totalAmountBN based on the new outpoint being spent
         let inputFee = (protoUtil_1.getOutPointByteLength(outPoint).add(new bn_js_1.default(105)).add(new bn_js_1.default(4))).mul(feePerByte);
-        totalAmountBN.add(inputFee);
+        totalAmountBN = totalAmountBN.add(inputFee);
         sumBN = sumBN.add(currentBN);
         spentOutPoints.push(outPoint);
         if (sumBN.gt(totalAmountBN)) {
             //calculate the extra output byte fee that will be created due
+            leftoverOutput = protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN));
+            let leftoverFee = protoUtil_1.getOutputByteLength(leftoverOutput).mul(feePerByte);
+            totalAmountBN = totalAmountBN.add(leftoverFee);
             leftoverOutput = protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN));
             if (sumBN.gte(totalAmountBN.add(protoUtil_1.getOutputByteLength(leftoverOutput).mul(feePerByte)))) {
                 break;

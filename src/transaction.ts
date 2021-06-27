@@ -458,12 +458,15 @@ const _calculateSpentAndLeftoverOutput = function (spendableWalletOutPointObjs: 
 
     //update totalAmountBN based on the new outpoint being spent
     let inputFee = (getOutPointByteLength(outPoint).add(new BN(105)).add(new BN(4))).mul(feePerByte)
-    totalAmountBN.add(inputFee);
+    totalAmountBN = totalAmountBN.add(inputFee);
 
     sumBN = sumBN.add(currentBN)
     spentOutPoints.push(outPoint)
     if (sumBN.gt(totalAmountBN)) {
       //calculate the extra output byte fee that will be created due
+      leftoverOutput = createTransactionOutput(createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN))
+      let leftoverFee = getOutputByteLength(leftoverOutput).mul(feePerByte);
+      totalAmountBN = totalAmountBN.add(leftoverFee);
       leftoverOutput = createTransactionOutput(createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN))
       if(sumBN.gte(totalAmountBN.add(getOutputByteLength(leftoverOutput).mul(feePerByte)))) {
         break;
