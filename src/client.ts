@@ -24,9 +24,10 @@ type BcRpcResponse =
     bc.GetUnlockTakerTxParamsResponse.AsObject |
     bc.GetOpenOrdersResponse.AsObject |
     bc.VanityConvertResponse.AsObject |
-    bc.GetByteFeeResponse.AsObject
+    bc.GetByteFeeResponse.AsObject |
+    bc.GetUtxoLengthResponse.AsObject
 
-type JsonRpcParams = Array<string | number> | Buffer
+type JsonRpcParams = Array<string | number | null> | Buffer
 type JsonRpcVersion = '2.0'
 type JsonRpcReservedMethod = string
 type JsonRpcId = number | string | void
@@ -40,6 +41,7 @@ enum BcRpcMethod {
     GetSpendableCollateral  = 'getSpendableCollateral',
 
     GetUnlockTakerTxParams = 'getUnlockTakerTxParams',
+    GetUnmatchedOrder = 'getUnmatchedOrders',
 
     PlaceMakerOrder  = 'placeMakerOrder',
     PlaceTakerOrder  = 'placeTakerOrder',
@@ -67,6 +69,8 @@ enum BcRpcMethod {
     GetTx = 'getTx',
     GetMarkedTx = 'getMarkedTx',
     SendTx = 'sendTx',
+    GetUTXOLength = 'getUTXOLength',
+
 }
 
 interface JsonRpcRequest<T> {
@@ -209,28 +213,145 @@ export default class RpcClient {
         return result as bc.GetUnlockTakerTxParamsResponse.AsObject
     }
 
+    public async getUnlockableOrders (bcAddress: string) {
+        const tokenDictionary = {
+          btc: 'btc',
+          dai: 'eth',
+          emb: 'eth',
+          eth: 'eth',
+          lsk: 'lsk',
+          neo: 'neo',
+          nrg: 'bc',
+          usdt: 'eth',
+          wav: 'wav',
+          xaut: 'eth',
+        }
+
+        function getChild (block: core.BcBlock.AsObject, child: string): number {
+            if (child.toLowerCase() === 'nrg') {
+                return block.height
+            } else {
+                if (block.blockchainHeaders) {
+                    const childChain: string = tokenDictionary[child]
+                    const subChains = block.blockchainHeaders[`${childChain}List`]
+                    return subChains[subChains.length - 1].height
+                } else {
+                    throw new Error('Invalid Block')
+                }
+            }
+        }
+
+        const self = this
+        async function canUnlock (
+            latestBlock: core.BcBlock.AsObject,
+            tradeHeight: number,
+            settlement: number,
+            shiftMaker: number,
+            shiftTaker: number,
+            sendsFromChain: string,
+            receivesToChain: string,
+        ): Promise<boolean> {
+            try {
+                const bcLeft = tradeHeight + settlement - latestBlock.height
+                if (bcLeft > 0) {
+                    return false
+                } else {
+                    const getBlockHeightReq = new bc.GetBlockHeightRequest()
+                    getBlockHeightReq.setHeight(tradeHeight + settlement)
+
+                    let data = await self.getBlockHeight(getBlockHeightReq)
+                    data = data as core.BcBlock.AsObject
+                    if (data && data.hash) {
+                        const settleBlock = data
+                        const lastestChildMaker = getChild(latestBlock, sendsFromChain)
+                        const lastestChildTaker = getChild(latestBlock, receivesToChain)
+                        const settleChildMaker = getChild(settleBlock, sendsFromChain)
+                        const settleChildTaker = getChild(settleBlock, receivesToChain)
+
+                        const takerLeft = settleChildTaker + shiftTaker + 1 - lastestChildTaker
+                        const makerLeft = settleChildMaker + shiftMaker + 1 - lastestChildMaker
+
+                        return takerLeft <= 0 && makerLeft <= 0
+
+                    } else {
+                        return false
+                    }
+                }
+            } catch (err) {
+                return false
+            }
+
+        }
+        const req = new bc.GetSpendableCollateralRequest()
+        req.setAddress(bcAddress)
+
+        const latestBcBlockResult: core.BcBlock.AsObject | JsonRpcError<BcRpcResponse> = await this.getLatestBlock()
+        const latestBcBlock = latestBcBlockResult as core.BcBlock.AsObject
+
+        const unlockableOrders: bc.MakerOrderInfo.AsObject[] = []
+        const matchedOrdersResult = await this.getMatchedOrders(req)
+        const matchedOrders = matchedOrdersResult.ordersList
+        for (const o of matchedOrders) {
+            if (o.maker) {
+                const unlockable = await canUnlock(
+                    latestBcBlock,
+                    o.maker.tradeHeight,
+                    o.maker.settlement,
+                    o.maker.shiftMaker,
+                    o.maker.shiftTaker,
+                    o.maker.sendsFromChain,
+                    o.maker.receivesToChain,
+                )
+                if (unlockable) {
+                    unlockableOrders.push(o.maker)
+                }
+            }
+        }
+        const openOrdersResult = await this.getOpenOrders(req)
+        const openOrders = openOrdersResult.ordersList
+        for (const o of openOrders) {
+            const unlockable = await canUnlock(
+                latestBcBlock,
+                o.tradeHeight,
+                o.settlement,
+                o.shiftMaker,
+                o.shiftTaker,
+                o.sendsFromChain,
+                o.receivesToChain,
+            )
+            if (unlockable) {
+                unlockableOrders.push(o)
+            }
+        }
+
+        return unlockableOrders
+    }
+
+    public async getUnmatchedOrders (request: bc.GetBalanceRequest): Promise<bc.GetOpenOrdersResponse.AsObject> {
+        const res = await this.makeJsonRpcRequest(BcRpcMethod.GetUnmatchedOrder, request.toArray())
+
+        return res as bc.GetOpenOrdersResponse.AsObject
+    }
+
     /**
      * Return all active open orders, which excludes expired open orders
      */
     public async getActiveOpenOrders (
-        request: core.Null,
+        request: bc.GetSpendableCollateralRequest,
     ): Promise<bc.GetOpenOrdersResponse.AsObject | JsonRpcError<BcRpcResponse>> {
-        const result: BcRpcResponse | JsonRpcError<BcRpcResponse> = await this.makeJsonRpcRequest(
-            BcRpcMethod.GetOpenOrders,
-            request.toArray(),
-        )
+        const openOrdersResult: BcRpcResponse | JsonRpcError<BcRpcResponse> = await this.getOpenOrders(request)
 
-        if ('code' in result) {
-            return result as JsonRpcError<BcRpcResponse>
+        if ('code' in openOrdersResult) {
+            return openOrdersResult as JsonRpcError<BcRpcResponse>
         }
 
         const latestBcBlock: core.BcBlock.AsObject | JsonRpcError<BcRpcResponse> = await this.getLatestBlock()
         if ('code' in latestBcBlock) {
-            return result as bc.GetOpenOrdersResponse.AsObject
+            return openOrdersResult as bc.GetOpenOrdersResponse.AsObject
         }
         const latestBcBlockHeight = latestBcBlock.height
 
-        const openOrderRes: bc.GetOpenOrdersResponse.AsObject = result as bc.GetOpenOrdersResponse.AsObject
+        const openOrderRes: bc.GetOpenOrdersResponse.AsObject = openOrdersResult as bc.GetOpenOrdersResponse.AsObject
 
         const ordersList: bc.MakerOrderInfo.AsObject[] = openOrderRes.ordersList
         const activeOpenOrders: bc.MakerOrderInfo.AsObject[] = []
@@ -253,9 +374,48 @@ export default class RpcClient {
     /**
      * Return all open orders, which includes expired open orders
      */
-    public async getOpenOrders (request: core.Null): Promise<bc.GetOpenOrdersResponse.AsObject> {
-        const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, request.toArray())
-        return result as bc.GetOpenOrdersResponse.AsObject
+    public async getOpenOrders (request: bc.GetSpendableCollateralRequest): Promise<bc.GetOpenOrdersResponse.AsObject> {
+        let bcAddress: string = ''
+        if (request.getAddress()) {
+            bcAddress = request.getAddress()
+        }
+
+        let data = await this.makeJsonRpcRequest(BcRpcMethod.GetUTXOLength, ['maker_output', null])
+        const makerUtxoLengthResult: bc.GetUtxoLengthResponse.AsObject = data as bc.GetUtxoLengthResponse.AsObject
+
+        data = await this.makeJsonRpcRequest(BcRpcMethod.GetUTXOLength, ['taker_callback', null])
+        const takerUtxoLengthResult: bc.GetUtxoLengthResponse.AsObject = data as bc.GetUtxoLengthResponse.AsObject
+
+        const sum: number = makerUtxoLengthResult.length + takerUtxoLengthResult.length
+
+        let ordersList: bc.MakerOrderInfo.AsObject[] = []
+        if (sum > 0) {
+            const final: number = sum
+            let from: number = 0
+            let to: number = 1000
+            let search: boolean = true
+            while (search) {
+                const req = new bc.GetSpendableCollateralRequest()
+                req.setAddress(bcAddress)
+                req.setFrom(from)
+                req.setTo(to)
+
+                const result = await this.makeJsonRpcRequest(BcRpcMethod.GetOpenOrders, req.toArray())
+                const newOrders: bc.GetOpenOrdersResponse.AsObject = result as bc.GetOpenOrdersResponse.AsObject
+
+                ordersList = ordersList.concat(newOrders.ordersList)
+
+                if (to === final) {
+                    search = false
+                }
+                from = to + 1
+                to = to + 1000 > final ? final : to + 1000
+            }
+        }
+
+        const openOrdersRes: bc.GetOpenOrdersResponse.AsObject = {ordersList}
+
+        return openOrdersRes
     }
 
     public async sendTx (request: core.Transaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
@@ -263,7 +423,7 @@ export default class RpcClient {
         return result as bc.RpcTransactionResponse.AsObject
     }
 
-    public async getMatchedOrders (request: bc.GetBalanceRequest): Promise<bc.GetMatchedOrdersResponse.AsObject> {
+    public async getMatchedOrders (request: bc.GetSpendableCollateralRequest): Promise<bc.GetMatchedOrdersResponse.AsObject> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.GetMatchedOrders, Buffer.from(request.serializeBinary()))
         return result as bc.GetMatchedOrdersResponse.AsObject
     }
