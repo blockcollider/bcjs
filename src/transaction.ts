@@ -361,10 +361,26 @@ export const createUnlockTakerTx = async function (
   bcAddress: string, privateKeyHex: string,
   bcClient: RpcClient,
 ): Promise<coreProtobuf.Transaction | null |BN> {
-  const req = new bcProtobuf.GetUnlockTakerTxParamsRequest()
+  let req = new bcProtobuf.GetUnlockTakerTxParamsRequest()
   req.setTxHash(txHash)
   req.setTxOutputIndex(txOutputIndex)
   const unlockTakerTxParams = await bcClient.getUnlockTakerTxParams(req)
+
+  console.log({bcClient});
+  //get the bytefeemultipler based on the nodes tx pending pool
+  let byteFeeMultiplier = '10';
+  try {
+    const req1 = new coreProtobuf.Null();
+    let multiplier = await bcClient.getByteFeeMultiplier(req1);
+    if(multiplier && multiplier.fee) byteFeeMultiplier = multiplier.fee;
+  }
+  catch(err){
+    console.log({err});
+  }
+
+  let feePerByte = new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier)).mul(new Decimal(1.05)).round().toString());
+
+
   const unlockScripts = unlockTakerTxParams.unlockScriptsList
 
   if (unlockScripts.length > 0) {
@@ -373,17 +389,29 @@ export const createUnlockTakerTx = async function (
     }
     const unlockBOSON = internalToBN(convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx as string),
                                      COIN_FRACS.BOSON)
+    const outpoint = createOutPoint(txHash, txOutputIndex, unlockBOSON)
+
+    let inputFee = (getOutPointByteLength(outpoint).add(new BN(105)).add(new BN(4))).mul(feePerByte)
 
     let outputs: coreProtobuf.TransactionOutput[] = []
     if (unlockScripts.length === 2) { // both settled
       outputs = unlockScripts.map(unlockScript => createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new BN(2))))
+
     } else { // one party settled
       outputs = [createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)]
+    }
+    let outputFee = outputs.reduce((all,o)=>{return all.add(getOutputByteLength(o).mul(feePerByte))},new BN(0));
+    let totalFee = outputFee.add(inputFee);
+
+    if (unlockScripts.length === 2) { // both settled
+      outputs = unlockScripts.map(unlockScript => createTransactionOutput(unlockScript, unitBN, unlockBOSON.sub(totalFee).div(new BN(2))))
+
+    } else { // one party settled
+      outputs = [createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON.sub(totalFee))]
     }
 
     const tx = _createTxWithOutputsAssigned(outputs)
 
-    const outpoint = createOutPoint(txHash, txOutputIndex, unlockBOSON)
     const inputs = createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint])
 
     tx.setInputsList(inputs)

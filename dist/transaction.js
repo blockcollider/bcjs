@@ -232,16 +232,31 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
 };
 exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privateKeyHex, bcClient) {
     return __awaiter(this, void 0, void 0, function* () {
-        const req = new bcProtobuf.GetUnlockTakerTxParamsRequest();
+        let req = new bcProtobuf.GetUnlockTakerTxParamsRequest();
         req.setTxHash(txHash);
         req.setTxOutputIndex(txOutputIndex);
         const unlockTakerTxParams = yield bcClient.getUnlockTakerTxParams(req);
+        console.log({ bcClient });
+        //get the bytefeemultipler based on the nodes tx pending pool
+        let byteFeeMultiplier = '10';
+        try {
+            const req1 = new coreProtobuf.Null();
+            let multiplier = yield bcClient.getByteFeeMultiplier(req1);
+            if (multiplier && multiplier.fee)
+                byteFeeMultiplier = multiplier.fee;
+        }
+        catch (err) {
+            console.log({ err });
+        }
+        let feePerByte = new bn_js_1.default(BOSON_PER_BYTE.mul(new decimal_js_1.Decimal(byteFeeMultiplier)).mul(new decimal_js_1.Decimal(1.05)).round().toString());
         const unlockScripts = unlockTakerTxParams.unlockScriptsList;
         if (unlockScripts.length > 0) {
             if (privateKeyHex.startsWith('0x')) {
                 privateKeyHex = privateKeyHex.slice(2);
             }
             const unlockBOSON = coin_1.internalToBN(protoUtil_1.convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx), coin_1.COIN_FRACS.BOSON);
+            const outpoint = protoUtil_1.createOutPoint(txHash, txOutputIndex, unlockBOSON);
+            let inputFee = (protoUtil_1.getOutPointByteLength(outpoint).add(new bn_js_1.default(105)).add(new bn_js_1.default(4))).mul(feePerByte);
             let outputs = [];
             if (unlockScripts.length === 2) { // both settled
                 outputs = unlockScripts.map(unlockScript => protoUtil_1.createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new bn_js_1.default(2))));
@@ -249,8 +264,15 @@ exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privat
             else { // one party settled
                 outputs = [protoUtil_1.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)];
             }
+            let outputFee = outputs.reduce((all, o) => { return all.add(protoUtil_1.getOutputByteLength(o).mul(feePerByte)); }, new bn_js_1.default(0));
+            let totalFee = outputFee.add(inputFee);
+            if (unlockScripts.length === 2) { // both settled
+                outputs = unlockScripts.map(unlockScript => protoUtil_1.createTransactionOutput(unlockScript, unitBN, unlockBOSON.sub(totalFee).div(new bn_js_1.default(2))));
+            }
+            else { // one party settled
+                outputs = [protoUtil_1.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON.sub(totalFee))];
+            }
             const tx = _createTxWithOutputsAssigned(outputs);
-            const outpoint = protoUtil_1.createOutPoint(txHash, txOutputIndex, unlockBOSON);
             const inputs = templates_1.createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint]);
             tx.setInputsList(inputs);
             tx.setNinCount(inputs.length);
