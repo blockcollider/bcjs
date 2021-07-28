@@ -391,23 +391,12 @@ export const createUnlockTakerTx = async function (
                                      COIN_FRACS.BOSON)
     const outpoint = createOutPoint(txHash, txOutputIndex, unlockBOSON)
 
-    let inputFee = (getOutPointByteLength(outpoint).add(new BN(105)).add(new BN(4))).mul(feePerByte)
-
     let outputs: coreProtobuf.TransactionOutput[] = []
     if (unlockScripts.length === 2) { // both settled
       outputs = unlockScripts.map(unlockScript => createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new BN(2))))
 
     } else { // one party settled
       outputs = [createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)]
-    }
-    let outputFee = outputs.reduce((all,o)=>{return all.add(getOutputByteLength(o).mul(feePerByte))},new BN(0));
-    let totalFee = outputFee.add(inputFee);
-
-    if (unlockScripts.length === 2) { // both settled
-      outputs = unlockScripts.map(unlockScript => createTransactionOutput(unlockScript, unitBN, unlockBOSON.sub(totalFee).div(new BN(2))))
-
-    } else { // one party settled
-      outputs = [createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON.sub(totalFee))]
     }
 
     const tx = _createTxWithOutputsAssigned(outputs)

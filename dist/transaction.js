@@ -256,21 +256,12 @@ exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privat
             }
             const unlockBOSON = coin_1.internalToBN(protoUtil_1.convertProtoBufSerializedBytesToBuffer(unlockTakerTxParams.valueInTx), coin_1.COIN_FRACS.BOSON);
             const outpoint = protoUtil_1.createOutPoint(txHash, txOutputIndex, unlockBOSON);
-            let inputFee = (protoUtil_1.getOutPointByteLength(outpoint).add(new bn_js_1.default(105)).add(new bn_js_1.default(4))).mul(feePerByte);
             let outputs = [];
             if (unlockScripts.length === 2) { // both settled
                 outputs = unlockScripts.map(unlockScript => protoUtil_1.createTransactionOutput(unlockScript, unitBN, unlockBOSON.div(new bn_js_1.default(2))));
             }
             else { // one party settled
                 outputs = [protoUtil_1.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON)];
-            }
-            let outputFee = outputs.reduce((all, o) => { return all.add(protoUtil_1.getOutputByteLength(o).mul(feePerByte)); }, new bn_js_1.default(0));
-            let totalFee = outputFee.add(inputFee);
-            if (unlockScripts.length === 2) { // both settled
-                outputs = unlockScripts.map(unlockScript => protoUtil_1.createTransactionOutput(unlockScript, unitBN, unlockBOSON.sub(totalFee).div(new bn_js_1.default(2))));
-            }
-            else { // one party settled
-                outputs = [protoUtil_1.createTransactionOutput(unlockScripts[0], unitBN, unlockBOSON.sub(totalFee))];
             }
             const tx = _createTxWithOutputsAssigned(outputs);
             const inputs = templates_1.createSignedNRGUnlockInputs(bcAddress, privateKeyHex, tx, [outpoint]);
