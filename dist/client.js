@@ -314,7 +314,7 @@ class RpcClient {
     getOpenOrders(request) {
         return __awaiter(this, void 0, void 0, function* () {
             let bcAddress = '';
-            if (request.getAddress()) {
+            if (request && request.getAddress) {
                 bcAddress = request.getAddress();
             }
             let data = yield this.makeJsonRpcRequest(BcRpcMethod.GetUTXOLength, ['maker_output', null]);

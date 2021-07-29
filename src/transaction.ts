@@ -459,7 +459,7 @@ export const calcTxFee = (tx: coreProtobuf.Transaction): BN => {
 }
 
 const _calculateSpentAndLeftoverOutput = function (spendableWalletOutPointObjs: SpendableWalletOutPointObj[], totalAmountBN: BN, feePerByte: BN, bcAddress: string): {
-  spentOutPoints: coreProtobuf.OutPoint[], leftoverOutput: coreProtobuf.TransactionOutput | null,
+  spentOutPoints: coreProtobuf.OutPoint[], leftoverOutput: coreProtobuf.TransactionOutput,
 } {
   let sumBN = new BN(0)
   const spentOutPoints: coreProtobuf.OutPoint[] = []
@@ -481,13 +481,13 @@ const _calculateSpentAndLeftoverOutput = function (spendableWalletOutPointObjs: 
     spentOutPoints.push(outPoint)
     if (sumBN.gt(totalAmountBN)) {
       //calculate the extra output byte fee that will be created due
-      leftoverOutput = createTransactionOutput(createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN))
-      let leftoverFee = getOutputByteLength(leftoverOutput).mul(feePerByte);
-      totalAmountBN = totalAmountBN.add(leftoverFee);
-      leftoverOutput = createTransactionOutput(createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN))
-      if(sumBN.gte(totalAmountBN.add(getOutputByteLength(leftoverOutput).mul(feePerByte)))) {
-        break;
+      let leftover = createTransactionOutput(createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN))
+      let leftoverFee = getOutputByteLength(leftover).mul(feePerByte);
+      if(!sumBN.lt(totalAmountBN.add(leftoverFee))){
+        totalAmountBN = totalAmountBN.add(leftoverFee);
+        leftoverOutput = createTransactionOutput(createNRGLockScript(bcAddress), unitBN, sumBN.sub(totalAmountBN))
       }
+      break;
     } else if (sumBN.eq(totalAmountBN)) {
       break
     }
@@ -586,7 +586,7 @@ const calculateOutputsAndOutpoints = async function (
   const { spentOutPoints, leftoverOutput } = _calculateSpentAndLeftoverOutput(spendableWalletOutPointObjs, totalAmountWithFeesBN, feePerByte, bcAddress)
   let finalOutputs = txOutputs
 
-  if (leftoverOutput) {
+  if (new BN(leftoverOutput.getValue()).gt(new BN(0))) {
     finalOutputs = txOutputs.concat([leftoverOutput])
   }
   return {spentOutPoints,finalOutputs}

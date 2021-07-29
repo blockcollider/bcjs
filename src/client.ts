@@ -376,7 +376,7 @@ export default class RpcClient {
      */
     public async getOpenOrders (request: bc.GetSpendableCollateralRequest): Promise<bc.GetOpenOrdersResponse.AsObject> {
         let bcAddress: string = ''
-        if (request.getAddress()) {
+        if (request && request.getAddress) {
             bcAddress = request.getAddress()
         }
 
