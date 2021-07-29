@@ -376,7 +376,7 @@ const calculateOutputsAndOutpoints = function (spendableWalletOutPointObjs, txOu
     return __awaiter(this, void 0, void 0, function* () {
         const req = new coreProtobuf.Null();
         //get the bytefeemultipler based on the nodes tx pending pool
-        let byteFeeMultiplier = '10';
+        let byteFeeMultiplier = '1';
         try {
             let multiplier = yield bcClient.getByteFeeMultiplier(req);
             if (multiplier && multiplier.fee)

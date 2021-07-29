@@ -127,7 +127,7 @@ export const createNRGTransferTransaction = async function (
   toAddress: string,
   transferAmountNRG: string,
   txFeeNRG: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient,
+  addDefaultFee: boolean = true, bcClient: RpcClient
 ): Promise<coreProtobuf.Transaction|BN>{
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
@@ -556,7 +556,7 @@ const calculateOutputsAndOutpoints = async function (
   const req = new coreProtobuf.Null();
 
   //get the bytefeemultipler based on the nodes tx pending pool
-  let byteFeeMultiplier = '10';
+  let byteFeeMultiplier = '1';
   try {
     let multiplier = await bcClient.getByteFeeMultiplier(req);
     if(multiplier && multiplier.fee) byteFeeMultiplier = multiplier.fee;
