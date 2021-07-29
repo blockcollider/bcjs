@@ -562,7 +562,7 @@ const calculateOutputsAndOutpoints = async function (
     if(multiplier && multiplier.fee) byteFeeMultiplier = multiplier.fee;
   }
   catch(err){
-    console.log({err});
+    // console.log({err});
   }
 
   let feePerByte = new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier)).mul(new Decimal(1.05)).round().toString());

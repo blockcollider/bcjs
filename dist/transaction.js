@@ -383,7 +383,7 @@ const calculateOutputsAndOutpoints = function (spendableWalletOutPointObjs, txOu
                 byteFeeMultiplier = multiplier.fee;
         }
         catch (err) {
-            console.log({ err });
+            // console.log({err});
         }
         let feePerByte = new bn_js_1.default(BOSON_PER_BYTE.mul(new decimal_js_1.Decimal(byteFeeMultiplier)).mul(new decimal_js_1.Decimal(1.05)).round().toString());
         let totalAmountWithFeesBN = totalAmountBN;
