@@ -25,7 +25,6 @@ const secp256k1 = require('secp256k1'); // tslint:disable-line
 const bitcoinjs_lib_1 = require("bitcoinjs-lib");
 const bn_js_1 = __importDefault(require("bn.js"));
 const decimal_js_1 = require("decimal.js");
-const bcProtobuf = __importStar(require("./protos/bc_pb"));
 const coreProtobuf = __importStar(require("./protos/core_pb"));
 const templates_1 = require("./script/templates");
 const coin_1 = require("./utils/coin");
@@ -61,7 +60,7 @@ function validateBtcAddress(btcAddress) {
  * @param transferAmount: string,
  * @param txFee: string
  */
-exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true, bcClient) {
+exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         if (toAddress.length !== transferAmountNRG.length) {
             throw new Error('incorrect length of args');
@@ -79,7 +78,7 @@ exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObj
             txOutputs.push(protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(toAddress[i]), unitBN, coin_1.humanToInternalAsBN(transferAmountNRG[i], coin_1.COIN_FRACS.NRG)));
         }
         const nonNRGInputs = [];
-        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient);
+        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, byteFeeMultiplier);
     });
 };
 /*
@@ -91,7 +90,7 @@ exports.createMultiNRGTransferTransaction = function (spendableWalletOutPointObj
  * @param transferAmount: string,
  * @param txFee: string
  */
-exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true, bcClient) {
+exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         const transferAmountBN = coin_1.humanToInternalAsBN(transferAmountNRG, coin_1.COIN_FRACS.NRG);
         const txFeeBN = coin_1.humanToInternalAsBN(txFeeNRG, coin_1.COIN_FRACS.NRG);
@@ -103,7 +102,7 @@ exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fr
             protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(toAddress), unitBN, transferAmountBN),
         ];
         const nonNRGInputs = [];
-        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient);
+        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, byteFeeMultiplier);
     });
 };
 /*
@@ -115,7 +114,7 @@ exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fr
  * @param olAmount: string,
  * @param addDefaultFee: string,
  */
-exports.createFeedTransaction = function (spendableWalletOutPointObjs, olAddress, olPrivateKeyHex, feedAddress, olAmount, olUnit, addDefaultFee = true, bcClient) {
+exports.createFeedTransaction = function (spendableWalletOutPointObjs, olAddress, olPrivateKeyHex, feedAddress, olAmount, olUnit, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         if (olPrivateKeyHex.startsWith('0x')) {
             olPrivateKeyHex = olPrivateKeyHex.slice(2);
@@ -126,10 +125,10 @@ exports.createFeedTransaction = function (spendableWalletOutPointObjs, olAddress
             protoUtil_1.createTransactionOutput(outputLockScript, coin_1.humanToInternalAsBN(olUnit, coin_1.COIN_FRACS.NRG), coin_1.humanToInternalAsBN(olAmount, coin_1.COIN_FRACS.NRG))
         ];
         const nonOverlineInputs = [];
-        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonOverlineInputs, totalAmountBN, olAddress, olPrivateKeyHex, addDefaultFee, bcClient);
+        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonOverlineInputs, totalAmountBN, olAddress, olPrivateKeyHex, addDefaultFee, byteFeeMultiplier);
     });
 };
-exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, fixedUnitFee, additionalTxFee, addDefaultFee = true, bcClient) {
+exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, bcAddress, bcPrivateKeyHex, collateralizedNrg, nrgUnit, fixedUnitFee, additionalTxFee, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         if (bcPrivateKeyHex.startsWith('0x')) {
             bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
@@ -158,7 +157,7 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
             protoUtil_1.createTransactionOutput(outputLockScript, coin_1.humanToInternalAsBN(nrgUnit, coin_1.COIN_FRACS.NRG), coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG)),
         ];
         const nonNRGInputs = [];
-        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, bcClient);
+        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, byteFeeMultiplier);
     });
 };
 /*
@@ -170,7 +169,7 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
  * @param transferAmount: string,
  * @param txFee: string
  */
-exports.createOverlineChannelMessage = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true, bcClient) {
+exports.createOverlineChannelMessage = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         const transferAmountBN = coin_1.humanToInternalAsBN(transferAmountNRG, coin_1.COIN_FRACS.NRG);
         const txFeeBN = coin_1.humanToInternalAsBN(txFeeNRG, coin_1.COIN_FRACS.NRG);
@@ -182,10 +181,10 @@ exports.createOverlineChannelMessage = function (spendableWalletOutPointObjs, fr
             protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(toAddress), unitBN, transferAmountBN),
         ];
         const nonNRGInputs = [];
-        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient);
+        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, byteFeeMultiplier);
     });
 };
-exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee, addDefaultFee = true, bcClient) {
+exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         if (bcPrivateKeyHex.startsWith('0x')) {
             bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
@@ -227,28 +226,11 @@ exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sen
             const outputLockScriptCb = templates_1.createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex);
             txOutputs.push(protoUtil_1.createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)));
         }
-        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, bcClient);
+        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, byteFeeMultiplier);
     });
 };
-exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privateKeyHex, bcClient) {
+exports.createUnlockTakerTx = function (txHash, txOutputIndex, bcAddress, privateKeyHex, unlockTakerTxParams) {
     return __awaiter(this, void 0, void 0, function* () {
-        let req = new bcProtobuf.GetUnlockTakerTxParamsRequest();
-        req.setTxHash(txHash);
-        req.setTxOutputIndex(txOutputIndex);
-        const unlockTakerTxParams = yield bcClient.getUnlockTakerTxParams(req);
-        console.log({ bcClient });
-        //get the bytefeemultipler based on the nodes tx pending pool
-        let byteFeeMultiplier = '10';
-        try {
-            const req1 = new coreProtobuf.Null();
-            let multiplier = yield bcClient.getByteFeeMultiplier(req1);
-            if (multiplier && multiplier.fee)
-                byteFeeMultiplier = multiplier.fee;
-        }
-        catch (err) {
-            console.log({ err });
-        }
-        let feePerByte = new bn_js_1.default(BOSON_PER_BYTE.mul(new decimal_js_1.Decimal(byteFeeMultiplier)).mul(new decimal_js_1.Decimal(1.05)).round().toString());
         const unlockScripts = unlockTakerTxParams.unlockScriptsList;
         if (unlockScripts.length > 0) {
             if (privateKeyHex.startsWith('0x')) {
@@ -354,9 +336,9 @@ const _createTxWithOutputsAssigned = function (outputs) {
     tx.setLockTime(0);
     return tx;
 };
-const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee = true, bcClient) {
+const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { spentOutPoints, finalOutputs } = yield calculateOutputsAndOutpoints(spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, addDefaultFee, bcClient);
+        const { spentOutPoints, finalOutputs } = yield calculateOutputsAndOutpoints(spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, addDefaultFee, byteFeeMultiplier);
         //if privateKey is empty, return the tx fee
         if (bcPrivateKeyHex === '') {
             return exports.inputsMinusOuputs(spentOutPoints, finalOutputs);
@@ -372,20 +354,15 @@ const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, no
         return txTemplate;
     });
 };
-const calculateOutputsAndOutpoints = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, addDefaultFee = true, bcClient) {
+const calculateOutputsAndOutpoints = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         const req = new coreProtobuf.Null();
-        //get the bytefeemultipler based on the nodes tx pending pool
-        let byteFeeMultiplier = '1';
+        let feePerByte = new bn_js_1.default(BOSON_PER_BYTE.toString());
         try {
-            let multiplier = yield bcClient.getByteFeeMultiplier(req);
-            if (multiplier && multiplier.fee)
-                byteFeeMultiplier = multiplier.fee;
+            feePerByte = new bn_js_1.default(BOSON_PER_BYTE.mul(new decimal_js_1.Decimal(byteFeeMultiplier)).mul(new decimal_js_1.Decimal(1)).round().toString());
         }
         catch (err) {
-            // console.log({err});
         }
-        let feePerByte = new bn_js_1.default(BOSON_PER_BYTE.mul(new decimal_js_1.Decimal(byteFeeMultiplier)).mul(new decimal_js_1.Decimal(1.05)).round().toString());
         let totalAmountWithFeesBN = totalAmountBN;
         if (addDefaultFee) {
             //for each output calculate the number of bytes and multiply by the byte fee

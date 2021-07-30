@@ -83,7 +83,7 @@ export const createMultiNRGTransferTransaction = async function (
   toAddress: string[],
   transferAmountNRG: string[],
   txFeeNRG: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient,
+  addDefaultFee: boolean = true, byteFeeMultiplier: string,
 ): Promise<coreProtobuf.Transaction|BN> {
   if (toAddress.length !== transferAmountNRG.length) { throw new Error('incorrect length of args') }
 
@@ -106,7 +106,7 @@ export const createMultiNRGTransferTransaction = async function (
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
   return await _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, byteFeeMultiplier
   )
 }
 
@@ -127,7 +127,7 @@ export const createNRGTransferTransaction = async function (
   toAddress: string,
   transferAmountNRG: string,
   txFeeNRG: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient
+  addDefaultFee: boolean = true, byteFeeMultiplier: string
 ): Promise<coreProtobuf.Transaction|BN>{
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
@@ -142,7 +142,7 @@ export const createNRGTransferTransaction = async function (
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
   return await _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, byteFeeMultiplier
   )
 }
 
@@ -162,7 +162,7 @@ export const createFeedTransaction = async function (
   feedAddress: string,
   olAmount: string,
   olUnit: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient,
+  addDefaultFee: boolean = true, byteFeeMultiplier: string,
 ) {
   if (olPrivateKeyHex.startsWith('0x')) {
     olPrivateKeyHex = olPrivateKeyHex.slice(2)
@@ -182,7 +182,7 @@ export const createFeedTransaction = async function (
   const nonOverlineInputs: coreProtobuf.TransactionInput[] = []
 
   return await _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonOverlineInputs, totalAmountBN, olAddress, olPrivateKeyHex, addDefaultFee, bcClient
+    spendableWalletOutPointObjs, txOutputs, nonOverlineInputs, totalAmountBN, olAddress, olPrivateKeyHex, addDefaultFee, byteFeeMultiplier
   )
 }
 
@@ -194,7 +194,7 @@ export const createMakerOrderTransaction = async function (
   sendsUnit: string, receivesUnit: string,
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, nrgUnit: string, fixedUnitFee: string, additionalTxFee: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient,
+  addDefaultFee: boolean = true, byteFeeMultiplier: string,
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -250,7 +250,7 @@ export const createMakerOrderTransaction = async function (
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
   return await _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, bcClient
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, byteFeeMultiplier
   )
 }
 
@@ -270,7 +270,7 @@ export const createOverlineChannelMessage = async function (
   toAddress: string,
   transferAmountNRG: string,
   txFeeNRG: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient,
+  addDefaultFee: boolean = true, byteFeeMultiplier: string,
 ): Promise<coreProtobuf.Transaction|BN>{
   const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
   const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
@@ -285,7 +285,7 @@ export const createOverlineChannelMessage = async function (
   const nonNRGInputs: coreProtobuf.TransactionInput[] = []
 
   return await _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, bcClient
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, byteFeeMultiplier
   )
 }
 
@@ -295,7 +295,7 @@ export const createTakerOrderTransaction = async function (
   makerOpenOrder: {doubleHashedBcAddress: string, base: number, fixedUnitFee: string, nrgUnit: string, collateralizedNrg: string, txHash: string, txOutputIndex: number },
   bcAddress: string, bcPrivateKeyHex: string,
   collateralizedNrg: string, additionalTxFee: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient,
+  addDefaultFee: boolean = true, byteFeeMultiplier: string,
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
@@ -352,34 +352,15 @@ export const createTakerOrderTransaction = async function (
   }
 
   return await _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, bcClient
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, byteFeeMultiplier
   )
 }
 
 export const createUnlockTakerTx = async function (
   txHash: string, txOutputIndex: number,
   bcAddress: string, privateKeyHex: string,
-  bcClient: RpcClient,
+  unlockTakerTxParams: bcProtobuf.GetUnlockTakerTxParamsResponse.AsObject
 ): Promise<coreProtobuf.Transaction | null |BN> {
-  let req = new bcProtobuf.GetUnlockTakerTxParamsRequest()
-  req.setTxHash(txHash)
-  req.setTxOutputIndex(txOutputIndex)
-  const unlockTakerTxParams = await bcClient.getUnlockTakerTxParams(req)
-
-  console.log({bcClient});
-  //get the bytefeemultipler based on the nodes tx pending pool
-  let byteFeeMultiplier = '10';
-  try {
-    const req1 = new coreProtobuf.Null();
-    let multiplier = await bcClient.getByteFeeMultiplier(req1);
-    if(multiplier && multiplier.fee) byteFeeMultiplier = multiplier.fee;
-  }
-  catch(err){
-    console.log({err});
-  }
-
-  let feePerByte = new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier)).mul(new Decimal(1.05)).round().toString());
-
 
   const unlockScripts = unlockTakerTxParams.unlockScriptsList
 
@@ -519,12 +500,12 @@ const _compileTransaction = async function (
   totalAmountBN: BN,
   bcAddress: string,
   bcPrivateKeyHex: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient,
+  addDefaultFee: boolean = true, byteFeeMultiplier: string,
 ): Promise<coreProtobuf.Transaction | BN> {
 
   const {spentOutPoints,finalOutputs} = await calculateOutputsAndOutpoints(
     spendableWalletOutPointObjs, txOutputs, nonNRGinputs,totalAmountBN,
-    bcAddress, addDefaultFee, bcClient
+    bcAddress, addDefaultFee, byteFeeMultiplier
   )
 
   //if privateKey is empty, return the tx fee
@@ -551,21 +532,16 @@ const calculateOutputsAndOutpoints = async function (
   nonNRGinputs: coreProtobuf.TransactionInput[],
   totalAmountBN: BN,
   bcAddress: string,
-  addDefaultFee: boolean = true, bcClient: RpcClient
+  addDefaultFee: boolean = true, byteFeeMultiplier: string
 ) : Promise<{finalOutputs:coreProtobuf.TransactionOutput[],spentOutPoints:coreProtobuf.OutPoint[]}> {
-  const req = new coreProtobuf.Null();
 
-  //get the bytefeemultipler based on the nodes tx pending pool
-  let byteFeeMultiplier = '1';
+  let feePerByte = new BN(BOSON_PER_BYTE.toString());
   try {
-    let multiplier = await bcClient.getByteFeeMultiplier(req);
-    if(multiplier && multiplier.fee) byteFeeMultiplier = multiplier.fee;
+    feePerByte = new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier)).mul(new Decimal(1)).round().toString());
   }
   catch(err){
-    // console.log({err});
-  }
 
-  let feePerByte = new BN(BOSON_PER_BYTE.mul(new Decimal(byteFeeMultiplier)).mul(new Decimal(1.05)).round().toString());
+  }
 
   let totalAmountWithFeesBN = totalAmountBN
   if (addDefaultFee) {
