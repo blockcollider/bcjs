@@ -255,7 +255,7 @@ export const createMakerOrderTransaction = async function (
 }
 
 /*
- * Create Overline message based on OL Transaction
+ * Create Overline Feed update for messages and comments 
  * @param spendableWalletOutPointObjs:
  * @param fromAddress: string,
  * @param privateKeyHex: string,
@@ -263,29 +263,81 @@ export const createMakerOrderTransaction = async function (
  * @param transferAmount: string,
  * @param txFee: string
  */
-export const createOverlineChannelMessage = async function (
+export const createUpdateFeedTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
-  fromAddress: string,
-  privateKeyHex: string,
-  toAddress: string,
-  transferAmountNRG: string,
-  txFeeNRG: string,
-  addDefaultFee: boolean = true, byteFeeMultiplier: string,
-): Promise<coreProtobuf.Transaction|BN>{
-  const transferAmountBN = humanToInternalAsBN(transferAmountNRG, COIN_FRACS.NRG)
-  const txFeeBN = humanToInternalAsBN(txFeeNRG, COIN_FRACS.NRG)
-  const totalAmountBN = transferAmountBN.add(txFeeBN)
-  if (privateKeyHex.startsWith('0x')) {
-    privateKeyHex = privateKeyHex.slice(2)
+  sendsFromAddress: string, receivesToAddress: string,
+  makerOpenOrder: {
+    doubleHashedBcAddress: string, 
+    base: number, 
+    fixedUnitFee: string, 
+    nrgUnit: string, 
+    collateralizedNrg: string, 
+    txHash: string, 
+    txOutputIndex: number 
+  },
+  bcAddress: string, 
+  bcPrivateKeyHex: string,
+  collateralizedNrg: string, 
+  additionalTxFee: string,
+  addDefaultFee: boolean = true, 
+  byteFeeMultiplier: string
+) {
+  if (bcPrivateKeyHex.startsWith('0x')) {
+    bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
+  }
+  const fixedUnitFee = makerOpenOrder.fixedUnitFee
+  const base = makerOpenOrder.base
+
+  // if op min unit fixedFee set this amount only equals fixed fee
+  const spendingNRG = (base === 1)
+    ? humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
+    : humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
+
+  const totalFeeBN = calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
+  const totalAmountBN = totalFeeBN.add(spendingNRG)
+
+  const makerUnitBN = humanToInternalAsBN(makerOpenOrder.nrgUnit, COIN_FRACS.NRG)
+  const makerCollateralBN = humanToInternalAsBN(makerOpenOrder.collateralizedNrg, COIN_FRACS.NRG)
+
+  let takerCollateralBN = humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
+  // modify taker collateral to be = makercollateralBN if it is above
+  if (makerCollateralBN.lt(takerCollateralBN)) {
+    takerCollateralBN = new BN(makerCollateralBN.toString())
   }
 
-  const txOutputs = [
-    createTransactionOutput(createNRGLockScript(toAddress), unitBN, transferAmountBN),
+  const makerTxHash = makerOpenOrder.txHash
+  const makerTxOutputIndex = makerOpenOrder.txOutputIndex
+
+  // takers input
+  const takerInputUnlockScript = createTakerUnlockScript(sendsFromAddress, receivesToAddress)
+  const makerTxOutpoint = createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN)
+  const nonNRGInputs = [
+    createTransactionInput(makerTxOutpoint, takerInputUnlockScript),
   ]
-  const nonNRGInputs: coreProtobuf.TransactionInput[] = []
+
+  // takers output
+  const outputLockScript = createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress)
+  const txOutputs = [
+    createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString()))),
+  ]
+
+  if (fixedUnitFee && fixedUnitFee !== '0') {
+    const makerFeeScript = ['OP_BLAKE2BLPRIV', makerOpenOrder.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ')
+    txOutputs.push(createTransactionOutput(
+      makerFeeScript,
+      makerUnitBN,
+      humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG),
+    ))
+  }
+
+  // partial order
+  if (makerCollateralBN.gt(takerCollateralBN)) {
+    const outputLockScriptCb = createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex)
+    txOutputs.push(createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
+  }
 
   return await _compileTransaction(
-    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, byteFeeMultiplier
+    spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, byteFeeMultiplier
   )
 }
 
