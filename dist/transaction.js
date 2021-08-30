@@ -161,7 +161,7 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
     });
 };
 /*
- * Create Overline message based on OL Transaction
+ * Create Overline Feed update for messages and comments
  * @param spendableWalletOutPointObjs:
  * @param fromAddress: string,
  * @param privateKeyHex: string,
@@ -169,19 +169,49 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
  * @param transferAmount: string,
  * @param txFee: string
  */
-exports.createOverlineChannelMessage = function (spendableWalletOutPointObjs, fromAddress, privateKeyHex, toAddress, transferAmountNRG, txFeeNRG, addDefaultFee = true, byteFeeMultiplier) {
+exports.createUpdateFeedTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
-        const transferAmountBN = coin_1.humanToInternalAsBN(transferAmountNRG, coin_1.COIN_FRACS.NRG);
-        const txFeeBN = coin_1.humanToInternalAsBN(txFeeNRG, coin_1.COIN_FRACS.NRG);
-        const totalAmountBN = transferAmountBN.add(txFeeBN);
-        if (privateKeyHex.startsWith('0x')) {
-            privateKeyHex = privateKeyHex.slice(2);
+        if (bcPrivateKeyHex.startsWith('0x')) {
+            bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
         }
-        const txOutputs = [
-            protoUtil_1.createTransactionOutput(templates_1.createNRGLockScript(toAddress), unitBN, transferAmountBN),
+        const fixedUnitFee = makerOpenOrder.fixedUnitFee;
+        const base = makerOpenOrder.base;
+        // if op min unit fixedFee set this amount only equals fixed fee
+        const spendingNRG = (base === 1)
+            ? coin_1.humanToInternalAsBN(fixedUnitFee, coin_1.COIN_FRACS.NRG)
+            : coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG);
+        const totalFeeBN = exports.calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');
+        const totalAmountBN = totalFeeBN.add(spendingNRG);
+        const makerUnitBN = coin_1.humanToInternalAsBN(makerOpenOrder.nrgUnit, coin_1.COIN_FRACS.NRG);
+        const makerCollateralBN = coin_1.humanToInternalAsBN(makerOpenOrder.collateralizedNrg, coin_1.COIN_FRACS.NRG);
+        let takerCollateralBN = coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG);
+        // modify taker collateral to be = makercollateralBN if it is above
+        if (makerCollateralBN.lt(takerCollateralBN)) {
+            takerCollateralBN = new bn_js_1.default(makerCollateralBN.toString());
+        }
+        const makerTxHash = makerOpenOrder.txHash;
+        const makerTxOutputIndex = makerOpenOrder.txOutputIndex;
+        // takers input
+        const takerInputUnlockScript = templates_1.createTakerUnlockScript(sendsFromAddress, receivesToAddress);
+        const makerTxOutpoint = protoUtil_1.createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN);
+        const nonNRGInputs = [
+            protoUtil_1.createTransactionInput(makerTxOutpoint, takerInputUnlockScript),
         ];
-        const nonNRGInputs = [];
-        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, fromAddress, privateKeyHex, addDefaultFee, byteFeeMultiplier);
+        // takers output
+        const outputLockScript = templates_1.createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress);
+        const txOutputs = [
+            protoUtil_1.createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new bn_js_1.default(base.toString()))),
+        ];
+        if (fixedUnitFee && fixedUnitFee !== '0') {
+            const makerFeeScript = ['OP_BLAKE2BLPRIV', makerOpenOrder.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ');
+            txOutputs.push(protoUtil_1.createTransactionOutput(makerFeeScript, makerUnitBN, coin_1.humanToInternalAsBN(fixedUnitFee, coin_1.COIN_FRACS.NRG)));
+        }
+        // partial order
+        if (makerCollateralBN.gt(takerCollateralBN)) {
+            const outputLockScriptCb = templates_1.createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex);
+            txOutputs.push(protoUtil_1.createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)));
+        }
+        return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, byteFeeMultiplier);
     });
 };
 exports.createTakerOrderTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee, addDefaultFee = true, byteFeeMultiplier) {
@@ -356,7 +386,6 @@ const _compileTransaction = function (spendableWalletOutPointObjs, txOutputs, no
 };
 const calculateOutputsAndOutpoints = function (spendableWalletOutPointObjs, txOutputs, nonNRGinputs, totalAmountBN, bcAddress, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
-        const req = new coreProtobuf.Null();
         let feePerByte = new bn_js_1.default(BOSON_PER_BYTE.toString());
         try {
             feePerByte = new bn_js_1.default(BOSON_PER_BYTE.mul(new decimal_js_1.Decimal(byteFeeMultiplier)).mul(new decimal_js_1.Decimal(1)).round().toString());

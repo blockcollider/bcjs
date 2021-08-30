@@ -7,7 +7,15 @@ export declare const createMultiNRGTransferTransaction: (spendableWalletOutPoint
 export declare const createNRGTransferTransaction: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], fromAddress: string, privateKeyHex: string, toAddress: string, transferAmountNRG: string, txFeeNRG: string, addDefaultFee: boolean | undefined, byteFeeMultiplier: string) => Promise<coreProtobuf.Transaction | BN>;
 export declare const createFeedTransaction: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], olAddress: string, olPrivateKeyHex: string, feedAddress: string, olAmount: string, olUnit: string, addDefaultFee: boolean | undefined, byteFeeMultiplier: string) => Promise<coreProtobuf.Transaction | BN>;
 export declare const createMakerOrderTransaction: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, bcAddress: string, bcPrivateKeyHex: string, collateralizedNrg: string, nrgUnit: string, fixedUnitFee: string, additionalTxFee: string, addDefaultFee: boolean | undefined, byteFeeMultiplier: string) => Promise<coreProtobuf.Transaction | BN>;
-export declare const createOverlineChannelMessage: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], fromAddress: string, privateKeyHex: string, toAddress: string, transferAmountNRG: string, txFeeNRG: string, addDefaultFee: boolean | undefined, byteFeeMultiplier: string) => Promise<coreProtobuf.Transaction | BN>;
+export declare const createUpdateFeedTransaction: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], sendsFromAddress: string, receivesToAddress: string, makerOpenOrder: {
+    doubleHashedBcAddress: string;
+    base: number;
+    fixedUnitFee: string;
+    nrgUnit: string;
+    collateralizedNrg: string;
+    txHash: string;
+    txOutputIndex: number;
+}, bcAddress: string, bcPrivateKeyHex: string, collateralizedNrg: string, additionalTxFee: string, addDefaultFee: boolean | undefined, byteFeeMultiplier: string) => Promise<coreProtobuf.Transaction | BN>;
 export declare const createTakerOrderTransaction: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], sendsFromAddress: string, receivesToAddress: string, makerOpenOrder: {
     doubleHashedBcAddress: string;
     base: number;
