@@ -85,7 +85,7 @@ exports.submitTransaction = (args, done) => {
             }
             else {
                 // console.log({tries,issue:'send'})
-                if (tries < 200) {
+                if (tries < 400) {
                     tries++;
                     submit(err, tx, serializedTx);
                 }
@@ -103,7 +103,7 @@ exports.submitTransaction = (args, done) => {
             }
             else {
                 // console.log({tries,issue:'sign'})
-                if (tries < 200) {
+                if (tries < 400) {
                     tries++;
                     sign();
                 }
