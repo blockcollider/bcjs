@@ -52,9 +52,9 @@
     "benchmark": "^2.1.4",
     "cpy-cli": "^3.1.1",
     "grpc-tools": "^1.10.0",
-    "jest": "^26.6.0",
+    "jest": "27",
     "mkdirp": "^0.5.1",
-    "ts-jest": "^26.0.0",
+    "ts-jest": "27",
     "ts-protoc-gen": "^0.10.0",
     "tslint": "5.18.0",
     "typescript": "3.8.3"
