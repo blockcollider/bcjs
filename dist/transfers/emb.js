@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const web3_1 = require("./web3");
 function padToBytes7(n) {
     while (n.length < 14) {
-        n = "0" + n;
+        n = '0' + n;
     }
     return n;
 }
@@ -20,9 +20,17 @@ exports.transferEMB = (privateKey, from, to, amount, gasLimit = 60000) => __awai
     gasLimit = 60000;
     return new Promise((resolve, reject) => {
         try {
-            let arg = `${to}${padToBytes7(Math.round(amount * Math.pow(10, 8)).toString(16))}`;
-            let data = web3_1.EMB.methods.multiTransfer([arg]).encodeABI();
-            web3_1.submitTransaction({ gas: 62000, to: web3_1.EMB.options.address, from, value: web3_1.web3.utils.toHex(0), data, privateKey, gasLimit }, (err, hash) => {
+            const arg = `${to}${padToBytes7(Math.round(amount * Math.pow(10, 8)).toString(16))}`;
+            const data = web3_1.EMB.methods.multiTransfer([arg]).encodeABI();
+            web3_1.submitTransaction({
+                data,
+                from,
+                gas: 62000,
+                gasLimit,
+                privateKey,
+                to: web3_1.EMB.options.address,
+                value: web3_1.web3.utils.toHex(0),
+            }, (err, hash) => {
                 if (err) {
                     reject(err);
                 }
