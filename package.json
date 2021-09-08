@@ -50,7 +50,7 @@
     "@types/jest": "^24.0.18",
     "@types/ramda": "^0.26.29",
     "benchmark": "^2.1.4",
-    "cpy-cli": "^2.0.0",
+    "cpy-cli": "^3.1.1",
     "grpc-tools": "^1.10.0",
     "jest": "^26.6.0",
     "mkdirp": "^0.5.1",
