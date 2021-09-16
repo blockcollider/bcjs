@@ -84,7 +84,6 @@ exports.submitTransaction = (args, done) => {
                 done(null, tx.hash(true).toString('hex'));
             }
             else {
-                console.log({ tries, issue: 'send' });
                 if (tries < 400) {
                     tries++;
                     submit(err, tx, serializedTx);
@@ -102,7 +101,6 @@ exports.submitTransaction = (args, done) => {
                 submit(err, tx, serializedTx);
             }
             else {
-                console.log({ tries, issue: 'sign' });
                 if (tries < 400) {
                     tries++;
                     sign();
