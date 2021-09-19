@@ -62,7 +62,7 @@ const signTransaction = (
 ) => {
 
   if (!gasLimit) {
-    gasLimit = 62000
+    gasLimit = 72000
   }
 
   Promise.all([getNonce(from), getGasPrice()]).then(values => {

@@ -1,6 +1,6 @@
 import { submitTransaction, web3, XAUt } from './web3'
 
-export const transferXAUt = async (privateKey, from, to, amount, gasLimit = 60000) => {
+export const transferXAUt = async (privateKey, from, to, amount, gasLimit = 72000) => {
   return new Promise((resolve, reject) => {
     try {
       const data = XAUt.methods

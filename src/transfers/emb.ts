@@ -7,7 +7,7 @@ function padToBytes7 (n) {
     return n
 }
 
-export const transferEMB = async (privateKey, from, to, amount, gasLimit = 60000) => {
+export const transferEMB = async (privateKey, from, to, amount, gasLimit = 72000) => {
   gasLimit = 60000
   return new Promise((resolve, reject) => {
     try {

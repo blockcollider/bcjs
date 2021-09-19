@@ -16,7 +16,7 @@ function padToBytes7(n) {
     }
     return n;
 }
-exports.transferEMB = (privateKey, from, to, amount, gasLimit = 60000) => __awaiter(void 0, void 0, void 0, function* () {
+exports.transferEMB = (privateKey, from, to, amount, gasLimit = 72000) => __awaiter(void 0, void 0, void 0, function* () {
     gasLimit = 60000;
     return new Promise((resolve, reject) => {
         try {
