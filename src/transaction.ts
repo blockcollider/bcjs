@@ -287,13 +287,6 @@ export const createUpdateFeedTransaction = async function (
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
   }
 
-  // this may be redundant as it is done before the feed tx is called 
-	spendableWalletOutPointObjs.sort((a,b)=>{
-		return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(
-			internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)
-		) ? -1 : 1
-	})
-
   const fixedUnitFee = channelInfo.fixedUnitFee
   const base = channelInfo.base
 
