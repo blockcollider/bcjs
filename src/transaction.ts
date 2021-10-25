@@ -265,8 +265,9 @@ export const createMakerOrderTransaction = async function (
  */
 export const createUpdateFeedTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
-  sendsFromAddress: string, receivesToAddress: string,
-  makerOpenOrder: {
+  sendsFromAddress: string, 
+  receivesToAddress: string,
+  channelInfo: {
     doubleHashedBcAddress: string, 
     base: number, 
     fixedUnitFee: string, 
@@ -285,8 +286,16 @@ export const createUpdateFeedTransaction = async function (
   if (bcPrivateKeyHex.startsWith('0x')) {
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
   }
-  const fixedUnitFee = makerOpenOrder.fixedUnitFee
-  const base = makerOpenOrder.base
+
+  // this may be redundant as it is done before the feed tx is called 
+	spendableWalletOutPointObjs.sort((a,b)=>{
+		return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(
+			internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)
+		) ? -1 : 1
+	})
+
+  const fixedUnitFee = channelInfo.fixedUnitFee
+  const base = channelInfo.base
 
   // if op min unit fixedFee set this amount only equals fixed fee
   const spendingNRG = (base === 1)
@@ -296,8 +305,8 @@ export const createUpdateFeedTransaction = async function (
   const totalFeeBN = calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
   const totalAmountBN = totalFeeBN.add(spendingNRG)
 
-  const makerUnitBN = humanToInternalAsBN(makerOpenOrder.nrgUnit, COIN_FRACS.NRG)
-  const makerCollateralBN = humanToInternalAsBN(makerOpenOrder.collateralizedNrg, COIN_FRACS.NRG)
+  const makerUnitBN = humanToInternalAsBN(channelInfo.nrgUnit, COIN_FRACS.NRG)
+  const makerCollateralBN = humanToInternalAsBN(channelInfo.collateralizedNrg, COIN_FRACS.NRG)
 
   let takerCollateralBN = humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
   // modify taker collateral to be = makercollateralBN if it is above
@@ -305,8 +314,8 @@ export const createUpdateFeedTransaction = async function (
     takerCollateralBN = new BN(makerCollateralBN.toString())
   }
 
-  const makerTxHash = makerOpenOrder.txHash
-  const makerTxOutputIndex = makerOpenOrder.txOutputIndex
+  const makerTxHash = channelInfo.txHash
+  const makerTxOutputIndex = channelInfo.txOutputIndex
 
   // takers input
   const takerInputUnlockScript = createTakerUnlockScript(sendsFromAddress, receivesToAddress)
@@ -322,7 +331,7 @@ export const createUpdateFeedTransaction = async function (
   ]
 
   if (fixedUnitFee && fixedUnitFee !== '0') {
-    const makerFeeScript = ['OP_BLAKE2BLPRIV', makerOpenOrder.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ')
+    const makerFeeScript = ['OP_BLAKE2BLPRIV', channelInfo.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ')
     txOutputs.push(createTransactionOutput(
       makerFeeScript,
       makerUnitBN,
