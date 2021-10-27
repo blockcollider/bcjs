@@ -272,7 +272,7 @@ export const createUpdateFeedTransaction = async function (
     base: number, 
     fixedUnitFee: string, 
     nrgUnit: string, 
-    collateralizedNrg: string, 
+    collateralizedNrg: string, // not necessary here  
     txHash: string, 
     txOutputIndex: number 
   },
@@ -287,6 +287,9 @@ export const createUpdateFeedTransaction = async function (
     bcPrivateKeyHex = bcPrivateKeyHex.slice(2)
   }
 
+  /*
+   * This is the create update feed used for messaging and running wireless cross chain transactions 
+   */ 
   const fixedUnitFee = channelInfo.fixedUnitFee
   const base = channelInfo.base
 
@@ -295,13 +298,17 @@ export const createUpdateFeedTransaction = async function (
     ? humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
     : humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
 
+  // this is always 0
   const totalFeeBN = calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
-  const totalAmountBN = totalFeeBN.add(spendingNRG)
 
+  const totalAmountBN = totalFeeBN.add(spendingNRG)
   const makerUnitBN = humanToInternalAsBN(channelInfo.nrgUnit, COIN_FRACS.NRG)
+
+  // it may cost to update a feed for a comment
   const makerCollateralBN = humanToInternalAsBN(channelInfo.collateralizedNrg, COIN_FRACS.NRG)
 
   let takerCollateralBN = humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
+
   // modify taker collateral to be = makercollateralBN if it is above
   if (makerCollateralBN.lt(takerCollateralBN)) {
     takerCollateralBN = new BN(makerCollateralBN.toString())
