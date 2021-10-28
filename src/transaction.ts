@@ -17,6 +17,9 @@ import {
   createTakerCallbackLockScript,
   createTakerLockScript,
   createTakerUnlockScript,
+  createFeedCallbackLockScript,
+  createFeedLockScript,
+  createFeedUnlockScript,
 } from './script/templates'
 import {
   COIN_FRACS,
