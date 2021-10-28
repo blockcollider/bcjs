@@ -1,7 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -9,9 +6,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const bn_js_1 = __importDefault(require("bn.js"));
 const coreProtobuf = __importStar(require("@overline/proto/proto/core_pb"));
+const bn_js_1 = __importDefault(require("bn.js"));
 const bytecode_1 = require("../script/bytecode");
 const coin_1 = require("./coin");
 function asmToV1Protobuf(asm) {

@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import BN from 'bn.js';
 import * as coreProtobuf from '@overline/proto/proto/core_pb';
+import BN from 'bn.js';
 export declare const bnToBytes: (value: BN) => Uint8Array;
 export declare const bytesToInternalBN: (value: Uint8Array) => BN;
 export declare const convertProtoBufSerializedBytesToBuffer: (val: string) => Buffer;
