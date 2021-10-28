@@ -16,7 +16,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bc = __importStar(require("./protos/bc_pb"));
+const bc = __importStar(require("@overline/proto/proto/bc_pb"));
 class Wallet {
     constructor(rpcClient) {
         this.rpcClient = rpcClient;

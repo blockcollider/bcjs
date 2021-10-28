@@ -1,8 +1,8 @@
 import BN from 'bn.js'
 import secp256k1 = require('secp256k1')
 
-import * as bcProtobuf from '../protos/bc_pb'
-import * as coreProtobuf from '../protos/core_pb'
+import * as bcProtobuf from '@overline/proto/proto/bc_pb'
+import * as coreProtobuf from '@overline/proto/proto/core_pb'
 
 import { intToBuffer, toBuffer } from '../utils/buffer'
 import * as Coin from '../utils/coin'

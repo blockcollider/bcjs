@@ -7,8 +7,8 @@ import BN from 'bn.js'
 import {Decimal} from 'decimal.js';
 
 import RpcClient from './client'
-import * as bcProtobuf from './protos/bc_pb'
-import * as coreProtobuf from './protos/core_pb'
+import * as bcProtobuf from '@overline/proto/proto/bc_pb'
+import * as coreProtobuf from '@overline/proto/proto/core_pb'
 import {
   createMakerLockScript,
   createFeedLockScript,

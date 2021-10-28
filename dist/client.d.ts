@@ -1,5 +1,5 @@
-import * as bc from './protos/bc_pb';
-import * as core from './protos/core_pb';
+import * as bc from '@overline/proto/proto/bc_pb';
+import * as core from '@overline/proto/proto/core_pb';
 declare type BcRpcResponse = core.BcBlock.AsObject | core.Block.AsObject | core.MarkedTransaction.AsObject | core.Transaction.AsObject | core.WalletData.AsObject | bc.GetBalanceResponse.AsObject | bc.GetBlake2blResponse.AsObject | bc.GetTradeStatusResponse.AsObject | bc.GetOutPointStatusResponse.AsObject | bc.GetBlocksResponse.AsObject | bc.GetMatchedOrdersResponse.AsObject | bc.GetRoveredBlocksResponse.AsObject | bc.GetSpendableCollateralResponse.AsObject | bc.RpcTransactionResponse.AsObject | bc.GetUnlockTakerTxParamsResponse.AsObject | bc.GetOpenOrdersResponse.AsObject | bc.VanityConvertResponse.AsObject | bc.GetByteFeeResponse.AsObject | bc.GetUtxoLengthResponse.AsObject;
 interface JsonRpcError<T> {
     /** Must be an integer */

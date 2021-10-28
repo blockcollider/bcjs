@@ -1,6 +1,6 @@
 import RpcClient from './client';
-import * as bc from './protos/bc_pb';
-import * as core from './protos/core_pb';
+import * as bc from '@overline/proto/proto/bc_pb';
+import * as core from '@overline/proto/proto/core_pb';
 export default class Wallet {
     private rpcClient;
     constructor(rpcClient: RpcClient);

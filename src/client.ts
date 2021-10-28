@@ -3,8 +3,8 @@
 require('es6-promise').polyfill() /* tslint:disable-line */
 require('isomorphic-fetch') /* tslint:disable-line */
 
-import * as bc from './protos/bc_pb'
-import * as core from './protos/core_pb'
+import * as bc from '@overline/proto/proto/bc_pb'
+import * as core from '@overline/proto/proto/core_pb'
 
 type BcRpcResponse =
     core.BcBlock.AsObject |

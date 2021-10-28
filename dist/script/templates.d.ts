@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import * as coreProtobuf from '../protos/core_pb';
+import * as coreProtobuf from '@overline/proto/proto/core_pb';
 export declare enum ScriptType {
     NRG_TRANSFER = "nrg_transfer",
     MAKER_OUTPUT = "maker_output",
