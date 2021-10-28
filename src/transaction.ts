@@ -263,6 +263,24 @@ export const createMakerOrderTransaction = async function (
  * @param transferAmount: string,
  * @param txFee: string
  */
+/*
+  PROTOBUF FOR UPDATE FEED TX
+
+   message RpcUpdateFeedTransaction {
+       string owner_addr = 1;
+       string feed_addr = 2; // created custom owner_addr@feed_addr = channel
+       string sender_addr = 3; // the message sender
+       string data = 4; // raw data
+       string data_length = 5; // byte length of the raw data (prevent buffer overflow)
+       string amount = 6; // amount transfered to the owner address
+       string tx_fee = 7; // fee paid to miner for tx
+       string tx_panel = 8; // signature of the entire feed transaction + the panel added  
+       string tx_part = 9; // multi-part messaging across chains or for running off chain (free txs)
+       string tx_nonce = 10; // supplied to relay the transaction
+       string minimum_distance = 11; // the hash of the minimum distance and hash tx panel if added must be below the minimum distance unless 0 
+       string private_key_hex = 12;
+   }
+*/
 export const createUpdateFeedTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, 
@@ -293,24 +311,6 @@ export const createUpdateFeedTransaction = async function (
   const fixedUnitFee = channelInfo.fixedUnitFee
   const base = channelInfo.base
 
-  /*
-  PROTOBUF FOR UPDATE FEED TX
-
-     message RpcUpdateFeedTransaction {
-         string owner_addr = 1;
-         string feed_addr = 2;
-         string sender_addr = 3;
-         string data = 4;
-         string data_length = 5;
-         string amount = 6;
-         string tx_fee = 7;
-         string tx_panel = 8;
-         string tx_part = 9;
-         string tx_nonce = 10;
-         string minimum_distance = 11;
-         string private_key_hex = 12;
-     }
-   */
 
   // if op min unit fixedFee set this amount only equals fixed fee
   const spendingNRG = (base === 1)
