@@ -8,8 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "compile": "./node_modules/.bin/tsc && ./node_modules/.bin/mkdirp dist/protos && ./node_modules/.bin/cpy ./src/protos/* ./dist/protos/",
-    "proto": "./node_modules/.bin/grpc_tools_node_protoc --plugin=./node_modules/.bin/protoc-gen-ts --proto_path=protos --js_out=import_style=commonjs,binary:src/protos protos/*.proto --grpc_out=src/protos --ts_out=\"service=true:src/protos\" --plugin=protoc-gen-grpc=./node_modules/grpc-tools/bin/grpc_node_plugin && ./scripts/proto-fix.sh",
+    "compile": "./node_modules/.bin/tsc",
     "start": "tsc && node dist/index.js",
     "lint": "./node_modules/.bin/tslint -p .",
     "test": "jest",
@@ -52,7 +51,6 @@
     "@types/ramda": "^0.26.29",
     "benchmark": "^2.1.4",
     "cpy-cli": "^3.1.1",
-    "grpc-tools": "^1.10.0",
     "jest": "27",
     "mkdirp": "^0.5.1",
     "ts-jest": "27",
