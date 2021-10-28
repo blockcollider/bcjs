@@ -13,7 +13,7 @@ Run them using `yarn run test`.
 import RpcClient from '../src/client';
 import {
     GetBalanceRequest
-} from '../src/protos/bc_pb';
+} from '@overline/proto/proto/bc_pb';
 
 const address = process.env.BC_RPC_ADDRESS || 'https://localhost:3000'
 const scookie = process.env.BC_RPC_SCOOKIE
@@ -43,8 +43,6 @@ And you should get response similar to this:
 # Releasing
 
 - releases are done only from `master` branch
-- check if `./scripts/download-proto.sh && yarn run proto && yarn run compile` runs without error and does not produce any change
-    - if it does, commit it
 - in a separate commit, update the version in package.json to N+1 (0.0.1 -> 0.0.2), in the commit message, say `Version vX.Y.Z`
     - you can add a list of changes from the previous version as bullet list to 3rd and next lines of commit message
 - Create signed tag to to the commit called as the new version (e.g. `v0.0.2`)
