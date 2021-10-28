@@ -11,7 +11,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bn_js_1 = __importDefault(require("bn.js"));
-const coreProtobuf = __importStar(require("./../protos/core_pb"));
+const coreProtobuf = __importStar(require("@overline/proto/proto/core_pb"));
 const bytecode_1 = require("../script/bytecode");
 const coin_1 = require("./coin");
 function asmToV1Protobuf(asm) {

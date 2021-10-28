@@ -6,7 +6,7 @@
  *
  */
 
-import { TransactionOutput } from '../../protos/core_pb'
+import { TransactionOutput } from '@overline/proto/proto/core_pb'
 import { fromASM, toASM } from '../bytecode'
 
 /* tslint:disable:max-line-length */

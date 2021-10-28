@@ -7,7 +7,7 @@
  */
 import BN from 'bn.js'
 
-import * as corePb from '../protos/core_pb'
+import * as corePb from '@overline/proto/proto/core_pb'
 import { COIN_FRACS, humanToInternal, internalBNToHuman } from '../utils/coin'
 
 import { calcTxFee } from '../transaction'

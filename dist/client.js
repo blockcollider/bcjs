@@ -20,7 +20,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* tslint:disable:interface-name */
 require('es6-promise').polyfill(); /* tslint:disable-line */
 require('isomorphic-fetch'); /* tslint:disable-line */
-const bc = __importStar(require("./protos/bc_pb"));
+const bc = __importStar(require("@overline/proto/proto/bc_pb"));
 var BcRpcMethod;
 (function (BcRpcMethod) {
     BcRpcMethod["NewTx"] = "newTx";

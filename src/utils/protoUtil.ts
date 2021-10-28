@@ -1,5 +1,5 @@
 import BN from 'bn.js'
-import * as coreProtobuf from './../protos/core_pb'
+import * as coreProtobuf from '@overline/proto/proto/core_pb'
 
 import { fromASM } from '../script/bytecode'
 import { COIN_FRACS, humanToInternalAsBN, internalToBN } from './coin'

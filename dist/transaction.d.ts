@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import BN from 'bn.js';
-import * as bcProtobuf from './protos/bc_pb';
-import * as coreProtobuf from './protos/core_pb';
+import * as bcProtobuf from '@overline/proto/proto/bc_pb';
+import * as coreProtobuf from '@overline/proto/proto/core_pb';
 export declare const fromBuffer: (txBuffer: Uint8Array | Buffer) => coreProtobuf.Transaction;
 export declare const createMultiNRGTransferTransaction: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], fromAddress: string, privateKeyHex: string, toAddress: string[], transferAmountNRG: string[], txFeeNRG: string, addDefaultFee: boolean | undefined, byteFeeMultiplier: string) => Promise<coreProtobuf.Transaction | BN>;
 export declare const createNRGTransferTransaction: (spendableWalletOutPointObjs: coreProtobuf.WalletOutPoint.AsObject[], fromAddress: string, privateKeyHex: string, toAddress: string, transferAmountNRG: string, txFeeNRG: string, addDefaultFee: boolean | undefined, byteFeeMultiplier: string) => Promise<coreProtobuf.Transaction | BN>;
