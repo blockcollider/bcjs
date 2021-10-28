@@ -293,6 +293,25 @@ export const createUpdateFeedTransaction = async function (
   const fixedUnitFee = channelInfo.fixedUnitFee
   const base = channelInfo.base
 
+  /*
+  PROTOBUF FOR UPDATE FEED TX
+
+     message RpcUpdateFeedTransaction {
+         string owner_addr = 1;
+         string feed_addr = 2;
+         string sender_addr = 3;
+         string data = 4;
+         string data_length = 5;
+         string amount = 6;
+         string tx_fee = 7;
+         string tx_panel = 8;
+         string tx_part = 9;
+         string tx_nonce = 10;
+         string minimum_distance = 11;
+         string private_key_hex = 12;
+     }
+   */
+
   // if op min unit fixedFee set this amount only equals fixed fee
   const spendingNRG = (base === 1)
     ? humanToInternalAsBN(fixedUnitFee, COIN_FRACS.NRG)
