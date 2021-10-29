@@ -293,7 +293,7 @@ export const createUpdateFeedTransaction = async function (
     base: number, 
     fixedUnitFee: string, 
     nrgUnit: string, 
-    collateralizedNrg: string, // not necessary here  
+    collateralizedNrg: string, 
     txHash: string, 
     txOutputIndex: number 
   },
@@ -313,7 +313,6 @@ export const createUpdateFeedTransaction = async function (
    */ 
   const fixedUnitFee = channelInfo.fixedUnitFee
   const base = channelInfo.base
-
 
   // if op min unit fixedFee set this amount only equals fixed fee
   const spendingNRG = (base === 1)
