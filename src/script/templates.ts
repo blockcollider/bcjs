@@ -398,7 +398,7 @@ export function getScriptType (script: Uint8Array): ScriptType {
   } else if (scriptStr.indexOf('OP_MONAD') > -1 &&
     scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_IFEQ') > -1) {
     return ScriptType.TAKER_OUTPUT // IS_TAKER_ORDER
-  } else if (scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_MONAD') > -1) { // is this does not have OP_IFEQ
+  } else if (scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_MONAD') > -1) { 
     return ScriptType.FEED_UPDATE // IS_FEED_UPDATE
   } else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
     return ScriptType.NRG_TRANSFER // IS_NRG_TRANSFER
