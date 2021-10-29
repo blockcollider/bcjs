@@ -14,6 +14,9 @@ import {
   createFeedLockScript,
   createNRGLockScript,
   createSignedNRGUnlockInputs,
+  createUpdateFeedCallbackLockScript,
+  createUpdateFeedLockScript,
+  createUpdateFeedUnlockScript,
   createTakerCallbackLockScript,
   createTakerLockScript,
   createTakerUnlockScript
@@ -336,15 +339,15 @@ export const createUpdateFeedTransaction = async function (
   const makerTxHash = channelInfo.txHash
   const makerTxOutputIndex = channelInfo.txOutputIndex
 
-  // takers input
-  const takerInputUnlockScript = createTakerUnlockScript(sendsFromAddress, receivesToAddress)
+  // update feed input with callback
+  const takerInputUnlockScript = createUpdateFeedUnlockScript(sendsFromAddress, receivesToAddress)
   const makerTxOutpoint = createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN)
   const nonNRGInputs = [
     createTransactionInput(makerTxOutpoint, takerInputUnlockScript),
   ]
 
-  // takers output
-  const outputLockScript = createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress)
+  // update feed output
+  const outputLockScript = createUpdateFeedLockScript(makerTxHash, makerTxOutputIndex, bcAddress)
   const txOutputs = [
     createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString()))),
   ]
@@ -360,7 +363,7 @@ export const createUpdateFeedTransaction = async function (
 
   // partial order
   if (makerCollateralBN.gt(takerCollateralBN)) {
-    const outputLockScriptCb = createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex)
+    const outputLockScriptCb = createUpdateFeedCallbackLockScript(makerTxHash, makerTxOutputIndex)
     txOutputs.push(createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
   }
 
