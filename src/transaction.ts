@@ -18,7 +18,6 @@ import {
   createTakerLockScript,
   createTakerUnlockScript,
   createFeedCallbackLockScript,
-  createFeedLockScript,
   createFeedUnlockScript,
 } from './script/templates'
 import {
