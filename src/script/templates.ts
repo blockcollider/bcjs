@@ -282,22 +282,24 @@ export function parseTakerUnlockScript (script: Uint8Array): {
 }
 
 export function createUpdateFeedLockScript (
-  olAddress: string,
-  feedAddress: string,
-  addressDoubleHashed: boolean = false,
+  makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string, addressDoubleHashed: boolean = false,
 ): string {
-  olAddress = olAddress.toLowerCase()
+  takerBCAddress = takerBCAddress.toLowerCase()
   if (!addressDoubleHashed) {
-    olAddress = blake2bl(blake2bl(olAddress) + olAddress)
+    takerBCAddress = blake2bl(blake2bl(takerBCAddress) + takerBCAddress)
   }
-  const opXType = '6' // local government
-  const opXInitScript = ['OP_X', normalizeHexString(opXType), normalizeHexString(feedAddress)]
-  const unlockMonadScript =
-    ['OP_BLAKE2BLPRIV', normalizeHexString(olAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY']
-
-  const script = ['OP_MONOID', opXInitScript, 'OP_MONAD', unlockMonadScript, 'OP_ENDMONAD']
-
-  return script.join(' ')
+  const script = [
+    [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
+    // 4: taker succeed, maker failed, taker can spend the outpoint
+    ['4', 'OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BLPRIV',
+      normalizeHexString(takerBCAddress),
+      'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+    // this.OP_0() // both failed,
+    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BLPRIV',
+      normalizeHexString(takerBCAddress),
+      'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD'],
+  ]
+  return script.map(part => part.join(' ')).join(' ')
 }
 
 export function createFeedLockScript (
