@@ -264,7 +264,7 @@ export function createTakerUnlockScript (sendsFromAddress: string, receivesToAdd
   return [sendsFromAddress, receivesToAddress].join(' ')
 }
 
-export function createFeedUnlockScript (sendsFromAddress: string, receivesToAddress: string): string {
+export function createUpdateFeedUnlockScript (sendsFromAddress: string, receivesToAddress: string): string {
   return [sendsFromAddress, receivesToAddress].join(' ')
 }
 
@@ -279,6 +279,27 @@ export function parseTakerUnlockScript (script: Uint8Array): {
     receivesToAddress,
     sendsFromAddress,
   }
+}
+
+export function createUpdateFeedLockScript (
+  makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string, addressDoubleHashed: boolean = false,
+): string {
+  takerBCAddress = takerBCAddress.toLowerCase()
+  if (!addressDoubleHashed) {
+    takerBCAddress = blake2bl(blake2bl(takerBCAddress) + takerBCAddress)
+  }
+  const script = [
+    [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
+    // 4: taker succeed, maker failed, taker can spend the outpoint
+    ['4', 'OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BLPRIV',
+      normalizeHexString(takerBCAddress),
+      'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
+    // this.OP_0() // both failed,
+    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BLPRIV',
+      normalizeHexString(takerBCAddress),
+      'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD'],
+  ]
+  return script.map(part => part.join(' ')).join(' ')
 }
 
 export function createFeedLockScript (
@@ -347,7 +368,7 @@ export function createTakerCallbackLockScript (makerTxHash: string, makerTxOutpu
   return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
 }
 
-export function createFeedCallbackLockScript (makerTxHash: string, makerTxOutputIndex: number): string {
+export function createUpdateFeedCallbackLockScript (makerTxHash: string, makerTxOutputIndex: number): string {
   return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ')
 }
 

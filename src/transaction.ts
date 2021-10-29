@@ -16,9 +16,7 @@ import {
   createSignedNRGUnlockInputs,
   createTakerCallbackLockScript,
   createTakerLockScript,
-  createTakerUnlockScript,
-  createFeedCallbackLockScript,
-  createFeedUnlockScript,
+  createTakerUnlockScript
 } from './script/templates'
 import {
   COIN_FRACS,
