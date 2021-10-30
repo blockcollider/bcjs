@@ -281,27 +281,6 @@ export function parseTakerUnlockScript (script: Uint8Array): {
   }
 }
 
-export function createUpdateFeedLockScript (
-  makerTxHash: string, makerTxOutputIndex: string|number, takerBCAddress: string, addressDoubleHashed: boolean = false,
-): string {
-  takerBCAddress = takerBCAddress.toLowerCase()
-  if (!addressDoubleHashed) {
-    takerBCAddress = blake2bl(blake2bl(takerBCAddress) + takerBCAddress)
-  }
-  const script = [
-    [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'],
-    // 4: taker succeed, maker failed, taker can spend the outpoint
-    ['4', 'OP_IFEQ', 'OP_MONAD', 'OP_BLAKE2BLPRIV',
-      normalizeHexString(takerBCAddress),
-      'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD', 'OP_ENDIFEQ'],
-    // this.OP_0() // both failed,
-    ['OP_DROP', 'OP_MONAD', 'OP_BLAKE2BLPRIV',
-      normalizeHexString(takerBCAddress),
-      'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD'],
-  ]
-  return script.map(part => part.join(' ')).join(' ')
-}
-
 export function createFeedLockScript (
   olAddress: string,
   feedAddress: string,
@@ -319,6 +298,24 @@ export function createFeedLockScript (
   const script = ['OP_MONOID', opXInitScript, 'OP_MONAD', unlockMonadScript, 'OP_ENDMONAD']
 
   return script.join(' ')
+}
+
+export function createUpdateFeedLockScript (
+  feedTxHash: string, 
+  feedTxOutputIndex: string|number, 
+  feedUpdaterAddress: string,
+  addressDoubleHashed: boolean = false,
+): string {
+  feedUpdaterAddress = feedUpdaterAddress.toLowerCase()
+  if (!addressDoubleHashed) {
+    feedUpdaterAddress = blake2bl(blake2bl(feedUpdaterAddress) + feedUpdaterAddress)
+  }
+  const script = [
+    [feedTxHash, feedTxOutputIndex, 'OP_CALLBACK'],
+    ['OP_MONAD', 'OP_BLAKE2BLPRIV', normalizeHexString(feedUpdaterAddress),
+     'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD'],
+  ]
+  return script.map(part => part.join(' ')).join(' ')
 }
 
 export function createTakerLockScript (

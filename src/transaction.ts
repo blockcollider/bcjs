@@ -271,7 +271,7 @@ export const createMakerOrderTransaction = async function (
 
    message RpcUpdateFeedTransaction {
        string owner_addr = 1;
-       string feed_addr = 2; // created custom owner_addr@feed_addr = channel
+       string feed_addr = 2; // created custom owner_addr@feed_addr = feed reference key
        string sender_addr = 3; // the message sender
        string data = 4; // raw data
        string data_length = 5; // byte length of the raw data (prevent buffer overflow)
@@ -288,7 +288,9 @@ export const createUpdateFeedTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, 
   receivesToAddress: string,
-  channelInfo: {
+  updateData: string,
+  updateDataLength: number,
+  feedInfo: {
     doubleHashedBcAddress: string, 
     base: number, 
     fixedUnitFee: string, 
@@ -300,7 +302,6 @@ export const createUpdateFeedTransaction = async function (
   bcAddress: string, 
   bcPrivateKeyHex: string,
   collateralizedNrg: string, 
-  additionalTxFee: string,
   addDefaultFee: boolean = true, 
   byteFeeMultiplier: string
 ) {
@@ -311,8 +312,8 @@ export const createUpdateFeedTransaction = async function (
   /*
    * This is the create update feed used for messaging and running wireless cross chain transactions 
    */ 
-  const fixedUnitFee = channelInfo.fixedUnitFee
-  const base = channelInfo.base
+  const fixedUnitFee = feedInfo.fixedUnitFee
+  const base = feedInfo.base
 
   // if op min unit fixedFee set this amount only equals fixed fee
   const spendingNRG = (base === 1)
@@ -320,12 +321,12 @@ export const createUpdateFeedTransaction = async function (
     : humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
 
   // this is always 0
-  const totalFeeBN = calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
+  const totalFeeBN = new BN(0)  
   const totalAmountBN = totalFeeBN.add(spendingNRG)
-  const makerUnitBN = humanToInternalAsBN(channelInfo.nrgUnit, COIN_FRACS.NRG)
+  const makerUnitBN = humanToInternalAsBN(feedInfo.nrgUnit, COIN_FRACS.NRG)
 
   // it may cost to update a feed for a comment
-  const makerCollateralBN = humanToInternalAsBN(channelInfo.collateralizedNrg, COIN_FRACS.NRG)
+  const makerCollateralBN = humanToInternalAsBN(feedInfo.collateralizedNrg, COIN_FRACS.NRG)
 
   let takerCollateralBN = humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
 
@@ -334,24 +335,26 @@ export const createUpdateFeedTransaction = async function (
     takerCollateralBN = new BN(makerCollateralBN.toString())
   }
 
-  const makerTxHash = channelInfo.txHash
-  const makerTxOutputIndex = channelInfo.txOutputIndex
+  const feedTxHash = feedInfo.txHash
+  const feedTxOutputIndex = feedInfo.txOutputIndex
 
   // update feed input with callback
   const takerInputUnlockScript = createUpdateFeedUnlockScript(sendsFromAddress, receivesToAddress)
-  const makerTxOutpoint = createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN)
+
+  // this is the reference to the feed the user is commmenting on 
+  const feedTxOutpoint = createOutPoint(feedTxHash, feedTxOutputIndex, makerCollateralBN)
   const nonNRGInputs = [
-    createTransactionInput(makerTxOutpoint, takerInputUnlockScript),
+    createTransactionInput(feedTxOutpoint, takerInputUnlockScript),
   ]
 
   // update feed output
-  const outputLockScript = createUpdateFeedLockScript(makerTxHash, makerTxOutputIndex, bcAddress)
+  const outputLockScript = createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, updateData, updateDataLength, bcAddress)
   const txOutputs = [
     createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString()))),
   ]
 
   if (fixedUnitFee && fixedUnitFee !== '0') {
-    const makerFeeScript = ['OP_BLAKE2BLPRIV', channelInfo.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ')
+    const makerFeeScript = ['OP_BLAKE2BLPRIV', feedInfo.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ')
     txOutputs.push(createTransactionOutput(
       makerFeeScript,
       makerUnitBN,
@@ -361,7 +364,7 @@ export const createUpdateFeedTransaction = async function (
 
   // partial order
   if (makerCollateralBN.gt(takerCollateralBN)) {
-    const outputLockScriptCb = createUpdateFeedCallbackLockScript(makerTxHash, makerTxOutputIndex)
+    const outputLockScriptCb = createUpdateFeedCallbackLockScript(feedTxHash, makerTxOutputIndex)
     txOutputs.push(createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
   }
 
