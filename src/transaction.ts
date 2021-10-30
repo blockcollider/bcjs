@@ -348,7 +348,7 @@ export const createUpdateFeedTransaction = async function (
   ]
 
   // update feed output
-  const outputLockScript = createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, updateData, updateDataLength, bcAddress)
+  const outputLockScript = createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, bcAddress, updateData, updateDataLength)
   const txOutputs = [
     createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString()))),
   ]
