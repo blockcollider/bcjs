@@ -364,7 +364,7 @@ export const createUpdateFeedTransaction = async function (
 
   // partial order
   if (makerCollateralBN.gt(takerCollateralBN)) {
-    const outputLockScriptCb = createUpdateFeedCallbackLockScript(feedTxHash, makerTxOutputIndex)
+    const outputLockScriptCb = createUpdateFeedCallbackLockScript(feedTxHash, feedTxOutputIndex)
     txOutputs.push(createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)))
   }
 
