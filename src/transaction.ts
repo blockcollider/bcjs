@@ -321,7 +321,6 @@ export const createUpdateFeedTransaction = async function (
 
   // this is always 0
   const totalFeeBN = calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker')
-
   const totalAmountBN = totalFeeBN.add(spendingNRG)
   const makerUnitBN = humanToInternalAsBN(channelInfo.nrgUnit, COIN_FRACS.NRG)
 
