@@ -305,7 +305,7 @@ export function createUpdateFeedLockScript (
   feedTxOutputIndex: string|number,
   feedUpdaterAddress: string,
   updateData: string,
-  updateDataLength: string|number,
+  updateDataLength: number,
   addressDoubleHashed: boolean = false,
 ): string {
   feedUpdaterAddress = feedUpdaterAddress.toLowerCase()
