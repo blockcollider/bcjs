@@ -301,8 +301,8 @@ export function createFeedLockScript (
 }
 
 export function createUpdateFeedLockScript (
-  feedTxHash: string, 
-  feedTxOutputIndex: string|number, 
+  feedTxHash: string,
+  feedTxOutputIndex: string|number,
   feedUpdaterAddress: string,
   addressDoubleHashed: boolean = false,
 ): string {
