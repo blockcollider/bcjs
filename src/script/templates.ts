@@ -283,7 +283,9 @@ export function parseTakerUnlockScript (script: Uint8Array): {
 
 export function createFeedLockScript (
   olAddress: string,
-  feedAddress: string,
+  dataType: string,
+  dataLength: string|number, // may be different if IPFS download
+  data: string,
   addressDoubleHashed: boolean = false,
 ): string {
   olAddress = olAddress.toLowerCase()
@@ -291,11 +293,25 @@ export function createFeedLockScript (
     olAddress = blake2bl(blake2bl(olAddress) + olAddress)
   }
   const opXType = '6' // local government
-  const opXInitScript = ['OP_X', normalizeHexString(opXType), normalizeHexString(feedAddress)]
+  const referenceTxHash = '0' // no tx hash 
+  const referenceTxIndex = '0' // no outpoint 
+  const opXInitScript = [
+    'OP_X', 
+    normalizeHexString(opXType), 
+    normalizeHexString(referenceTxHash), 
+    normalizeHexString(referenceTxIndex),
+    normalizeHexString(dataType), // type of data being posted 
+    normalizeHexString(dataLength), // data length
+    normalizeHexString(data) // length of data being sent (prevent overflow or download limits)  
+  ].join(' ')
+
   const unlockMonadScript =
     ['OP_BLAKE2BLPRIV', normalizeHexString(olAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY']
 
-  const script = ['OP_MONOID', opXInitScript, 'OP_MONAD', unlockMonadScript, 'OP_ENDMONAD']
+  const script = [opXInitScript, unlockMonadScript]
+
+  // unspendable script would look like this: 
+  // const script = [opXInitScript, 'OP_RETURN']
 
   return script.join(' ')
 }
@@ -387,15 +403,14 @@ export function getScriptType (script: Uint8Array): ScriptType {
 
   if (scriptStr.startsWith('OP_MONOID') && scriptStr.indexOf('OP_X') < 0) {
     return ScriptType.MAKER_OUTPUT // IS_MAKER_ORDER
-  } else if (scriptStr.startsWith('OP_MONOID') &&
-    scriptStr.indexOf('OP_X') > -1 && scriptStr.indexOf('OP_CALLBACK') < 0) {
+  } else if (scriptStr.indexOf('OP_X 6 0 0') > -1) {
     return ScriptType.FEED_CREATE // IS_FEED_CREATE
   } else if (scriptStr.endsWith('OP_CALLBACK')) {
     return ScriptType.TAKER_CALLBACK // IS_MAKER_CALLBACK_ORDER
   } else if (scriptStr.indexOf('OP_MONAD') > -1 &&
     scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_IFEQ') > -1) {
     return ScriptType.TAKER_OUTPUT // IS_TAKER_ORDER
-  } else if (scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_MONAD') > -1) {
+  } else if (scriptStr.indexOf('OP_X 6') > -1 && scriptStr.indexOf('OP_X 6 0 0') < 0) {
     return ScriptType.FEED_UPDATE // IS_FEED_UPDATE
   } else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
     return ScriptType.NRG_TRANSFER // IS_NRG_TRANSFER

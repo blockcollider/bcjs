@@ -154,25 +154,30 @@ export const createNRGTransferTransaction = async function (
  * @param spendableWalletOutPointObjs:
  * @param olAddress: string,
  * @param olPrivateKeyHex: string,
- * @param feedAddress: string,
+ * @param data: string,
  * @param olAmount: string,
+ * @param olUnit: string,
  * @param addDefaultFee: string,
+ * @param byteFeeMultiplier: string,
  */
 export const createFeedTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   olAddress: string,
   olPrivateKeyHex: string,
-  feedAddress: string,
+  dataType: string,
+  dataLength: string,
+  data: string,
   olAmount: string,
   olUnit: string,
-  addDefaultFee: boolean = true, byteFeeMultiplier: string,
+  addDefaultFee: boolean = true, 
+  byteFeeMultiplier: string
 ) {
   if (olPrivateKeyHex.startsWith('0x')) {
     olPrivateKeyHex = olPrivateKeyHex.slice(2)
   }
 
   const totalAmountBN = humanToInternalAsBN(olAmount, COIN_FRACS.NRG)
-  const outputLockScript = createFeedLockScript(olAddress, feedAddress)
+  const outputLockScript = createFeedLockScript(olAddress, '0', data.length, data)
 
   const txOutputs = [
     createTransactionOutput(
