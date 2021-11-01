@@ -284,7 +284,7 @@ export function parseTakerUnlockScript (script: Uint8Array): {
 export function createFeedLockScript (
   olAddress: string,
   dataType: string,
-  dataLength: string|number, // may be different if IPFS download
+  dataLength: string, // may be different if IPFS download
   data: string,
   addressDoubleHashed: boolean = false,
 ): string {
