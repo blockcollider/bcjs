@@ -268,6 +268,30 @@ export function createUpdateFeedUnlockScript (sendsFromAddress: string, receives
   return [sendsFromAddress, receivesToAddress].join(' ')
 }
 
+export function parseCreateFeedLockScript (script: Uint8Array): {
+  dataType: string,
+  dataLength: string,
+  data: string,
+  doubleHashedOlAddress: string,
+} {
+  const scriptStr = toASM(Buffer.from(script), 0x01)
+
+  const opxScriptStr = scriptStr.split(' OP_X 6 0 0 ')[1]
+
+  const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV ')[1]
+
+  const [dataType, dataLength, data] = opxScriptStr.split(' ')
+
+  const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_BLAKE2BLPRIV ')[1]
+
+  return {
+    dataType,
+    dataLength,
+    data,
+    doubleHashedOlAddress,
+  }
+}
+
 export function parseTakerUnlockScript (script: Uint8Array): {
   sendsFromAddress: string,
   receivesToAddress: string,
