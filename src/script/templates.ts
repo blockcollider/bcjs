@@ -344,8 +344,9 @@ export function createUpdateFeedLockScript (
   feedTxHash: string,
   feedTxOutputIndex: string|number,
   feedUpdaterAddress: string,
-  updateData: string,
-  updateDataLength: number,
+  dataType: string,
+  dataLength: string,
+  data: string,
   addressDoubleHashed: boolean = false,
 ): string {
   feedUpdaterAddress = feedUpdaterAddress.toLowerCase()
@@ -353,9 +354,9 @@ export function createUpdateFeedLockScript (
     feedUpdaterAddress = blake2bl(blake2bl(feedUpdaterAddress) + feedUpdaterAddress)
   }
   const script = [
-    [feedTxHash, feedTxOutputIndex, 'OP_CALLBACK'],
-    ['OP_MONAD', updateData, updateDataLength, 'OP_BLAKE2BLPRIV', normalizeHexString(feedUpdaterAddress),
-     'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY', 'OP_ENDMONAD'],
+    ['OP_X', '6', normalizeHexString(feedTxHash), feedTxOutputIndex],
+    [dataType, dataLength, data, 'OP_BLAKE2BLPRIV', normalizeHexString(feedUpdaterAddress),
+     'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'],
   ]
   return script.map(part => part.join(' ')).join(' ')
 }

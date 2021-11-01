@@ -293,8 +293,9 @@ export const createUpdateFeedTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
   sendsFromAddress: string, 
   receivesToAddress: string,
-  updateData: string,
-  updateDataLength: number,
+  dataType: string,
+  dataLength: string,
+  data: string,
   feedInfo: {
     doubleHashedBcAddress: string, 
     base: number, 
@@ -353,7 +354,7 @@ export const createUpdateFeedTransaction = async function (
   ]
 
   // update feed output
-  const outputLockScript = createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, bcAddress, updateData, updateDataLength)
+  const outputLockScript = createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, bcAddress, dataType, dataLength, data)
   const txOutputs = [
     createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new BN(base.toString()))),
   ]
