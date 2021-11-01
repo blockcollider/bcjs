@@ -177,7 +177,7 @@ export const createFeedTransaction = async function (
   }
 
   const totalAmountBN = humanToInternalAsBN(olAmount, COIN_FRACS.NRG)
-  const outputLockScript = createFeedLockScript(olAddress, '0', data.length, data)
+  const outputLockScript = createFeedLockScript(olAddress, '0', `${data.length}`, data)
 
   const txOutputs = [
     createTransactionOutput(
