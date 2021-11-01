@@ -302,7 +302,7 @@ export function createFeedLockScript (
     normalizeHexString(referenceTxIndex),
     normalizeHexString(dataType), // type of data being posted
     normalizeHexString(dataLength), // data length
-    normalizeHexString(data),// length of data being sent (prevent overflow or download limits)
+    normalizeHexString(data), // length of data being sent (prevent overflow or download limits)
   ].join(' ')
 
   const unlockMonadScript =
