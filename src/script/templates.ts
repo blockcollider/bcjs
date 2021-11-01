@@ -293,16 +293,16 @@ export function createFeedLockScript (
     olAddress = blake2bl(blake2bl(olAddress) + olAddress)
   }
   const opXType = '6' // local government
-  const referenceTxHash = '0' // no tx hash 
-  const referenceTxIndex = '0' // no outpoint 
+  const referenceTxHash = '0' // no tx hash
+  const referenceTxIndex = '0' // no outpoint
   const opXInitScript = [
-    'OP_X', 
-    normalizeHexString(opXType), 
-    normalizeHexString(referenceTxHash), 
+    'OP_X',
+    normalizeHexString(opXType),
+    normalizeHexString(referenceTxHash),
     normalizeHexString(referenceTxIndex),
-    normalizeHexString(dataType), // type of data being posted 
+    normalizeHexString(dataType), // type of data being posted
     normalizeHexString(dataLength), // data length
-    normalizeHexString(data) // length of data being sent (prevent overflow or download limits)  
+    normalizeHexString(data),// length of data being sent (prevent overflow or download limits)
   ].join(' ')
 
   const unlockMonadScript =
@@ -310,7 +310,7 @@ export function createFeedLockScript (
 
   const script = [opXInitScript, unlockMonadScript]
 
-  // unspendable script would look like this: 
+  // unspendable script would look like this:
   // const script = [opXInitScript, 'OP_RETURN']
 
   return script.join(' ')
