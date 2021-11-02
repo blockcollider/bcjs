@@ -1,0 +1,12 @@
+{
+  "git": {
+    "commitMessage": "Version v${version}",
+    "tagName": "v${version}",
+    "tagAnnotation": "Version v${version}",
+    "requireCleanWorkingDir": true,
+    "requireCommits": true
+  },
+  "npm": {
+    "publish": false
+  }
+}
