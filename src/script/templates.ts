@@ -296,7 +296,6 @@ export function parseUpdateFeedLockScript (script: Uint8Array): {
   }
 }
 
-
 export function parseCreateFeedLockScript (script: Uint8Array): {
   dataType: string,
   dataLength: string,
