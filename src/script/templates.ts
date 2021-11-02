@@ -287,12 +287,12 @@ export function parseUpdateFeedLockScript (script: Uint8Array): {
   const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_BLAKE2BLPRIV ')[1]
 
   return {
-    feedTxHash,
-    feedTxOutputIndex,
     data,
     dataLength,
     dataType,
     doubleHashedOlAddress,
+    feedTxHash,
+    feedTxOutputIndex,
   }
 }
 
