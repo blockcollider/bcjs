@@ -110,17 +110,19 @@ exports.createNRGTransferTransaction = function (spendableWalletOutPointObjs, fr
  * @param spendableWalletOutPointObjs:
  * @param olAddress: string,
  * @param olPrivateKeyHex: string,
- * @param feedAddress: string,
+ * @param data: string,
  * @param olAmount: string,
+ * @param olUnit: string,
  * @param addDefaultFee: string,
+ * @param byteFeeMultiplier: string,
  */
-exports.createFeedTransaction = function (spendableWalletOutPointObjs, olAddress, olPrivateKeyHex, feedAddress, olAmount, olUnit, addDefaultFee = true, byteFeeMultiplier) {
+exports.createFeedTransaction = function (spendableWalletOutPointObjs, olAddress, olPrivateKeyHex, dataType, dataLength, data, olAmount, olUnit, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         if (olPrivateKeyHex.startsWith('0x')) {
             olPrivateKeyHex = olPrivateKeyHex.slice(2);
         }
         const totalAmountBN = coin_1.humanToInternalAsBN(olAmount, coin_1.COIN_FRACS.NRG);
-        const outputLockScript = templates_1.createFeedLockScript(olAddress, feedAddress);
+        const outputLockScript = templates_1.createFeedLockScript(olAddress, '0', `${data.length}`, data);
         const txOutputs = [
             protoUtil_1.createTransactionOutput(outputLockScript, coin_1.humanToInternalAsBN(olUnit, coin_1.COIN_FRACS.NRG), coin_1.humanToInternalAsBN(olAmount, coin_1.COIN_FRACS.NRG))
         ];
@@ -169,46 +171,70 @@ exports.createMakerOrderTransaction = function (spendableWalletOutPointObjs, shi
  * @param transferAmount: string,
  * @param txFee: string
  */
-exports.createUpdateFeedTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, makerOpenOrder, bcAddress, bcPrivateKeyHex, collateralizedNrg, additionalTxFee, addDefaultFee = true, byteFeeMultiplier) {
+/*
+  PROTOBUF FOR UPDATE FEED TX
+
+   message RpcUpdateFeedTransaction {
+       string owner_addr = 1;
+       string feed_addr = 2; // created custom owner_addr@feed_addr = feed reference key
+       string sender_addr = 3; // the message sender
+       string data = 4; // raw data
+       string data_length = 5; // byte length of the raw data (prevent buffer overflow)
+       string amount = 6; // amount transfered to the owner address
+       string tx_fee = 7; // fee paid to miner for tx
+       string tx_panel = 8; // signature of the entire feed transaction + the panel added
+       string tx_part = 9; // multi-part messaging across chains or for running off chain (free txs)
+       string tx_nonce = 10; // supplied to relay the transaction
+       string minimum_distance = 11; // the hash of the minimum distance and hash tx panel if added must be below the minimum distance unless 0
+       string private_key_hex = 12;
+   }
+*/
+exports.createUpdateFeedTransaction = function (spendableWalletOutPointObjs, sendsFromAddress, receivesToAddress, dataType, dataLength, data, feedInfo, bcAddress, bcPrivateKeyHex, collateralizedNrg, addDefaultFee = true, byteFeeMultiplier) {
     return __awaiter(this, void 0, void 0, function* () {
         if (bcPrivateKeyHex.startsWith('0x')) {
             bcPrivateKeyHex = bcPrivateKeyHex.slice(2);
         }
-        const fixedUnitFee = makerOpenOrder.fixedUnitFee;
-        const base = makerOpenOrder.base;
+        /*
+         * This is the create update feed used for messaging and running wireless cross chain transactions
+         */
+        const fixedUnitFee = feedInfo.fixedUnitFee;
+        const base = feedInfo.base;
         // if op min unit fixedFee set this amount only equals fixed fee
         const spendingNRG = (base === 1)
             ? coin_1.humanToInternalAsBN(fixedUnitFee, coin_1.COIN_FRACS.NRG)
             : coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG);
-        const totalFeeBN = exports.calculateCrossChainTradeFee(collateralizedNrg, additionalTxFee, 'taker');
+        // this is always 0
+        const totalFeeBN = new bn_js_1.default(0);
         const totalAmountBN = totalFeeBN.add(spendingNRG);
-        const makerUnitBN = coin_1.humanToInternalAsBN(makerOpenOrder.nrgUnit, coin_1.COIN_FRACS.NRG);
-        const makerCollateralBN = coin_1.humanToInternalAsBN(makerOpenOrder.collateralizedNrg, coin_1.COIN_FRACS.NRG);
+        const makerUnitBN = coin_1.humanToInternalAsBN(feedInfo.nrgUnit, coin_1.COIN_FRACS.NRG);
+        // it may cost to update a feed for a comment
+        const makerCollateralBN = coin_1.humanToInternalAsBN(feedInfo.collateralizedNrg, coin_1.COIN_FRACS.NRG);
         let takerCollateralBN = coin_1.humanToInternalAsBN(collateralizedNrg, coin_1.COIN_FRACS.NRG);
         // modify taker collateral to be = makercollateralBN if it is above
         if (makerCollateralBN.lt(takerCollateralBN)) {
             takerCollateralBN = new bn_js_1.default(makerCollateralBN.toString());
         }
-        const makerTxHash = makerOpenOrder.txHash;
-        const makerTxOutputIndex = makerOpenOrder.txOutputIndex;
-        // takers input
-        const takerInputUnlockScript = templates_1.createTakerUnlockScript(sendsFromAddress, receivesToAddress);
-        const makerTxOutpoint = protoUtil_1.createOutPoint(makerTxHash, makerTxOutputIndex, makerCollateralBN);
+        const feedTxHash = feedInfo.txHash;
+        const feedTxOutputIndex = feedInfo.txOutputIndex;
+        // update feed input with callback
+        const takerInputUnlockScript = templates_1.createUpdateFeedUnlockScript(sendsFromAddress, receivesToAddress);
+        // this is the reference to the feed the user is commmenting on 
+        const feedTxOutpoint = protoUtil_1.createOutPoint(feedTxHash, feedTxOutputIndex, makerCollateralBN);
         const nonNRGInputs = [
-            protoUtil_1.createTransactionInput(makerTxOutpoint, takerInputUnlockScript),
+            protoUtil_1.createTransactionInput(feedTxOutpoint, takerInputUnlockScript),
         ];
-        // takers output
-        const outputLockScript = templates_1.createTakerLockScript(makerTxHash, makerTxOutputIndex, bcAddress);
+        // update feed output
+        const outputLockScript = templates_1.createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, bcAddress, dataType, dataLength, data);
         const txOutputs = [
             protoUtil_1.createTransactionOutput(outputLockScript, makerUnitBN, takerCollateralBN.mul(new bn_js_1.default(base.toString()))),
         ];
         if (fixedUnitFee && fixedUnitFee !== '0') {
-            const makerFeeScript = ['OP_BLAKE2BLPRIV', makerOpenOrder.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ');
+            const makerFeeScript = ['OP_BLAKE2BLPRIV', feedInfo.doubleHashedBcAddress, 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'].join(' ');
             txOutputs.push(protoUtil_1.createTransactionOutput(makerFeeScript, makerUnitBN, coin_1.humanToInternalAsBN(fixedUnitFee, coin_1.COIN_FRACS.NRG)));
         }
         // partial order
         if (makerCollateralBN.gt(takerCollateralBN)) {
-            const outputLockScriptCb = templates_1.createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex);
+            const outputLockScriptCb = templates_1.createUpdateFeedCallbackLockScript(feedTxHash, feedTxOutputIndex);
             txOutputs.push(protoUtil_1.createTransactionOutput(outputLockScriptCb, makerUnitBN, makerCollateralBN.sub(takerCollateralBN)));
         }
         return yield _compileTransaction(spendableWalletOutPointObjs, txOutputs, nonNRGInputs, totalAmountBN, bcAddress, bcPrivateKeyHex, addDefaultFee, byteFeeMultiplier);

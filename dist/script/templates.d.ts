@@ -16,7 +16,6 @@ export declare function createNRGLockScript(address: string, addressDoubleHashed
 export declare function parseNRGLockScript(script: Uint8Array): {
     doubleHashedBcAddress: string;
 };
-export declare function createFeedLockScript(olAddress: string, feedAddress: string, addressDoubleHashed?: boolean): string;
 export declare function createMakerLockScript(shiftMaker: number, shiftTaker: number, depositLength: number, settleLength: number, sendsFromChain: string, receivesToChain: string, sendsFromAddress: string, receivesToAddress: string, sendsUnit: string, receivesUnit: string, fixedUnitFee: string, bcAddress: string, addressDoubleHashed?: boolean): string;
 export declare function parseMakerLockScript(script: Uint8Array): {
     shiftMaker: number;
@@ -34,10 +33,28 @@ export declare function parseMakerLockScript(script: Uint8Array): {
     base: number;
 };
 export declare function createTakerUnlockScript(sendsFromAddress: string, receivesToAddress: string): string;
+export declare function createUpdateFeedUnlockScript(sendsFromAddress: string, receivesToAddress: string): string;
+export declare function parseUpdateFeedLockScript(script: Uint8Array): {
+    feedTxHash: string;
+    feedTxOutputIndex: string | number;
+    dataType: string;
+    dataLength: string;
+    data: string;
+    doubleHashedOlAddress: string;
+};
+export declare function parseCreateFeedLockScript(script: Uint8Array): {
+    dataType: string;
+    dataLength: string;
+    data: string;
+    doubleHashedOlAddress: string;
+};
 export declare function parseTakerUnlockScript(script: Uint8Array): {
     sendsFromAddress: string;
     receivesToAddress: string;
 };
+export declare function createFeedLockScript(olAddress: string, dataType: string, dataLength: string, // may be different if IPFS download
+data: string, addressDoubleHashed?: boolean): string;
+export declare function createUpdateFeedLockScript(feedTxHash: string, feedTxOutputIndex: string | number, feedUpdaterAddress: string, dataType: string, dataLength: string, data: string, addressDoubleHashed?: boolean): string;
 export declare function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string | number, takerBCAddress: string, addressDoubleHashed?: boolean): string;
 export declare function parseTakerLockScript(script: Uint8Array): {
     makerTxHash: string;
@@ -45,6 +62,7 @@ export declare function parseTakerLockScript(script: Uint8Array): {
     doubleHashedBcAddress: string;
 };
 export declare function createTakerCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string;
+export declare function createUpdateFeedCallbackLockScript(makerTxHash: string, makerTxOutputIndex: number): string;
 export declare function parseTakerCallbackLockScript(script: Uint8Array): {
     makerTxHash: string;
     makerTxOutputIndex: string;

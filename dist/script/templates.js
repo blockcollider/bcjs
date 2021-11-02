@@ -124,18 +124,6 @@ function parseNRGLockScript(script) {
     };
 }
 exports.parseNRGLockScript = parseNRGLockScript;
-function createFeedLockScript(olAddress, feedAddress, addressDoubleHashed = false) {
-    olAddress = olAddress.toLowerCase();
-    if (!addressDoubleHashed) {
-        olAddress = crypto_1.blake2bl(crypto_1.blake2bl(olAddress) + olAddress);
-    }
-    const opXType = '6'; // local government
-    const opXInitScript = ['OP_X', string_1.normalizeHexString(opXType), string_1.normalizeHexString(feedAddress)];
-    const unlockMonadScript = ['OP_BLAKE2BLPRIV', string_1.normalizeHexString(olAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'];
-    const script = ['OP_MONOID', opXInitScript, 'OP_MONAD', unlockMonadScript, 'OP_ENDMONAD'];
-    return script.join(' ');
-}
-exports.createFeedLockScript = createFeedLockScript;
 function createMakerLockScript(shiftMaker, shiftTaker, depositLength, settleLength, sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress, sendsUnit, receivesUnit, fixedUnitFee, bcAddress, addressDoubleHashed = false) {
     bcAddress = bcAddress.toLowerCase();
     if (!addressDoubleHashed) {
@@ -215,6 +203,40 @@ function createTakerUnlockScript(sendsFromAddress, receivesToAddress) {
     return [sendsFromAddress, receivesToAddress].join(' ');
 }
 exports.createTakerUnlockScript = createTakerUnlockScript;
+function createUpdateFeedUnlockScript(sendsFromAddress, receivesToAddress) {
+    return [sendsFromAddress, receivesToAddress].join(' ');
+}
+exports.createUpdateFeedUnlockScript = createUpdateFeedUnlockScript;
+function parseUpdateFeedLockScript(script) {
+    const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
+    const opxScriptStr = scriptStr.split(' OP_X 6 ')[1];
+    const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV ')[1];
+    const [feedTxHash, feedTxOutputIndex, dataType, dataLength, data] = opxScriptStr.split(' ');
+    const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_BLAKE2BLPRIV ')[1];
+    return {
+        data,
+        dataLength,
+        dataType,
+        doubleHashedOlAddress,
+        feedTxHash,
+        feedTxOutputIndex,
+    };
+}
+exports.parseUpdateFeedLockScript = parseUpdateFeedLockScript;
+function parseCreateFeedLockScript(script) {
+    const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
+    const opxScriptStr = scriptStr.split(' OP_X 6 0 0 ')[1];
+    const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV ')[1];
+    const [dataType, dataLength, data] = opxScriptStr.split(' ');
+    const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_BLAKE2BLPRIV ')[1];
+    return {
+        data,
+        dataLength,
+        dataType,
+        doubleHashedOlAddress,
+    };
+}
+exports.parseCreateFeedLockScript = parseCreateFeedLockScript;
 function parseTakerUnlockScript(script) {
     const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     const [sendsFromAddress, receivesToAddress] = scriptStr.split(' ');
@@ -224,6 +246,44 @@ function parseTakerUnlockScript(script) {
     };
 }
 exports.parseTakerUnlockScript = parseTakerUnlockScript;
+function createFeedLockScript(olAddress, dataType, dataLength, // may be different if IPFS download
+data, addressDoubleHashed = false) {
+    olAddress = olAddress.toLowerCase();
+    if (!addressDoubleHashed) {
+        olAddress = crypto_1.blake2bl(crypto_1.blake2bl(olAddress) + olAddress);
+    }
+    const opXType = '6'; // local government
+    const referenceTxHash = '0'; // no tx hash
+    const referenceTxIndex = '0'; // no outpoint
+    const opXInitScript = [
+        'OP_X',
+        string_1.normalizeHexString(opXType),
+        string_1.normalizeHexString(referenceTxHash),
+        string_1.normalizeHexString(referenceTxIndex),
+        string_1.normalizeHexString(dataType),
+        string_1.normalizeHexString(dataLength),
+        string_1.normalizeHexString(data),
+    ].join(' ');
+    const unlockMonadScript = ['OP_BLAKE2BLPRIV', string_1.normalizeHexString(olAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'];
+    const script = [opXInitScript, unlockMonadScript];
+    // unspendable script would look like this:
+    // const script = [opXInitScript, 'OP_RETURN']
+    return script.join(' ');
+}
+exports.createFeedLockScript = createFeedLockScript;
+function createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, feedUpdaterAddress, dataType, dataLength, data, addressDoubleHashed = false) {
+    feedUpdaterAddress = feedUpdaterAddress.toLowerCase();
+    if (!addressDoubleHashed) {
+        feedUpdaterAddress = crypto_1.blake2bl(crypto_1.blake2bl(feedUpdaterAddress) + feedUpdaterAddress);
+    }
+    const script = [
+        ['OP_X', '6', string_1.normalizeHexString(feedTxHash), feedTxOutputIndex],
+        [dataType, dataLength, data, 'OP_BLAKE2BLPRIV', string_1.normalizeHexString(feedUpdaterAddress),
+            'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'],
+    ];
+    return script.map(part => part.join(' ')).join(' ');
+}
+exports.createUpdateFeedLockScript = createUpdateFeedLockScript;
 function createTakerLockScript(makerTxHash, makerTxOutputIndex, takerBCAddress, addressDoubleHashed = false) {
     takerBCAddress = takerBCAddress.toLowerCase();
     if (!addressDoubleHashed) {
@@ -261,6 +321,10 @@ function createTakerCallbackLockScript(makerTxHash, makerTxOutputIndex) {
     return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ');
 }
 exports.createTakerCallbackLockScript = createTakerCallbackLockScript;
+function createUpdateFeedCallbackLockScript(makerTxHash, makerTxOutputIndex) {
+    return [makerTxHash, makerTxOutputIndex, 'OP_CALLBACK'].join(' ');
+}
+exports.createUpdateFeedCallbackLockScript = createUpdateFeedCallbackLockScript;
 function parseTakerCallbackLockScript(script) {
     const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
     const [makerTxHash, makerTxOutputIndex, opCallback] = scriptStr.split(' ');
@@ -275,8 +339,7 @@ function getScriptType(script) {
     if (scriptStr.startsWith('OP_MONOID') && scriptStr.indexOf('OP_X') < 0) {
         return ScriptType.MAKER_OUTPUT; // IS_MAKER_ORDER
     }
-    else if (scriptStr.startsWith('OP_MONOID') &&
-        scriptStr.indexOf('OP_X') > -1 && scriptStr.indexOf('OP_CALLBACK') < 0) {
+    else if (scriptStr.indexOf('OP_X 6 0 0') > -1) {
         return ScriptType.FEED_CREATE; // IS_FEED_CREATE
     }
     else if (scriptStr.endsWith('OP_CALLBACK')) {
@@ -286,7 +349,7 @@ function getScriptType(script) {
         scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_IFEQ') > -1) {
         return ScriptType.TAKER_OUTPUT; // IS_TAKER_ORDER
     }
-    else if (scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_MONAD') > -1) {
+    else if (scriptStr.indexOf('OP_X 6') > -1 && scriptStr.indexOf('OP_X 6 0 0') < 0) {
         return ScriptType.FEED_UPDATE; // IS_FEED_UPDATE
     }
     else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
