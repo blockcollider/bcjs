@@ -43,7 +43,6 @@ And you should get response similar to this:
 # Releasing
 
 - releases are done only from `master` branch
-- in a separate commit, update the version in package.json to N+1 (0.0.1 -> 0.0.2), in the commit message, say `Version vX.Y.Z`
-    - you can add a list of changes from the previous version as bullet list to 3rd and next lines of commit message
-- Create signed tag to to the commit called as the new version (e.g. `v0.0.2`)
-- Push both master and the tag (`git push origin master && git push --tags`)
+- **double check that CI checks ran successfully before releasing (or manually run** `yarn && yarn lint && yarn test && yarn compile` **)**
+- test new release with `./node_modules/.bin/release-it --dry-run`
+- if everything looks as expected, run `./node_modules/.bin/release-it`
