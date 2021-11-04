@@ -1127,10 +1127,10 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@overline/proto@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@overline/proto/-/proto-0.2.0.tgz#4d819845cb3f81c923889b73cc9a054b5b73164f"
-  integrity sha512-1BE0M+94ZCQWx7fxylvCfbV4r1E4ACrXPC9GLwWScAUsdSe9WHnRZ9BzAucS/6ekHQtOU4Me/di/f/WS9UoEDg==
+"@overline/proto@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@overline/proto/-/proto-0.3.0.tgz#e496c88081f243d2da8423a7d8aff25df734a98f"
+  integrity sha512-LVwp+lsW83eid4bRVsLqyPRuczdegeha32IVhWiDfkww02LVBEAh6xSKXd7CER1dV1yNhMllWnFuoOu3II4QVw==
   dependencies:
     "@grpc/grpc-js" "^1.4.1"
     bn.js "^5.2.0"
@@ -1371,10 +1371,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/google-protobuf@^3.7.1":
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/@types/google-protobuf/-/google-protobuf-3.7.2.tgz#cd8a360c193ce4d672575a20a79f49ba036d38d2"
-  integrity sha512-ifFemzjNchFBCtHS6bZNhSZCBu7tbtOe0e8qY0z2J4HtFXmPJjm6fXSaQsTG7yhShBEZtt2oP/bkwu5k+emlkQ==
+"@types/google-protobuf@^3.15.5":
+  version "3.15.5"
+  resolved "https://registry.yarnpkg.com/@types/google-protobuf/-/google-protobuf-3.15.5.tgz#644b2be0f5613b1f822c70c73c6b0e0b5b5fa2ad"
+  integrity sha512-6bgv24B+A2bo9AfzReeg5StdiijKzwwnRflA8RLd1V4Yv995LeTmo0z69/MPbBDFSiZWdZHQygLo/ccXhMEDgw==
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.4"
@@ -3941,11 +3941,6 @@ google-protobuf@^3.19.0:
   version "3.19.0"
   resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.19.0.tgz#97f474323c92f19fd6737af1bb792e396991e0b8"
   integrity sha512-qXGAiv3OOlaJXJNeKOBKxbBAwjsxzhx+12ZdKOkZTsqsRkyiQRmr/nBkAkqnuQ8cmA9X5NVXvObQTpHVnXE2DQ==
-
-google-protobuf@^3.6.1, google-protobuf@^3.7.1:
-  version "3.11.4"
-  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.11.4.tgz#598ca405a3cfa917a2132994d008b5932ef42014"
-  integrity sha512-lL6b04rDirurUBOgsY2+LalI6Evq8eH5TcNzi7TYQ3BsIWelT0KSOQSBsXuavEkNf+odQU6c0lgz3UsZXeNX9Q==
 
 got@11.8.2:
   version "11.8.2"
@@ -7669,13 +7664,6 @@ ts-jest@27:
     make-error "1.x"
     semver "7.x"
     yargs-parser "20.x"
-
-ts-protoc-gen@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/ts-protoc-gen/-/ts-protoc-gen-0.10.0.tgz#f708d99be59ad0be6bdce6f4fe893ec41757d2c9"
-  integrity sha512-EEbgDWNHK3CvcNhmib94I4HMO23qLddjLRdXW8EUE11VJxbi3n5J0l2DiX/L1pijOaPTkbEoRK+zQinKgKGqsw==
-  dependencies:
-    google-protobuf "^3.6.1"
 
 ts-toolbelt@^6.3.3:
   version "6.3.12"

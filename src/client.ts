@@ -183,7 +183,7 @@ export default class RpcClient {
         return result as bc.RpcTransactionResponse.AsObject
     }
 
-    public async newFeedTx (request: bc.RpcFeedTransaction): Promise<bc.RpcTransactionResponse.AsObject|Error> {
+    public async newFeedTx (request: bc.RpcFeedTransactionRequest): Promise<bc.RpcTransactionResponse.AsObject|Error> {
         const result = await this.makeJsonRpcRequest(BcRpcMethod.NewFeedTx, request.toArray())
         return result as bc.RpcTransactionResponse.AsObject
     }
