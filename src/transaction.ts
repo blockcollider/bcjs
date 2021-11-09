@@ -169,7 +169,7 @@ export const createFeedTransaction = async function (
   data: string,
   olAmount: string,
   olUnit: string,
-  addDefaultFee: boolean = true, 
+  addDefaultFee: boolean = true,
   byteFeeMultiplier: string
 ) {
   if (olPrivateKeyHex.startsWith('0x')) {
@@ -177,7 +177,7 @@ export const createFeedTransaction = async function (
   }
 
   const totalAmountBN = humanToInternalAsBN(olAmount, COIN_FRACS.NRG)
-  const outputLockScript = createFeedLockScript(olAddress, '0', `${data.length}`, data)
+  const outputLockScript = createFeedLockScript(olAddress, 0, data.length, data)
 
   const txOutputs = [
     createTransactionOutput(
@@ -263,7 +263,7 @@ export const createMakerOrderTransaction = async function (
 }
 
 /*
- * Create Overline Feed update for messages and comments 
+ * Create Overline Feed update for messages and comments
  * @param spendableWalletOutPointObjs:
  * @param fromAddress: string,
  * @param privateKeyHex: string,
@@ -282,33 +282,33 @@ export const createMakerOrderTransaction = async function (
        string data_length = 5; // byte length of the raw data (prevent buffer overflow)
        string amount = 6; // amount transfered to the owner address
        string tx_fee = 7; // fee paid to miner for tx
-       string tx_panel = 8; // signature of the entire feed transaction + the panel added  
+       string tx_panel = 8; // signature of the entire feed transaction + the panel added
        string tx_part = 9; // multi-part messaging across chains or for running off chain (free txs)
        string tx_nonce = 10; // supplied to relay the transaction
-       string minimum_distance = 11; // the hash of the minimum distance and hash tx panel if added must be below the minimum distance unless 0 
+       string minimum_distance = 11; // the hash of the minimum distance and hash tx panel if added must be below the minimum distance unless 0
        string private_key_hex = 12;
    }
 */
 export const createUpdateFeedTransaction = async function (
   spendableWalletOutPointObjs: SpendableWalletOutPointObj[],
-  sendsFromAddress: string, 
+  sendsFromAddress: string,
   receivesToAddress: string,
-  dataType: string,
-  dataLength: string,
+  dataType: number,
+  dataLength: number,
   data: string,
   feedInfo: {
-    doubleHashedBcAddress: string, 
-    base: number, 
-    fixedUnitFee: string, 
-    nrgUnit: string, 
-    collateralizedNrg: string, 
-    txHash: string, 
-    txOutputIndex: number 
+    doubleHashedBcAddress: string,
+    base: number,
+    fixedUnitFee: string,
+    nrgUnit: string,
+    collateralizedNrg: string,
+    txHash: string,
+    txOutputIndex: number
   },
-  bcAddress: string, 
+  bcAddress: string,
   bcPrivateKeyHex: string,
-  collateralizedNrg: string, 
-  addDefaultFee: boolean = true, 
+  collateralizedNrg: string,
+  addDefaultFee: boolean = true,
   byteFeeMultiplier: string
 ) {
   if (bcPrivateKeyHex.startsWith('0x')) {
@@ -316,8 +316,8 @@ export const createUpdateFeedTransaction = async function (
   }
 
   /*
-   * This is the create update feed used for messaging and running wireless cross chain transactions 
-   */ 
+   * This is the create update feed used for messaging and running wireless cross chain transactions
+   */
   const fixedUnitFee = feedInfo.fixedUnitFee
   const base = feedInfo.base
 
@@ -327,7 +327,7 @@ export const createUpdateFeedTransaction = async function (
     : humanToInternalAsBN(collateralizedNrg, COIN_FRACS.NRG)
 
   // this is always 0
-  const totalFeeBN = new BN(0)  
+  const totalFeeBN = new BN(0)
   const totalAmountBN = totalFeeBN.add(spendingNRG)
   const makerUnitBN = humanToInternalAsBN(feedInfo.nrgUnit, COIN_FRACS.NRG)
 
@@ -347,7 +347,7 @@ export const createUpdateFeedTransaction = async function (
   // update feed input with callback
   const takerInputUnlockScript = createUpdateFeedUnlockScript(sendsFromAddress, receivesToAddress)
 
-  // this is the reference to the feed the user is commmenting on 
+  // this is the reference to the feed the user is commmenting on
   const feedTxOutpoint = createOutPoint(feedTxHash, feedTxOutputIndex, makerCollateralBN)
   const nonNRGInputs = [
     createTransactionInput(feedTxOutpoint, takerInputUnlockScript),

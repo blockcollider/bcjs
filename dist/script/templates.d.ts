@@ -52,9 +52,11 @@ export declare function parseTakerUnlockScript(script: Uint8Array): {
     sendsFromAddress: string;
     receivesToAddress: string;
 };
-export declare function createFeedLockScript(olAddress: string, dataType: string, dataLength: string, // may be different if IPFS download
-data: string, addressDoubleHashed?: boolean): string;
-export declare function createUpdateFeedLockScript(feedTxHash: string, feedTxOutputIndex: string | number, feedUpdaterAddress: string, dataType: string, dataLength: string, data: string, addressDoubleHashed?: boolean): string;
+export declare function createFeedLockScript(olAddress: string, dataType: number, dataLength: number, // may be different if IPFS download
+data: string, // has to be hex encoded
+addressDoubleHashed?: boolean): string;
+export declare function createUpdateFeedLockScript(feedTxHash: string, feedTxOutputIndex: string | number, feedUpdaterAddress: string, dataType: number, dataLength: number, data: string, // has to be hex encoded
+addressDoubleHashed?: boolean): string;
 export declare function createTakerLockScript(makerTxHash: string, makerTxOutputIndex: string | number, takerBCAddress: string, addressDoubleHashed?: boolean): string;
 export declare function parseTakerLockScript(script: Uint8Array): {
     makerTxHash: string;

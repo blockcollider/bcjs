@@ -122,7 +122,7 @@ exports.createFeedTransaction = function (spendableWalletOutPointObjs, olAddress
             olPrivateKeyHex = olPrivateKeyHex.slice(2);
         }
         const totalAmountBN = coin_1.humanToInternalAsBN(olAmount, coin_1.COIN_FRACS.NRG);
-        const outputLockScript = templates_1.createFeedLockScript(olAddress, '0', `${data.length}`, data);
+        const outputLockScript = templates_1.createFeedLockScript(olAddress, 0, data.length, data);
         const txOutputs = [
             protoUtil_1.createTransactionOutput(outputLockScript, coin_1.humanToInternalAsBN(olUnit, coin_1.COIN_FRACS.NRG), coin_1.humanToInternalAsBN(olAmount, coin_1.COIN_FRACS.NRG))
         ];
@@ -218,7 +218,7 @@ exports.createUpdateFeedTransaction = function (spendableWalletOutPointObjs, sen
         const feedTxOutputIndex = feedInfo.txOutputIndex;
         // update feed input with callback
         const takerInputUnlockScript = templates_1.createUpdateFeedUnlockScript(sendsFromAddress, receivesToAddress);
-        // this is the reference to the feed the user is commmenting on 
+        // this is the reference to the feed the user is commmenting on
         const feedTxOutpoint = protoUtil_1.createOutPoint(feedTxHash, feedTxOutputIndex, makerCollateralBN);
         const nonNRGInputs = [
             protoUtil_1.createTransactionInput(feedTxOutpoint, takerInputUnlockScript),

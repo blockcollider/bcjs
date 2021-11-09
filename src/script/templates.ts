@@ -278,13 +278,13 @@ export function parseUpdateFeedLockScript (script: Uint8Array): {
 } {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
-  const opxScriptStr = scriptStr.split(' OP_X 6 ')[1]
+  const opxScriptStr = scriptStr.split('OP_X 0x06 ')[1]
 
   const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV ')[1]
 
-  const [feedTxHash, feedTxOutputIndex, dataType, dataLength, data] = opxScriptStr.split(' ')
+  const [feedTxHash, feedTxOutputIndex, dataType, dataLength, data] = opxScriptStr.trim().split(' ')
 
-  const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_BLAKE2BLPRIV ')[1]
+  const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_EQUALVERIFY ')
 
   return {
     data,
@@ -304,13 +304,13 @@ export function parseCreateFeedLockScript (script: Uint8Array): {
 } {
   const scriptStr = toASM(Buffer.from(script), 0x01)
 
-  const opxScriptStr = scriptStr.split(' OP_X 6 0 0 ')[1]
+  const opxScriptStr = scriptStr.split('OP_X 0x06 0x00 0x00 ')[1]
 
-  const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV ')[1]
+  const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV,')[1]
 
-  const [dataType, dataLength, data] = opxScriptStr.split(' ')
+  const [dataType, dataLength, data] = opxScriptStr.trim().split(' ')
 
-  const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_BLAKE2BLPRIV ')[1]
+  const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_EQUALVERIFY ')
 
   return {
     data,
@@ -335,25 +335,33 @@ export function parseTakerUnlockScript (script: Uint8Array): {
 
 export function createFeedLockScript (
   olAddress: string,
-  dataType: string,
-  dataLength: string, // may be different if IPFS download
-  data: string,
+  dataType: number,
+  dataLength: number, // may be different if IPFS download
+  data: string, // has to be hex encoded
   addressDoubleHashed: boolean = false,
 ): string {
   olAddress = olAddress.toLowerCase()
   if (!addressDoubleHashed) {
     olAddress = blake2bl(blake2bl(olAddress) + olAddress)
   }
-  const opXType = '6' // local government
-  const referenceTxHash = '0' // no tx hash
-  const referenceTxIndex = '0' // no outpoint
+  const opXType = '06' // local government (in hex encodable format, normalizeHexString does not pad left with 0)
+  const referenceTxHash = '00' // no tx hash (in hex encodable format, normalizeHexString does not pad left with 0)
+  const referenceTxIndex = '00' // no outpoint (in hex encodable format, normalizeHexString does not pad left with 0)
+  let strDataType = dataType.toString(16)
+  if (strDataType.length % 2 === 1) {
+    strDataType = `0${strDataType}`
+  }
+  let strDataLength = dataLength.toString(16)
+  if (strDataLength.length % 2 === 1) {
+    strDataLength = `0${strDataLength}`
+  }
   const opXInitScript = [
     'OP_X',
     normalizeHexString(opXType),
     normalizeHexString(referenceTxHash),
     normalizeHexString(referenceTxIndex),
-    normalizeHexString(dataType), // type of data being posted
-    normalizeHexString(dataLength), // data length
+    normalizeHexString(strDataType), // type of data being posted
+    normalizeHexString(strDataLength), // data length
     normalizeHexString(data), // length of data being sent (prevent overflow or download limits)
   ].join(' ')
 
@@ -372,18 +380,37 @@ export function createUpdateFeedLockScript (
   feedTxHash: string,
   feedTxOutputIndex: string|number,
   feedUpdaterAddress: string,
-  dataType: string,
-  dataLength: string,
-  data: string,
+  dataType: number,
+  dataLength: number,
+  data: string, // has to be hex encoded
   addressDoubleHashed: boolean = false,
 ): string {
   feedUpdaterAddress = feedUpdaterAddress.toLowerCase()
   if (!addressDoubleHashed) {
     feedUpdaterAddress = blake2bl(blake2bl(feedUpdaterAddress) + feedUpdaterAddress)
   }
+
+  const outputIndex = Number.isInteger(feedTxOutputIndex as number) ?
+    feedTxOutputIndex :
+    Number.parseInt(feedTxOutputIndex as string, 10)
+  let strOutputIndex = outputIndex.toString(16)
+  if (strOutputIndex.length % 2 === 1) {
+    strOutputIndex = `0${strOutputIndex}`
+  }
+  let strDataType = dataType.toString(16)
+  if (strDataType.length % 2 === 1) {
+    strDataType = `0${strDataType}`
+  }
+  let strDataLength = dataLength.toString(16)
+  if (strDataLength.length % 2 === 1) {
+    strDataLength = `0${strDataLength}`
+  }
+
   const script = [
-    ['OP_X', '6', normalizeHexString(feedTxHash), feedTxOutputIndex],
-    [dataType, dataLength, data, 'OP_BLAKE2BLPRIV', normalizeHexString(feedUpdaterAddress),
+    ['OP_X', '0x06', normalizeHexString(feedTxHash), normalizeHexString(strOutputIndex)],
+    [normalizeHexString(strDataType),
+      normalizeHexString(strDataLength),
+      normalizeHexString(data), 'OP_BLAKE2BLPRIV', normalizeHexString(feedUpdaterAddress),
      'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'],
   ]
   return script.map(part => part.join(' ')).join(' ')
@@ -456,14 +483,14 @@ export function getScriptType (script: Uint8Array): ScriptType {
 
   if (scriptStr.startsWith('OP_MONOID') && scriptStr.indexOf('OP_X') < 0) {
     return ScriptType.MAKER_OUTPUT // IS_MAKER_ORDER
-  } else if (scriptStr.indexOf('OP_X 6 0 0') > -1) {
+  } else if (scriptStr.indexOf('OP_X 0x06 0x00 0x00') > -1) {
     return ScriptType.FEED_CREATE // IS_FEED_CREATE
   } else if (scriptStr.endsWith('OP_CALLBACK')) {
     return ScriptType.TAKER_CALLBACK // IS_MAKER_CALLBACK_ORDER
   } else if (scriptStr.indexOf('OP_MONAD') > -1 &&
     scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_IFEQ') > -1) {
     return ScriptType.TAKER_OUTPUT // IS_TAKER_ORDER
-  } else if (scriptStr.indexOf('OP_X 6') > -1 && scriptStr.indexOf('OP_X 6 0 0') < 0) {
+  } else if (scriptStr.indexOf('OP_X 0x06') > -1 && scriptStr.indexOf('OP_X 0x6 0x0 0x0') < 0) {
     return ScriptType.FEED_UPDATE // IS_FEED_UPDATE
   } else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
     return ScriptType.NRG_TRANSFER // IS_NRG_TRANSFER
