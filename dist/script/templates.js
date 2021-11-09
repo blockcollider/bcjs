@@ -209,10 +209,10 @@ function createUpdateFeedUnlockScript(sendsFromAddress, receivesToAddress) {
 exports.createUpdateFeedUnlockScript = createUpdateFeedUnlockScript;
 function parseUpdateFeedLockScript(script) {
     const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
-    const opxScriptStr = scriptStr.split(' OP_X 6 ')[1];
+    const opxScriptStr = scriptStr.split('OP_X 0x06 ')[1];
     const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV ')[1];
-    const [feedTxHash, feedTxOutputIndex, dataType, dataLength, data] = opxScriptStr.split(' ');
-    const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_BLAKE2BLPRIV ')[1];
+    const [feedTxHash, feedTxOutputIndex, dataType, dataLength, data] = opxScriptStr.trim().split(' ');
+    const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_EQUALVERIFY ');
     return {
         data,
         dataLength,
@@ -225,10 +225,10 @@ function parseUpdateFeedLockScript(script) {
 exports.parseUpdateFeedLockScript = parseUpdateFeedLockScript;
 function parseCreateFeedLockScript(script) {
     const scriptStr = bytecode_1.toASM(Buffer.from(script), 0x01);
-    const opxScriptStr = scriptStr.split(' OP_X 6 0 0 ')[1];
-    const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV ')[1];
-    const [dataType, dataLength, data] = opxScriptStr.split(' ');
-    const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_BLAKE2BLPRIV ')[1];
+    const opxScriptStr = scriptStr.split('OP_X 0x06 0x00 0x00 ')[1];
+    const ownerAddressStr = scriptStr.split(' OP_BLAKE2BLPRIV,')[1];
+    const [dataType, dataLength, data] = opxScriptStr.trim().split(' ');
+    const [doubleHashedOlAddress] = ownerAddressStr.split(' OP_EQUALVERIFY ');
     return {
         data,
         dataLength,
@@ -247,21 +247,30 @@ function parseTakerUnlockScript(script) {
 }
 exports.parseTakerUnlockScript = parseTakerUnlockScript;
 function createFeedLockScript(olAddress, dataType, dataLength, // may be different if IPFS download
-data, addressDoubleHashed = false) {
+data, // has to be hex encoded
+addressDoubleHashed = false) {
     olAddress = olAddress.toLowerCase();
     if (!addressDoubleHashed) {
         olAddress = crypto_1.blake2bl(crypto_1.blake2bl(olAddress) + olAddress);
     }
-    const opXType = '6'; // local government
-    const referenceTxHash = '0'; // no tx hash
-    const referenceTxIndex = '0'; // no outpoint
+    const opXType = '06'; // local government (in hex encodable format, normalizeHexString does not pad left with 0)
+    const referenceTxHash = '00'; // no tx hash (in hex encodable format, normalizeHexString does not pad left with 0)
+    const referenceTxIndex = '00'; // no outpoint (in hex encodable format, normalizeHexString does not pad left with 0)
+    let strDataType = dataType.toString(16);
+    if (strDataType.length % 2 === 1) {
+        strDataType = `0${strDataType}`;
+    }
+    let strDataLength = dataLength.toString(16);
+    if (strDataLength.length % 2 === 1) {
+        strDataLength = `0${strDataLength}`;
+    }
     const opXInitScript = [
         'OP_X',
         string_1.normalizeHexString(opXType),
         string_1.normalizeHexString(referenceTxHash),
         string_1.normalizeHexString(referenceTxIndex),
-        string_1.normalizeHexString(dataType),
-        string_1.normalizeHexString(dataLength),
+        string_1.normalizeHexString(strDataType),
+        string_1.normalizeHexString(strDataLength),
         string_1.normalizeHexString(data),
     ].join(' ');
     const unlockMonadScript = ['OP_BLAKE2BLPRIV', string_1.normalizeHexString(olAddress), 'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'];
@@ -271,14 +280,32 @@ data, addressDoubleHashed = false) {
     return script.join(' ');
 }
 exports.createFeedLockScript = createFeedLockScript;
-function createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, feedUpdaterAddress, dataType, dataLength, data, addressDoubleHashed = false) {
+function createUpdateFeedLockScript(feedTxHash, feedTxOutputIndex, feedUpdaterAddress, dataType, dataLength, data, // has to be hex encoded
+addressDoubleHashed = false) {
     feedUpdaterAddress = feedUpdaterAddress.toLowerCase();
     if (!addressDoubleHashed) {
         feedUpdaterAddress = crypto_1.blake2bl(crypto_1.blake2bl(feedUpdaterAddress) + feedUpdaterAddress);
     }
+    const outputIndex = Number.isInteger(feedTxOutputIndex) ?
+        feedTxOutputIndex :
+        Number.parseInt(feedTxOutputIndex, 10);
+    let strOutputIndex = outputIndex.toString(16);
+    if (strOutputIndex.length % 2 === 1) {
+        strOutputIndex = `0${strOutputIndex}`;
+    }
+    let strDataType = dataType.toString(16);
+    if (strDataType.length % 2 === 1) {
+        strDataType = `0${strDataType}`;
+    }
+    let strDataLength = dataLength.toString(16);
+    if (strDataLength.length % 2 === 1) {
+        strDataLength = `0${strDataLength}`;
+    }
     const script = [
-        ['OP_X', '6', string_1.normalizeHexString(feedTxHash), feedTxOutputIndex],
-        [dataType, dataLength, data, 'OP_BLAKE2BLPRIV', string_1.normalizeHexString(feedUpdaterAddress),
+        ['OP_X', '0x06', string_1.normalizeHexString(feedTxHash), string_1.normalizeHexString(strOutputIndex)],
+        [string_1.normalizeHexString(strDataType),
+            string_1.normalizeHexString(strDataLength),
+            string_1.normalizeHexString(data), 'OP_BLAKE2BLPRIV', string_1.normalizeHexString(feedUpdaterAddress),
             'OP_EQUALVERIFY', 'OP_CHECKSIGNOPUBKEYVERIFY'],
     ];
     return script.map(part => part.join(' ')).join(' ');
@@ -339,7 +366,7 @@ function getScriptType(script) {
     if (scriptStr.startsWith('OP_MONOID') && scriptStr.indexOf('OP_X') < 0) {
         return ScriptType.MAKER_OUTPUT; // IS_MAKER_ORDER
     }
-    else if (scriptStr.indexOf('OP_X 6 0 0') > -1) {
+    else if (scriptStr.indexOf('OP_X 0x06 0x00 0x00') > -1) {
         return ScriptType.FEED_CREATE; // IS_FEED_CREATE
     }
     else if (scriptStr.endsWith('OP_CALLBACK')) {
@@ -349,7 +376,7 @@ function getScriptType(script) {
         scriptStr.indexOf('OP_CALLBACK') > -1 && scriptStr.indexOf('OP_IFEQ') > -1) {
         return ScriptType.TAKER_OUTPUT; // IS_TAKER_ORDER
     }
-    else if (scriptStr.indexOf('OP_X 6') > -1 && scriptStr.indexOf('OP_X 6 0 0') < 0) {
+    else if (scriptStr.indexOf('OP_X 0x06') > -1 && scriptStr.indexOf('OP_X 0x6 0x0 0x0') < 0) {
         return ScriptType.FEED_UPDATE; // IS_FEED_UPDATE
     }
     else if (scriptStr.startsWith('OP_BLAKE2BLPRIV')) {
