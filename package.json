@@ -23,7 +23,7 @@
   "dependencies": {
     "@cityofzion/neon-js": "4.7.1",
     "@liskhq/lisk-client": "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-client-2.3.1.tgz",
-    "@overline/proto": "0.3.0",
+    "@overline/proto": "0.3.1",
     "@waves/waves-transactions": "^3.24.0",
     "avon": "akloboucnik/avon#node-12-compatibility",
     "bitcoinjs-lib": "^5.1.6",
