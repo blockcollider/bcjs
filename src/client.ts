@@ -408,7 +408,7 @@ export default class RpcClient {
                 if (to === final) {
                     search = false
                 }
-                from = to;
+                from = to
                 to = to + 1000 > final ? final : to + 1000
             }
         }
