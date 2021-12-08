@@ -1127,10 +1127,10 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@overline/proto@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@overline/proto/-/proto-0.3.1.tgz#195f8a8fe2590539f9e5cd0a863381adb1443ba1"
-  integrity sha512-Ivqs1uJUfc7mzQOAfVTk15N48VFyJdGsy6LUBKdiHuoLhtXJ3x0TZm+o7ZmoYA3jzSD3hsruUglhM8CO+a4VUg==
+"@overline/proto@0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@overline/proto/-/proto-0.3.2.tgz#4062d40e38b0ddcb6e6d0cc88885f8f042c43255"
+  integrity sha512-YD1OfoVoVhjFlBHjJPoZiqzWbh5+uchxRe7H4aoZRVSNDb1hM4IlJAL7VrdqtQ/hf601YjIQzmkTbMb6j1+vgg==
   dependencies:
     "@grpc/grpc-js" "^1.4.1"
     bn.js "^5.2.0"
