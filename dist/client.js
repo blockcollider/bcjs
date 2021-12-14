@@ -68,17 +68,19 @@ function btoa(str) {
     return buffer.toString('base64');
 }
 class RpcClient {
-    constructor(nodeUrl, authToken) {
+    constructor(nodeUrl, authToken, additionalHeaders) {
         this.rpcUrl = new URL(nodeUrl);
+        let basicHeaders = {};
         if (authToken) {
-            this.defaultHeaders = { 'Content-Type': 'application/json', 'authorization': 'Basic ' + btoa(`:${authToken}`) };
+            basicHeaders = { 'Content-Type': 'application/json', 'authorization': 'Basic ' + btoa(`:${authToken}`) };
         }
         else {
             if (this.rpcUrl.protocol === 'https:') {
                 throw new Error('You have to provide an authToken with https:// scheme');
             }
-            this.defaultHeaders = { 'Content-Type': 'application/json' };
+            basicHeaders = { 'Content-Type': 'application/json' };
         }
+        this.defaultHeaders = Object.assign(Object.assign({}, basicHeaders), additionalHeaders);
     }
     getRoveredBlockHash(request) {
         return __awaiter(this, void 0, void 0, function* () {

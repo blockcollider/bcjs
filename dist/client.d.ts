@@ -10,7 +10,9 @@ interface JsonRpcError<T> {
 export default class RpcClient {
     private rpcUrl;
     private defaultHeaders;
-    constructor(nodeUrl: string, authToken?: string);
+    constructor(nodeUrl: string, authToken?: string, additionalHeaders?: {
+        [key: string]: string;
+    });
     getRoveredBlockHash(request: bc.GetRoveredBlockHashRequest): Promise<core.Block.AsObject | Error>;
     getRoveredBlockHeight(request: bc.GetRoveredBlockHeightRequest): Promise<core.Block.AsObject | Error>;
     getRoveredBlocks(request: bc.GetRoveredBlocksRequest): Promise<bc.GetRoveredBlocksResponse.AsObject | Error>;

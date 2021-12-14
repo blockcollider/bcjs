@@ -116,15 +116,20 @@ export default class RpcClient {
     private rpcUrl: URL
     private defaultHeaders: { [key: string]: string }
 
-    constructor (nodeUrl: string, authToken?: string) {
+    constructor (nodeUrl: string, authToken?: string, additionalHeaders?: { [key: string]: string }) {
         this.rpcUrl = new URL(nodeUrl)
+        let basicHeaders = {}
         if (authToken) {
-            this.defaultHeaders = { 'Content-Type': 'application/json', 'authorization': 'Basic ' + btoa(`:${authToken}`) }
+            basicHeaders = { 'Content-Type': 'application/json', 'authorization': 'Basic ' + btoa(`:${authToken}`) }
         } else {
             if (this.rpcUrl.protocol === 'https:') {
                 throw new Error('You have to provide an authToken with https:// scheme')
             }
-            this.defaultHeaders = { 'Content-Type': 'application/json' }
+            basicHeaders = { 'Content-Type': 'application/json' }
+        }
+        this.defaultHeaders = {
+          ...basicHeaders,
+          ...additionalHeaders,
         }
     }
 
