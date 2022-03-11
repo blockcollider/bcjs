@@ -7,8 +7,8 @@
 
 import {createMakerOrderTransaction,createMultiNRGTransferTransaction} from '../dist/transaction'
 import RpcClient from '../dist/client'
-import * as bcProtobuf from '../dist/protos/bc_pb'
-import * as coreProtobuf from '../dist/protos/core_pb'
+import * as bcProtobuf from '@overline/proto/proto/bc_pb'
+import * as coreProtobuf from '@overline/proto/proto/core_pb'
 import Wallet from '../dist/wallet'
 import {parseMakerLockScript} from '../dist/script/templates';
 import {toASM} from '../dist/script/bytecode'
@@ -41,7 +41,7 @@ let hostname = 'http://localhost';
 hostname= 'http://localhost';
 let port = 3000
 const scookie = process.env.BC_RPC_SCOOKIE || 'scookie'
-const client = new RpcClient(address, scookie)
+const client = new RpcClient(hostname, scookie,{})
 const wallet = new Wallet(client)
 const bcAddress = process.argv[2].toLowerCase()
 const privateKeyHex = process.argv[3]
@@ -71,7 +71,6 @@ function timeout(ms) {
 }
 
 async function sendMany(){
-  console.log({bcAddress})
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
   spendableOutpointsList.sort((a,b)=>{
     let val:string = a.outpoint && a.outpoint.value && a.outpoint.value as string ? a.outpoint.value as string : '';
@@ -82,8 +81,8 @@ async function sendMany(){
     ) ? -1 : 1
   })
 
-  let toAddress : Array<string> = Array(40).fill(bcAddress)
-  let transferAmount : Array<string> = Array(40).fill('50')
+  let toAddress : Array<string> = Array(100).fill(bcAddress)
+  let transferAmount : Array<string> = Array(100).fill('200')
   let tx: coreProtobuf.Transaction|BN = await createMultiNRGTransferTransaction(spendableOutpointsList,bcAddress,privateKeyHex,toAddress,transferAmount,'0',true,'1')
   if(tx instanceof BN){
 
@@ -108,8 +107,10 @@ async function testMaker({sendsFromChain, receivesToChain, sendsFromAddress, rec
 
   receivesUnit = Math.round(parseFloat(receivesUnit)*10000)/10000;
 
-  if(receivesUnit == 'NEO' || sendsUnit === 'NEO') unit = collateral;
-  else unit = (Math.round(parseFloat(collateral))/100).toString();
+  if(receivesToChain == 'NEO' || sendsFromChain === 'NEO') unit = collateral;
+  else unit = (Math.round(parseFloat(collateral))/10).toString();
+  if(receivesToChain === "NEO") receivesUnit = Math.ceil(receivesUnit);
+  if(sendsFromChain === "NEO") sendsUnit = Math.ceil(sendsUnit);
 
   console.log({
     sendsFromChain, receivesToChain, sendsFromAddress, receivesToAddress,
@@ -123,8 +124,8 @@ async function testMaker({sendsFromChain, receivesToChain, sendsFromAddress, rec
   ) as coreProtobuf.Transaction
 
   const res = await client.sendTx(tx)
-  console.log({res});
-  await timeout(10)
+  console.log(res);
+  await timeout(300)
   return true
 }
 
@@ -136,20 +137,18 @@ async function fillOrderbook() {
   const {assetPrices,jsonData} = await getPrices()
 
   let spendableOutpointsList = await wallet.getSpendableOutpoints(bcAddress,0,1000)
-
   for (let i = 0; i < assetPrices.length; i++) {
     let {asset, denomination, price} = assetPrices[i]
     for (let j = 0; j < 20; j++) {
       let increment = new Decimal(Math.random() / 1000).mul(new Decimal(price)).toNumber()
 
       let {sendUnit1,recUnit1,sendUnit2,recUnit2} = getSpecs(price,increment,asset,denomination,jsonData)
-
-      console.log({sendUnit1,recUnit1,sendUnit2,recUnit2});
+      console.log({length:spendableOutpointsList.length});
       if(denomination != 'NRG'){
         let newOutPoints = await getOutPoints(spendableOutpointsList,collateralizedNrg)
         spendableOutpointsList = newOutPoints.spendableOutpointsList
 
-        await testMaker({sendsFromChain:asset,receivesToChain:denomination,
+        testMaker({sendsFromChain:asset,receivesToChain:denomination,
         sendsFromAddress:addresses[asset.toLowerCase()],receivesToAddress:addresses[denomination.toLowerCase()],
         sendsUnit:sendUnit1,receivesUnit:recUnit1,spendableOutpointsList:newOutPoints.newList});
       }
@@ -157,7 +156,7 @@ async function fillOrderbook() {
       let amount:any = collateralizedNrg
 
       if(denomination == 'NRG'){
-        while(parseFloat(sendUnit2)>100) {
+        while(parseFloat(sendUnit2)>200) {
           recUnit2 = String(parseFloat(recUnit2)/10);
           sendUnit2 = String(parseFloat(sendUnit2)/10);
         }
@@ -167,9 +166,10 @@ async function fillOrderbook() {
       let newOutPoints = await getOutPoints(spendableOutpointsList,amount)
       spendableOutpointsList = newOutPoints.spendableOutpointsList
 
-      await testMaker({sendsFromChain:denomination,receivesToChain:asset,
+      testMaker({sendsFromChain:denomination,receivesToChain:asset,
       sendsFromAddress:addresses[denomination.toLowerCase()],receivesToAddress:addresses[asset.toLowerCase()],
       receivesUnit:recUnit2,sendsUnit:sendUnit2,spendableOutpointsList:newOutPoints.newList});
+      await timeout(500);
     }
   }
 }
@@ -206,23 +206,23 @@ function getSpecs(price, increment, asset, denomination,prices){
 
   if(sendUnit1.split('.').length == 2){
     let first = sendUnit1.split('.')[0];
-    let second = sendUnit1.split('.')[1].substring(0,8);
+    let second = sendUnit1.split('.')[1].substring(0,5);
     sendUnit1 = first +  '.' + second;
   }
 
   if(sendUnit2.split('.').length == 2){
     let first = sendUnit2.split('.')[0];
-    let second = sendUnit2.split('.')[1].substring(0,8);
+    let second = sendUnit2.split('.')[1].substring(0,5);
     sendUnit2 = first +  '.' + second;
   }
   if(recUnit1.split('.').length == 2){
     let first = recUnit1.split('.')[0];
-    let second = recUnit1.split('.')[1].substring(0,8);
+    let second = recUnit1.split('.')[1].substring(0,5);
     recUnit1 = first +  '.' + second;
   }
   if(recUnit2.split('.').length == 2){
     let first = recUnit2.split('.')[0];
-    let second = recUnit2.split('.')[1].substring(0,8);
+    let second = recUnit2.split('.')[1].substring(0,5);
     recUnit2 = first +  '.' + second;
   }
 
@@ -233,11 +233,11 @@ async function getOutPoints(spendableOutpointsList,amount) {
   let totalAmountBN = new BN(new Decimal(amount).mul(new Decimal(Math.pow(10,17))).toString()).mul(new BN('11'))
   let sumBN = new BN('0')
 
-  spendableOutpointsList = spendableOutpointsList.sort((a,b)=>{
-    return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(
-      internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)
-    ) ? -1 : 1
-  })
+  // spendableOutpointsList = spendableOutpointsList.sort((a,b)=>{
+  //   return internalToBN(convertProtoBufSerializedBytesToBuffer(a.outpoint.value), COIN_FRACS.BOSON).gt(
+  //     internalToBN(convertProtoBufSerializedBytesToBuffer(b.outpoint.value), COIN_FRACS.BOSON)
+  //   ) ? -1 : 1
+  // })
 
   let spendableOutpoints: Array<any> = []
 
