@@ -23,7 +23,7 @@
   "dependencies": {
     "@cityofzion/neon-js": "4.7.1",
     "@liskhq/lisk-client": "https://github.com/blockcollider/lisk-tarballs/raw/master/liskhq-lisk-client-2.3.1.tgz",
-    "@overline/proto": "0.3.3",
+    "@overline/proto": "0.4.0-rc.0",
     "@waves/waves-transactions": "^3.24.0",
     "avon": "akloboucnik/avon#node-12-compatibility",
     "bitcoinjs-lib": "^5.1.6",
@@ -50,12 +50,17 @@
     "@types/ramda": "^0.26.29",
     "benchmark": "^2.1.4",
     "cpy-cli": "^3.1.1",
+    "google-protobuf": "^3.19.0",
     "jest": "27",
     "mkdirp": "^0.5.1",
     "release-it": "^14.11.6",
     "ts-jest": "27",
     "tslint": "5.18.0",
     "typescript": "3.8.3"
+  },
+  "peerDependencies": {
+    "@grpc/grpc-js": "^1",
+    "google-protobuf": "^3"
   },
   "resolutions": {
     "@cityofzion/neon-js": "4.7.1",
