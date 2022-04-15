@@ -1108,10 +1108,10 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@overline/proto@0.4.0-rc.0":
-  version "0.4.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@overline/proto/-/proto-0.4.0-rc.0.tgz#12c30e4966d35ad24dd3fb291a62aeea394752c9"
-  integrity sha512-XwKDSDSKvycsuoswgzwQsMjvsDtAswhp56qwsNlnv02UGAfyYRaNGvGOao5WhYjtaIcl0bvMNmtW3UJp2iyFLQ==
+"@overline/proto@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@overline/proto/-/proto-0.4.0.tgz#c1ad9b01bb8c9bd60167092a1a269483d8f3dd7f"
+  integrity sha512-A/Ccfa8dPfX4FA79WZrG5lVohAU7VZgMJMz0KucimZ+aNEJ1cBYNLddsu0HLYB5gpBf7thU0swq52D9kpqgaAw==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
