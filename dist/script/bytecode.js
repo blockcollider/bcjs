@@ -9,6 +9,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const ramda_1 = require("ramda");
 const buffer_1 = require("../utils/buffer");
+// empty 0x2a, and 0x6c-0x6f
 exports.OPS = new Map([
     [0x01, 'OP_MONOID'],
     [0x02, 'OP_PUSHDATA1'],
@@ -51,7 +52,6 @@ exports.OPS = new Map([
     [0x27, 'OP_OVER'],
     [0x28, 'OP_PICK'],
     [0x29, 'OP_ROLL'],
-    [0x2a, 'OP_ROT'],
     [0x2b, 'OP_ROT'],
     [0x2c, 'OP_SWAP'],
     [0x2d, 'OP_TUCK'],
@@ -64,7 +64,6 @@ exports.OPS = new Map([
     [0x34, 'OP_INVERT'],
     [0x35, 'OP_AND'],
     [0x36, 'OP_OR'],
-    [0x37, 'OP_XOR'],
     [0x37, 'OP_EQUAL'],
     [0x38, 'OP_GATE'],
     [0x39, 'OP_1ADD'],
@@ -91,7 +90,6 @@ exports.OPS = new Map([
     [0x4e, 'OP_LESSTHAN'],
     [0x4f, 'OP_GREATERTHAN'],
     [0x50, 'OP_LESSTHANOREQUAL'],
-    [0x51, 'OP_GREATERTHANOREQUAL'],
     [0x51, 'OP_MIN'],
     [0x52, 'OP_MAX'],
     [0x53, 'OP_WITHIN'],
@@ -117,6 +115,8 @@ exports.OPS = new Map([
     [0x67, 'OP_HTTPSELECT'],
     [0x68, 'TODO: EMPTY_FIX_BELOW'],
     [0x69, 'OP_RATEMARKET'],
+    [0x6a, 'OP_XOR'],
+    [0x6b, 'OP_GREATERTHANOREQUAL'],
     [0x70, 'OP_ENDRATEMARKET'],
     [0x71, 'OP_CALLBACK'],
     [0x72, 'OP_PROMISE'],
