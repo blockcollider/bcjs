@@ -131,4 +131,32 @@ describe('bytecode', () => {
     ])
     expect(fromASM('OP_BLAKE2BLPRIV', 0x01)).toEqual(bytecode)
   })
+
+  describe('version 0x01 op code bugs', () => {
+    it('byte 0x37 should be interpreted as OP_EQUAL only, not also OP_XOR', () => {
+      expect(Array.from(fromASM('OP_EQUAL', 0x01)).slice(-1)).toEqual([0x37])
+      const xorBytesArray = Array.from(fromASM('OP_XOR', 0x01))
+      expect(xorBytesArray).toHaveLength(4 + 1) // NULL_BYTE + BC_BYTES + VERSION byte + OP_XOR
+      expect(xorBytesArray[4]).toEqual(0x6a)
+    })
+    it('OP_XOR is represented by byte 0x6a', () => {
+      expect(Array.from(fromASM('OP_XOR', 0x01)).slice(-1)).toEqual([0x6a])
+      expect(toASM(Buffer.from([0x00, 0x2a, 0x2b, 0x01, 0x6a]), 0x01)).toEqual('OP_XOR')
+    })
+    it('byte 0x51 should be interpreted as OP_MIN only, not also OP_GREATERTHANOREQUAL', () => {
+      expect(Array.from(fromASM('OP_MIN', 0x01)).slice(-1)).toEqual([0x51])
+      const greaterThanOrEqualBytesArray = Array.from(fromASM('OP_GREATERTHANOREQUAL', 0x01))
+      expect(greaterThanOrEqualBytesArray)
+        .toHaveLength(4 + 1) // NULL_BYTE + BC_BYTES + VERSION byte + OP_GREATERTHANOREQUAL
+      expect(greaterThanOrEqualBytesArray[4]).toEqual(0x6b)
+    })
+    it('OP_GREATERTHANOREQUAL is represented by byte 0x6b', () => {
+      expect(Array.from(fromASM('OP_GREATERTHANOREQUAL', 0x01)).slice(-1)).toEqual([0x6b])
+      expect(toASM(Buffer.from([0x00, 0x2a, 0x2b, 0x01, 0x6b]), 0x01)).toEqual('OP_GREATERTHANOREQUAL')
+    })
+    it('OP_ROT is only defined as byte 0x2b, not 0x2a', () => {
+      expect(Array.from(fromASM('OP_ROT', 0x01)).slice(-1)).toEqual([0x2b])
+      expect(() => toASM(Buffer.from([0x00, 0x2a, 0x2b, 0x01, 0x2a]), 0x01)).toThrowError(/is not a known OP code/)
+    })
+  })
 })
